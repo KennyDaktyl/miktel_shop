@@ -11,33 +11,59 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import socket
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+SECRET_KEY = os.environ.get('SECRET_KEY')
+ALLOWED_HOSTS = ['127.0.0.1']
 
+if socket.gethostname() in ["Asus", "michalp"]:
+    SECURE_SSL_REDIRECT = False
+    DEBUG = True
+    DOMAIN = "127.0.0.1:8000"
+    DOMAIN_URL = "http://" + DOMAIN
+    DatabaseName = "miktel_shop_v1"
+    SECURE_SSL_REDIRECT = False
+    STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY_TEST')
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY_TEST')
+# else:
+#     DOMAIN = "pieczatki-colop.com"
+#     DOMAIN_URL = "https://" + DOMAIN
+#     DatabaseName = "colop_v1"
+#     DEBUG = False
+#     SECURE_SSL_REDIRECT = False
+#     SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+#     SESSION_COOKIE_DOMAIN = f".{DOMAIN}"
+#     SESSION_COOKIE_HTTPONLY = True
+#     # SESSION_COOKIE_AGE = 10 * 60
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-mdomd$5r%thx+4xb99ppm(+%c7sk%c(crqa@b=yeos7&&^8@fs'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+#     SESSION_SAVE_EVERY_REQUEST = True
+#     CSRF_COOKIE_DOMAIN = f".{DOMAIN}"
+#     CSRF_COOKIE_HTTPONLY = True
+#     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+#     STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# Application definition
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'web.account.apps.AccountConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'crispy_forms',
+    'captcha',
+    'web'
 ]
+
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -74,9 +100,12 @@ WSGI_APPLICATION = 'miktel_shop.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "NAME": DatabaseName,
+        "ENGINE": "django.db.backends.postgresql",
+        "USER": os.environ.get('DB_USER'),
+        "PASSWORD": os.environ.get('DB_PASSWORD'),
+        "HOST": "localhost",
     }
 }
 
@@ -99,27 +128,20 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
+LANGUAGE_CODE = 'pl'
+TIME_ZONE = 'Europe/Warsaw'
 USE_I18N = True
-
 USE_L10N = True
-
-USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+USE_TZ = False
+DATETIME_FORMAT = "Y-m-d H:M:S"
+DATE_INPUT_FORMATS = "Y-m-d H:M:S"
 
 STATIC_URL = '/static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+STATIC_ROOT = "static"
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+STATICFILES_DIRS = (os.path.join(SITE_ROOT, "static/"), )
+MEDIA_URL = '/media/'
+# MEDIA_URL = f'http://127.0.0.1:8000/static/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

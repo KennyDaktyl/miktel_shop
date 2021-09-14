@@ -1,0 +1,118 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "css/main.css" %}" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <title>Document</title>
+</head>
+<body>
+    <main class="container-fluid m-0 p-0">
+    <div class="top col-12 m-0 p-0">
+    </div>
+    <nav id="nav_main" class="nav col-12 m-0 p-0 d-flex align-items-center">
+        <ul class="col-12 col-md-9 mx-auto m-0 p-0 row">
+            <i id="menu_burger" class="col-3 fas fa-bars text-center m-0 p-0" type="button" data-toggle="collapse"
+            data-target="#navbarTogglerMenu" aria-controls="navbarTogglerMenu" aria-expanded="false"
+            aria-label="Toggle navigation"></i>
+            <div class="col-lg-12 m-0 p-0 collapse navbar-collapse" id="navbarTogglerMenu">
+                <ul id="nav_menu" class="col-12 row m-0 p-0 overflow-auto">
+                    <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
+                        <a class="col-10 nav-link text-left mx-auto" href="" title="Telefony komórkowe">Telefony komórkowe</a><span class="col-2"></span>
+                    </li>
+                    <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
+                        <a class="col-10 nav-link text-left mx-auto" href="" title="Akcesoria GSM">Akcesoria GSM</a><span class="col-2"></span>
+                    </li>
+                    <li class="col-12 nav-item d-flex align-items-center m-0 p-0 row">
+                        <a class="col-10 nav-link text-left mx-auto" href="" title="Serwis GSM">Serwis telefonów</a><span class="col-2"></span>
+                    </li>
+                   
+                    <ul id="stamp_menu" class="col-12 no-wrap nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row" type="button" data-toggle="collapse" data-target="#navbarTogglerStampMenu" aria-controls="navbarTogglerStampMenu" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                        <a class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">Pieczątki Colop</a>
+                        <img src="/media/logo/Colop-logo.webp" class="col-3 img-fluid img-thumbnail" alt="Logo firmy Colop. Producent pieczątek" title="Logo firmy Colop. Producent pieczątek">
+                        <i id="arrow_stamp" class="col-2 margin-auto fas fa-arrow-down pr-2 pl-2"></i>
+                        <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu" id="navbarTogglerStampMenu">
+                            <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
+                                <a class="col-10 nav-link text-left mx-auto" href="" title="Pieczątki imienne">Pieczątki imienne</a>
+                                </li>
+                            <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
+                            <a class="col-10 nav-link text-left mx-auto" href="" title="Pieczątki firmowe">Pieczątki firmowe</a>
+                            </li>
+                            <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0">
+                            <a class="col-10 nav-link text-left mx-auto" href="" title="Pieczątki z logiem">Pieczątki z logiem</a>
+                            </li>
+                        </div>
+                    </ul>
+                    
+                    <ul id="keys_menu" class="col-12 no-wrap nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row" type="button" data-toggle="collapse" data-target="#navbarTogglerKeysMenu" aria-controls="navbarTogglerKeysMenu" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                        <a class="col-10 nav-link text-left mx-auto" href="" title="Dorabianie kluczy">Dorabianie kluczy</a>
+                        <i id="arrow_keys" class="col-2 margin-auto fas fa-arrow-down pr-2 pl-2"></i>
+                        <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu" id="navbarTogglerKeysMenu">
+                            <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
+                            <a class="col-10 nav-link text-left mx-auto" href="" title="Klucze mieszkaniowe">Klucze mieszkaniowe</a>
+                            </li>
+                            <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0">
+                            <a class="col-10 nav-link text-left mx-auto" href="" title="Klucze samochodowe">Klucze samochodowe</a>
+                            </li>
+                        </div>
+                    </ul>
+                    <ul id="grav_menu" class="col-12 no-wrap nav-item d-flex align-items-center mx-auto m-0 p-0 row" type="button" data-toggle="collapse" data-target="#navbarTogglerGrawMenu" aria-controls="navbarTogglerGrawMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <a class="col-10 nav-link text-left mx-auto" href="" title="Dorabianie kluczy">Grawerowanie laserem</a>
+                        <i id="arrow_grav" class="col-2 margin-left-auto fas fa-arrow-down text-center pr-2 pl-2"></i>
+                        <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu" id="navbarTogglerGrawMenu">
+                                <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
+                                <a class="col-10 nav-link text-left mx-auto" href="" title="Tabliczki informacyjne">Tabliczki informacyjne</a>
+                                </li>
+                                <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
+                                    <a class="col-10 nav-link text-left mx-auto" href="" title="Cięcie w pleksi">Cięcie w pleksi</a>
+                                    </li>
+                                <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0">
+                                <a class="col-10 nav-link text-left mx-auto" href="" title="Znakowanie w metalu">Znakowanie w metalu</a>
+                                </li>
+                        </div>
+                    </ul>
+                    <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
+                        <a class="col-10 nav-link text-left mx-auto" href="" title="Artukuły bloga">Blog</a><span class="col-2"></span>
+                    </li>
+                    <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
+                        <a class="col-10 nav-link text-left mx-auto" href=""
+                            title="Kontak z restauracją">Kontakt</a>
+                            <span class="col-2"></span>
+                    </li>
+                </ul>
+            </div>
+            <i class="col-3 fas fa-search text-center m-0 p-0"></i>
+            <i class="col-3 fas fa-user text-center m-0 p-0"></i>
+            <i class="col-3 fas fa-shopping-cart text-center m-0 p-0"></i>
+        </ul>
+        
+    </nav>
+    
+    {% block content %}
+    {% endblock %}
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script src="{% static "js/main.js" %}" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+﻿{% extends 'front/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+{% load templatetag %}
+{% load thumbnail %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+
+{% block title %}Witaj{% endblock %}
+
+{% block content %}
+<h1 class="col-12 mx-auto text-center">Witaj, {{ new_user.first_name }}!</h1>
+<p class="col-12 mx-auto text-center">Twoje konto zostało utworzone. Możesz się już <a
+        href="{% url "login" %}">zalogować</a>.</p>
+{% endblock %}
