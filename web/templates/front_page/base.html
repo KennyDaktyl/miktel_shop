@@ -92,15 +92,27 @@
                     </li>
                 </ul>
             </div>
-            <i class="col-3 fas fa-search text-center m-0 p-0"></i>
-            <i class="col-3 fas fa-user text-center m-0 p-0"></i>
-            <i class="col-3 fas fa-shopping-cart text-center m-0 p-0"></i>
+            <i class="col-3 main_nav_icon fas fa-search text-center m-0 p-0"></i>
+            <form id="SearchForm" class="col-12 m-0 p-0" id="navbarSearchMenu" method="GET" action="">
+                <div class="col-12 m-0 p-0 row d-flex align-items-center text-center">
+                    <i id="closeSearchInput" class="col-1 p-0 m-0 text-center fas fa-arrow-left text-white"></i>
+                    <input id="inputSearch" class="col-9 p-0 m-0 mx-auto" type="text" maxlength="256" name="search">
+                    <i id="clearText" class="col-1 p-0 m-0 text-center fas fa-times mx-auto"></i>
+                </div>
+            </form>
+            <i class="col-3 main_nav_icon fas fa-user text-center m-0 p-0"></i>
+            <div></div>
+            <i id="BasketInfo" class="col-3 main_nav_icon fas fa-shopping-cart text-center m-0 p-0 ">
+                <div class="dot quantityBasket text-center mx-auto ">5</div>
+            </i>
+            <div></div>
+            
         </ul>
-        
     </nav>
-    
+    <div id="page" class="col-12 ml-0 mr-0 p-0">
     {% block content %}
     {% endblock %}
+    </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
