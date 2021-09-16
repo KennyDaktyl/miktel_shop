@@ -16,6 +16,7 @@ import socket
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
+ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl','51.75.64.242']
 
 if socket.gethostname() in ["Asus", "michalp"]:
     SECURE_SSL_REDIRECT = False
@@ -27,7 +28,7 @@ if socket.gethostname() in ["Asus", "michalp"]:
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY_TEST')
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY_TEST')
 else:
-    DOMAIN = "serwiswrybnej"
+    DOMAIN = "serwiswrybnej.pl"
     DOMAIN_URL = "https://" + DOMAIN
     DatabaseName = "miktel_shop_v1"
     DEBUG = False
