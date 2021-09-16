@@ -4,6 +4,7 @@
 
 
 {% block content %}
+<div class="wrap col-12 m-0 p-0">
 <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active" data-interval="10000">
@@ -26,51 +27,76 @@
     </a>
   </div>
 
-  <div class="col-12 ml-0 mr-0 p-0 offer">
-    <h1 class="ml-3 pl-1">Polecane produkty</h1>
-    <h1>sdsds{{ MEDIA_URL }}</h1>
-    <div class="col-12 p-0 product">
-      <div class="col-10 mx-auto text-center row">
-          <div class="boxNovelty smallBox m-2">NEW</div>
-          <div class="boxPromo smallBox bg-danger m-2">9%</div>
-      </div>
-      <div class="col-12 m-2 mx-auto">
-        <img src="{{ MEDIA_URL }}images/pieczatka-firmowa-colop-c30.webp" class="img-fluid mx-auto col-12" alt="">
-      </div>
-      <p class="productName col-12 mx-auto text-center">Pieczątka Colop 30</p>
-      <p class="producerName col-12 mx-auto text-center">Colop</p>
-      <p class="producerPrice col-12 mx-auto text-center text-danger">49 zł</p>
-    </div>
-
-    <div class="col-12 p-0 product">
-      <div class="col-10 mx-auto text-center row">
-          <div class="boxNovelty smallBox m-2">NEW</div>
-          <div class="boxPromo smallBox bg-danger m-2">9%</div>
-      </div>
-      <div class="col-12 m-2 mx-auto">
-        <img src="{{ MEDIA_URL }}images/pieczatka-firmowa-colop-c30.webp" class="img-fluid mx-auto col-12" alt="">
-      </div>
-      <p class="productName col-12 mx-auto text-center">Pieczątka Colop 30</p>
-      <p class="producerName col-12 mx-auto text-center">Colop</p>
-      <p class="producerPrice col-12 mx-auto text-center text-danger">49 zł</p>
-    </div>
-
-    <div class="col-12 p-0 product">
-      <div class="col-10 mx-auto text-center row">
-          <div class="boxNovelty smallBox m-2">NEW</div>
-          <div class="boxPromo smallBox bg-danger m-2">9%</div>
-      </div>
-      <div class="col-12 m-2 mx-auto">
-        <img src="{{ MEDIA_URL }}images/pieczatka-firmowa-colop-c30.webp" class="img-fluid mx-auto col-12" alt="">
-      </div>
-      <p class="productName col-12 mx-auto text-center">Pieczątka Colop 30</p>
-      <p class="producerName col-12 mx-auto text-center">Colop</p>
-      <p class="producerPrice col-12 mx-auto text-center text-danger">49 zł</p>
-    </div>
-
+  <div class="col-12 col-md-10 mx-auto ml-0 mr-0 p-0 offer row">
+    <h1 class="col-11 ml-3 pl-1">Polecane produkty</h1>
     
+    <div class="col-12 col-md-3 p-0 ml-0 mr-0 product">
+      <div class="col-10 mx-auto text-center row">
+          <div class="boxNovelty smallBox m-2">NEW</div>
+          <div class="boxPromo smallBox bg-danger m-2">9%</div>
+      </div>
+      <div class="col-12 m-2 mx-auto">
+        <img src="{{ MEDIA_URL }}images/pieczatka-firmowa-colop-c30.webp" class="img-fluid mx-auto col-12" alt="">
+      </div>
+      <p class="productName col-12 mx-auto text-center">Pieczątka Colop 30</p>
+      <p class="producerName col-12 mx-auto text-center">Colop</p>
+      <p class="producerPrice col-12 mx-auto text-center text-danger">49 zł</p>
+    </div>
 
+    <div class="col-12 col-md-3 p-0 ml-0 mr-0 product">
+      <div class="col-10 mx-auto text-center row">
+          <div class="boxNovelty smallBox m-2">NEW</div>
+          <div class="boxPromo smallBox bg-danger m-2">9%</div>
+      </div>
+      <div class="col-12 m-2 mx-auto">
+        <img src="{{ MEDIA_URL }}images/pieczatka-firmowa-colop-c30.webp" class="img-fluid mx-auto col-12" alt="">
+      </div>
+      <p class="productName col-12 mx-auto text-center">Pieczątka Colop 30</p>
+      <p class="producerName col-12 mx-auto text-center">Colop</p>
+      <p class="producerPrice col-12 mx-auto text-center text-danger">49 zł</p>
+    </div>
+
+    <div class="col-12 col-md-3 p-0 ml-0 mr-0 product">
+      <div class="col-10 mx-auto text-center row">
+          <div class="boxNovelty smallBox m-2">NEW</div>
+          <div class="boxPromo smallBox bg-danger m-2">9%</div>
+      </div>
+      <div class="col-12 m-2 mx-auto">
+        <img src="{{ MEDIA_URL }}images/pieczatka-firmowa-colop-c30.webp" class="img-fluid mx-auto col-12" alt="">
+      </div>
+      <p class="productName col-12 mx-auto text-center">Pieczątka Colop 30</p>
+      <p class="producerName col-12 mx-auto text-center">Colop</p>
+      <p class="producerPrice col-12 mx-auto text-center text-danger">49 zł</p>
+    </div>
+
+    <div class="col-12 col-md-3 p-0 ml-0 mr-0 product">
+      <div class="col-10 mx-auto text-center row">
+          <div class="boxNovelty smallBox m-2">NEW</div>
+          <div class="boxPromo smallBox bg-danger m-2">9%</div>
+      </div>
+      <div class="col-12 m-2 mx-auto">
+        <img src="{{ MEDIA_URL }}images/pieczatka-firmowa-colop-c30.webp" class="imd-fluid mx-auto col-12" alt="">
+      </div>
+      <p class="productName col-12 mx-auto text-center">Pieczątka Colop 30</p>
+      <p class="producerName col-12 mx-auto text-center">Colop</p>
+      <p class="producerPrice col-12 mx-auto text-center text-danger">49 zł</p>
+    </div>
   </div>
 
-  
+  <div id="iconInfo" class="col-12 ml-0 mr-0 p-0 row">
+    <div id="inIconInfo" class="col-12 mx-auto m-0 p-0"></div>
+    <div id="violetFilter" class="col-12 mx-auto m-0 p-0"></div>
+    <div id="TextinIconInfo" class="col-12 mx-auto m-0 p-0 text-center d-flex align-items-center row">
+      <i class="col-12 mx-auto col-md-4 far fa-clock">
+        <h2>Oszczedzaj czas - umów sie na wymianę</h2>
+      </i>
+      <i class="col-12 mx-auto col-md-4 far fa-clock"></i>
+      <i class="col-12 mx-auto col-md-4 far fa-clock"></i>
+    </div>
+  </div>
+
+  <div id="newsInfo" class="col-12 ml-0 mr-0 p-0 row">
+
+  </div>
+</div>
 {% endblock %}
