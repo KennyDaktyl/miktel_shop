@@ -103,12 +103,12 @@ $(document).ready(function () {
     
         if(y_scroll_pos >= nav_position) {
             nav_main.addClass('fixed_menu');
-            // page.css('margin-top', '50px');
+            page.css('margin-top', '50px');
             navbarTogglerMenu.css('top', '50px');
             SearchForm.css('top', '50px');
         } else {
             nav_main.removeClass('fixed_menu');
-            // page.css('margin-top', '0px');
+            page.css('margin-top', '0px');
             navbarTogglerMenu.css('top', '150px');
             SearchForm.css('top', '150px');
         }

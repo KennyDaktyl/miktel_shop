@@ -27,22 +27,21 @@ if socket.gethostname() in ["Asus", "michalp"]:
     SECURE_SSL_REDIRECT = False
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY_TEST')
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY_TEST')
-# else:
-#     DOMAIN = "pieczatki-colop.com"
-#     DOMAIN_URL = "https://" + DOMAIN
-#     DatabaseName = "colop_v1"
-#     DEBUG = False
-#     SECURE_SSL_REDIRECT = False
-#     SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
-#     SESSION_COOKIE_DOMAIN = f".{DOMAIN}"
-#     SESSION_COOKIE_HTTPONLY = True
-#     # SESSION_COOKIE_AGE = 10 * 60
-
-#     SESSION_SAVE_EVERY_REQUEST = True
-#     CSRF_COOKIE_DOMAIN = f".{DOMAIN}"
-#     CSRF_COOKIE_HTTPONLY = True
-#     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
-#     STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+else:
+    DOMAIN = "serwiswrybnej"
+    DOMAIN_URL = "https://" + DOMAIN
+    DatabaseName = "miktel_shop_v1"
+    DEBUG = False
+    SECURE_SSL_REDIRECT = False
+    SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+    SESSION_COOKIE_DOMAIN = f".{DOMAIN}"
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_AGE = 10 * 60
+    SESSION_SAVE_EVERY_REQUEST = True
+    CSRF_COOKIE_DOMAIN = f".{DOMAIN}"
+    CSRF_COOKIE_HTTPONLY = True
+    STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+    STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Application definition
 
@@ -88,6 +87,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -141,7 +141,6 @@ STATIC_ROOT = "static"
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 STATICFILES_DIRS = (os.path.join(SITE_ROOT, "static/"), )
 MEDIA_URL = '/media/'
-# MEDIA_URL = f'http://127.0.0.1:8000/static/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
