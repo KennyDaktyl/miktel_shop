@@ -16,7 +16,6 @@ import socket
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = ['127.0.0.1']
 
 if socket.gethostname() in ["Asus", "michalp"]:
     SECURE_SSL_REDIRECT = False
