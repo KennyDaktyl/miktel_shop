@@ -90,10 +90,11 @@ $(document).ready(function () {
     var nav_main = $('#nav_main');
     var nav_position = nav_main.offset().top;
     var lastScrollTop = 0;
+    var y_scroll_pos = window.pageYOffset;
     
     $(window).on('scroll', function() {
 
-        var y_scroll_pos = window.pageYOffset;
+        y_scroll_pos = window.pageYOffset;
         var st = $(this).scrollTop();
         if ((lastScrollTop < st) && (y_scroll_pos < nav_position)) {
             nav_main.css('top', nav_position - y_scroll_pos + "px");
@@ -110,25 +111,42 @@ $(document).ready(function () {
     });
 
     var nav_main_xl = $('#nav_main_xl');
-    var nav_position = nav_main.offset().top;
-    var lastScrollTop = 0;
-    
+    var nav_position_xl = nav_main_xl.offset().top;
+    const nav_position_xl_const = nav_position_xl;
+
     $(window).on('scroll', function() {
 
-        var y_scroll_pos = window.pageYOffset;
+        y_scroll_pos = window.pageYOffset;
+        nav_position_xl = nav_main_xl.offset().top;
         var st = $(this).scrollTop();
-        if ((lastScrollTop < st) && (y_scroll_pos < nav_position)) {
-            nav_main_xl.css('top', nav_position - y_scroll_pos + "px");
+
+        intPositionNav = parseInt(nav_main_xl.css('top').replace("px", ""));
+       
+
+        if (intPositionNav < 10 ) {
+            nav_main_xl.css('top', "0px");
+        } else {
+            if (y_scroll_pos < nav_position_xl_const) {
+                nav_main_xl.css('top', nav_position_xl_const - y_scroll_pos + "px");
+            };
+            console.log(intPositionNav, 10)
         };
 
-        if(y_scroll_pos >= nav_position) {
-            nav_main_xl.addClass('fixed_menu');
-            nav_main_xl.css('top', '0px');
+        if (y_scroll_pos < nav_position_xl_const) {
+            nav_main_xl.css('top', nav_position_xl_const - y_scroll_pos + "px");
+        };
+        console.log(y_scroll_pos, intPositionNav, nav_position_xl);
+
+        // if (y_scroll_pos > nav_position_xl) {
+        //     nav_main_xl.addClass('fixed_menu');
+        //     nav_main_xl.css('top', '0px');
+        //     console.log('W dół', y_scroll_pos, nav_position_xl);
            
-        } else {
-            nav_main_xl.removeClass('fixed_menu');
-            nav_main_xl.css('top', '100px');
-        }
+        // } else {
+        //     nav_main_xl.removeClass('fixed_menu');
+        //     nav_main_xl.css('top', '100px');
+        //     console.log('W góre', y_scroll_pos);
+        // }
     });
 
     var wrapIconInfo = $('#wrapIconInfo');
