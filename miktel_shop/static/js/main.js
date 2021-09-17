@@ -1,14 +1,8 @@
 $(document).ready(function () {
-    // var top = $('#top');
-    // var nav = $('#nav');
-    // var page = $('#page');
-    // var footer = $('#footer');
-    // var link_map = $('#link_map');
-    // var navbarTogglerDemo03 = $('#navbarTogglerDemo03');
-
-    // top_height = top.height();
-    // nav_height = nav.height();
-    // link_map_height = link_map.height();
+    window.onbeforeunload = function () {
+        window.scrollTo(0, 0);
+      }
+      
     var navbarTogglerMenu = $('#navbarTogglerMenu');
     var main_nav_icon = $('i.main_nav_icon')
     main_nav_icon.each(function (e) {
@@ -95,22 +89,27 @@ $(document).ready(function () {
 
     var nav_main = $('#nav_main');
     var nav_position = nav_main.offset().top;
-    var lastScrollTop = 0;
+    
     console.log(nav_position);
     
     $(window).on('scroll', function() {
+
+        nav_main.css('top', '0px');
         var y_scroll_pos = window.pageYOffset;
         var st = $(this).scrollTop();
-        
+        var lastScrollTop = 0;
         if ((lastScrollTop < st) && (y_scroll_pos <= nav_position)) {
             nav_main.css('top', nav_position - y_scroll_pos);
             console.log(nav_position - y_scroll_pos);
-        }
+        };
+
         if(y_scroll_pos >= nav_position) {
             nav_main.addClass('fixed_menu');
+            nav_main.css('top', '0px');
            
         } else {
             nav_main.removeClass('fixed_menu');
+            nav_main.css('top', '100px');
         }
     });
 
