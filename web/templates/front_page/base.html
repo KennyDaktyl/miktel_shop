@@ -17,45 +17,45 @@
 </head>
 <body>
     <main  class="container-fluid m-0 p-0">
-    <header id="top" class="top col-12 m-0 p-0 row">
+    <header id="top" class="top col-12 m-0 p-0 pt-3 row">
+        <div class="d-none d-lg-block wrapHeader col-12 m-0 p-0">
         <div class="col-10 mx-auto text-center row d-flex align-items-center">
-            <div class="col-8">
-               
+            <div class="col-9">
             </div>
-            <div class="col-4 row d-flex align-items-center mx-auto text-right">
+            <div class="col-3 row d-flex align-items-center mx-auto d-flex justify-content-center">
             {% if user.is_authenticated %}
                     <a class="col-12 mx-auto text-center logout row d-flex align-items-center text-white" href="">
                         <span class="link text-center">Wyloguj</span>
                         <i class="ml-2 fas fa-sign-out-alt text-danger"></i>
                     </a>
                     {% else %}
-                    <a class="col-12 mx-auto text-right login row d-flex align-items-center text-white" href="">
-                        <span class="link text-right ml-auto">Zaloguj</span>
-                        <i class="ml-2 fas fa-sign-in-alt text-success text-right "></i>
+                    <a class="link col-12 mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none" href="">
+                        <span class="text-center">Zaloguj</span>
+                        <i class="ml-2 fas fa-sign-in-alt text-success text-center"></i>
                     </a>
                     {% endif %}
                 </div>
         </div>
         <div class="col-10 mx-auto text-center row d-flex align-items-center">
-            <div class="col-8 text-right">
-                <form class="ml-auto form-inline ">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+            <div class="col-9">
+                <div class="col-12 m-0 p-0 row text-right">
+                    <form class="ml-auto text-right form-inline row">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
             </div>
-            <div class="col-4 row d-flex align-items-center ml-auto text-right">
-                <div class="row col-12 text-right">
-                    
-                    <div class="row col-12 text-right mx-auto d-flex align-items-center ml-auto">
-                        <i class="text-white fas fa-shopping-basket ml-auto"></i>
-                        <span id="len" class="mr-1 ml-1 text-white text-right">0 szt.</span>
-                        <span id="total_price" class="mr-1 ml-1 text-white text-right">0,00 {{cart.get_total_price|floatformat:2}}
-                            PLN</span>
+            <div class="col-3 row mx-auto d-flex align-items-center d-flex justify-content-center">
+                    <div class="row col-12 m-0 p-0 text-center mx-auto d-flex align-items-center d-flex justify-content-center">
+                        <i class="text-white text-danger fas fa-shopping-basket m-1"></i>
+                        <i id="len" class="text-white text-center m-1">0 szt.</i>
+                        <i id="total_price" class="text-white text-center m-1">0,00 {{cart.get_total_price|floatformat:2}}
+                            PLN</i>
                     </div>
             </div>
         </div>
     </header>
-    <nav id="nav_main_xl" class="d-lg-none nav col-12 m-0 p-0 d-flex align-items-center bg-white">
+    <nav id="nav_main" class="d-lg-none nav col-12 m-0 p-0 d-flex align-items-center bg-white">
         <ul class="col-12 col-md-9 mx-auto m-0 p-0 row">
             <i id="menu_burger" class="col-3 fas fa-bars text-center m-0 p-0" type="button" data-toggle="collapse"
             data-target="#navbarTogglerMenu" aria-controls="navbarTogglerMenu" aria-expanded="false"
@@ -147,9 +147,9 @@
         </ul>
     </nav>
 
-    <nav id="nav_main" class="col-12 mx-auto text-center d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light">
-        <div class="col-8 mx-auto collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
+    <nav id="nav_main_xl" class="col-12 mx-auto text-center d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light">
+        <div class="col-10 m-0 p-0 ml-auto collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto col-12 row m-0 p-0 text-center">
             <li class="nav-item active">
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
@@ -166,7 +166,6 @@
                 <a class="dropdown-item" href="#">Serwis GSM</a>
               </div>
             </li>
-
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Pieczątki
@@ -206,7 +205,6 @@
                 <a class="nav-link" href="#">Kontakt</a>
               </li>
           </ul>
-         
         </div>
       </nav>
 

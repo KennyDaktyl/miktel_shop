@@ -108,6 +108,27 @@ $(document).ready(function () {
         }
     });
 
+    var nav_main_xl = $('#nav_main_xl');
+    var nav_position = nav_main.offset().top;
+    var lastScrollTop = 0;
+    
+    $(window).on('scroll', function() {
+
+        var y_scroll_pos = window.pageYOffset;
+        var st = $(this).scrollTop();
+        if ((lastScrollTop < st) && (y_scroll_pos < nav_position)) {
+            nav_main_xl.css('top', nav_position - y_scroll_pos + "px");
+        };
+
+        if(y_scroll_pos >= nav_position) {
+            nav_main_xl.addClass('fixed_menu');
+            nav_main_xl.css('top', '0px');
+           
+        } else {
+            nav_main_xl.removeClass('fixed_menu');
+        }
+    });
+
     var wrapIconInfo = $('#wrapIconInfo');
     var heightwrapIconInfo = wrapIconInfo.css('height');
 
