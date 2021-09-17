@@ -57,12 +57,13 @@
         </div>
     </header>
     <nav id="nav_main" class="d-lg-none nav col-12 m-0 p-0 d-flex align-items-center bg-white">
-        <ul class="col-12 col-md-9 mx-auto m-0 p-0 row">
-            <i id="menu_burger" class="col-3 fas fa-bars text-center m-0 p-0" type="button" data-toggle="collapse"
-            data-target="#navbarTogglerMenu" aria-controls="navbarTogglerMenu" aria-expanded="false"
-            aria-label="Toggle navigation"></i>
-            <div class="col-lg-12 m-0 p-0 collapse navbar-collapse" id="navbarTogglerMenu">
+        <ul id="nav_main_ul" class="col-12 col-md-9 mx-auto m-0 p-0 row">
+            <i id="menu_burger" class="col-3 fas fa-bars text-center m-0 p-0"></i>
+            <div class="col-lg-12 m-0 p-0" id="navbarTogglerMenu">
                 <ul id="nav_menu" class="col-12 row m-0 p-0 overflow-auto">
+                    <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
+                        <a class="col-10 nav-link text-left text-danger mx-auto" href="" title="Sklep On-line">Sklep On-line</a><span class="col-2"></span>
+                    </li>
                     <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
                         <a class="col-10 nav-link text-left mx-auto" href="" title="Telefony komórkowe">Telefony komórkowe</a><span class="col-2"></span>
                     </li>
@@ -130,7 +131,7 @@
                     </li>
                 </ul>
             </div>
-            <i class="col-3 main_nav_icon fas fa-search text-center m-0 p-0"></i>
+            <i id="SearchFormIcon" class="col-3 main_nav_icon fas fa-search text-center m-0 p-0"></i>
             <form id="SearchForm" class="col-12 m-0 p-0" id="navbarSearchMenu" method="GET" action="">
                 <div class="col-12 m-0 p-0 row d-flex align-items-center text-center">
                     <i id="closeSearchInput" class="col-1 p-0 m-0 text-center fas fa-arrow-left text-white"></i>
