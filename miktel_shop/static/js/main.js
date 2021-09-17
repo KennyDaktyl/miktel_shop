@@ -2,7 +2,7 @@ $(document).ready(function () {
     window.onbeforeunload = function () {
         window.scrollTo(0, 0);
       }
-      
+
     var navbarTogglerMenu = $('#navbarTogglerMenu');
     var main_nav_icon = $('i.main_nav_icon')
     main_nav_icon.each(function (e) {
@@ -89,18 +89,14 @@ $(document).ready(function () {
 
     var nav_main = $('#nav_main');
     var nav_position = nav_main.offset().top;
-    
-    console.log(nav_position);
+    var lastScrollTop = 0;
     
     $(window).on('scroll', function() {
 
-        nav_main.css('top', '0px');
         var y_scroll_pos = window.pageYOffset;
         var st = $(this).scrollTop();
-        var lastScrollTop = 0;
-        if ((lastScrollTop < st) && (y_scroll_pos <= nav_position)) {
-            nav_main.css('top', nav_position - y_scroll_pos);
-            console.log(nav_position - y_scroll_pos);
+        if ((lastScrollTop < st) && (y_scroll_pos < nav_position)) {
+            nav_main.css('top', nav_position - y_scroll_pos + "px");
         };
 
         if(y_scroll_pos >= nav_position) {
@@ -109,9 +105,17 @@ $(document).ready(function () {
            
         } else {
             nav_main.removeClass('fixed_menu');
-            nav_main.css('top', '100px');
         }
     });
+
+    var wrapIconInfo = $('#wrapIconInfo');
+    var heightwrapIconInfo = wrapIconInfo.css('height');
+
+    var inIconInfo = $('#inIconInfo');
+    inIconInfo.css('height', heightwrapIconInfo);
+
+    var iconInfo = $('#iconInfo');
+    iconInfo.css('height', heightwrapIconInfo);
 
     // var lastY;
     // $(window).bind('touchmove', function (e) {

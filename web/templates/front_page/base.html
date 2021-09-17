@@ -17,9 +17,45 @@
 </head>
 <body>
     <main  class="container-fluid m-0 p-0">
-    <div class="top col-12 m-0 p-0">
-    </div>
-    <nav id="nav_main" class="nav col-12 m-0 p-0 d-flex align-items-center">
+    <header id="top" class="top col-12 m-0 p-0 row">
+        <div class="col-10 mx-auto text-center row d-flex align-items-center">
+            <div class="col-8">
+               
+            </div>
+            <div class="col-4 row d-flex align-items-center mx-auto text-right">
+            {% if user.is_authenticated %}
+                    <a class="col-12 mx-auto text-center logout row d-flex align-items-center text-white" href="">
+                        <span class="link text-center">Wyloguj</span>
+                        <i class="ml-2 fas fa-sign-out-alt text-danger"></i>
+                    </a>
+                    {% else %}
+                    <a class="col-12 mx-auto text-right login row d-flex align-items-center text-white" href="">
+                        <span class="link text-right ml-auto">Zaloguj</span>
+                        <i class="ml-2 fas fa-sign-in-alt text-success text-right "></i>
+                    </a>
+                    {% endif %}
+                </div>
+        </div>
+        <div class="col-10 mx-auto text-center row d-flex align-items-center">
+            <div class="col-8 text-right">
+                <form class="ml-auto form-inline ">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+            <div class="col-4 row d-flex align-items-center ml-auto text-right">
+                <div class="row col-12 text-right">
+                    
+                    <div class="row col-12 text-right mx-auto d-flex align-items-center ml-auto">
+                        <i class="text-white fas fa-shopping-basket ml-auto"></i>
+                        <span id="len" class="mr-1 ml-1 text-white text-right">0 szt.</span>
+                        <span id="total_price" class="mr-1 ml-1 text-white text-right">0,00 {{cart.get_total_price|floatformat:2}}
+                            PLN</span>
+                    </div>
+            </div>
+        </div>
+    </header>
+    <nav id="nav_main_xl" class="d-lg-none nav col-12 m-0 p-0 d-flex align-items-center bg-white">
         <ul class="col-12 col-md-9 mx-auto m-0 p-0 row">
             <i id="menu_burger" class="col-3 fas fa-bars text-center m-0 p-0" type="button" data-toggle="collapse"
             data-target="#navbarTogglerMenu" aria-controls="navbarTogglerMenu" aria-expanded="false"
@@ -110,9 +146,176 @@
             
         </ul>
     </nav>
+
+    <nav id="nav_main" class="col-12 mx-auto text-center d-none d-lg-block navbar navbar-expand-lg navbar-light bg-light">
+        <div class="col-8 mx-auto collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-danger" href="#">Sklep On-line</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Telefony
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Telefony komórkowe</a>
+                <a class="dropdown-item" href="#">Akcesoria GSM</a>
+                <a class="dropdown-item" href="#">Serwis GSM</a>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Pieczątki
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Pieczątki imienne</a>
+                  <a class="dropdown-item" href="#">Pieczątki firmowe</a>
+                  <a class="dropdown-item" href="#">Pieczątki z logiem</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Grawerowanie
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Grawerowanie tabliczek</a>
+                  <a class="dropdown-item" href="#">Znakowanie w metalu</a>
+                  <a class="dropdown-item" href="#">Cięcie pleksi, tabliczki</a>
+                </div>
+              </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dorabianie kluczy
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Klucze numeryczne</a>
+                  <a class="dropdown-item" href="#">Klucze mieszkaniowe</a>
+                  <a class="dropdown-item" href="#">Klucze samochodowe z immobiliserem</a>
+                  <a class="dropdown-item" href="#">Obudowy kluczy samochodowych</a>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Blog</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Kontakt</a>
+              </li>
+          </ul>
+         
+        </div>
+      </nav>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+    </nav>
     <div id="page" class="col-12 ml-0 mr-0 p-0">
     {% block content %}
     {% endblock %}
+    </div>
+
+    <div class="container-fluid footer mx-auto">
+        <div class="row justify-content-center top-part">
+            <div class="col-md-6 text-center center-content">
+                <div class="d-flex-inline">
+                    <h3 class="footer-heading">Start a Project with itCraft</h3>
+                </div>
+                <div class="d-flex-inline">
+                    <p>We are based in Warsaw, Bydgoszcz & Torun in Poland but we are Google Cloud Partner we can arrange a meeting at Google Campus in Warsaw or in London. We are also present in Norway. Below you will find all the contact details you need.</p>
+                </div>
+                <div class="d-flex-inline pt-2"> <button class="btn-pink btn">ESTIMATE PROJECT</button> </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="line mb-3 mx-auto"></div>
+            <div class="d-md-flex px-5 justify-content-around bd-highlight col-md-12 pt-5 pb-5 mb-3">
+                <div class="p-2 flex-fill bd-highlight mb-5 mb-md-0">
+                    <h3>Miktel Michał Pielak</h3> <small>Copyright &copy 2021</small>
+                </div>
+                <div class="p-2 flex-fill bd-highlight mb-3 mb-md-0">
+                    <h5 class="places">Rybna</h5>
+                    <p class="mb-0">Serwis w Rybnej</p>
+                    <p class="mb-0">ul. Wspólna 2</p>
+                    <p class="mb-0">32-061 Rybna, Poland</p>
+                </div>
+                <div class="p-2 flex-fill bd-highlight mb-3 mb-md-0">
+                    <h5 class="places">Puławy</h5>
+                    <p class="mb-0">ul. Lubelska 2</p>
+                    <p class="mb-0">24-100 Puławy</p>
+                    <p class="mb-0">Poland</p>
+                </div>
+                <div class="p-2 flex-fill bd-highlight mb-3 mb-md-0">
+                    <h5 class="places">Serwis w Rybnej</h5>
+                    <p class="mb-0">Rybna</p>
+                    <p class="mb-0">&nbsp;&nbsp;tel: 506 029 980</p>
+                    <p class="mb-0">&nbsp;&nbsp;pielak@miktelgsm.pl</p>
+                </div>
+                <div class="p-2 flex-fill bd-highlight mb-3 mb-md-0">
+                    <h5 class="places">Wyspa GSM Puławy</h5>
+                    <p class="mb-0">Rybna</p>
+                    <p class="mb-0">&nbsp;&nbsp;tel: 518 457 300</p>
+                    <p class="mb-0">&nbsp;&nbsp;miktel.pulawy@gmail.com</p>
+                </div>
+            </div>
+            <div class="line mb-3 mx-auto"></div>
+        </div>
+        <div class="row bottom-part">
+            <div class="d-lg-flex justify-content-between bd-highlight col-md-12 mb-5 px-5">
+                <div class="p-2 align-self-center flex-fill bd-highlight">
+                    <div class="fa fa-facebook px-2"></div>
+                    <div class="fa fa-linkedin px-2"></div>
+                    <div class="fa fa-twitter px-2"></div>
+                    <div class="fa fa-instagram px-2"></div>
+                </div>
+                <div class="p-2 row flex-fill bd-highlight justify-content-left">
+                    <div class="p-2 d-lg-flex">
+                        <div class="p-2 flex-fill d-flex bd-highlight">Services</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Portfolio</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Pricing</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Testimonials</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Team</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Blog</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Carrer</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">How we work</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Manifesto</div>
+                    </div>
+                </div>
+                <div class="p-2 align-self-center flex-fill bd-highlight">
+                    <div class="fa fa-mobile px-2 grey-text">&nbsp;&nbsp;<span id="contact">506 029 980</span></div>
+                    <div class="fa fa-envelope-o px-2 grey-text">&nbsp;&nbsp;pielak@miktelgsm.pl</div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
