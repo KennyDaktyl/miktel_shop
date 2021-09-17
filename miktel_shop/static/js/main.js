@@ -93,24 +93,24 @@ $(document).ready(function () {
             $(this).removeClass('show');
         });
 
-    var nav_main = $('#nav_main')
+    var nav_main = $('#nav_main');
     var nav_position = nav_main.offset().top;
-    var page = $('#page');
+    var lastScrollTop = 0;
     console.log(nav_position);
     
     $(window).on('scroll', function() {
         var y_scroll_pos = window.pageYOffset;
-    
+        var st = $(this).scrollTop();
+        
+        if ((lastScrollTop < st) && (y_scroll_pos <= nav_position)) {
+            nav_main.css('top', nav_position - y_scroll_pos);
+            console.log(nav_position - y_scroll_pos);
+        }
         if(y_scroll_pos >= nav_position) {
             nav_main.addClass('fixed_menu');
-            page.css('margin-top', '50px');
-            navbarTogglerMenu.css('top', '50px');
-            SearchForm.css('top', '50px');
+           
         } else {
             nav_main.removeClass('fixed_menu');
-            page.css('margin-top', '0px');
-            navbarTogglerMenu.css('top', '150px');
-            SearchForm.css('top', '150px');
         }
     });
 

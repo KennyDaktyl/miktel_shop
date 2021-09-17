@@ -55,13 +55,14 @@ nav {
 }
 
 #nav_main {
-    position: relative;
+    position: fixed;
     background-color: white;
     z-index: 9999;
+    top: 100px;
+    left: 0;
 }
 
 #nav_main.fixed_menu {
-    position: fixed;
     top: 0;
     left: 0;
 }
@@ -105,8 +106,10 @@ nav {
     overflow: auto;
     -webkit-overflow-scrolling:touch; 
 }
+
 #page {
-background: white;
+    background: white;
+    margin-top: 50px;
 }
 
 .carousel-item img {
@@ -222,6 +225,7 @@ div.offer {
 
 #inIconInfo {
     background-image: url(/media/images/serwiswrybnej+plakat.webp);
+    background-position:center;
     background-repeat: repeat-y;
     background-attachment: fixed;
     -webkit-background-size: cover;
