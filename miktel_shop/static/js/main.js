@@ -105,6 +105,7 @@ $(document).ready(function () {
            
         } else {
             nav_main.removeClass('fixed_menu');
+            nav_main.css('top', '100px');
         }
     });
 
@@ -126,6 +127,7 @@ $(document).ready(function () {
            
         } else {
             nav_main_xl.removeClass('fixed_menu');
+            nav_main_xl.css('top', '100px');
         }
     });
 
