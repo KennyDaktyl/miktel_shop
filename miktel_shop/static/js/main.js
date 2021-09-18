@@ -60,7 +60,7 @@ $(document).ready(function () {
         var st = $(this).scrollTop();
         intPositionNav = parseInt(nav_main.css('top').replace("px", ""));
         
-        if (intPositionNav < 10 ) {
+        if (intPositionNav < 100 ) {
             nav_main.css('top', "0px");
         } else {
             if (y_scroll_pos < nav_position_const) {
@@ -88,7 +88,7 @@ $(document).ready(function () {
         intPositionNavXl = parseInt(nav_main_xl.css('top').replace("px", ""));
        
 
-        if (intPositionNavXl < 10 ) {
+        if (intPositionNavXl < 50 ) {
             nav_main_xl.css('top', "0px");
         } else {
             if (y_scroll_pos < nav_position_xl_const) {
