@@ -14,6 +14,14 @@ body.frozen {
     position: relative;
     background-color: blueviolet;
     height: 100px;
+    top: 0;
+}
+
+#top.fixed_menu {
+    position: relative;
+    background-color: blueviolet;
+    height: 100px;
+    top: -100%;
 }
 
 #mainLogo {
@@ -79,6 +87,14 @@ a.link :hover {
     text-align: center;
     line-height: 20px;
 }
+
+#top {
+    position: relative;
+    background-color: blueviolet;
+    height: 100px;
+    top: 0;
+}
+
 
 #nav_main {
     position: fixed;
