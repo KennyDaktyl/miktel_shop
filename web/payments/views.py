@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 
@@ -34,7 +34,7 @@ class PaymentIntentView(View):
 
 endpoint_secret =  settings.STRIPE_ENDPOINT_SECRET
 
-@csrf_protect
+@method_decorator(csrf_exempt, name="dispatch")
 class StripeWebhookView(APIView):
     permission_classes = []
 
