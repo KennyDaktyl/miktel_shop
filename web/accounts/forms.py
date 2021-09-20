@@ -55,9 +55,7 @@ class UserForm(forms.ModelForm):
     house = forms.CharField(label="Nr domu", max_length=8, required=True)
     door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
     city = forms.CharField(label="Miasto", max_length=64, required=True)
-    zip_code = forms.CharField(label="Kod pocztowy",
-                               max_length=6,
-                               required=True)
+    zip_code = forms.CharField(label="Kod pocztowy",min_length=6, max_length=6, required=True)
     captcha = ReCaptchaField(required=True)
 
     # is_active = forms.BooleanField(

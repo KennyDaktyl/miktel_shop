@@ -64,7 +64,6 @@ class RegisterUserView(View):
                 return render(request, "accounts/register_user.html", ctx)
             except User.DoesNotExist:
                 new_user = form.save(commit=False)
-                new_user = form.save(commit=False)
                 new_user.username = form.cleaned_data['email']
                 new_user.email = form.cleaned_data['email']
                 new_user.set_password(form.cleaned_data['password'])
@@ -100,33 +99,39 @@ class CompanyRegistrationView(View):
     def post(self, request):
         form = BusinessForm(request.POST)
         if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.username = form.cleaned_data['email']
-            new_user.email = form.cleaned_data['email']
-            new_user.set_password(form.cleaned_data['password'])
-            new_user.save()
-            
-            profile = Profile()
-            profile.user_id = new_user.id
-            profile.business_name = form.cleaned_data['business_name']
-            profile.business_name_l = form.cleaned_data['business_name_l']
-            profile.phone_number = form.cleaned_data['phone_number']
-            profile.nip_number = form.cleaned_data['nip_number']
-            profile.company = True
-            profile.save()
-            
-            address = Address()
-            address.user_id = new_user
-            address.street = form.cleaned_data['street']
-            address.house = form.cleaned_data['house']
-            if form.cleaned_data['door']:
-                address.door = form.cleaned_data['door']
-            address.zip_code = form.cleaned_data['zip_code']
-            address.city = form.cleaned_data['city']
-            address.save()
-            login(request, new_user)
-            messages.error(request, 'Utworzono konto')
-            return redirect('front_page')
+            try:
+                user = User.objects.get(email=form.cleaned_data['email'])
+                messages.error(request, 'Email już istnieje w naszej bazie.')
+                ctx = {'form': form}
+                return render(request, "accounts/register_user.html", ctx)
+            except User.DoesNotExist:
+                new_user = form.save(commit=False)
+                new_user.username = form.cleaned_data['email']
+                new_user.email = form.cleaned_data['email']
+                new_user.set_password(form.cleaned_data['password'])
+                new_user.save()
+                
+                profile = Profile()
+                profile.user_id = new_user.id
+                profile.business_name = form.cleaned_data['business_name']
+                profile.business_name_l = form.cleaned_data['business_name_l']
+                profile.phone_number = form.cleaned_data['phone_number']
+                profile.nip_number = form.cleaned_data['nip_number']
+                profile.company = True
+                profile.save()
+                
+                address = Address()
+                address.user_id = new_user
+                address.street = form.cleaned_data['street']
+                address.house = form.cleaned_data['house']
+                if form.cleaned_data['door']:
+                    address.door = form.cleaned_data['door']
+                address.zip_code = form.cleaned_data['zip_code']
+                address.city = form.cleaned_data['city']
+                address.save()
+                login(request, new_user)
+                messages.error(request, 'Utworzono konto')
+                return redirect('front_page')
         else:
             messages.error(request, 'Wystąpił błąd')
             ctx = {'form': form}
