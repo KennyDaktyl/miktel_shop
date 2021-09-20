@@ -25,12 +25,12 @@
             </div>
             <div class="col-3 row d-flex align-items-center mx-auto d-flex justify-content-center">
             {% if user.is_authenticated %}
-                    <a class="col-12 mx-auto text-center logout row d-flex align-items-center text-white" href="">
-                        <span class="link text-center">Wyloguj</span>
-                        <i class="ml-2 fas fa-sign-out-alt text-danger"></i>
-                    </a>
+            <a class="link col-12 mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none" href="{% url "logout" %}">
+                <span class="text-center">Wyloguj</span>
+                <i class="ml-2 fas fa-sign-in-alt text-success text-center"></i>
+            </a>
                     {% else %}
-                    <a class="link col-12 mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none" href="">
+                    <a class="link col-12 mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none" href="{% url "login" %}">
                         <span class="text-center">Zaloguj</span>
                         <i class="ml-2 fas fa-sign-in-alt text-success text-center"></i>
                     </a>
@@ -139,7 +139,15 @@
                     <i id="clearText" class="col-1 p-0 m-0 text-center fas fa-times mx-auto"></i>
                 </div>
             </form>
-            <i class="col-3 main_nav_icon fas fa-user text-center m-0 p-0"></i>
+            {% if user.is_authenticated %}
+            <a href="{% url "logout" %}" class="col-3 m-0 p-0 text-center">
+                <i class="col-12 main_nav_icon text-danger fas fa-user text-center m-0 p-0"></i>
+                 </a>
+            {% else %}
+            <a href="{% url "login" %}" class="col-3 m-0 p-0 text-center">
+            <i class="col-12 main_nav_icon text-success fas fa-user text-center m-0 p-0"></i>
+             </a>
+            {% endif %}
             <div></div>
             <i id="BasketInfo" class="col-3 main_nav_icon fas fa-shopping-cart text-center m-0 p-0 ">
                 <div class="dot quantityBasket text-center mx-auto ">5</div>
@@ -240,6 +248,16 @@
   </div>
     </nav>
     <div id="page" class="col-12 ml-0 mr-0 p-0">
+        {% if messages %}
+            <ul class="messages col-12 mt-2 bg-warning">
+                {% for message in messages %}
+                <li class="{{ message.tags }} col-10 mx-auto text-center">
+                    {{ message|safe }}
+                    <a href="#" class="close text-danger display-4">x</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
     {% block content %}
     {% endblock %}
     </div>
@@ -330,5 +348,12 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script src="{% static "js/main.js" %}" type="text/javascript"></script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $('.close-cookies').click(function () {
+                $(this).parent().hide();
+            });
+        });
+    </script>
 </body>
 </html>

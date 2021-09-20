@@ -1,5 +1,5 @@
 from django.contrib import admin
-from web.models.account import Profile, Address
+from web.models.accounts import Profile, Address
 # Register your models here.
 
 

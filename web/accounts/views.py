@@ -1,22 +1,23 @@
-# from django.contrib.auth import authenticate, login, logout
-# from django.views import View
+from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib.auth.views import LogoutView
+
+from django.views import View
 # from django.views.generic.edit \
 #     import CreateView, UpdateView, DeleteView
-# from django.contrib import messages
+from django.contrib import messages
 # from django.contrib.messages.views import SuccessMessageMixin
 # from django.contrib.auth.mixins import PermissionRequiredMixin
-# from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 # from django.urls import reverse_lazy, reverse
 # from django.http import HttpResponseRedirect
-# from django.utils.decorators import method_decorator
-# from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
-# from .forms import LoginForm, UserForm, BusinessForm, AddressBasketForm
+from .forms import LoginForm, UserForm
 # from products.models import Category
-# from django.contrib.auth import get_user_model
-# from .models import Profile, Address
+from web.models import Profile, Address
 
-# User = get_user_model()
+User = get_user_model()
 
 
 # class ChoiceAccountReqisterView(View):
@@ -47,45 +48,47 @@
 #             return render(request, "account/choice_account_register.html", ctx)
 
 
-# # @method_decorator(login_required, name='dispatch')
-# class AddClientFromBasketView(View):
-#     def get(self, request):
-#         form = UserForm()
-#         categorys = Category.objects.filter(is_active=True)
-#         ctx = {'form': form, 'categorys': categorys}
-#         return render(request, "account/register_user.html", ctx)
+class RegisterUserView(View):
+    def get(self, request):
+        form = UserForm()
+        ctx = {'form': form}
+        return render(request, "accounts/register_user.html", ctx)
 
-#     def post(self, request):
-#         form = UserForm(request.POST)
-#         if form.is_valid():
-#             new_user = form.save(commit=False)
-#             new_user = form.save(commit=False)
-#             new_user.username = form.cleaned_data['email']
-#             new_user.email = form.cleaned_data['email']
-#             new_user.set_password(form.cleaned_data['password'])
-#             new_user.save()
-#             profile = Profile()
-#             profile.user_id = new_user.id
-#             profile.phone_number = form.cleaned_data['phone_number']
-#             profile.save()
-#             address = Address()
-#             address.user_id = new_user
-#             address.street = form.cleaned_data['street']
-#             address.house = form.cleaned_data['house']
-#             if form.cleaned_data['door']:
-#                 address.door = form.cleaned_data['door']
-#             address.zip_code = form.cleaned_data['zip_code']
-#             address.city = form.cleaned_data['city']
-#             address.save()
-#             login(request, new_user)
-#             messages.error(request, 'Utworzono konto')
-#             return redirect('cart_details')
-#         else:
-#             print(form)
-#             messages.error(request, 'Wystąpił błąd')
-#             categorys = Category.objects.filter(is_active=True)
-#             ctx = {'form': form, 'categorys': categorys}
-#             return render(request, "account/register_user.html", ctx)
+    def post(self, request):
+        form = UserForm(request.POST)
+        if form.is_valid():
+            try:
+                user = User.objects.get(email=form.cleaned_data['email'])
+                messages.error(request, 'Email już istnieje w naszej bazie.')
+                ctx = {'form': form}
+                return render(request, "accounts/register_user.html", ctx)
+            except User.DoesNotExist:
+                new_user = form.save(commit=False)
+                new_user = form.save(commit=False)
+                new_user.username = form.cleaned_data['email']
+                new_user.email = form.cleaned_data['email']
+                new_user.set_password(form.cleaned_data['password'])
+                new_user.save()
+                profile = Profile()
+                profile.user_id = new_user.id
+                profile.phone_number = form.cleaned_data['phone_number']
+                profile.save()
+                address = Address()
+                address.user_id = new_user
+                address.street = form.cleaned_data['street']
+                address.house = form.cleaned_data['house']
+                if form.cleaned_data['door']:
+                    address.door = form.cleaned_data['door']
+                address.zip_code = form.cleaned_data['zip_code']
+                address.city = form.cleaned_data['city']
+                address.save()
+                login(request, new_user)
+                messages.error(request, 'Utworzono konto')
+                return redirect('front_page')
+        else:
+            messages.error(request, 'Wystąpił błąd')
+            ctx = {'form': form}
+            return render(request, "accounts/register_user.html", ctx)
 
 
 # class AddBusinessClientFromBasketView(View):
@@ -195,36 +198,38 @@
 # #         return super(DeleteProfileView, self).delete(request, *args, **kwargs)
 
 
-# class LoginView(View):
-#     def get(self, request):
-#         form = LoginForm()
-#         ctx = {'form': form}
-#         return render(request, "registration/login.html", ctx)
+class LoginView(View):
+    def get(self, request):
+        form = LoginForm()
+        ctx = {'form': form}
+        return render(request, "accounts/login.html", ctx)
 
-#     def post(self, request):
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['email']
-#             password = form.cleaned_data['password']
-#             user = authenticate(request, username=username, password=password)
-#             if user is not None:
-#                 # token = Token.objects.get_or_create(user=user)
-#                 login(request, user)
-#                 return redirect('welcome')
-#             else:
-#                 messages.error(request, 'Błędne hasło lub login')
-#                 ctx = {'form': form}
-#                 return render(request, "registration/login.html", ctx)
-#         else:
-#             messages.error(request, 'Błędne hasło lub login')
-#             ctx = {'form': form}
-#             return render(request, "registration/login.html", ctx)
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            user_name_email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=user_name_email, password=password)
+            if user is not None:
+                # token = Token.objects.get_or_create(user=user)
+                login(request, user)
+                messages.error(request, 'Zalogowano poprawnie.')
+                return redirect('front_page')
+            else:
+                messages.error(request, 'Błędne hasło lub login')
+                ctx = {'form': form}
+                return render(request, "accounts/login.html", ctx)
+        else:
+            messages.error(request, 'Błędne hasło lub login')
+            ctx = {'form': form}
+            return render(request, "accounts/login.html", ctx)
 
 
-# class Logout(View):
-#     def get(self, request):
-#         logout(request)
-#         return redirect('welcome')
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        messages.error(request, 'Wylogowano poprawnie.')
+        return redirect('login')
 
 
 # @method_decorator(login_required, name='dispatch')
@@ -290,3 +295,8 @@
 #         messages.success(self.request, self.success_message)
 #         return super(DeleteAddressBasketView,
 #                      self).delete(request, *args, **kwargs)
+
+
+user_login = LoginView.as_view()
+user_logout = LogoutView.as_view()
+register_user = RegisterUserView.as_view()

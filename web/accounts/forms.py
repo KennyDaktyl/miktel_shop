@@ -8,88 +8,84 @@ from django.core.validators import validate_email
 
 # from .models import Profile, Address
 # from django.contrib.auth.models import Group
-# from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model
 
-# User = get_user_model()
+User = get_user_model()
 
-# EMAIL_REGEX = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
-
-
-# class LoginForm(forms.Form):
-#     # username = forms.CharField(label="Login", required=True)
-
-#     email = forms.EmailField(label="email",
-#                              widget=forms.EmailInput,
-#                              validators=[validate_email],
-#                              required=True)
-#     password = forms.CharField(label="Hasło",
-#                                widget=forms.PasswordInput,
-#                                required=True)
+EMAIL_REGEX = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
 
 
-# class UserForm(forms.ModelForm):
-#     # username = forms.CharField(label="Login",
-#     #                            min_length=6,
-#     #                            help_text="Minimum 6 znaków",
-#     #                            required=True)
-#     email = forms.EmailField(label="email",
-#                              widget=forms.EmailInput,
-#                              validators=[validate_email],
-#                              required=True)
-#     first_name = forms.CharField(label="Imię", required=True)
-#     last_name = forms.CharField(label="Nazwisko", required=True)
+class LoginForm(forms.Form):
+    # username = forms.CharField(label="Login", required=True)
 
-#     phone_number = forms.CharField(label="Telefon", required=True)
+    email = forms.EmailField(label="email",
+                             widget=forms.EmailInput,
+                             validators=[validate_email],
+                             required=True)
+    password = forms.CharField(label="Hasło",
+                               widget=forms.PasswordInput,
+                               required=True)
 
-#     password = forms.CharField(label="Hasło",
-#                                widget=forms.PasswordInput,
-#                                min_length=6,
-#                                help_text="Minimum 6 znaków",
-#                                required=True)
-#     password2 = forms.CharField(label="Powtórz hasło",
-#                                 widget=forms.PasswordInput,
-#                                 min_length=6,
-#                                 required=True)
 
-#     email = forms.EmailField(label="email",
-#                              widget=forms.EmailInput,
-#                              validators=[validate_email],
-#                              required=True)
-#     street = forms.CharField(label="Ulica", max_length=128, required=True)
-#     house = forms.CharField(label="Nr domu", max_length=8, required=True)
-#     door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
-#     city = forms.CharField(label="Miasto", max_length=64, required=True)
-#     zip_code = forms.CharField(label="Kod pocztowy",
-#                                max_length=6,
-#                                required=True)
-#     captcha = ReCaptchaField(required=True)
+class UserForm(forms.ModelForm):
+    email = forms.EmailField(label="email",
+                             widget=forms.EmailInput,
+                             validators=[validate_email],
+                             required=True)
+    first_name = forms.CharField(label="Imię", required=True)
+    last_name = forms.CharField(label="Nazwisko", required=True)
 
-#     # is_active = forms.BooleanField(
-#     #     help_text="Czy użytkownik jest aktywny? (Odznacz zamiast kasować)")
+    phone_number = forms.CharField(label="Telefon", required=True)
 
-#     class Meta:
-#         model = User
-#         fields = (
-#             # 'username',
-#             'email',
-#             'first_name',
-#             'last_name',
-#             'password',
-#         )
+    password = forms.CharField(label="Hasło",
+                               widget=forms.PasswordInput,
+                               min_length=6,
+                               help_text="Minimum 6 znaków",
+                               required=True)
+    password2 = forms.CharField(label="Powtórz hasło",
+                                widget=forms.PasswordInput,
+                                min_length=6,
+                                required=True)
 
-#     def clean_password2(self):
-#         cd = self.cleaned_data
-#         if cd['password'] != cd['password2']:
-#             raise forms.ValidationError('Hasła nie są identyczne.')
-#         return cd['password2']
+    email = forms.EmailField(label="email",
+                             widget=forms.EmailInput,
+                             validators=[validate_email],
+                             required=True)
+    street = forms.CharField(label="Ulica", max_length=128, required=True)
+    house = forms.CharField(label="Nr domu", max_length=8, required=True)
+    door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
+    city = forms.CharField(label="Miasto", max_length=64, required=True)
+    zip_code = forms.CharField(label="Kod pocztowy",
+                               max_length=6,
+                               required=True)
+    captcha = ReCaptchaField(required=True)
 
-#     def clean_email(self):
-#         email = self.cleaned_data.get('email')
+    # is_active = forms.BooleanField(
+    #     help_text="Czy użytkownik jest aktywny? (Odznacz zamiast kasować)")
 
-#         if email and not re.match(EMAIL_REGEX, email):
-#             raise forms.ValidationError('Zły format email.')
+    class Meta:
+        model = User
+        fields = (
+            # 'username',
+            'email',
+            'first_name',
+            'last_name',
+            'password',
+        )
 
-#         return email
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('Hasła nie są identyczne.')
+        return cd['password2']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        if email and not re.match(EMAIL_REGEX, email):
+            raise forms.ValidationError('Zły format email.')
+
+        return email
 
 
 # class BusinessForm(forms.ModelForm):

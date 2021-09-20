@@ -7,4 +7,5 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("web.front.urls")),
+    path("accounts/", include("web.accounts.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
