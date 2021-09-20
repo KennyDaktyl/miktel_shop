@@ -62,6 +62,9 @@ INSTALLED_APPS = [
     'web'
 ]
 
+RECAPTCHA_PUBLIC_KEY = os.environ.get('RECAP_PUBKEY')
+RECAPTCHA_PRIVATE_KEY = os.environ.get('RECAP_PRIVKEY')
+
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 
 MIDDLEWARE = [
