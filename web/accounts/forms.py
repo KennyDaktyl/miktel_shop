@@ -88,76 +88,73 @@ class UserForm(forms.ModelForm):
         return email
 
 
-# class BusinessForm(forms.ModelForm):
-#     # username = forms.CharField(label="Login",
-#     #                            min_length=6,
-#     #                            help_text="Minimum 6 znaków",
-#     #                            required=True)
-#     email = forms.EmailField(label="email",
-#                              widget=forms.EmailInput,
-#                              validators=[validate_email],
-#                              required=True)
-#     business_name = forms.CharField(label="Nazwa firmy",
-#                                     max_length=128,
-#                                     required=True)
-#     business_name_l = forms.CharField(label="nazwa c.d.",
-#                                       max_length=128,
-#                                       required=False)
-#     nip_number = forms.CharField(
-#         label="NIP",
-#         required=True,
-#         max_length=13,
-#     )
-#     phone_number = forms.CharField(
-#         label="Telefon",
-#         required=True,
-#         min_length=6,
-#         max_length=15,
-#     )
+class BusinessForm(forms.ModelForm):
+    email = forms.EmailField(label="email",
+                             widget=forms.EmailInput,
+                             validators=[validate_email],
+                             required=True)
+    business_name = forms.CharField(label="Nazwa firmy",
+                                    max_length=128,
+                                    required=True)
+    business_name_l = forms.CharField(label="nazwa c.d.",
+                                      max_length=128,
+                                      required=False)
+    nip_number = forms.CharField(
+        label="NIP",
+        required=True,
+        min_length=10,
+        max_length=10,
+    )
+    phone_number = forms.CharField(
+        label="Telefon",
+        required=True,
+        min_length=6,
+        max_length=15,
+    )
 
-#     password = forms.CharField(label="Hasło",
-#                                widget=forms.PasswordInput,
-#                                min_length=6,
-#                                help_text="Minimum 6 znaków",
-#                                required=True)
-#     password2 = forms.CharField(label="Powtórz hasło",
-#                                 widget=forms.PasswordInput,
-#                                 min_length=6,
-#                                 required=True)
-#     street = forms.CharField(label="Ulica", max_length=128, required=True)
-#     house = forms.CharField(label="Nr domu", max_length=8, required=True)
-#     door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
-#     city = forms.CharField(label="Miasto", max_length=64, required=True)
-#     zip_code = forms.CharField(label="Kod pocztowy",
-#                                max_length=6,
-#                                required=True)
-#     captcha = ReCaptchaField(required=True)
+    password = forms.CharField(label="Hasło",
+                               widget=forms.PasswordInput,
+                               min_length=6,
+                               help_text="Minimum 6 znaków",
+                               required=True)
+    password2 = forms.CharField(label="Powtórz hasło",
+                                widget=forms.PasswordInput,
+                                min_length=6,
+                                required=True)
+    street = forms.CharField(label="Ulica", max_length=128, required=True)
+    house = forms.CharField(label="Nr domu", max_length=8, required=True)
+    door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
+    city = forms.CharField(label="Miasto", max_length=64, required=True)
+    zip_code = forms.CharField(label="Kod pocztowy",
+                               max_length=6,
+                               required=True)
+    captcha = ReCaptchaField(required=True)
 
-#     # is_active = forms.BooleanField(
-#     #     help_text="Czy użytkownik jest aktywny? (Odznacz zamiast kasować)")
+    # is_active = forms.BooleanField(
+    #     help_text="Czy użytkownik jest aktywny? (Odznacz zamiast kasować)")
 
-#     class Meta:
-#         model = User
-#         fields = (
-#             'email',
-#             'first_name',
-#             'last_name',
-#             'password',
-#         )
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'first_name',
+            'last_name',
+            'password',
+        )
 
-#     def clean_password2(self):
-#         cd = self.cleaned_data
-#         if cd['password'] != cd['password2']:
-#             raise forms.ValidationError('Hasła nie są identyczne.')
-#         return cd['password2']
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('Hasła nie są identyczne.')
+        return cd['password2']
 
-#     def clean_email(self):
-#         email = self.cleaned_data.get('email')
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
 
-#         if email and not re.match(EMAIL_REGEX, email):
-#             raise forms.ValidationError('Zły format email.')
+        if email and not re.match(EMAIL_REGEX, email):
+            raise forms.ValidationError('Zły format email.')
 
-#         return email
+        return email
 
 
 # class PasswordChangeForm(forms.Form):

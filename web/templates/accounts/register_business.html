@@ -1,9 +1,8 @@
-{% extends 'front/base.html' %}
+{% extends 'front_page/base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% crispy form.helper %}
 {% load templatetag %}
-{% load thumbnail %}
 {% load crispy_forms_tags %}
 {% crispy form.helper %}
 
@@ -23,34 +22,34 @@
 {% endblock %}
 
 {% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
-  <li class="breadcrumb-item text-dark"><a href="{% url 'welcome' %}" class="text-dark">Strona startowa</a></li>
-  <li class="breadcrumb-item text-dark active" aria-current="page">Rejestracja klienta</li>
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
+  <li class="breadcrumb-item text-dark"><a href="{% url 'front_page' %}" class="text-dark">Strona startowa</a></li>
+  <li class="breadcrumb-item text-dark active" aria-current="page">Rejestracja firmy</li>
 </nav>
 
-<div class="col-lg-8 mx-auto text-center mt-3 pt-0 row d-flex align-items-start">
+<div class="col-md-10 mx-auto text-center mt-3 pt-0 row d-flex align-items-start offer">
   <main class="col-lg-12 mx-auto row m-0 p-0">
     <div class="col-lg-12 mx-auto text-center row m-0 p-0">
       <div class="text-left headline m-1 mb-2">
-        <h1 class="col-12 mt-2">REJESTRACJA KLIENTA:</h1>
+        <h1 class="col-12 mt-2">REJESTRACJA FIRMY:</h1>
       </div>
     </div>
-    <form method="post" class="uniForm col-lg-8 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms border">
+    <form method="post" class="uniForm col-md-10 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms border">
       {% csrf_token %}
       <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
-        <div class="col-lg-12 mx-auto text-center row m-0 p-0">
+        <div class="col-lg-12 m-0 p-0 mx-auto text-center row">
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <div class="text-left headline m-1 mb-2">
-              <h1 class="ml-2 mt-2">DANE OSOBOWE:</h1>
+              <h1 class="ml-2 mt-2">DANE FIRMY:</h1>
             </div>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <small class="text-danger col-12">{{ form.email.errors }}</small>
+             <small class="text-danger col-12">{{ form.email.errors }}</small>
             <label for="id_email" class="requiredField col-lg-2 m-0 p-0 align-self-center">
               Email<span class="asteriskField ">*</span>
             </label>
             <input type="email" name="email" class="emailinput col-10 col-lg-8"
-              maxlength="{{ form.email.field.max_length }}" required="{{ form.email.field.required }}" id="id_email">
+              maxlength="{{ form.email.field.max_length }}" required="{{ form.email.field.required }}" id="id_email" value='{{ form.email.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-at col-12 text-center mx-auto m-0 p-0"></i>
             </span>
@@ -60,46 +59,57 @@
             <label for="id_password" class="requiredField col-lg-2 m-0 p-0 align-self-center">
               Hasło<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password" class="textinput textInput col-10 col-lg-8"
+            <input type="password" name="password" class="textinput textInput col-10 col-lg-8 table-danger show_password"
               maxlength="{{ form.password.field.max_length }}" required="{{ form.password.field.required }}"
-              id="id_password">
-            <span class="input-group-text col-2 text-center">
-              <i class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0"></i>
+              id="id_password" value='{{ form.password.value|default_if_none:"" }}'>
+            <span class="input-group-text col-2 text-center show_password">
+              <i id="show_password" class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
 
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <small class="text-danger col-12">{{ form.password2.errors }}</small>
+             <small class="text-danger col-12">{{ form.password2.errors }}</small>
             <label for="id_password2" class="requiredField col-lg-2 m-0 p-0 align-self-center">
               Powtórz hasło<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password2" class="textinput textInput col-10 col-lg-8 align-self-start"
-              maxlength="{{ form.password2.field.max_length}}" required="{{ form.password2.field.required }}">
-            <span class="input-group-text col-2 text-center align-self-stretch">
-              <i class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0 align-self-start"></i>
+            <input type="password" name="password2" class="textinput textInput col-10 col-lg-8 align-self-start table-danger"
+              maxlength="{{ form.password2.field.max_length}}" required="{{ form.password2.field.required }}" 
+              id="id_password2"  value='{{ form.password2.value|default_if_none:"" }}'>
+            <span class="show_password input-group-text col-2 text-center align-self-stretch ">
+              <i id="show_password2" class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0 align-self-start"></i>
             </span>
           </div>
-
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <small class="text-danger col-12">{{ form.first_name.errors }}</small>
-            <label for="id_first_name" class="requiredField col-lg-2 m-0 p-0 align-self-center">
-              Imię<span class="asteriskField">*</span>
+             <small class="text-danger col-12">{{ form.business_name.errors }}</small>
+            <label for="id_business_name" class="requiredField col-lg-2 m-0 p-0 align-self-center">
+              Nazwa firmy<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="first_name" class="textinput textInput col-10 col-lg-8"
-              maxlength="{{ form.first_name.field.max_length }}" required="{{ form.first_name.field.required }}"
-              id="id_first_name">
+            <input type="text" name="business_name" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.business_name.field.max_length }}" required="{{ form.business_name.field.required }}"
+              id="id_business_name"  value='{{ form.business_name.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <small class="text-danger col-12">{{ form.last_name.errors }}</small>
-            <label for="id_last_name" class="requiredField col-lg-2 m-0 p-0 align-self-center">
-              Nazwisko<span class="asteriskField">*</span>
+            <small class="text-danger col-12">{{ form.business_name_l.errors }}</small>
+            <label for="id_business_name_l" class="col-lg-2 m-0 p-0 align-self-center">
+              Nazwa c.d. 
             </label>
-            <input type="text" name="last_name" class="textinput textInput col-10 col-lg-8"
-              maxlength="{{ form.last_name.field.max_length }}" required="{{ form.last_name.field.required }}"
-              id="id_last_name">
+            <input type="text" name="business_name_l" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.business_name_l.field.max_length }}" id="id_business_name_l" required="{{ form.business_name_l.field.required }}" value='{{ form.business_name_l.value|default_if_none:"" }}'>
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-lg-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ form.nip_number.errors }}</small>
+            <label for="id_nip_number" class="requiredField col-lg-2 m-0 p-0 align-self-center">
+              NIP<span class="asteriskField">*</span>
+            </label>
+            <input type="text" name="nip_number" class="textinput textInput col-10 col-lg-8"
+              maxlength="{{ form.nip_number.field.max_length }}" required="{{ form.nip_number.field.required }}"
+              id="id_nip_number" value='{{ form.nip_number.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
             </span>
@@ -111,7 +121,7 @@
             </label>
             <input type="text" name="phone_number" class="col-10 col-lg-8"
               maxlength="{{ form.phone_number.field.max_length }}" required="{{ form.phone_number.field.required }}"
-              id="id_phone_number">
+              id="id_phone_number" value='{{ form.phone_number.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-phone col-12 text-center mx-auto m-0 p-0"></i>
             </span>
@@ -127,7 +137,7 @@
               Ulica<span class="asteriskField">*</span>
             </label>
             <input type="text" name="street" class="textinput textInput col-10 col-lg-8"
-              maxlength="{{ form.street.field.max_length }}" required="{{ form.street.field.required }}" id="id_street">
+              maxlength="{{ form.street.field.max_length }}" required="{{ form.street.field.required }}" value='{{ form.street.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-road col-12 text-center mx-auto m-0 p-0"></i>
             </span>
@@ -138,7 +148,7 @@
               Nr domu<span class="asteriskField">*</span>
             </label>
             <input type="text" name="house" class="textinput textInput col-10 col-lg-8"
-              maxlength="{{ form.house.field.max_length }}" required="{{ form.house.field.required }}" id="id_house">
+              maxlength="{{ form.house.field.max_length }}" required="{{ form.house.field.required }}" id="id_house" value='{{ form.house.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-home col-12 text-center mx-auto m-0 p-0"></i>
             </span>
@@ -149,7 +159,7 @@
               Nr lokalu
             </label>
             <input type="text" name="door" class="textinput textInput col-10 col-lg-8"
-              maxlength="{{ form.door.field.max_length }}" id="id_door">
+              maxlength="{{ form.door.field.max_length }}" id="id_door" value='{{ form.door.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-home col-12 text-center mx-auto m-0 p-0"></i>
             </span>
@@ -161,7 +171,7 @@
             </label>
             <input type="text" name="zip_code" class="textinput textInput col-10 col-lg-8"
               maxlength="{{ form.zip_code.field.max_length }}" required="{{ form.zip_code.field.required }}"
-              id="id_zip_code">
+              id="id_zip_code" value='{{ form.zip_code.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-barcode col-12 text-center mx-auto m-0 p-0"></i>
             </span>
@@ -172,7 +182,7 @@
               Miasto<span class="asteriskField">*</span>
             </label>
             <input type="text" name="city" class="textinput textInput col-10 col-lg-8"
-              maxlength="{{ form.city.field.max_length }}" required="{{ form.city.field.required }}" id="id_city">
+              maxlength="{{ form.city.field.max_length }}" required="{{ form.city.field.required }}" id="id_city" value='{{ form.city.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-city col-12 text-center mx-auto m-0 p-0"></i>
             </span>
@@ -183,27 +193,27 @@
               {{ form.captcha|as_crispy_field}}
             </div>
           </div>
-          <div class="col-lg-12 p-1 mx-auto text-center  row d-flex align-items-stretch justify-content-center">
+         <div class="col-lg-12 p-1 mx-auto text-center  row d-flex align-items-stretch justify-content-center">
             <a href="" class="col-11">
               <label for="id_rules" class="col-12 requiredField m-0 p-0 align-self-center">
                 Regulamin sklepu<span class="asteriskField ">*</span>
               </label></a>
-            <input type="checkbox" name="rules" class="col-1 checkboxinput align-self-center" required="" id="id_rules">
+            <input type="checkbox" name="rules" class="col-1 checkboxinput align-self-center" required="" id="id_rules" value='{{ form.rules.value|default_if_none:"" }}'>
           </div>
           <div class="col-lg-12 p-1 mx-auto text-center row d-flex align-items-stretch justify-content-center">
             <a href="" class="col-11">
-              <label for="id_person_data" class="col-12 requiredField m-0 p-0 align-self-center">
+              <label for="id_perdon_data" class="col-12 requiredField m-0 p-0 align-self-center">
                 Zgoda na przetwarzanie danych osobowych<span class="asteriskField ">*</span>
               </label></a>
-            <input type="checkbox" name="person_data" class="col-1 checkboxinput align-self-center" required=""
-              id="id_perdon_data">
+            <input type="checkbox" name="perdon_data" class="col-1 checkboxinput align-self-center" required=""
+              id="id_perdon_data" value='{{ form.perdon_data.value|default_if_none:"" }}'>
           </div>
-          <div class="col-lg-12 p-1 mx-auto text-center  row d-flex align-items-stretch justify-content-center">
+          <div class="col-lg-12 p-1 mx-auto text-center row d-flex align-items-stretch justify-content-center">
             <a href="" class="col-11">
               <label for="id_rodo" class="requiredField m-0 p-0 align-self-center">
                 Zgoda RODO<span class="asteriskField ">*</span>
               </label></a>
-            <input type="checkbox" name="rodo" class="col-1 checkboxinput align-self-center" required="" id="id_rodo">
+            <input type="checkbox" name="rodo" class="col-1 checkboxinput align-self-center" required="" id="id_rodo" value='{{ form.rodo.value|default_if_none:"" }}'>
           </div>
           <div class="col-12 mx-auto text-center mt-3">
             <p id="button" class="col-lg-5 text-center mx-auto h-100"><input
@@ -216,4 +226,5 @@
 {% endblock %}
 
 {% block script %}
+<script src="{% static "js/registering.js" %}" type="text/javascript"></script>
 {% endblock %}

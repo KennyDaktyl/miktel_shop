@@ -13,7 +13,7 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
-from .forms import LoginForm, UserForm
+from .forms import LoginForm, UserForm, BusinessForm
 # from products.models import Category
 from web.models import Profile, Address
 
@@ -91,46 +91,46 @@ class RegisterUserView(View):
             return render(request, "accounts/register_user.html", ctx)
 
 
-# class AddBusinessClientFromBasketView(View):
-#     def get(self, request):
-#         form = BusinessForm()
-#         categorys = Category.objects.filter(is_active=True)
-#         ctx = {'form': form, 'categorys': categorys}
-#         return render(request, "account/register_business.html", ctx)
+class CompanyRegistrationView(View):
+    def get(self, request):
+        form = BusinessForm()
+        ctx = {'form': form}
+        return render(request, "accounts/register_business.html", ctx)
 
-#     def post(self, request):
-#         form = BusinessForm(request.POST)
-#         if form.is_valid():
-#             new_user = form.save(commit=False)
-#             new_user.username = form.cleaned_data['email']
-#             new_user.email = form.cleaned_data['email']
-#             new_user.set_password(form.cleaned_data['password'])
-#             new_user.save()
-#             profile = Profile()
-#             profile.user_id = new_user.id
-#             profile.business_name = form.cleaned_data['business_name']
-#             profile.business_name_l = form.cleaned_data['business_name_l']
-#             profile.phone_number = form.cleaned_data['phone_number']
-#             profile.nip_number = form.cleaned_data['nip_number']
-#             profile.company = True
-#             profile.save()
-#             address = Address()
-#             address.user_id = new_user
-#             address.street = form.cleaned_data['street']
-#             address.house = form.cleaned_data['house']
-#             if form.cleaned_data['door']:
-#                 address.door = form.cleaned_data['door']
-#             address.zip_code = form.cleaned_data['zip_code']
-#             address.city = form.cleaned_data['city']
-#             address.save()
-#             login(request, new_user)
-#             messages.error(request, 'Utworzono konto')
-#             return redirect('cart_details')
-#         else:
-#             messages.error(request, 'Wystąpił błąd')
-#             categorys = Category.objects.filter(is_active=True)
-#             ctx = {'form': form, 'categorys': categorys}
-#             return render(request, "account/register_business.html", ctx)
+    def post(self, request):
+        form = BusinessForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.username = form.cleaned_data['email']
+            new_user.email = form.cleaned_data['email']
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            
+            profile = Profile()
+            profile.user_id = new_user.id
+            profile.business_name = form.cleaned_data['business_name']
+            profile.business_name_l = form.cleaned_data['business_name_l']
+            profile.phone_number = form.cleaned_data['phone_number']
+            profile.nip_number = form.cleaned_data['nip_number']
+            profile.company = True
+            profile.save()
+            
+            address = Address()
+            address.user_id = new_user
+            address.street = form.cleaned_data['street']
+            address.house = form.cleaned_data['house']
+            if form.cleaned_data['door']:
+                address.door = form.cleaned_data['door']
+            address.zip_code = form.cleaned_data['zip_code']
+            address.city = form.cleaned_data['city']
+            address.save()
+            login(request, new_user)
+            messages.error(request, 'Utworzono konto')
+            return redirect('front_page')
+        else:
+            messages.error(request, 'Wystąpił błąd')
+            ctx = {'form': form}
+            return render(request, "accounts/register_business.html", ctx)
 
 
 # # @method_decorator(login_required, name='dispatch')
@@ -300,3 +300,4 @@ class LogoutView(View):
 user_login = LoginView.as_view()
 user_logout = LogoutView.as_view()
 register_user = RegisterUserView.as_view()
+company_registration = CompanyRegistrationView.as_view()
