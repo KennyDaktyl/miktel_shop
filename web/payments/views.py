@@ -2,6 +2,7 @@ from django import views
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
@@ -19,19 +20,17 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @method_decorator(login_required, name="dispatch")
 class PaymentIntentView(View):
-    def get(self, request):
-        
-        stripe.PaymentIntent.create(
-            amount=1099,
-            currency='pln',
-            payment_method_types=['p24'],
-        )
+    def post(self, request):
 
-        ctx = {
-            'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY,
-        }
-        return render(request, "payments/payment_intent.html", ctx)
-
+        try:    
+            intent = stripe.PaymentIntent.create(
+                amount=1099,
+                currency='pln',
+                payment_method_types=['p24'],
+            )
+            return JsonResponse ({'clientSecret': intent['client_secret']})  
+        except Exception as e:
+            return HttpResponse(status=403)
 
 @method_decorator(csrf_exempt, name='dispatch')
 class StripeWebhookView(APIView):
