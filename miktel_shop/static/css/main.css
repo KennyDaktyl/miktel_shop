@@ -259,6 +259,44 @@ div.offer {
     background: white;
 }
 
+div.product:hover {
+    position: relative;
+}
+
+
+div.product:hover {
+    /* opacity: .6; */
+    overflow: hidden;
+}
+
+#showOption {
+    display: block;
+    position: absolute;
+    bottom:0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    transition: .5s;
+    opacity: 0;
+}
+
+#showOption.show {
+    display: block;
+    bottom: 50%;
+    left: 50%;
+    z-index: 99999;
+    opacity: 1;
+}
+
+#showOption:hover {
+    display: block;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 99999;
+    opacity: 1;
+}
+
+
 div.article {
     margin-top: 60px;
     background: white;
@@ -486,7 +524,10 @@ div.newsletter {
     color: lightgrey
 }
 
-
+del {
+    text-decoration: line-through;
+    color: #555;
+}
 
 
 @media screen and (min-width: 768px) {

@@ -18,10 +18,21 @@ from datetime import datetime
 from stripe.api_resources import payment_intent
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
 @method_decorator(login_required, name="dispatch")
+class CheckoutView(View):
+    def get(self, request):
+        intent = stripe.PaymentIntent.create(
+                amount=1099,
+                currency='pln',
+                payment_method_types=['p24'],
+            )
+        ctx = {'PAYMENT_INTENT_CLIENT_SECRET': intent['client_secret']}
+        return render(request, "payments/checkout.html", ctx)
+
+@method_decorator(csrf_exempt, name='dispatch')
 class PaymentIntentView(View):
     def post(self, request):
-
         try:    
             intent = stripe.PaymentIntent.create(
                 amount=1099,
@@ -65,6 +76,6 @@ class StripeWebhookView(APIView):
 
         return HttpResponse(status=200)
 
-
+checkout = CheckoutView.as_view()
 payment_intent = PaymentIntentView.as_view()
 stripe_webhook = StripeWebhookView.as_view()

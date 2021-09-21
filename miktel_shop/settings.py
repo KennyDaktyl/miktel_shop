@@ -16,7 +16,7 @@ import socket
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl', '51.75.64.242', 'fde5-185-172-87-165.ngrok.io']
+ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl', '51.75.64.242', 'e372-185-172-87-165.ngrok.io']
 
 if socket.gethostname() in ["Asus", "michalp"]:
     SECURE_SSL_REDIRECT = False
@@ -27,13 +27,6 @@ if socket.gethostname() in ["Asus", "michalp"]:
     SECURE_SSL_REDIRECT = False
     STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY_TEST')
     STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY_TEST')
-    CSRF_COOKIE_DOMAIN = f".{DOMAIN}"
-    CSRF_COOKIE_HTTPONLY = True
-    CSRF_COOKIE_SECURE = True
-    SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
-    SESSION_COOKIE_DOMAIN = f".{DOMAIN}"
-    SESSION_COOKIE_AGE = 10 * 60
-    SESSION_SAVE_EVERY_REQUEST = True
 else:
     DOMAIN = "serwiswrybnej.pl"
     DOMAIN_URL = "https://" + DOMAIN
@@ -87,6 +80,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'miktel_shop.urls'
 
+CART_SESSION_ID = 'cart'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -99,6 +94,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
+                "web.cart.my_context_processor.cart",
             ],
         },
     },
