@@ -133,7 +133,7 @@ a.nav-link:hover{
 #navbarTogglerMenu {
     position: absolute;
     top: 40px;
-    left: -100%;
+    left: -200%;
     min-height: 656;
     z-index: 9999;
     background-color: black;
@@ -195,7 +195,7 @@ span.show_password:hover {
 
 #page {
     background: white;
-    margin-top: 50px;
+    margin-top: 80px;
 }
 
 
@@ -219,7 +219,7 @@ img {
     transition: 0.5s; */
     position: absolute;
     top: 40px;
-    left: -100%;
+    left: -200%;
     z-index: 9999;
     background-color: black;
     transition: 0.5s;
@@ -259,7 +259,7 @@ img {
 }
 
 div.offer {
-    margin-top: 60px;
+    /* margin-top: 60px; */
     background: white;
 }
 

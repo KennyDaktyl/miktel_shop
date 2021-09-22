@@ -1,21 +1,13 @@
-{% extends "front_page/base.html" %}
+{% extends "products/base_shop.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% load thumbnail %}
 
 
 {% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row ">
-    <li class="breadcrumb-item text-dark"><a href="{% url 'front_page' %}" class="text-dark">Strona startowa</a></li>
-    <li class="breadcrumb-item text-dark"><a href="{% url 'sub_category_items' cat=product.sub_category.category.slug sub_cat=product.sub_category.slug %}" class="text-dark">{{ product.sub_category.name }}</a></li>
-    <li class="breadcrumb-item text-dark active" aria-current="page">{{ product.name }}</li>
-  </nav>
-
 <div class="wrap col-12 m-0 p-0 ">
-    <div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 mt-2 row">
-        <div class="col-md-3 row"></div>
-        <div class="col-md-9 mx-auto row d-flex align-items-start product_box">
-            <div class="col-md-6 mx-auto text-center row">
+    <div class="col-12 mx-auto ml-0 mr-0 p-0 mt-2 row product_box d-flex align-items-start">
+            <div class="col-md-6 mx-auto text-center row ">
                 {% load thumbnail %}
                 {% thumbnail product.image "1280" crop='center' format="WEBP"  as im %}
                 <a href="{{ MEDIA_URL }}{{ im }}" data-lightbox="{{ product.id }}" data-title="{{ product.name }}"
@@ -48,7 +40,6 @@
             </div>
             <div class="col-md-6 mx-auto text-center row d-flex align-items-start">
                 <p class="productName col-12 mx-auto text-left align-self-start">{{product.name}}</p>
-                <p class="producerName col-12 mx-auto text-left align-self-start">{{product.brand}}</p>
                 <blockquote class="col-12 mx-auto row d-flex align-items-center ">
                     {% if product.is_news %}
                         <div class="boxNovelty smallBox ">NEW</div>
@@ -63,9 +54,15 @@
                     
                 </blockquote>
                 <div class="col-12 row text-left mx-auto">
+                    <span class="font-weight-bold pr-2">Producent:</span> <span class="">{{ product.brand.name }}</span>
+                </div>
+                <div class="col-12 row text-left mx-auto">
                     <span class="font-weight-bold pr-2">Ilość:</span> 
                     {% if product.qty > 0 %}
                     <span class="text-success">dostępny</span>
+                    <div class="col-12 ml-0 pl-0 row text-left mx-auto">
+                        <span class="font-weight-bold pr-2">Wysyłka:</span> <span class="">2-3 dni</span>
+                    </div>
                     {% else %}
                     <span class="text-danger">brak</span>
                     {% endif %}
@@ -86,7 +83,6 @@
                     </button>
                 </form>
             </div>
-        </div>
     </div>
 </div>
 {% endblock %}

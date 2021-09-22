@@ -18,5 +18,14 @@ class ProductDetails(View):
         ctx = {'product': product}
         return render(request, "products/product_details.html", ctx)
 
+class ShopMainView(View):
+    def get(self, request):
+        cat = Category.objects.all()
+        products = Products.objects.filter(is_news=True).filter(is_active=True)
+        ctx = {'cat': cat, 'products': products}
+        return render(request, "products/products_list.html", ctx)
+
+
 sub_category_items = SubCategoryItems.as_view()
 product_details = ProductDetails.as_view()
+shop_main_view = ShopMainView.as_view()
