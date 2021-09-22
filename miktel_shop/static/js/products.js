@@ -18,6 +18,7 @@ $(document).ready(function () {
     var url_address = '/koszyk/dodaj_produkt/'
     var add_product = $('#add_product');
     var prod_id = $('#prod_id').val();
+    var qty = $('#qty');
     var total_price = $('#total_price');
     var total_price_modal = $('#total_price_modal');
     var len = $('#len');
@@ -34,17 +35,22 @@ $(document).ready(function () {
         }
     });
 
+    var qty_value = qty.val();
+    qty.bind('keyup change click', function (e) {
+       qty_value = $(this).val(); 
+    });
+
     add_product.on("click", function () {
-        var qty = 1;
         $.ajax({
             url: url_address,
             type: "POST",
             data: {
                 prod_id: prod_id,
-                qty: qty,
+                qty: qty_value,
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
         }).done(function (result) {
+            console.log(result);
             var result_js = $.parseJSON(result);
             var result_total = result_js['total'];
             result_total = result_total.toFixed(2);

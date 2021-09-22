@@ -3,7 +3,8 @@ from django.conf import settings
 from .views import *
 
 urlpatterns = [
-    path('kategorie/<slug:slug>', products_category, name='products_category'),
+    path('<slug:cat>/<slug:sub_cat>', sub_category_items, name='sub_category_items'),
+    path('<slug:cat>/<slug:sub_cat>/<slug:product>', product_details, name='product_details'),
     # path('kategorie/<slug:slug>',
     #      CategoryDetails.as_view(),
     #      name='category_details'),

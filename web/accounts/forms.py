@@ -35,7 +35,7 @@ class UserForm(forms.ModelForm):
     first_name = forms.CharField(label="Imię", required=True)
     last_name = forms.CharField(label="Nazwisko", required=True)
 
-    phone_number = forms.CharField(label="Telefon", required=True)
+    # phone_number = forms.CharField(label="Telefon", required=True)
 
     password = forms.CharField(label="Hasło",
                                widget=forms.PasswordInput,
@@ -47,15 +47,15 @@ class UserForm(forms.ModelForm):
                                 min_length=6,
                                 required=True)
 
-    email = forms.EmailField(label="email",
-                             widget=forms.EmailInput,
-                             validators=[validate_email],
-                             required=True)
-    street = forms.CharField(label="Ulica", max_length=128, required=True)
-    house = forms.CharField(label="Nr domu", max_length=8, required=True)
-    door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
-    city = forms.CharField(label="Miasto", max_length=64, required=True)
-    zip_code = forms.CharField(label="Kod pocztowy",min_length=6, max_length=6, required=True)
+    # email = forms.EmailField(label="email",
+    #                          widget=forms.EmailInput,
+    #                          validators=[validate_email],
+    #                          required=True)
+    # street = forms.CharField(label="Ulica", max_length=128, required=True)
+    # house = forms.CharField(label="Nr domu", max_length=8, required=True)
+    # door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
+    # city = forms.CharField(label="Miasto", max_length=64, required=True)
+    # zip_code = forms.CharField(label="Kod pocztowy",min_length=6, max_length=6, required=True)
     captcha = ReCaptchaField(required=True)
 
     # is_active = forms.BooleanField(

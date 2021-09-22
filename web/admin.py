@@ -1,7 +1,5 @@
 from django.contrib import admin
-from web.models.accounts import Profile, Address
-from web.models.orders import PayMethod, DeliveryMethod, Orders, ProductCopy
-from web.models import Products, Size, Category, Store, Vat, Images, Brand, Colors
+from web.models import *
 
 # Register your models here.
 
@@ -86,7 +84,7 @@ class ProductsAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Products._meta.fields]
     list_filter = (
         'store_id',
-        'category',
+        'sub_category',
         'size',
     )
     search_fields = ('name', )
@@ -102,6 +100,11 @@ class SizeAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Category._meta.fields]
+    search_fields = ('name', )
+
+@admin.register(SubCategory)
+class SubCategoryAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in SubCategory._meta.fields]
     search_fields = ('name', )
 
 

@@ -1,0 +1,97 @@
+{% extends "front_page/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row ">
+    <li class="breadcrumb-item text-dark"><a href="{% url 'front_page' %}" class="text-dark">Strona startowa</a></li>
+    <li class="breadcrumb-item text-dark"><a href="{% url 'sub_category_items' cat=product.sub_category.category.slug sub_cat=product.sub_category.slug %}" class="text-dark">{{ product.sub_category.name }}</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">{{ product.name }}</li>
+  </nav>
+
+<div class="wrap col-12 m-0 p-0 ">
+    <div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 mt-2 row">
+        <div class="col-md-3 row"></div>
+        <div class="col-md-9 mx-auto row d-flex align-items-start product_box">
+            <div class="col-md-6 mx-auto text-center row">
+                {% load thumbnail %}
+                {% thumbnail product.image "1280" crop='center' format="WEBP"  as im %}
+                <a href="{{ MEDIA_URL }}{{ im }}" data-lightbox="{{ product.id }}" data-title="{{ product.name }}"
+                    class="mx-auto text-center p-0 m-0 mt-2 col-12" title="Link do dużego zdcjęcia {{ product.name }}">
+                    <source srcset="{{ im }}" type="image/webp">
+                    {% thumbnail  product.image "800x600" crop='center' format="WEBP"  as im %}
+                    <source srcset="{{ im }}" type="image/webp" />
+                    <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{ product.alt}}"
+                        title="{{ product.title }}">
+                    {% endthumbnail %}
+                </a>
+                {% endthumbnail %}
+
+                {% for image in product.images %}
+                {% load thumbnail %}
+                {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
+                <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{image.product.id}}" data-title="{{image.product.name}}"
+                    class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{image.product.name}}">
+                    <source srcset="{{ im }}" type="image/webp">
+                    {% thumbnail  image.image "75x75" crop='center' format="WEBP"  as im %}
+                    <source srcset="{{ im }}" type="image/webp" />
+                    <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}"
+                        title="{{image.title}}">
+                    {% endthumbnail %}
+                </a>
+                {% endthumbnail %}
+                {% empty %}
+                <small class="ml-auto pr-1 col-12 text-right">Brak zdjęć</small>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mx-auto text-center row d-flex align-items-start">
+                <p class="productName col-12 mx-auto text-left align-self-start">{{product.name}}</p>
+                <p class="producerName col-12 mx-auto text-left align-self-start">{{product.brand}}</p>
+                <blockquote class="col-12 mx-auto row d-flex align-items-center ">
+                    {% if product.is_news %}
+                        <div class="boxNovelty smallBox ">NEW</div>
+                        {% endif %}
+                        {% if product.discount > 0 %}
+                        <div class="boxPromo smallBox bg-danger m-2">{{ product.discount }}%</div>
+                        {% endif %}
+                    <p class="producerPrice text-center text-danger m-0 pr-2 ">{{ product.price_promo}} zł</p>
+                    {% if product.price_promo != product.price %}
+                    <p class="text-center m-0 p-0 "><del>{{ product.price}} zł</del></p>
+                    {% endif %}
+                    
+                </blockquote>
+                <div class="col-12 row text-left mx-auto">
+                    <span class="font-weight-bold pr-2">Ilość:</span> 
+                    {% if product.qty > 0 %}
+                    <span class="text-success">dostępny</span>
+                    {% else %}
+                    <span class="text-danger">brak</span>
+                    {% endif %}
+                </div>
+                <div class="col-12 row text-left mx-auto">
+                    <span class="font-weight-bold pr-2">Magazyn:</span> <span class=""> {{ product.store.city }}</span>
+                </div>
+                <form action="" class="row col-12 mx-auto text-left">
+                    {% csrf_token %}
+                    <input type="hidden" name="" id="prod_id" value="{{product.id}}">
+                    <div class="row text-left d-flex align-items-center m-0 p-0">
+                        <input id="qty" name="qty" class="mx-auto text-left m-0 p-0 mr-2" value="1" type="number" min="1" max="{{ product.qty }}">
+                        <span class="mx-auto text-left pl-2">szt.</span>
+                    </div>
+                    <button id="add_product" class="addtobasket btn btn-outline-danger ml-auto" type="button">
+                        <span>Do koszyka</span>
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script src="{% static "js/products.js" %}" type="text/javascript"></script>
+{% endblock %}

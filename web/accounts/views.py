@@ -68,19 +68,19 @@ class RegisterUserView(View):
                 new_user.email = form.cleaned_data['email']
                 new_user.set_password(form.cleaned_data['password'])
                 new_user.save()
-                profile = Profile()
-                profile.user_id = new_user.id
-                profile.phone_number = form.cleaned_data['phone_number']
-                profile.save()
-                address = Address()
-                address.user_id = new_user
-                address.street = form.cleaned_data['street']
-                address.house = form.cleaned_data['house']
-                if form.cleaned_data['door']:
-                    address.door = form.cleaned_data['door']
-                address.zip_code = form.cleaned_data['zip_code']
-                address.city = form.cleaned_data['city']
-                address.save()
+                # profile = Profile()
+                # profile.user_id = new_user.id
+                # profile.phone_number = form.cleaned_data['phone_number']
+                # profile.save()
+                # address = Address()
+                # address.user_id = new_user
+                # address.street = form.cleaned_data['street']
+                # address.house = form.cleaned_data['house']
+                # if form.cleaned_data['door']:
+                #     address.door = form.cleaned_data['door']
+                # address.zip_code = form.cleaned_data['zip_code']
+                # address.city = form.cleaned_data['city']
+                # address.save()
                 login(request, new_user)
                 messages.error(request, 'Utworzono konto')
                 return redirect('front_page')

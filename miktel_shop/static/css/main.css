@@ -106,7 +106,7 @@ a.nav-link:hover{
 #nav_main {
     position: fixed;
     background-color: white;
-    z-index: 99999;
+    z-index: 9;
     top: 100px;
     left: 0;
     
@@ -120,7 +120,7 @@ a.nav-link:hover{
 #nav_main_xl {
     position: fixed;
     background-color: white;
-    z-index: 99999;
+    z-index: 9;
     top: 100px;
     left: 0;
 }
@@ -155,6 +155,10 @@ a.nav-link:hover{
 }
 
 #nav_menu a{
+    color: white;
+}
+
+#nav_menu span{
     color: white;
 }
 
@@ -317,6 +321,11 @@ div.article {
 
 .product {
     margin-top: 65px;
+}
+
+.product_box span {
+    font-size: 14px;
+    font-weight: 500;
 }
 
 .boxNovelty {

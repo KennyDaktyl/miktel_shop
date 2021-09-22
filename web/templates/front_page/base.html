@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="{% static "lightbox/dist/css/lightbox.css" %}" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     {% block head %}
     {% endblock %}
@@ -65,63 +66,27 @@
                     <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
                         <a class="col-10 nav-link text-left text-danger mx-auto" href="" title="Sklep On-line">Sklep On-line</a><span class="col-2"></span>
                     </li>
-                    <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
-                        <a class="col-10 nav-link text-left mx-auto" href="{% url 'products_category' slug='telefony' %}" title="Telefony komórkowe">Telefony komórkowe</a><span class="col-2"></span>
-                    </li>
-                    <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
-                        <a class="col-10 nav-link text-left mx-auto" href="" title="Akcesoria GSM">Akcesoria GSM</a><span class="col-2"></span>
-                    </li>
-                    <li class="col-12 nav-item d-flex align-items-center m-0 p-0 row">
-                        <a class="col-10 nav-link text-left mx-auto" href="" title="Serwis GSM">Serwis telefonów</a><span class="col-2"></span>
-                    </li>
-                   
-                    <ul id="stamp_menu" class="col-12 no-wrap nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row" type="button" data-toggle="collapse" data-target="#navbarTogglerStampMenu" aria-controls="navbarTogglerStampMenu" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                        <a class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">Pieczątki Colop</a>
-                        
-                        <img src="/media/logo/Colop-logo.webp" class="col-3 img-fluid img-thumbnail" alt="Logo firmy Colop. Producent pieczątek" title="Logo firmy Colop. Producent pieczątek">
-                        <i id="arrow_stamp" class="col-2 margin-auto fas fa-arrow-down pr-2 pl-2"></i>
-                        <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu" id="navbarTogglerStampMenu">
-                            <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
-                                <a class="col-10 nav-link text-left mx-auto" href="" title="Pieczątki imienne">Pieczątki imienne</a>
-                                </li>
-                            <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
-                            <a class="col-10 nav-link text-left mx-auto" href="" title="Pieczątki firmowe">Pieczątki firmowe</a>
-                            </li>
-                            <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0">
-                            <a class="col-10 nav-link text-left mx-auto" href="" title="Pieczątki z logiem">Pieczątki z logiem</a>
-                            </li>
-                        </div>
-                    </ul>
                     
-                    <ul id="keys_menu" class="col-12 no-wrap nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row" type="button" data-toggle="collapse" data-target="#navbarTogglerKeysMenu" aria-controls="navbarTogglerKeysMenu" aria-expanded="false"
+                    {% for category in categorys %}
+                    <ul id="cat{{ category.id}}" class="menuToggle col-12 no-wrap nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row" type="button" data-toggle="collapse" data-target="#navbarToggler{{ category.id}}" aria-controls="navbarToggler{{ category.id}}" aria-expanded="false"
                     aria-label="Toggle navigation">
-                        <a class="col-10 nav-link text-left mx-auto" href="" title="Dorabianie kluczy">Dorabianie kluczy</a>
-                        <i id="arrow_keys" class="col-2 margin-auto fas fa-arrow-down pr-2 pl-2"></i>
-                        <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu" id="navbarTogglerKeysMenu">
+                        <span class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{ category.name }}</span>
+                        {% if category.image %}
+                        <img src="{{ MEDIA_URL }}{{ category.image }}" class="col-3 img-fluid img-thumbnail" alt="Logo firmy Colop. Producent pieczątek" title="Logo firmy Colop. Producent pieczątek">
+                        {% else %}
+                        <span class="col-3"></span>
+                        {% endif %}
+                        <i id="arrow{{ category.id }}" class="col-2 margin-auto fas fa-arrow-down pr-2 pl-2"></i>
+                        <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu" id="navbarToggler{{ category.id }}">
+                            {% for sub_cat in category.sub_category %}
                             <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
-                            <a class="col-10 nav-link text-left mx-auto" href="" title="Klucze mieszkaniowe">Klucze mieszkaniowe</a>
+                                <a class="col-10 nav-link text-left mx-auto" href="{% url 'sub_category_items' cat=category.slug sub_cat=sub_cat.slug %}" title="">{{ sub_cat.name}}</a>
                             </li>
-                            <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0">
-                            <a class="col-10 nav-link text-left mx-auto" href="" title="Klucze samochodowe">Klucze samochodowe</a>
-                            </li>
+                            {% endfor %}
                         </div>
                     </ul>
-                    <ul id="grav_menu" class="col-12 no-wrap nav-item d-flex align-items-center mx-auto m-0 p-0 row" type="button" data-toggle="collapse" data-target="#navbarTogglerGrawMenu" aria-controls="navbarTogglerGrawMenu" aria-expanded="false" aria-label="Toggle navigation">
-                        <a class="col-10 nav-link text-left mx-auto" href="" title="Dorabianie kluczy">Grawerowanie laserem</a>
-                        <i id="arrow_grav" class="col-2 margin-left-auto fas fa-arrow-down text-center pr-2 pl-2"></i>
-                        <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu" id="navbarTogglerGrawMenu">
-                                <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
-                                <a class="col-10 nav-link text-left mx-auto" href="" title="Tabliczki informacyjne">Tabliczki informacyjne</a>
-                                </li>
-                                <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
-                                    <a class="col-10 nav-link text-left mx-auto" href="" title="Cięcie w pleksi">Cięcie w pleksi</a>
-                                    </li>
-                                <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0">
-                                <a class="col-10 nav-link text-left mx-auto" href="" title="Znakowanie w metalu">Znakowanie w metalu</a>
-                                </li>
-                        </div>
-                    </ul>
+                    {% endfor %}
+                    
                     <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
                         <a class="col-10 nav-link text-left mx-auto" href="" title="Artukuły bloga">Blog</a><span class="col-2"></span>
                     </li>
@@ -167,48 +132,18 @@
             <li class="nav-item">
               <a class="nav-link text-danger" href="#">Sklep On-line</a>
             </li>
+            {% for category in categorys %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Telefony
+                {{ category.name}}
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{% url 'products_category' slug='telefony' %}">Telefony komórkowe</a>
-                <a class="dropdown-item" href="#">Akcesoria GSM</a>
-                <a class="dropdown-item" href="#">Serwis GSM</a>
+                {% for sub_cat in category.sub_category %}
+                <a class="dropdown-item" href="{% url 'sub_category_items' cat=category.slug sub_cat=sub_cat.slug %}">{{ sub_cat.name }}</a>
+                {% endfor %}
               </div>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Pieczątki
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Pieczątki imienne</a>
-                  <a class="dropdown-item" href="#">Pieczątki firmowe</a>
-                  <a class="dropdown-item" href="#">Pieczątki z logiem</a>
-                </div>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Grawerowanie
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Grawerowanie tabliczek</a>
-                  <a class="dropdown-item" href="#">Znakowanie w metalu</a>
-                  <a class="dropdown-item" href="#">Cięcie pleksi, tabliczki</a>
-                </div>
-              </li>
-
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dorabianie kluczy
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Klucze numeryczne</a>
-                  <a class="dropdown-item" href="#">Klucze mieszkaniowe</a>
-                  <a class="dropdown-item" href="#">Klucze samochodowe z immobiliserem</a>
-                  <a class="dropdown-item" href="#">Obudowy kluczy samochodowych</a>
-                </div>
-              </li>
+            {% endfor %}
               <li class="nav-item">
                 <a class="nav-link" href="#">Blog</a>
               </li>
@@ -349,6 +284,19 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script src="{% static "js/main.js" %}" type="text/javascript"></script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $('.close-cookies').click(function () {
+                $(this).parent().hide();
+            });
+        });
+    </script>
+    <script src="{% static "lightbox/dist/js/lightbox.js" %}"></script>
+    <script>
+        lightbox.option({
+            'albumLabel': "Zdjęcie %1 z %2"
+        })
+    </script>
     <script type="application/javascript">
         $(document).ready(function () {
             $('.close-cookies').click(function () {

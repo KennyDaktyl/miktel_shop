@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'captcha',
+    'sorl.thumbnail',
     'web'
 ]
 
@@ -95,6 +96,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
                 "web.cart.my_context_processor.cart",
+                "web.products.my_context_processor.menu_category",
             ],
         },
     },

@@ -1,3 +1,4 @@
+from typing import cast
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
@@ -71,10 +72,10 @@ class Store(models.Model):
         self.slug = slugify(self.name)
         super(Store, self).save()
 
-    # def get_absolute_url(self):
-    #     return reverse("store_details", kwargs={
-    #         "slug": self.slug,
-    #     })
+    def get_absolute_url(self):
+        return reverse("store_details", kwargs={
+            "slug": self.slug,
+        })
 
     class Meta:
         ordering = ("id", )
@@ -153,10 +154,65 @@ class Category(models.Model):
                            "category": self.slug,
                            "pk": self.id,
                        })
+    def sub_category(self):
+        return SubCategory.objects.filter(category=self)
 
     def __str__(self):
         return self.name
 
+class SubCategory(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(verbose_name="Nazwa podkategorii", max_length=128)
+    category = models.ForeignKey(
+        "Category",
+        verbose_name="Kategoria podkategorii",
+        on_delete=models.CASCADE,
+        db_index=True,
+    )
+    slug = models.SlugField(verbose_name="Slug",
+                            blank=True,
+                            null=True,
+                            max_length=128)
+    number = models.IntegerField(verbose_name="Numer kategorii",
+                                 null=True,
+                                 blank=True,
+                                 default=0)
+    image = ResizedImageField(verbose_name="Zdjęcie główne",
+                              size=[1280, 960],
+                              upload_to='images/categorys/',
+                              validators=[file_size],
+                              null=True,
+                              blank=True)
+    alt = models.CharField(
+        verbose_name="Alternatywny text dla obrazka",
+        max_length=125,
+        blank=True,
+        null=True,
+    )
+    title = models.CharField(verbose_name="Title dla obrazka",
+                             blank=True,
+                             null=True,
+                             max_length=70)
+    class Meta:
+        ordering = (
+            "number",
+            "name",
+        )
+        verbose_name_plural = "PodKategorie produktów"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(SubCategory, self).save()
+
+    def get_absolute_url(self):
+        return reverse("sub_category_details",
+                       kwargs={
+                           "sub_category": self.slug,
+                           "pk": self.id,
+                       })
+
+    def __str__(self):
+        return self.name
 
 class Brand(models.Model):
     id = models.AutoField(primary_key=True)
@@ -256,9 +312,9 @@ class Products(models.Model):
                               on_delete=models.CASCADE,
                               db_index=True,
                               default=1)
-    category = models.ForeignKey(
-        "Category",
-        verbose_name="Kategoria produktu",
+    sub_category = models.ForeignKey(
+        "SubCategory",
+        verbose_name="PodKategoria produktu",
         on_delete=models.CASCADE,
         db_index=True,
     )
@@ -285,8 +341,8 @@ class Products(models.Model):
                             blank=True,
                             null=True,
                             max_length=128)
-    image = ResizedImageField(verbose_name="Zdjęcie główne",
-                              size=[1280, 960],
+    image = models.ImageField(verbose_name="Zdjęcie główne",
+                            #   size=[1280, 960],
                               upload_to='images/products/',
                               validators=[file_size],
                               null=True,
@@ -366,8 +422,7 @@ class Products(models.Model):
 
 class Images(models.Model):
     id = models.AutoField(primary_key=True)
-    image = ResizedImageField(size=[1280, 960],
-                              upload_to='images/',
+    image = models.ImageField(upload_to='images/',
                               validators=[file_size])
     alt = models.CharField(
         verbose_name="Alternatywny text dla obrazka",
