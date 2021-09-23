@@ -210,6 +210,63 @@ class SubCategory(models.Model):
                            "sub_category": self.slug,
                            "pk": self.id,
                        })
+    def sub_cat_type(self):
+        return SubCategoryType.objects.filter(sub_category=self)
+
+    def __str__(self):
+        return self.name
+
+class SubCategoryType(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(verbose_name="Nazwa rodzaje produktu w podkategorii", max_length=128)
+    sub_category = models.ForeignKey(
+        "SubCategory",
+        verbose_name="Rodzaje produktów w podkategorii",
+        on_delete=models.CASCADE,
+        db_index=True,
+    )
+    slug = models.SlugField(verbose_name="Slug",
+                            blank=True,
+                            null=True,
+                            max_length=128)
+    number = models.IntegerField(verbose_name="Numer wyświetlania",
+                                 null=True,
+                                 blank=True,
+                                 default=0)
+    image = models.ImageField(verbose_name="Zdjęcie główne",
+                              upload_to='images/categorys/',
+                              validators=[file_size],
+                              null=True,
+                              blank=True)
+    alt = models.CharField(
+        verbose_name="Alternatywny text dla obrazka",
+        max_length=125,
+        blank=True,
+        null=True,
+    )
+    title = models.CharField(verbose_name="Title dla obrazka",
+                             blank=True,
+                             null=True,
+                             max_length=70)
+    class Meta:
+        ordering = (
+            "number",
+            "name",
+        )
+        verbose_name_plural = "Rodzaje produktów w podkategori"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(SubCategoryType, self).save()
+
+    def get_absolute_url(self):
+        return reverse("sub_category_type_details",
+                       kwargs={
+                           "category": self.sub_category.category.slug,
+                           "sub_category": self.sub_category.slug,
+                           "slug": self.slug,
+                           "pk": self.id,
+                       })
 
     def __str__(self):
         return self.name
@@ -312,9 +369,9 @@ class Products(models.Model):
                               on_delete=models.CASCADE,
                               db_index=True,
                               default=1)
-    sub_category = models.ForeignKey(
-        "SubCategory",
-        verbose_name="PodKategoria produktu",
+    sub_category_type = models.ForeignKey(
+        "SubCategoryType",
+        verbose_name="Typ produktu",
         on_delete=models.CASCADE,
         db_index=True,
     )
@@ -392,15 +449,15 @@ class Products(models.Model):
     def images(self):
         return Images.objects.filter(product_id=self)
 
-    def get_absolute_url(self):
-        return reverse("product_details",
-                       kwargs={
-                           "category": self.category.slug,
-                           "product": self.slug,
-                           "color": self.color.slug,
-                           "store": self.store.slug,
-                           "pk": self.id,
-                       })
+    # def get_absolute_url(self):
+    #     return reverse("product_details",
+    #                    kwargs={
+    #                        "cat": self.sub_category_type.sub_category.category.slug,
+    #                        "sub_cat": self.sub_category_type.sub_category.slug,
+    #                        "sub_cat_type": self.sub_category_type.slug,
+    #                        "product": self.slug,
+    #                        "pk": self.id,
+    #                    })
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

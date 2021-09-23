@@ -84,7 +84,7 @@ class ProductsAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Products._meta.fields]
     list_filter = (
         'store_id',
-        'sub_category',
+        'sub_category_type',
         'size',
     )
     search_fields = ('name', )
@@ -105,6 +105,11 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(SubCategory)
 class SubCategoryAdmin(admin.ModelAdmin):
     list_display = [f.name for f in SubCategory._meta.fields]
+    search_fields = ('name', )
+
+@admin.register(SubCategoryType)
+class SubCategoryTypeAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in SubCategoryType._meta.fields]
     search_fields = ('name', )
 
 

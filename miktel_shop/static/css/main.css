@@ -1,7 +1,6 @@
 * {
     margin: 0px;
     padding: 0px;
-    transition: .5s;
     font-family: 'Open Sans',sans-serif;
     text-decoration: none;
 }
@@ -204,10 +203,10 @@ span.show_password:hover {
     height: 135px;
 }
 
-img {
+/* img {
     max-width: 100%;
     height: auto;
-}
+} */
 
 #SearchForm {
     /* position: fixed;

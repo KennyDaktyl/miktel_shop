@@ -5,6 +5,10 @@
 
 
 {% block content %}
+    <input type="hidden" id='cat' value="{{ sub_category_type.sub_category.category.id }}">
+    <input type="hidden" id='sub_cat' value="{{ sub_category_type.sub_category.id }}">
+    <input type="hidden" id='sub_cat_type' value="{{ sub_category_type.id }}">
+
     <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
         <h1 class="col-12 mx-auto text-left">{{ sub_cat.name }}</h1>
         {% for product in products %}
@@ -18,7 +22,7 @@
                         <span>Do koszyka</span>
                         <i class="fas fa-shopping-cart"></i>
                     </button>
-                    <a href="{% url 'product_details' cat=product.sub_category.category.slug sub_cat=product.sub_category.slug product=product.slug %}" class="bg-dark text-white align-self-stretch col-3 mx-auto d-flex align-items-center text-decoration-none">
+                    <a href="{% url 'product_details' cat=product.sub_category_type.sub_category.category.slug sub_cat=product.sub_category_type.sub_category.slug sub_cat_type=product.sub_category_type.slug product=product.slug %}" class="bg-dark text-white align-self-stretch col-3 mx-auto d-flex align-items-center text-decoration-none">
                         <i class="fas fa-info-circle bg-dark text-white align-self-center mx-auto"></i>
                     </a>
                 </form>
