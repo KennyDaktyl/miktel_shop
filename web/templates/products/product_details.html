@@ -6,6 +6,10 @@
 
 {% block content %}
 <div class="wrap col-12 m-0 p-0 ">
+    <input type="hidden" id='cat' value="{{ sub_category_type.sub_category.category.id }}">
+    <input type="hidden" id='sub_cat' value="{{ sub_category_type.sub_category.id }}">
+    <input type="hidden" id='sub_cat_type' value="{{ sub_category_type.id }}">
+    
     <div class="col-12 mx-auto ml-0 mr-0 p-0 mt-2 row product_box d-flex align-items-start">
             <div class="col-md-6 mx-auto text-center row ">
                 {% load thumbnail %}

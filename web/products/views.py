@@ -27,7 +27,7 @@ class SubCategoryTypeProducts(View):
 class ProductDetails(View):
     def get(self, request, cat, sub_cat, sub_cat_type, product):
         product = Products.objects.get(slug=product)
-        ctx = {'product': product}
+        ctx = {'sub_category_type': product.sub_category_type, 'product': product}
         return render(request, "products/product_details.html", ctx)
 
 
