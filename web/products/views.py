@@ -13,7 +13,7 @@ class ShopMainView(View):
 class SubCategoryProducts(View):
     def get(self, request ,cat, sub_cat):
         sub_cat = SubCategory.objects.get(slug=sub_cat)
-        products = Products.objects.filter(sub_category=sub_cat).filter(is_active=True)
+        products = Products.objects.filter(sub_category_type__sub_category=sub_cat).filter(is_active=True)
         ctx = {'sub_cat': sub_cat, 'products': products}
         return render(request, "products/products_list.html", ctx)
 
