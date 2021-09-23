@@ -80,8 +80,9 @@ $(document).ready(function () {
         if ($(this).attr('id').replace('SubMenu', '') == cat.val()) {
             $(this).addClass('show'); 
             var active_sub_cat = $('#SubCat' + sub_cat.val());
-            active_sub_cat.css('background-color', '#DCDCDC');
-            $(this).siblings().addClass('bg-danger');
+            active_sub_cat.css('color', 'red');
+            $(this).siblings().css('background-color', 'red');
+            $(this).siblings().css('color', 'white');
         }
     }); 
 
@@ -91,8 +92,7 @@ $(document).ready(function () {
         if ($(this).attr('id').replace('TypeSubMenu', '') == sub_cat.val()) {
             $(this).addClass('show');
             var active_type_sub_cat = $('#TypeSubCat' + sub_cat_type.val());
-            active_type_sub_cat.css('background-color', '#DCDCDC');
-            active_type_sub_cat.parent().css('background-color', '#DCDCDC');
+            active_type_sub_cat.css('color', 'red');
             console.log( $(this).attr('id'), sub_cat.val());
         };
     }); 
