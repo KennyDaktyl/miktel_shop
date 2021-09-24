@@ -1,7 +1,9 @@
 $(document).ready(function () {
-    window.onbeforeunload = function () {
-        window.scrollTo(0, 0);
-      }
+    // window.onbeforeunload = function () {
+    //     window.scrollTo(0, 0);
+    //   }
+
+
 
     var menuToggle = $('ul.menuToggle');
     menuToggle.each(function (e) {
@@ -20,7 +22,7 @@ $(document).ready(function () {
             $(this).removeClass('red');
             $(this).removeClass('show');
         });
-        $('body').removeClass('frozen');
+        // $('body').removeClass('frozen');
     });
 
     var inputSearch = $('#inputSearch');
@@ -28,7 +30,6 @@ $(document).ready(function () {
 
     inputSearch.keyup(function()
     {
-        console.log(this);
     if ($(this).val().length > 0 ) {
         clearText.addClass('show');
         } else {

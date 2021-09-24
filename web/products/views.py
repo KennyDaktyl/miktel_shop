@@ -1,7 +1,10 @@
 from django.views import View
 from django.shortcuts import render, redirect
+from rest_framework import viewsets, generics
+
 
 from web.models import Products, Category, SubCategory, SubCategoryType
+from .serializers import ProductSerializer
 
 class ShopMainView(View):
     def get(self, request):
@@ -31,9 +34,18 @@ class ProductDetails(View):
         return render(request, "products/product_details.html", ctx)
 
 
+class ApiProductsListSet(generics.ListAPIView):
+    queryset = Products.objects.all()
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        search = self.request.query_params.get('search')
+        products = Products.objects.filter(name__icontains=search)
+        return products[0:20]
 
 
 sub_category_products = SubCategoryProducts.as_view()
 sub_category_type = SubCategoryTypeProducts.as_view()
 product_details = ProductDetails.as_view()
 shop_main_view = ShopMainView.as_view()
+search_products = ApiProductsListSet.as_view()

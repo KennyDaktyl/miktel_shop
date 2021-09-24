@@ -12,7 +12,7 @@
     <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
         <h1 class="col-12 mx-auto text-left">{{ sub_cat.name }}</h1>
         {% for product in products %}
-        <div class="col-12 col-sm-6 col-xl-3 p-0 ml-0 mr-0 product ">
+        <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">
             <div id="showOption" class="col-12 row mx-auto d-flex align-items-center">
                 <form id="form" action="{% url 'add_product' %}" method="POST" class="col-12 row m-0 p-0">
                     {% csrf_token %}
@@ -27,12 +27,16 @@
                     </a>
                 </form>
             </div>
-            <div class="col-10 mx-auto text-center row">
+            <div class="col-12 mx-auto text-center row">
                 {% if product.is_news %}
                 <div class="boxNovelty smallBox m-2">NEW</div>
+                {% else %}
+                <div class="smallBox m-2"></div>
                 {% endif %}
                 {% if product.discount > 0 %}
                 <div class="boxPromo smallBox bg-danger m-2">{{ product.discount }}%</div>
+                {% else %}
+                <div class="smallBox m-2"></div>
                 {% endif %}
             </div>
         <div class="col-12 m-2 mx-auto text-center">
