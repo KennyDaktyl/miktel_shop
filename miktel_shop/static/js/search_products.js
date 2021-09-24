@@ -86,8 +86,7 @@ search_input.keyup(function (event) {
 
         result = GetSearchResult();
     } else {
-        link.text('');
-        link_.css('display', 'none');
+        link.css('display', 'none');
         div_link.css('display', 'none');
     }
 });
@@ -97,7 +96,7 @@ var j = -1;
 
 $(document).keyup(function (e) {
 
-    if ((e.which === 39) || (e.which === 40)) {
+    if (e.which === 40) {
         search_input.blur();
         $('a.new_a').each(function (el) {
             $(this).css("background", "white")
@@ -110,7 +109,7 @@ $(document).keyup(function (e) {
     };
 
 
-    if ((e.which === 37) || (e.which === 38)) {
+    if (e.which === 38) {
         search_input.blur();
         $('a.new_a').each(function (el) {
             $(this).css("background", "white")
@@ -120,7 +119,6 @@ $(document).keyup(function (e) {
         };
         var first_a = $('#' + j);
         first_a.css("background", "wheat");
-        
     };
 
     if (e.which === 13) {
