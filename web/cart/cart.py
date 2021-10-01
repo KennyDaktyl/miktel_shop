@@ -1,3 +1,5 @@
+from decimal import Decimal
+from web.models.orders import DeliveryMethod
 from django.conf import settings
 from web.models import ProductCopy
 from web.orders.serializers import ProductCopySerializer
@@ -52,6 +54,14 @@ class Cart(object):
             if info:
                 self.cart[product_id]['info'] = info
             self.save()
+    
+    # def add_delivery_method(self,
+    #         delivery_method):
+    #     """
+    #     Dodanie kosztu przesyłki
+    #     """
+    #     self.cart['delivery_method'] = delivery_method
+    #     self.save()
 
     def remove(self, product):
         """

@@ -1,0 +1,74 @@
+{% extends "products/base_shop.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% crispy form.helper %}
+{% load templatetag %}
+{% load thumbnail %}
+
+
+{% block head %}
+<meta property="fb:app_id" content="{{app_id}}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{request.build_absolute_uri}}" />
+<meta property="og:title" content="{{page.title}}" />
+<meta property="og:image" content="" />
+<meta property="og:description" content="{{page.description}}" />
+<meta name="description" content="{{page.description}}">
+<link rel="canonical" href="{{cannonical}}">
+{% endblock %}
+
+{% block title %}
+{{page.title}}
+{% endblock %}
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
+    <li class="breadcrumb-item active" aria-current="page"><a href="">Strona startowa</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">Podsumowanie koszyka</li>
+  </nav>
+
+<div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-start">
+    <main class="col-lg-12 mx-auto row m-0 p-0 row">
+        <div class="col-12 text-left headline m-0 p-0 offer row">
+            <h1 class="col-12 m-0 p-0">SZCZEGÓŁY ZAMÓWIENIA:</h1>
+            <div class="col-12 text-left headline m-0 p-0 mt-2 offer row"></div>
+            <p class="text-danger mr-2">Kwota do zapłaty:</p><strong id="cart_total_price" data-total_price="{{cart.get_total_price|floatformat:2}}">{{cart.get_total_price|floatformat:2}} PLN</strong>
+        </div>
+        <form method="post" class="uniForm col-md-8 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms">
+            {% csrf_token %}
+            <label for="id_bill_select" class="requiredField col-12 m-0 p-0 align-self-center">{{ form.fields.bill_select.label }}</label>
+            <select id="id_bill_select" name="bill_select" class="form-control input-md">
+                {% for key, value in form.fields.bill_select.widget.choices %}
+                    <option value="{{ value }}"{% if form.initial.bill_select == value %} selected {% endif %}>
+                        {{ key }}
+                    </option>
+                {% endfor %}
+            </select>
+            <label for="id_delivery_method" class="requiredField col-12 m-0 p-0 align-self-center">{{ form.fields.delivery_method.label }}</label>
+            <select id="id_delivery_method" name="delivery_method" class="form-control input-md" required>
+                {% for el in form.fields.delivery_method.queryset %}
+                    <option value="{{ el.id }}"{% if form.initial.delivery_method == value %} selected {% endif %}  data-delivery_cost="{{ el.price|floatformat:2 }}">
+                        {{ el.name }} +{{ el.price }}zł
+                    </option>
+                {% endfor %}
+            </select>
+            <label for="id_payment_method" class="requiredField col-12 m-0 p-0 align-self-center">{{ form.fields.payment_method.label }}</label>
+            <select id="id_payment_method" name="payment_method" class="form-control input-md" required>
+                {% for el in form.fields.payment_method.queryset %}
+                    <option value="{{ el.id }}"{% if form.initial.payment_method == value %} selected {% endif %}>
+                         {{ el.name }} +{{ el.price }}zł
+                    </option>
+                {% endfor %}
+            </select>
+            <div id="easypack-map" style="display: block;"></div>
+            <div class="col-12 mx-auto text-center mt-3">
+                <button id="button" class="col-12 text-center mx-auto btn-outline-success" type="submit"
+                        value="">Zamawiam z obowiązkiem zapłaty</button>
+            </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static "js/order_details.js" %}" type="text/javascript"></script>
+{% endblock %}

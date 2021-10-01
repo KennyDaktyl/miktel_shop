@@ -1,3 +1,5 @@
+from django.db.models.query import QuerySet
+from web.models.orders import DeliveryMethod, PayMethod
 from django import forms
 from django.core.validators import MaxValueValidator
 from crispy_forms.helper import FormHelper
@@ -94,3 +96,20 @@ class OrderBigForm(forms.Form):
     order_total_price = forms.FloatField(label="Suma zamówienia",
                                          required=False,
                                          widget=forms.HiddenInput())
+
+
+CHOICES= (
+('Paragon', '1'),
+('Faktura', '2'),
+)
+
+class OrderDetailsForm(forms.Form):
+    bill_select = forms.CharField(label='Dokument handlowy',widget=forms.Select(choices=CHOICES))
+    
+    delivery_method = forms.ModelChoiceField(label='Sposób dostawy', 
+    queryset=DeliveryMethod.objects.all(), required=True)
+
+    payment_method = forms.ModelChoiceField(label='Sposób płatności', 
+    queryset=PayMethod.objects.all(), required=False)
+
+

@@ -448,6 +448,14 @@ div.imgWrap {
     transition: .3s;
 }
 
+div.carousel-item {
+    background-color:  black;
+}
+
+img.img_carousel {
+    opacity: .6;
+}
+
 .article img:hover {
     opacity: 1;
     transform: scale(1.4);
@@ -568,6 +576,36 @@ div.search_link {
 img.mini {
     width: 30px;
     height: 30px;
+}
+
+/* Basket */
+div.modal-content {
+    background-color: rgb(228, 255, 228);
+
+    /* background-color:#ff8d1e; */
+}
+
+span.basket {
+    border-bottom: 2px solid #ff8d1e;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 19px;
+}
+
+table {
+    overflow-x: auto;
+    display: block;
+    font-size: 12px;
+}
+
+.table p {
+    font-size: 14px;
+    color: black;
+}
+
+.table small {
+    font-size: 11px;
+    color: black;
 }
 
 @media screen and (min-width: 768px) {

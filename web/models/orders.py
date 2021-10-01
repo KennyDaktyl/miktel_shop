@@ -6,11 +6,11 @@ from django.conf import settings
 
 from decimal import Decimal
 from web.constans import PAY_METHOD, ORDER_STATUS, DELIVERY_TYPE, STAMP_COLORS, STAMP_COLORS_TEXT
-
+from .base import BaseModel
 # from cart.cart import Cart
 
 
-class PayMethod(models.Model):
+class PayMethod(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
     name = models.CharField(verbose_name="Nazwa metody płatności",
@@ -46,14 +46,14 @@ class PayMethod(models.Model):
         return [self.name, pm_income_all_count, pm_income_closed_count, _sum]
 
     class Meta:
-        ordering = ("number", )
+        ordering = ("-number", )
         verbose_name_plural = "Rodzaje płatności"
 
     def __str__(self):
         return self.name
 
 
-class DeliveryMethod(models.Model):
+class DeliveryMethod(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
     id_code = models.CharField(verbose_name="Kod dla id iframe inposta",
@@ -68,6 +68,7 @@ class DeliveryMethod(models.Model):
                                       default=0.00,
                                       decimal_places=2,
                                       max_digits=7)
+                                      
     default = models.BooleanField(verbose_name="Czy domyślny?", default=False)
     inpost_box = models.BooleanField(verbose_name="Czy dostawa to paczkomat?",
                                      default=False)
@@ -89,7 +90,7 @@ class DeliveryMethod(models.Model):
         super(DeliveryMethod, self).save(*args, **kwargs)
 
     class Meta:
-        ordering = ("number", )
+        ordering = ("-number", )
         verbose_name_plural = "Rodzaje dostawy"
 
     def __str__(self):
@@ -97,13 +98,13 @@ class DeliveryMethod(models.Model):
 
 
 # Pay_Method have to not NONE - order have to get pay_method id
-class Orders(models.Model):
+class Orders(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.CharField(verbose_name="Numer zamówienia", max_length=64)
     status = models.IntegerField(verbose_name="Status zamówienia",
                                  choices=ORDER_STATUS,
                                  default=1)
-    date = models.DateTimeField(db_index=True)
+    date = models.DateTimeField(auto_now_add=True, db_index=True)
     store = models.ForeignKey("Store",
                               on_delete=models.CASCADE,
                               verbose_name="Magazyn",
@@ -167,6 +168,9 @@ class Orders(models.Model):
 
     def counter_positions(self):
         return ProductCopy.objects.filter(order_id=self).count()
+    
+    def get_total_price_stripe(self):
+        return int(self.total_price * 100) 
 
     class Meta:
         ordering = ("-id", )
@@ -177,7 +181,7 @@ class Orders(models.Model):
                                  self.get_status_display())
 
 
-class ProductCopy(models.Model):
+class ProductCopy(BaseModel):
     id = models.AutoField(primary_key=True)
     order_id = models.ForeignKey("Orders",
                                  verbose_name="Relacja do zamówienia",

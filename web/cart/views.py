@@ -17,7 +17,6 @@ class AddProductView(View):
             prod_id = request.POST.get("prod_id")
             prod_org = Products.objects.get(pk=int(prod_id))
             qty = request.POST.get("qty")
-            print(qty)
             product = ProductCopy()
             product.product_id = prod_org
             product.qty = int(qty)

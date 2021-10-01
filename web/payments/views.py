@@ -1,3 +1,5 @@
+from web.cart.my_context_processor import cart
+from web.models.orders import Orders
 from django import views
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -10,6 +12,8 @@ from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework import permissions
 
+from web.cart.cart import Cart 
+
 import stripe
 import json
 
@@ -21,14 +25,23 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @method_decorator(login_required, name="dispatch")
 class CheckoutView(View):
-    def get(self, request):
+    def get(self, request, order_id):
+        order = Orders.objects.get(id=order_id)
         intent = stripe.PaymentIntent.create(
-                amount=1099,
+                amount=order.get_total_price_stripe(),
                 currency='pln',
                 payment_method_types=['p24'],
+                receipt_email=request.user.email,
             )
         ctx = {'PAYMENT_INTENT_CLIENT_SECRET': intent['client_secret']}
         return render(request, "payments/checkout.html", ctx)
+
+@method_decorator(login_required, name="dispatch")
+class PayMentSuccessView(View):
+    def get(self, request):
+        cart = Cart(request)
+        cart.clear()
+        return render(request, "payments/checkout_success.html")
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PaymentIntentView(View):
@@ -77,5 +90,6 @@ class StripeWebhookView(APIView):
         return HttpResponse(status=200)
 
 checkout = CheckoutView.as_view()
+payment_success = PayMentSuccessView.as_view()
 payment_intent = PaymentIntentView.as_view()
 stripe_webhook = StripeWebhookView.as_view()

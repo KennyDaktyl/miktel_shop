@@ -21,7 +21,11 @@
 <body>
     <main  class="container-fluid m-0 p-0">
     <header id="top" class="top col-12 m-0 p-0 pt-3 row">
-        <img id="mainLogo" src="/media/logo/serwis+w+rybnej+logo.webp" class="" alt="Logo firmy Colop. Producent pieczątek" title="Logo firmy Colop. Producent pieczątek">
+        {% load thumbnail %}
+        {% thumbnail  logo.image "75x75" crop='center' format="WEBP"  as im %}
+        <source srcset="{{ im }}" type="image/webp" />
+        <img id="mainLogo" class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}" title="{{image.title}}">
+        {% endthumbnail %}
         <div class="d-none d-lg-block wrapHeader col-12 m-0 p-0">
         <div class="col-10 mx-auto text-center row d-flex align-items-center">
             <div class="col-9">
@@ -47,7 +51,7 @@
                         {% csrf_token %}
                         <div id="position" class="row">
                             <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
                             <div id="div_link" class="bg-white search_link border row">
                                 <p  class="col-12">Wyszukiwarka produktów:</p>
                                 <ul class="d-flex align-items-center row col-12 mx-auto" id="link">
@@ -58,12 +62,14 @@
                 </div>
             </div>
             <div class="col-3 row mx-auto d-flex align-items-center d-flex justify-content-center">
+                    <a href="{% url 'cart_details' %}" class="col-12 m-0 p-0 row border text-decoration-none">
                     <div class="row col-12 m-0 p-0 text-center mx-auto d-flex align-items-center d-flex justify-content-center">
                         <i class="text-white text-danger fas fa-shopping-basket m-1"></i>
                         <i id="len" class="text-white text-center m-1">{{cart.len}} szt.</i>
                         <i id="total_price" class="text-white text-center m-1">{{cart.get_total_price|floatformat:2}}
                             PLN</i>
                     </div>
+                </a>
             </div>
         </div>
     </header>
@@ -211,7 +217,7 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid footer mx-auto">
+    <div class="container-fluid footer mx-auto mt-2">
         <div class="row justify-content-center top-part">
             <div class="col-md-6 text-center center-content">
                 <div class="d-flex-inline">

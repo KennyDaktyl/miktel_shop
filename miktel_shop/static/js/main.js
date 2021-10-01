@@ -1,9 +1,10 @@
 $(document).ready(function () {
-    // window.onbeforeunload = function () {
-    //     window.scrollTo(0, 0);
-    //   }
+    window.onbeforeunload = function () {
+        window.scrollTo(0, 0);
+    }
 
-
+    var img_corousel_first = $('#carousel0').addClass('active');
+    var indicator_corousel_first = $('#indicator0').addClass('active');
 
     var menuToggle = $('ul.menuToggle');
     menuToggle.each(function (e) {

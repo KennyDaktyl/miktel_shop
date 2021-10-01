@@ -39,7 +39,7 @@ class Profile(BaseModel):
                                    self.user.last_name)
 
 
-class Address(models.Model):
+class Address(BaseModel):
     id = models.AutoField(primary_key=True)
     user_id = models.OneToOneField(
         settings.AUTH_USER_MODEL,

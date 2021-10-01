@@ -20,7 +20,6 @@ class ChoiceField(serializers.ChoiceField):
 
 
 class ProductCopySerializer(serializers.ModelSerializer):
-    color_text = ChoiceField(choices=STAMP_COLORS)
     image = serializers.ImageField(max_length=None,
                                    use_url=True,
                                    allow_null=True,
@@ -28,5 +27,5 @@ class ProductCopySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ProductCopy
-        depth = 2
+        depth = 4
         fields = '__all__'

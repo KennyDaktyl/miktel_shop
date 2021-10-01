@@ -6,14 +6,13 @@ from django.utils.decorators import method_decorator
 from django.http import JsonResponse, HttpResponse
 from web.models import Category, Store, Profile, Address, PayMethod, DeliveryMethod, Orders
 from .functions import new_number
-from .forms import OrderBigForm
+from .forms import OrderBigForm, OrderDetailsForm
 from web.constans import DELIVERY_TYPE
 from web.cart.cart import Cart
 
 import json
 from decimal import Decimal
 
-from web.accounts.forms import LoginForm
 
 import stripe
 from django.conf import settings
@@ -26,323 +25,106 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 @method_decorator(login_required, name="dispatch")
 class OrderDetails(View):
     def get(self, request):
-        delivery_type = DELIVERY_TYPE
-        cart = Cart(request)
-        categorys = Category.objects.filter(is_active=True)
-        profile = Profile.objects.get(user=request.user.id)
-        address = Address.objects.get(user_id=profile.user.id)
-
-        delivery_methods = DeliveryMethod.objects.filter(is_active=True)
-        pay_methods = PayMethod.objects.filter(is_active=True)
-
-        session_dict = (request.session.get(str(request.user.id)))
-        try:
-            payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
-            payment_default = PayMethod.objects.get(
-                pk=int(session_dict['payment_id']))
-        except:
-            payment_default = pay_methods.filter(default=True).first()
-            payment_set = payment_default
-
-        try:
-            delivery_set = DeliveryMethod.objects.get(
-                pk=session_dict['delivery_id'])
-            delivery_default = DeliveryMethod.objects.get(
-                pk=int(session_dict['delivery_id']))
-        except:
-            delivery_default = delivery_methods.filter(default=True).first()
-            delivery_set = delivery_default
-
-        try:
-            inpost_box = session_dict['inpost_box_id']
-        except:
-            inpost_box = False
-
-        if Decimal(cart.get_total_price()) > 50.00:
-            delivery_cost = delivery_default.price_promo
-        else:
-            delivery_cost = delivery_default.price
-        order_price = Decimal(cart.get_total_price()) + Decimal(
-            payment_default.price) + Decimal(delivery_cost)
-        if profile.company:
-            account = 'Firmowe'
-            bill = 'Faktura'
-            name = profile.business_name
-            if profile.business_name_l:
-                name_long = profile.business_name_l
-            else:
-                name_long = False
-            nip = profile.nip_number
-        else:
-            account = 'Indywidualne'
-            bill = 'Paragon'
-            name = profile.user_id.first_name + " " + profile.user_id.last_name
-            name_long = False
-            nip = False
-        phone = profile.phone_number
-
-        if address.door:
-            street = address.street + " " + address.house + " / " + address.door
-        else:
-            street = address.street + " " + address.house
-        city = address.post_code + ", " + address.city
-        products_total = round(Decimal(cart.get_total_price()), 2)
-        delivery_cost = round(Decimal(delivery_cost), 2)
-        payment_cost = round(Decimal(payment_default.price), 2)
-        order_total_price = round(
-            (products_total + delivery_cost + payment_cost), 2)
-        form = OrderBigForm(
-            initial={
-                'account': account,
-                'bill': bill,
-                'delivery': delivery_default.name,
-                'payment': payment_default.name,
-                'name': name,
-                'name_long': name_long,
-                'nip': nip,
-                'phone': phone,
-                'street': street,
-                'city': city,
-                'inpost_box': inpost_box,
-                'products_total': products_total,
-                'payment_cost': payment_cost,
-                'delivery_cost': delivery_cost,
-                'order_total_price': order_total_price
-            })
+        form = OrderDetailsForm()
         ctx = {
-            'client': profile,
-            'address': address,
-            'inpost_box': inpost_box,
-            'cart_ctx': cart,
-            'categorys': categorys,
-            'pay_methods': pay_methods,
-            'payment_set': payment_set,
-            'delivery_methods': delivery_methods,
-            'delivery_set': delivery_set,
-            'delivery_default': delivery_default,
-            'payment_default': payment_default,
-            'order_price': order_price,
-            'form': form,
-            'delivery_cost': delivery_cost,
-            'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
+            'form': form
         }
-        return render(request, "orders/order_detail.html", ctx)
+        return render(request, "orders/order_details.html", ctx)
 
     def post(self, request):
+        form = OrderDetailsForm(request.POST)
         cart = Cart(request)
-        categorys = Category.objects.filter(is_active=True)
-        profile = Profile.objects.get(user=request.user.id)
-        address = Address.objects.get(user_id=profile.user.id)
 
-        delivery_type = DeliveryMethod.objects.filter(is_active=True)
-        pay_methods = PayMethod.objects.filter(is_active=True)
-
-        session_dict = (request.session.get(str(request.user.id)))
-        try:
-            payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
-            payment_default = PayMethod.objects.get(
-                pk=int(session_dict['payment_id']))
-        except:
-            payment_default = pay_methods.filter(default=True).first()
-            payment_set = payment_default
-        try:
-            delivery_set = DeliveryMethod.objects.get(
-                pk=session_dict['delivery_id'])
-            delivery_default = DeliveryMethod.objects.get(
-                pk=int(session_dict['delivery_id']))
-        except:
-            delivery_default = delivery_type.filter(default=True).first()
-            delivery_set = delivery_default
-
-        try:
-            inpost_box_id = session_dict['inpost_box_id']
-        except:
-            inpost_box_id = False
-
+        if form.is_valid():
+            pay_method = PayMethod.objects.get(name=form.cleaned_data['payment_method'])
+            delivery_method = DeliveryMethod.objects.get(name=form.cleaned_data['delivery_method'])
+            request.session['pay_method'] = pay_method.id
+            request.session['delivery_method'] = delivery_method.id
+        #     if delivery_method.inpost_box:
+        #         return render(request, "orders/inpost_box.html")
+        inpost_box_id = None
         if request.is_ajax():
-            if 'bill_id' in request.POST:
-                bill_id = request.POST.get('bill_id')
-                if int(bill_id) == 1:
-                    bill_text = 'Paragon'
-                else:
-                    bill_text = 'Faktura'
-                return HttpResponse(bill_text)
-            if 'delivery_id' in request.POST:
-                delivery_method_price = request.POST.get(
-                    'delivery_method_price')
-                delivery_id = request.POST.get('delivery_id')
-                delivery_method = DeliveryMethod.objects.get(
-                    pk=int(delivery_id))
-                delivery_default = delivery_method
-                order_price = Decimal(cart.get_total_price()) + Decimal(
-                    payment_default.price) + Decimal(
-                        delivery_method.price_active(cart))
-                print(request.session[str(request.user.id)])
-                if delivery_method.inpost_box == False:
-                    request.session[str(request.user.id)] = {
-                        'payment_id': str(delivery_default.id),
-                        'delivery_id': str(delivery_default.id),
-                        'inpost_box_id': False
-                    }
-                    inpost_box_id = False
-                else:
-                    request.session[str(request.user.id)] = {
-                        'payment_id':
-                        str(payment_default.id),
-                        'delivery_id':
-                        delivery_id,
-                        'inpost_box_id':
-                        request.session[str(request.user.id)]['inpost_box_id']
-                    }
-                    inpost_box_id = True
-                return JsonResponse({
-                    'delivery_method_price':
-                    delivery_method.price_active(cart),
-                    'delivery_method_name':
-                    delivery_method.name,
-                    'order_price':
-                    order_price,
-                    'inpost_box_id':
-                    inpost_box_id
-                })
-            if 'payment_id' in request.POST:
-                payment_id = request.POST.get('payment_id')
-                payment_method = PayMethod.objects.get(pk=int(payment_id))
-                request.session[str(request.user.id)] = {
-                    'payment_id': payment_id,
-                    'delivery_id': str(delivery_default.id),
-                    'inpost_box_id': inpost_box_id
-                }
-                order_price = Decimal(cart.get_total_price()) + Decimal(
-                    payment_method.price) + Decimal(
-                        delivery_default.price_active(cart))
-                print(request.session[str(request.user.id)])
-                return JsonResponse({
-                    'payment_method_price': payment_method.price,
-                    'payment_method_name': payment_method.name,
-                    'order_price': order_price
-                })
             if 'inpost_box_id' in request.POST:
                 inpost_box_id = request.POST.get('inpost_box_id')
                 request.session['inpost_box_id'] = inpost_box_id
-
-                request.session[str(request.user.id)] = {
-                    'payment_id': str(delivery_default.id),
-                    'delivery_id': str(delivery_default.id),
-                    'inpost_box_id': inpost_box_id
-                }
-
-                print(request.session[str(request.user.id)])
-                return JsonResponse({
-                    'inpost_box_id': inpost_box_id,
-                })
-
-        if 'checkout' in request.POST:
-            form = OrderBigForm(request.POST, None)
-            # print(form)
-            address_id = request.POST.get('order_total_price')
-            session_data = request.session.get(str(request.user.id))
-
-            try:
-                delivery_method = DeliveryMethod.objects.get(
-                    pk=session_data['delivery_id'])
-                print('jestem')
-            except:
-                messages.error(request, 'Wybierz paczkomat')
-                print('nie jestem')
-                return redirect('inpost_box')
-            print(request.session.get(str(request.user.id)))
-            if form.is_valid():
-                delivery_cost = request.POST.get('delivery_cost')
-                delivery = form.cleaned_data['delivery']
-                payment_cost = form.cleaned_data['payment_cost']
-                payment = form.cleaned_data['payment']
-                products_total = form.cleaned_data['products_total']
-                order_total_price = form.cleaned_data['order_total_price']
-                inpost_box = form.cleaned_data['inpost_box']
-                street = form.cleaned_data['street']
-                city = form.cleaned_data['city']
-                phone = form.cleaned_data['phone']
-                nip = form.cleaned_data['nip']
-                name = form.cleaned_data['name']
-                name_long = form.cleaned_data['name_long']
-                session_data = request.session.get(str(request.user.id))
-                store = Store.objects.all().first()
-                day = datetime.now().day
-                month = datetime.now().month
-                year = datetime.now().year
-                order = Orders()
-                order.number = new_number(store.id, year, month, day)
-                order.date = datetime.now()
-                order.store = store
-                order.phone = phone
-                order.client = request.user
-                order.delivery_method = delivery
-                order.inpost_box = inpost_box
-                order.address = request.user.address
-                order.pay_method = payment
-                order.total_price = round(Decimal(order_total_price), 2)
-                order.save()
-                return redirect('checkout_details', order=order.id)
-            else:
-                messages.error(request, 'Wystąpił błąd')
-                ctx = {'form': form}
-                return render(request, "orders/order_detail.html", ctx)
+                
+        
+        today = datetime.now()
+        store = Store.objects.all().first()
+        order = Orders()
+        order.number = new_number(store.id, day=today.day, month=today.month, year=today.year)
+        order.store = store
+        order.client = request.user
+        order.phone_number = request.user.profile.phone_number
+        order.delivery_method = DeliveryMethod.objects.get(id=int(request.session['delivery_method']))
+        order.pay_method = PayMethod.objects.get(id=int(request.session['pay_method']))
+        # order.inpost_box = inpost_box_id
+        order.total_price = float(order.delivery_method.price) + float(cart.get_total_price())
+        order.save()
+        
+        # response = redirect('checkout', order_id=order.id)
+        # return response
+        if order.delivery_method.inpost_box:
+            return redirect('inpost_box', order_id=order.id)
+        return redirect('checkout', order_id=order.id)
+        
 
 
 @method_decorator(login_required, name="dispatch")
 class InpostBoxSearchView(View):
-    def get(self, request):
-        return render(request, "orders/inpost_box.html")
+    def get(self, request, order_id):
+        ctx = {'order_id': order_id}
+        return render(request, "orders/inpost_box.html", ctx)
 
-    def post(self, request):
-        session_dict = (request.session.get(str(request.user.id)))
-        delivery_type = DeliveryMethod.objects.filter(is_active=True)
-        pay_methods = PayMethod.objects.filter(is_active=True)
-        try:
-            payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
-            payment_default = PayMethod.objects.get(
-                pk=int(session_dict['payment_id']))
-        except:
-            payment_default = pay_methods.filter(default=True).first()
-            payment_set = payment_default
-        try:
-            delivery_set = DeliveryMethod.objects.get(
-                pk=session_dict['delivery_id'])
-            delivery_default = DeliveryMethod.objects.get(
-                pk=int(session_dict['delivery_id']))
-        except:
-            delivery_default = delivery_type.filter(default=True).first()
-            delivery_set = delivery_default
-        try:
-            payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
-            payment_default = PayMethod.objects.get(
-                pk=int(session_dict['payment_id']))
-        except:
-            payment_set = payment_default
+    def post(self, request, order_id):
+        # session_dict = (request.session.get(str(request.user.id)))
+        # delivery_type = DeliveryMethod.objects.filter(is_active=True)
+        # pay_methods = PayMethod.objects.filter(is_active=True)
+        # try:
+        #     payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
+        #     payment_default = PayMethod.objects.get(
+        #         pk=int(session_dict['payment_id']))
+        # except:
+        #     payment_default = pay_methods.filter(default=True).first()
+        #     payment_set = payment_default
+        # try:
+        #     delivery_set = DeliveryMethod.objects.get(
+        #         pk=session_dict['delivery_id'])
+        #     delivery_default = DeliveryMethod.objects.get(
+        #         pk=int(session_dict['delivery_id']))
+        # except:
+        #     delivery_default = delivery_type.filter(default=True).first()
+        #     delivery_set = delivery_default
+        # try:
+        #     payment_set = PayMethod.objects.get(pk=session_dict['payment_id'])
+        #     payment_default = PayMethod.objects.get(
+        #         pk=int(session_dict['payment_id']))
+        # except:
+        #     payment_set = payment_default
 
-        try:
-            delivery_set = DeliveryMethod.objects.get(
-                pk=session_dict['delivery_id'])
-            delivery_default = DeliveryMethod.objects.get(
-                pk=int(session_dict['delivery_id']))
-        except:
-            delivery_set = delivery_default
+        # try:
+        #     delivery_set = DeliveryMethod.objects.get(
+        #         pk=session_dict['delivery_id'])
+        #     delivery_default = DeliveryMethod.objects.get(
+        #         pk=int(session_dict['delivery_id']))
+        # except:
+        #     delivery_set = delivery_default
 
-        try:
-            inpost_box_id = session_dict['inpost_box_id']
-        except:
-            inpost_box_id = False
-        if 'inpost_box_id' in request.POST:
-            inpost_box_id = request.POST.get('inpost_box_id')
-            request.session['inpost_box_id'] = inpost_box_id
+        # try:
+        #     inpost_box_id = session_dict['inpost_box_id']
+        # except:
+        #     inpost_box_id = False
+        # if 'inpost_box_id' in request.POST:
+        #     inpost_box_id = request.POST.get('inpost_box_id')
+        #     request.session['inpost_box_id'] = inpost_box_id
 
-            request.session[str(request.user.id)] = {
-                'payment_id': str(delivery_default.id),
-                'delivery_id': str(delivery_default.id),
-                'inpost_box_id': inpost_box_id
-            }
-        return redirect('order_details')
+        #     request.session[str(request.user.id)] = {
+        #         'payment_id': str(delivery_default.id),
+        #         'delivery_id': str(delivery_default.id),
+        #         'inpost_box_id': inpost_box_id
+        #     }
+        return redirect('checkout', order_id=order_id)
+        # return redirect('order_details', order_id=order_id )
 
 
 class CheckOutDetails(View):

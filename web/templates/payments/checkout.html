@@ -23,15 +23,15 @@
         <input id="p_i_sec" type="hidden" value="{{PAYMENT_INTENT_CLIENT_SECRET}}">
         <div class="form-row">
           <label for="accountholder-name">
-            Name
+            Imie i Nazwisko
           </label>
-          <input id="accountholder-name" name="accountholder-name">
+          <input id="accountholder-name" name="accountholder-name" value="{{ user.first_name }} {{ user.last_name }}">
         </div>
         <div class="form-row">
           <label for="accountholder-email">
             Email
           </label>
-          <input id="accountholder-email" name="accountholder-email">
+          <input id="accountholder-email" name="accountholder-email" value="{{ user.email }}"> 
         </div>
       
         <div class="form-row">

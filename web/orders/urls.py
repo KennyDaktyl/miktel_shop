@@ -7,7 +7,7 @@ from .views import OrderDetails, CheckOutDetails, InpostBoxSearchView
 # CartDetails,
 urlpatterns = [
     path('podsumowanie/', OrderDetails.as_view(), name='order_details'),
-    path('podsumowanie/wybierz_paczkomat/',
+    path('podsumowanie/wybierz_paczkomat/<int:order_id>',
          InpostBoxSearchView.as_view(),
          name='inpost_box'),
     path('platnosci/<int:order>/',

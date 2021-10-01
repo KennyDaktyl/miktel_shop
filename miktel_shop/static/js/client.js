@@ -1,6 +1,9 @@
+const url = "{% url 'payment_success' %}"
+const domain = location.protocol + '//' + location.host + '/payment/payment_success';
+console.log(domain);
 // A reference to Stripe.js initialized with your real test publishable API key.
 var PAYMENT_INTENT_CLIENT_SECRET = $('#p_i_sec').val();
-var stripe = Stripe({{"pk_test_51JbqHvEgeezQE8SPzcN0JcYiBndrFV8LCNuiUlPcaHOHFUzy8HySr5oQkgRnXzu1m7f7AIuxhtsy5HqM2A5yzJUf00QfJDAixM"}});
+var stripe = Stripe("pk_test_51JbqHvEgeezQE8SPzcN0JcYiBndrFV8LCNuiUlPcaHOHFUzy8HySr5oQkgRnXzu1m7f7AIuxhtsy5HqM2A5yzJUf00QfJDAixM");
 var elements = stripe.elements();
 // The items the customer wants to buy
 var options = {
@@ -52,12 +55,8 @@ form.addEventListener('submit', function(event) {
           // tos_shown_and_accepted: true,
         }
       },
-      return_url: 'https://serwiswrybnej.pl',
+      return_url: domain,
     }
   );
-});
-
-
-
-
+})
   

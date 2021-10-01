@@ -12,6 +12,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from decimal import Decimal
 
+from .base import BaseModel
 
 def file_size(value):
     limit = 3 * 1024 * 1024
@@ -20,7 +21,7 @@ def file_size(value):
             'Plik który chcesz wrzucić jest większy niż 3MB.')
 
 
-class Store(models.Model):
+class Store(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa magazynu", max_length=64)
     image = ResizedImageField(verbose_name="Zdjęcie główne",
@@ -85,7 +86,7 @@ class Store(models.Model):
         return "{}, {}".format(str(self.id), self.name)
 
 
-class Category(models.Model):
+class Category(BaseModel):
     id = models.AutoField(primary_key=True)
     tag_desc = models.CharField(
         verbose_name="Meta description",
@@ -160,7 +161,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class SubCategory(models.Model):
+class SubCategory(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa podkategorii", max_length=128)
     category = models.ForeignKey(
@@ -216,7 +217,7 @@ class SubCategory(models.Model):
     def __str__(self):
         return self.name
 
-class SubCategoryType(models.Model):
+class SubCategoryType(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa rodzaje produktu w podkategorii", max_length=128)
     sub_category = models.ForeignKey(
@@ -271,7 +272,7 @@ class SubCategoryType(models.Model):
     def __str__(self):
         return self.name
 
-class Brand(models.Model):
+class Brand(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa marki", max_length=128)
     logo = ResizedImageField(verbose_name="Zdjęcie główne",
@@ -304,7 +305,7 @@ class Brand(models.Model):
         return self.name
 
 
-class Size(models.Model):
+class Size(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(
         verbose_name="Rozmiar produktu (wielkość, pojemność, waga)",
@@ -328,7 +329,7 @@ class Size(models.Model):
         return self.name
 
 
-class Colors(models.Model):
+class Colors(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa koloru", max_length=32)
     class_text = models.CharField(
@@ -352,7 +353,7 @@ class Colors(models.Model):
         return self.name
 
 
-class Vat(models.Model):
+class Vat(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.IntegerField(verbose_name="Stawka VAT")
     is_active = models.BooleanField(verbose_name="Czy jest dostępny",
@@ -362,7 +363,7 @@ class Vat(models.Model):
         return "{}%".format(self.name)
 
 
-class Products(models.Model):
+class Products(BaseModel):
     id = models.AutoField(primary_key=True)
     store = models.ForeignKey("Store",
                               verbose_name="Magazyn",
@@ -438,6 +439,8 @@ class Products(models.Model):
     )
     is_news = models.BooleanField(verbose_name="Czy jest w nowościach",
                                     default=False)
+    is_promo = models.BooleanField(verbose_name="Czy jest w propozycjach",
+                                    default=False)
 
     is_active = models.BooleanField(verbose_name="Czy jest dostępny",
                                     default=True)
@@ -476,7 +479,7 @@ class Products(models.Model):
         return "{} ({})".format(self.name, self.size)
 
 
-class Images(models.Model):
+class Images(BaseModel):
     id = models.AutoField(primary_key=True)
     image = models.ImageField(upload_to='images/',
                               validators=[file_size])
@@ -505,6 +508,13 @@ class Images(models.Model):
     main = models.BooleanField(verbose_name="Zdjęcie główne", default=False)
     stamp = models.BooleanField(verbose_name="Zdjęcie wzornika?",
                                 default=False)
+    carousel = models.BooleanField(verbose_name="Zdjęcie na karuzele?",
+                                default=False)
+    description = models.TextField(verbose_name="Mały opis dla obrazka na karuzeli",
+                             blank=True,
+                             null=True,
+                             max_length=264)
+    logo = models.BooleanField(verbose_name="Logo główne", default=False)
 
     class Meta:
         ordering = (
