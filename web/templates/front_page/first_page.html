@@ -37,8 +37,8 @@
   <div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 offer mt-2 row">
     <h1 class="col-11 ml-3 pl-1">Polecane produkty</h1>
     {% for product in recommended_product %}
-    <div class="col-12 col-sm-6 col-md-3 p-0 ml-0 mr-0 product">
-      <div class="col-10 mx-auto text-center row">
+    <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">
+      <div class="col-12 mx-auto text-center row">
         <div class="col-12 mx-auto text-center row">
           {% if product.is_news %}
           <div class="boxNovelty smallBox m-2">NEW</div>
@@ -59,14 +59,16 @@
               title="{{ product.title }}">
           {% endthumbnail %}
       </div>
-      <p class="productName col-12 mx-auto text-center">{{ product.name }}</p>
-      <p class="producerName col-12 mx-auto text-center">{{ product.brand.name }}</p>
+      <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center">
+      <p class="productName col-12 mx-auto text-center m-0 p-0">{{ product.name }}</p>
+      <p class="producerName col-12 mx-auto text-center m-0 p-0">{{ product.brand.name }}</p>
       <blockquote class="col-12 mx-auto row d-flex align-items-center">
         <p class="producerPrice mx-auto text-center text-danger  m-0 p-0">{{ product.price_promo}} zł</p>
         {% if product.price_promo != product.price %}
         <p class="mx-auto text-center m-0 p-0"><del>{{ product.price}} zł</del></p>
         {% endif %}
         </blockquote>
+      </div>
     </div>
     {% endfor %}
   </div>

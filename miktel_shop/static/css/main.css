@@ -342,19 +342,19 @@ div.article {
 }
 
 .productName {
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 700;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .producerName {
-    font-size: 14px;
+    font-size: 11px;
     font-weight: 400;
     margin-top: 10px;
 }
 
 .producerPrice {
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 700;
     margin-top: 20px;
     color: red;
@@ -647,5 +647,11 @@ table {
     img.mini {
         width: 40px;
         height: 40px;
+    }
+
+    .productName {
+        font-size: 15px;
+        font-weight: 700;
+        margin-top: 20px;
     }
 }
