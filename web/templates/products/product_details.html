@@ -74,18 +74,24 @@
                 <div class="col-12 row text-left mx-auto">
                     <span class="font-weight-bold pr-2">Magazyn:</span> <span class=""> {{ product.store.city }}</span>
                 </div>
-                <form action="" class="row col-12 mx-auto text-left">
+                <form action="" class="row col-12 mx-auto m-1 text-left d-flex align-items-center">
                     {% csrf_token %}
                     <input type="hidden" name="" id="prod_id" value="{{product.id}}">
                     <div class="row text-left d-flex align-items-center m-0 p-0">
                         <input id="qty" name="qty" class="mx-auto text-left m-0 p-0 mr-2" value="1" type="number" min="1" max="{{ product.qty }}">
                         <span class="mx-auto text-left pl-2">szt.</span>
                     </div>
-                    <span id="add_product" class="input-group-append" data-toggle="modal"
-                    data-target="#exampleModal{{object.id}}">
-                    <button class="btn btn-success ml-2" type="button" data-action="add">
-                        <i class="basket fa fa-cart-plus"></i> Dodaj produkt</button>
-                </span>
+                    {% if product.qty > 0 %}
+                        <span id="add_product" class="input-group-append ml-auto d-flex align-items-center" data-toggle="modal"
+                        data-target="#exampleModal{{object.id}}">
+                            <button class="btn btn-success ml-2" type="button" data-action="add">
+                            <i class="basket fa fa-cart-plus"></i> Dodaj produkt</button>
+                        </span>
+                    {% else %}
+                        <span id="" class="input-group-append ml-auto d-flex align-items-center">
+                            <button class="btn btn-secondary ml-2" type="button">Brak produktu</button>
+                        </span>
+                        {% endif %}
                 </form>
             </div>
             <div class="modal fade" id="exampleModal{{object.id}}" tabindex="-1" role="dialog"
@@ -152,4 +158,27 @@
 
 {% block script %}
 <script src="{% static "js/products.js" %}" type="text/javascript"></script>
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Product",
+      "name": "{{ product.name }}",
+      "image": ["{{ get_domain }}{{ MEDIA_URL }}{{product.image}}",
+      {% for image in product.images %}"{{ get_domain }}{{ MEDIA_URL }}{{image.image}}",{%endfor%}
+      ],
+      "description": "{{ product.description }}",
+      "brand": {
+        "@type": "Brand",
+        "name": "{{ product.brand.name }}"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "{{ get_domain }}{{ product.get_absolute_url }}",
+        "priceCurrency": "PLN",
+        "price": "{{ product.price_promo }}",
+        "itemCondition": "https://schema.org/NewCondition",
+        {% if product.qty > 0 %}"availability": "https://schema.org/InStock"{% else %}"availability": "https://schema.org/OutOfStock"{% endif %}
+      }
+    }
+    </script>
 {% endblock %}

@@ -11,5 +11,5 @@ urlpatterns = [
     path("koszyk/", include("web.cart.urls")),
     path("zamowienia/", include("web.orders.urls")),
     path("payment/", include("web.payments.urls")),
-    path("produkty/", include("web.products.urls")),
+    path("sklep_online/", include("web.products.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

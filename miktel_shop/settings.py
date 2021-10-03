@@ -98,6 +98,7 @@ TEMPLATES = [
                 "web.cart.my_context_processor.cart",
                 "web.front.my_context_processor.logo",
                 "web.products.my_context_processor.menu_category",
+                "web.products.my_context_processor.get_domain",
             ],
         },
     },

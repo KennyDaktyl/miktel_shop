@@ -7,14 +7,15 @@
 
 
 {% block head %}
-<meta property="fb:app_id" content="{{app_id}}" />
+<!-- <meta property="fb:app_id" content="{{app_id}}" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="{{request.build_absolute_uri}}" />
 <meta property="og:title" content="{{page.title}}" />
 <meta property="og:image" content="" />
 <meta property="og:description" content="{{page.description}}" />
 <meta name="description" content="{{page.description}}">
-<link rel="canonical" href="{{cannonical}}">
+<link rel="canonical" href="{{cannonical}}"> -->
+<meta name=”robots” content=”noindex”>
 {% endblock %}
 
 {% block title %}
@@ -24,10 +25,10 @@
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
     <li class="breadcrumb-item active" aria-current="page"><a href="">Strona startowa</a></li>
-    <li class="breadcrumb-item text-dark active" aria-current="page">Podsumowanie koszyka</li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">Podsumowanie</li>
   </nav>
 
-<div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-start">
+<div class="col-12 col-md-8 mx-auto text-center m-0 p-0 row d-flex align-items-start">
     <main class="col-lg-12 mx-auto row m-0 p-0 row">
         <div class="col-12 text-left headline m-0 p-0 offer row">
             <h1 class="col-12 m-0 p-0">SZCZEGÓŁY ZAMÓWIENIA:</h1>
