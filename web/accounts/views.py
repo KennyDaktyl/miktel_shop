@@ -136,6 +136,7 @@ class ActivateAccount(View):
     def get(self, request, token):
         user = ActivateToken.objects.get(activation_token=token).user
         user.is_active = True
+        user.save()
         messages.error(request, 'Konto aktywne.')
         login(request, user)
         return redirect('front_page')
