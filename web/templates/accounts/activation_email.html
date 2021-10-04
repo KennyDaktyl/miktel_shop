@@ -16,10 +16,10 @@
 </head>
 <body>
     <h3 class="title m-2 text-center">Aktywacja konta w portalu serwiswrybnej.pl</h3>
-<div id="wrap" class="col-12 row mt-2">    
-    <a href="https://serwiswrybnej.pl{{ button_link }}" class="mx-auto col-12 button_link">
-        <button class="btn btn-primary mx-auto">{{ button_link }} Aktywuj konto</button>
-    </a>
+<div id="wrap" class="col-12 row mt-2"> 
+    <form action="{{ button_link }}" class="mx-auto">
+        <button class="btn btn-primary mx-auto" type="submit">Aktywuj konto</button>
+    </form>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
