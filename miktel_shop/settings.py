@@ -161,3 +161,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = "front_page"
 LOGOUT_REDIRECT_URL = "login"
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+SERVER_EMAIL = os.environ.get('EMAIL_HOST')
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_USER')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

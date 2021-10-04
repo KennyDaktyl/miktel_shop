@@ -1,3 +1,4 @@
+import uuid
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.views import LogoutView
 
@@ -13,7 +14,10 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
+from web.models.accounts import ActivateToken
+
 from .forms import LoginForm, UserForm, BusinessForm
+from .functions import send_activate_email
 # from products.models import Category
 from web.models import Profile, Address
 
@@ -69,6 +73,8 @@ class RegisterUserView(View):
                 new_user.set_password(form.cleaned_data['password'])
                 new_user.is_active = False
                 new_user.save()
+                token = ActivateToken.objects.create(user=new_user, activation_token=str(int(str(uuid.uuid4()).split('-')[0], 16)))
+                send_activate_email('Aktywacja konta', new_user, token.activation_token)
                 messages.error(request, 'Potwierdź email aby zalogować.')
                 return redirect('front_page')
         else:
@@ -124,39 +130,46 @@ class CompanyRegistrationView(View):
             ctx = {'form': form}
             return render(request, "accounts/register_business.html", ctx)
 
+class ActivateAccount(View):
 
-class Activate(View):
+    def get(self, request, token):
+        user = ActivateToken.objects.get(activation_token=token).user
+        user.is_active = True
+        messages.error(request, 'Konto aktywne.')
+        return redirect('front_page')
 
-    def get_user_agent(self):
-        return self.request.META.get("HTTP_USER_AGENT", "")
+# class Activate(View):
 
-    def get_ip(self):
-        return self.request.META.get("REMOTE_ADDR", "")
+#     def get_user_agent(self):
+#         return self.request.META.get("HTTP_USER_AGENT", "")
 
-    def post(self, request, *args, **kwargs):
-        # ser = ActivateSerializer(data=request.data)
-        # ser.is_valid(raise_exception=True)
-        # vd = ser.validated_data
-        try:
-            u = User.objects.get(activation_token=vd['token'])
-        except User.DoesNotExist:
-            raise ValidationError("bad activation", "bad_activation")
+#     def get_ip(self):
+#         return self.request.META.get("REMOTE_ADDR", "")
 
-        # if u.activation_send_time and (timezone.now() - u.activation_send_time) > \
-        #         timedelta(minutes=settings.ACTIVATION_EXPIRATION_MINUTES):
-        #     raise ValidationError(code='activation_expired',
-        #                           detail='Email activation token expired.')
+#     def post(self, request, *args, **kwargs):
+#         # ser = ActivateSerializer(data=request.data)
+#         # ser.is_valid(raise_exception=True)
+#         # vd = ser.validated_data
+#         try:
+#             u = User.objects.get(activation_token=vd['token'])
+#         except User.DoesNotExist:
+#             raise ValidationError("bad activation", "bad_activation")
 
-        u.activation_token = None
-        u.activation_send_time = None
-        u.is_active = True  # Not anymore.
-        u.is_email_confirmed = True
-        u.save()
+#         # if u.activation_send_time and (timezone.now() - u.activation_send_time) > \
+#         #         timedelta(minutes=settings.ACTIVATION_EXPIRATION_MINUTES):
+#         #     raise ValidationError(code='activation_expired',
+#         #                           detail='Email activation token expired.')
+
+#         u.activation_token = None
+#         u.activation_send_time = None
+#         u.is_active = True  # Not anymore.
+#         u.is_email_confirmed = True
+#         u.save()
             
-        send_account_activated_email(to=u.email, recipient=u)
-        data = ActivateUserInfoOutSerializer(u).data
+#         send_account_activated_email(to=u.email, recipient=u)
+#         data = ActivateUserInfoOutSerializer(u).data
 
-        return Response(data_out.data)
+#         return Response(data_out.data)
 
 # # @method_decorator(login_required, name='dispatch')
 # # class ChangeOnlyPasswordView(View):
@@ -325,4 +338,5 @@ class LogoutView(View):
 user_login = LoginView.as_view()
 user_logout = LogoutView.as_view()
 register_user = RegisterUserView.as_view()
+activate_account = ActivateAccount.as_view()
 company_registration = CompanyRegistrationView.as_view()

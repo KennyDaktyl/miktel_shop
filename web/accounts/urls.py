@@ -11,6 +11,7 @@ urlpatterns = [
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
     path('user_register/', register_user, name="register_user"),
+    path('activate_account/<token>', activate_account, name='activate_account'),
     path('company_registration/', company_registration, name="company_registration"),
     #      name='register_user_basket'),
     #      AddClientFromBasketView.as_view(),

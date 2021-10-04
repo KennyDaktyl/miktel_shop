@@ -2,6 +2,11 @@ from django.db import models
 from django.conf import settings
 from .base import BaseModel
 
+class ActivateToken(BaseModel):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL,
+                                on_delete=models.CASCADE)
+    activation_token = models.CharField(max_length=64, unique=True)
+
 class Profile(BaseModel):
     id = models.AutoField(primary_key=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL,

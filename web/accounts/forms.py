@@ -32,8 +32,8 @@ class UserForm(forms.ModelForm):
                              widget=forms.EmailInput,
                              validators=[validate_email],
                              required=True)
-    first_name = forms.CharField(label="Imię", required=True)
-    last_name = forms.CharField(label="Nazwisko", required=True)
+    # first_name = forms.CharField(label="Imię", required=True)
+    # last_name = forms.CharField(label="Nazwisko", required=True)
 
     # phone_number = forms.CharField(label="Telefon", required=True)
 
@@ -56,7 +56,7 @@ class UserForm(forms.ModelForm):
     # door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
     # city = forms.CharField(label="Miasto", max_length=64, required=True)
     # zip_code = forms.CharField(label="Kod pocztowy",min_length=6, max_length=6, required=True)
-    captcha = ReCaptchaField(required=True)
+    # captcha = ReCaptchaField(required=True)
 
     # is_active = forms.BooleanField(
     #     help_text="Czy użytkownik jest aktywny? (Odznacz zamiast kasować)")
@@ -66,8 +66,8 @@ class UserForm(forms.ModelForm):
         fields = (
             # 'username',
             'email',
-            'first_name',
-            'last_name',
+            # 'first_name',
+            # 'last_name',
             'password',
         )
 
