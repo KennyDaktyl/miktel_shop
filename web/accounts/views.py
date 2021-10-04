@@ -17,7 +17,7 @@ from django.contrib.auth.decorators import login_required
 from web.models.accounts import ActivateToken
 
 from .forms import LoginForm, UserForm, BusinessForm
-from .functions import send_activate_email
+from .functions import *
 # from products.models import Category
 from web.models import Profile, Address
 
@@ -75,7 +75,8 @@ class RegisterUserView(View):
                 new_user.save()
                 host = request.scheme + "://" + request.get_host()
                 token = ActivateToken.objects.create(user=new_user, activation_token=str(int(str(uuid.uuid4()).split('-')[0], 16)))
-                send_activate_email('Aktywacja konta', host, new_user, token.activation_token)
+                msg = send_simple_message('Aktywacja konta', host, new_user, token.activation_token)
+                print(msg)
                 messages.error(request, 'Potwierdź email aby zalogować.')
                 return redirect('front_page')
         else:

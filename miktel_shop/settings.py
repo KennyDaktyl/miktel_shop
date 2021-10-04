@@ -170,3 +170,5 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 SERVER_EMAIL = os.environ.get('EMAIL_HOST')
 DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_USER')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY')
