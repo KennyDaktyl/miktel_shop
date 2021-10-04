@@ -67,22 +67,9 @@ class RegisterUserView(View):
                 new_user.username = form.cleaned_data['email']
                 new_user.email = form.cleaned_data['email']
                 new_user.set_password(form.cleaned_data['password'])
+                new_user.is_active = False
                 new_user.save()
-                # profile = Profile()
-                # profile.user_id = new_user.id
-                # profile.phone_number = form.cleaned_data['phone_number']
-                # profile.save()
-                # address = Address()
-                # address.user_id = new_user
-                # address.street = form.cleaned_data['street']
-                # address.house = form.cleaned_data['house']
-                # if form.cleaned_data['door']:
-                #     address.door = form.cleaned_data['door']
-                # address.zip_code = form.cleaned_data['zip_code']
-                # address.city = form.cleaned_data['city']
-                # address.save()
-                login(request, new_user)
-                messages.error(request, 'Utworzono konto')
+                messages.error(request, 'Potwierdź email aby zalogować.')
                 return redirect('front_page')
         else:
             messages.error(request, 'Wystąpił błąd')
@@ -137,6 +124,39 @@ class CompanyRegistrationView(View):
             ctx = {'form': form}
             return render(request, "accounts/register_business.html", ctx)
 
+
+class Activate(View):
+
+    def get_user_agent(self):
+        return self.request.META.get("HTTP_USER_AGENT", "")
+
+    def get_ip(self):
+        return self.request.META.get("REMOTE_ADDR", "")
+
+    def post(self, request, *args, **kwargs):
+        # ser = ActivateSerializer(data=request.data)
+        # ser.is_valid(raise_exception=True)
+        # vd = ser.validated_data
+        try:
+            u = User.objects.get(activation_token=vd['token'])
+        except User.DoesNotExist:
+            raise ValidationError("bad activation", "bad_activation")
+
+        # if u.activation_send_time and (timezone.now() - u.activation_send_time) > \
+        #         timedelta(minutes=settings.ACTIVATION_EXPIRATION_MINUTES):
+        #     raise ValidationError(code='activation_expired',
+        #                           detail='Email activation token expired.')
+
+        u.activation_token = None
+        u.activation_send_time = None
+        u.is_active = True  # Not anymore.
+        u.is_email_confirmed = True
+        u.save()
+            
+        send_account_activated_email(to=u.email, recipient=u)
+        data = ActivateUserInfoOutSerializer(u).data
+
+        return Response(data_out.data)
 
 # # @method_decorator(login_required, name='dispatch')
 # # class ChangeOnlyPasswordView(View):

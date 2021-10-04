@@ -18,7 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl', '51.75.64.242', 'e372-185-172-87-165.ngrok.io']
 
-if socket.gethostname() in ["Asus", "michalp"]:
+print(socket.gethostname())
+if socket.gethostname() in ["Asus", "michalp", "DESKTOP-HDDTT8P"]:
     SECURE_SSL_REDIRECT = False
     DEBUG = True
     DOMAIN = "127.0.0.1:8000"
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'rest_framework',
     'crispy_forms',
     'captcha',
