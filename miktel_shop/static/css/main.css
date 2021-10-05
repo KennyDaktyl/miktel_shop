@@ -360,6 +360,11 @@ div.article {
     color: red;
 }
 
+
+#wrapIconInfo {
+    min-height: 750px;
+}
+
 #IconInfo {
     position: relative;
     height: auto;
@@ -413,13 +418,13 @@ div.article {
 }
 
 #iconInfo p {
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 600;
     text-transform: uppercase;
 }
 
 #iconInfo strong {
-    font-size: 18px;
+    font-size: 12px;
     font-weight: 500;
     background: red;
     padding: 10px 15px;
@@ -655,6 +660,33 @@ table {
         font-size: 15px;
         font-weight: 700;
         margin-top: 20px;
+    }
+
+    #iconInfo i {
+        color: white;
+        font-size: 40px;
+        margin: 30px;
+    }
+
+    #iconInfo p {
+        font-size: 25px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    #iconInfo strong {
+        font-size: 18px;
+        font-weight: 500;
+        background: red;
+        padding: 10px 15px;
+        -moz-border-radius-topleft: 20px;
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border-top-left-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
     }
 }
 
