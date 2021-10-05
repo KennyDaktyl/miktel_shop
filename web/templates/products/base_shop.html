@@ -4,8 +4,9 @@
 
 {% block head %}
 <link rel="stylesheet" href="{% static "css/shop.css" %}" />
-<meta name="description" content="{{ description }}">
-<title>{{ title }}</title>
+    {% block head_shop %}
+
+    {% endblock %}
 {% endblock %}
 
 {% block content %}

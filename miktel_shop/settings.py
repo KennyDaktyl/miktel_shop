@@ -16,7 +16,8 @@ import socket
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl', '51.75.64.242', 'e372-185-172-87-165.ngrok.io']
+ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl',
+                 '51.75.64.242', 'e372-185-172-87-165.ngrok.io']
 
 print(socket.gethostname())
 if socket.gethostname() in ["Asus", "michalp", "DESKTOP-HDDTT8P"]:
@@ -99,8 +100,8 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 "web.cart.my_context_processor.cart",
                 "web.front.my_context_processor.logo",
+                "web.front.my_context_processor.get_domain",
                 "web.products.my_context_processor.menu_category",
-                "web.products.my_context_processor.get_domain",
             ],
         },
     },

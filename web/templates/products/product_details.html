@@ -3,6 +3,11 @@
 {% load crispy_forms_tags %}
 {% load thumbnail %}
 
+{% block head_shop %}
+<link rel="canonical" href="{{ get_domain }}{{ product.get_absolute_url }}"/>
+<meta name="description" content="{{ product.seo_tag_description }}">
+<title>Produkt {{ product.name }} | marki {{ product.brand.name }}</title>
+{% endblock %}
 
 {% block content_shop %}
 <div class="wrap col-12 m-0 p-0 ">

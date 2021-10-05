@@ -14,6 +14,7 @@ from decimal import Decimal
 
 from .base import BaseModel
 
+
 def file_size(value):
     limit = 3 * 1024 * 1024
     if value.size > limit:
@@ -155,11 +156,13 @@ class Category(BaseModel):
                            "category": self.slug,
                            "pk": self.id,
                        })
+
     def sub_category(self):
         return SubCategory.objects.filter(category=self)
 
     def __str__(self):
         return self.name
+
 
 class SubCategory(BaseModel):
     id = models.AutoField(primary_key=True)
@@ -194,6 +197,7 @@ class SubCategory(BaseModel):
                              blank=True,
                              null=True,
                              max_length=70)
+
     class Meta:
         ordering = (
             "number",
@@ -211,15 +215,18 @@ class SubCategory(BaseModel):
                            "sub_category": self.slug,
                            "pk": self.id,
                        })
+
     def sub_cat_type(self):
         return SubCategoryType.objects.filter(sub_category=self)
 
     def __str__(self):
         return self.name
 
+
 class SubCategoryType(BaseModel):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(verbose_name="Nazwa rodzaje produktu w podkategorii", max_length=128)
+    name = models.CharField(
+        verbose_name="Nazwa rodzaje produktu w podkategorii", max_length=128)
     sub_category = models.ForeignKey(
         "SubCategory",
         verbose_name="Rodzaje produktów w podkategorii",
@@ -249,6 +256,7 @@ class SubCategoryType(BaseModel):
                              blank=True,
                              null=True,
                              max_length=70)
+
     class Meta:
         ordering = (
             "number",
@@ -271,6 +279,7 @@ class SubCategoryType(BaseModel):
 
     def __str__(self):
         return self.name
+
 
 class Brand(BaseModel):
     id = models.AutoField(primary_key=True)
@@ -400,7 +409,7 @@ class Products(BaseModel):
                             null=True,
                             max_length=128)
     image = models.ImageField(verbose_name="Zdjęcie główne",
-                            #   size=[1280, 960],
+                              #   size=[1280, 960],
                               upload_to='images/products/',
                               validators=[file_size],
                               null=True,
@@ -438,9 +447,9 @@ class Products(BaseModel):
         verbose_name="Stawka VAT",
     )
     is_news = models.BooleanField(verbose_name="Czy jest w nowościach",
-                                    default=False)
+                                  default=False)
     is_promo = models.BooleanField(verbose_name="Czy jest w propozycjach",
-                                    default=False)
+                                   default=False)
 
     is_active = models.BooleanField(verbose_name="Czy jest dostępny",
                                     default=True)
@@ -464,11 +473,13 @@ class Products(BaseModel):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         if self.discount > 0:
-            self.price_promo = float(self.price) - float(self.price) * (self.discount / 100)
-            
+            self.price_promo = float(self.price) - \
+                float(self.price) * (self.discount / 100)
+
         else:
             self.price_promo = self.price
-        self.price_netto = float(self.price_promo) / float("1." + str(self.tax.name))
+        self.price_netto = float(self.price_promo) / \
+            float("1." + str(self.tax.name))
         super(Products, self).save()
 
     class Meta:
@@ -477,6 +488,11 @@ class Products(BaseModel):
 
     def __str__(self):
         return "{} ({})".format(self.name, self.size)
+
+    @property
+    def seo_tag_description(self):
+        description = f"""Produkt marki {self.brand.name}"""
+        return description
 
 
 class Images(BaseModel):
@@ -509,11 +525,11 @@ class Images(BaseModel):
     stamp = models.BooleanField(verbose_name="Zdjęcie wzornika?",
                                 default=False)
     carousel = models.BooleanField(verbose_name="Zdjęcie na karuzele?",
-                                default=False)
+                                   default=False)
     description = models.TextField(verbose_name="Mały opis dla obrazka na karuzeli",
-                             blank=True,
-                             null=True,
-                             max_length=264)
+                                   blank=True,
+                                   null=True,
+                                   max_length=264)
     logo = models.BooleanField(verbose_name="Logo główne", default=False)
 
     class Meta:

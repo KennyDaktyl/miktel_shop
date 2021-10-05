@@ -3,6 +3,12 @@
 {% load crispy_forms_tags %}
 {% load thumbnail %}
 
+{% block head_shop %}
+<link rel="canonical" href="https://serwiswrybnej.pl"/>
+<meta name="description" content="{{ description }}">
+<title>{{ title }}</title>
+{% endblock %}
+
 {% block content_shop %}
     <input type="hidden" id='cat' value="{{ sub_category_type.sub_category.category.id }}">
     <input type="hidden" id='sub_cat' value="{{ sub_category_type.sub_category.id }}">
