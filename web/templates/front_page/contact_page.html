@@ -1,0 +1,255 @@
+{% extends "front_page/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static "css/contact_page.css" %}" />
+
+<meta name="description" content="Siedziba sklepu znajduje się w Rybnej k. krakow w gminie Czernichów. Usługi wykonywane są w prywatnym domu na ul. Wspólnej 2. Czynne od poniedziałku do piątku w godzinach 9-18 oraz w sobotę od 9 do 13.">
+<title>Kontakt | Serwis w Rybnej</title>
+{% endblock %}
+
+{% block content %}
+<section class="ftco-section">
+    <div class="container">
+    <div class="row justify-content-center">
+    <div class="col-md-6 text-center mb-5">
+    </div>
+    </div>
+    <div class="row justify-content-center">
+    <div class="col-md-12">
+    <div class="wrapper">
+    <div class="row no-gutters mb-5">
+    <div class="col-md-7">
+    <div class="contact-wrap w-100 p-md-5 p-4">
+    <h3 class="mb-4">Skontaktuj się ze mną</h3>
+    <div id="form-message-warning" class="mb-4"></div>
+    <div id="form-message-success" class="mb-4">
+    Your message was sent, thank you!
+    </div>
+    <form method="POST" id="contactForm" name="contactForm" class="contactForm">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="label" for="name">Imię i nazwisko</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
+                </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="label" for="email">Email adres</label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="label" for="subject">Temat</label>
+                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="label" for="#">Wiadomość</label>
+                        <textarea name="message" class="form-control" id="message" cols="30" rows="4" placeholder="Message" required></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <input type="submit" value="Wyślij wiadomość" class="btn btn-primary contact_button">
+                    <div class="submitting"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+    </div>
+    </div>
+    
+    <div class="col-md-5  pt-md-5 mx-auto row">
+        <iframe class="mx-auto col-12" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10250.200023868594!2d19.635173598507436!3d50.038527311728295!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4716f4f9279bd429%3A0x52fdc1b4b4e2a269!2zNTDCsDAyJzMxLjIiTiAxOcKwMzgnMjcuMSJF!5e0!3m2!1spl!2spl!4v1633431322725!5m2!1spl!2spl" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        
+    </div>
+    </div>
+    <div class="col-12 row pl-4 pl-md-5 row mb-4 row d-flex align-items-start">
+        <div class="col-12 col-md-6 row m-0 p-0 d-flex align-items-start">
+            <h3 class="col-12 pl-1 mb-2">Dane firmowe:</h3>
+            <p class="col-12 pl-2">Michał Pielak Miktel</p>
+            <p class="col-12 pl-2">ul. Wspólna 2, Rybna 32-061</p>
+            <p class="col-12 pl-2">Nip 678 280 52 34</p>
+            <p class="col-12 pl-2">Kod BIC (Swift): BPKOPLPW</p>
+            <p class="col-12 pl-2">21 1020 2906 0000 1702 0373 8333</p>
+        </div>
+        <div class="col-12 col-md-6 row m-0 p-0 text-right d-flex align-items-start">
+            <h3 class="mt-1 ml-1 col-12 mx-auto text-right">Godziny pracy</h3>
+            <p class="col-12 row mx-auto text-right">
+            <span class="col-12">pon - pt: 8-18</span>
+            <span class="col-12">sob: 8-13</span>
+            <span class="col-12">nd: zamknięte</span>
+        </p>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-3">
+    <div class="dbox w-100 text-center">
+    <div class="icon d-flex align-items-center justify-content-center">
+    <span class="fa fa-map-marker"></span>
+    </div>
+    <div class="text">
+    <p><span>Adres:</span><br>ul. Wspólna 2,</p>
+    <p>Rybna 32-061 </p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-3">
+    <div class="dbox w-100 text-center">
+    <div class="icon d-flex align-items-center justify-content-center">
+    <span class="fa fa-phone"></span>
+    </div>
+    <div class="text">
+    <p><span>Telefon:</span> <a href="tel://506029980">506 029 980</a></p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-3">
+    <div class="dbox w-100 text-center">
+    <div class="icon d-flex align-items-center justify-content-center">
+    <span class="fa fa-paper-plane"></span>
+    </div>
+    <div class="text">
+    <p><span>Email:</span> <a href="javascript:antiSpamMail.linkDecrypt('nbjmup;qjfmblAnjlufmhtn/qm');">Email</a></p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-3">
+    <div class="dbox w-100 text-center">
+    <div class="icon d-flex align-items-center justify-content-center">
+    <span class="fa fa-globe"></span>
+    </div>
+    <div class="text">
+    <p><span>Website</span> <a href="#">serwiswrybnej.pl</a></p>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
+    <script>;(function (root, factory, name) {
+        'use strict';
+        root[name] = factory();
+        if (typeof define === 'function' && define.amd) {
+          define(function() { return root[name]; });
+        } else if (typeof exports === 'object') {
+          module.exports = root[name];
+        }
+      })((typeof window === 'object' && window) || this, function () {
+        'use strict';
+        var AntiSpamMail, antiSpamMail;
+        AntiSpamMail = function() {};
+        AntiSpamMail.fn = AntiSpamMail.prototype = {
+          _version: '0.1.5',
+          encryptFn: 'antiSpamMail.linkDecrypt',
+          /**
+           * Encrypt or decrypt a string
+           *
+           * @method encryptDecrypt
+           * @param {String} originalString      string to encrypt or decrypt
+           * @param {Number} [nFromCharCode=-1]  encrypt if +1, decrypt if -1
+           * @returns {String} encrypted or decrypted string
+           */
+          encryptDecrypt: function(originalString, nFromCharCode) {
+            var i, n, newString;
+            if (nFromCharCode == null) {
+              nFromCharCode = -1;
+            }
+            i = 0;
+            n = 0;
+            newString = '';
+            while (i < originalString.length) {
+              n = originalString.charCodeAt(i);
+              if (n >= 8364) {
+                n = 128;
+              }
+              newString += String.fromCharCode(n + nFromCharCode);
+              i++;
+            }
+            return newString;
+          }
+        };
+        antiSpamMail = new AntiSpamMail();
+        /**
+         * Crypt given mail
+         *
+         * @method encrypt
+         * @param {String} emailToEncrypt  email address to encrypt
+         * @returns {String} encrypted email address
+         */
+        antiSpamMail.encrypt = function(emailToEncrypt) {
+          return this.encryptDecrypt('mailto:' + emailToEncrypt, 1);
+        };
+        /**
+         * Initiate the form to encrypt
+         *
+         * @method encryptForm
+         * @param {String} formName    the name of the form
+         * @param {String} fieldName   name of email field
+         * @returns void
+         */
+        antiSpamMail.encryptForm = function(formName, fieldName) {
+          var cryptform, email, emailHtml, encryptedMail, fieldShowEncryptedHtml, fieldShowEncryptedMail, i, radioObj, radioValue;
+          formName = formName || 'antiSpamMail';
+          fieldName = fieldName || 'cryptmail_email';
+          fieldShowEncryptedMail = 'cryptmail_cryptedmail';
+          fieldShowEncryptedHtml = 'cryptmail_html';
+          cryptform = document.forms[formName];
+          email = cryptform[fieldName].value;
+          if (cryptform.cryptmail_email.value.length < 4) {
+            return false;
+          }
+          radioObj = cryptform.cryptmail_radio;
+          if (radioObj.length > 0) {
+            i = 0;
+            while (i < radioObj.length) {
+              radioValue = parseInt(radioObj[i].checked ? radioObj[i].value : void 0, 10);
+              i++;
+            }
+          } else {
+            radioValue = 0;
+          }
+          if (radioValue === 1) {
+            emailHtml = email.replace(/\./g, '<span class="crypt" aria-hidden="true">.</span>.<span class="crypt" aria-hidden="true">.</span>');
+            emailHtml = emailHtml.replace(/@/, '<span class="crypt" aria-hidden="true">.</span>@<span class="crypt" aria-hidden="true">.</span>');
+          } else {
+            emailHtml = email.replace(/\./g, ' [dot] ');
+            emailHtml = emailHtml.replace(/@/, ' [at] ');
+          }
+          encryptedMail = this.encrypt(email);
+          cryptform[fieldShowEncryptedMail].value = encryptedMail;
+          cryptform[fieldShowEncryptedHtml].value = '<a href="javascript:' + this.encryptFn + '(\'' + encryptedMail + '\');">' + emailHtml + '</a>';
+        };
+        /**
+         * Uncrypt the email address and returns the valid href
+         *
+         * @method decrypt
+         * @param {String} encryptedMail   the crypted string
+         * @returns {String} valid href
+         */
+        antiSpamMail.decrypt = function(encryptedMail) {
+          return this.encryptDecrypt(encryptedMail);
+        };
+        /**
+         * Public function for A tags
+         *
+         * @method linkDecrypt
+         * @param {String} encryptedMail   the crypted string
+         * @returns void
+         */
+        antiSpamMail.linkDecrypt = function(encryptedMail) {
+          location.href = this.decrypt(encryptedMail);
+        };
+        return antiSpamMail;
+      }, 'antiSpamMail');</script>
+{% endblock %}

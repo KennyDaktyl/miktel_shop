@@ -1,7 +1,7 @@
 * {
     margin: 0px;
     padding: 0px;
-    font-family: 'Open Sans',sans-serif;
+    font-family: 'Open Sans', sans-serif;
     text-decoration: none;
 }
 
@@ -43,7 +43,7 @@ span {
 }
 
 a.link {
-color: white;
+    color: white;
 }
 
 a.link :hover {
@@ -51,15 +51,15 @@ a.link :hover {
     color: red;
 }
 
-a.nav-link{
-    color:black;
+a.nav-link {
+    color: black;
 }
 
-a.nav-link:hover{
-    color:red;
+a.nav-link:hover {
+    color: red;
 }
 
-.nav i  {
+.nav i {
     font-size: 22px;
 }
 
@@ -75,14 +75,14 @@ a.nav-link:hover{
     background-color: #bbb;
     border-radius: 50%;
     display: inline-block;
-  }
+}
 
 #BasketInfo {
     position: relative;
 }
 
 .quantityBasket {
-    position:absolute;
+    position: absolute;
     top: -20%;
     right: 20%;
     width: 20px;
@@ -138,8 +138,8 @@ a.nav-link:hover{
     background-color: black;
     transition: 0.5s;
     overflow-y: auto;
-    overflow:scroll;
-    }
+    overflow: scroll;
+}
 
 #navbarTogglerMenu.show {
     top: 40px;
@@ -150,18 +150,18 @@ a.nav-link:hover{
 }
 
 .collapse_menu {
-    background-color:gray;
+    background-color: gray;
 }
 
-#nav_menu a{
+#nav_menu a {
     color: white;
 }
 
-#nav_menu span{
+#nav_menu span {
     color: white;
 }
 
-#nav_menu i{
+#nav_menu i {
     color: white;
 }
 
@@ -171,12 +171,12 @@ a.nav-link:hover{
 
 #nav_menu ul {
     border-bottom: white 1px solid;
-   }
+}
 
 #nav_menu {
     height: 656;
     overflow: auto;
-    -webkit-overflow-scrolling:touch; 
+    -webkit-overflow-scrolling: touch;
 }
 
 span.show_password {
@@ -275,7 +275,7 @@ div.product:hover {
 #showOption {
     display: block;
     position: absolute;
-    bottom:0;
+    bottom: 0;
     left: 50%;
     transform: translate(-50%, 0);
     transition: .5s;
@@ -331,7 +331,7 @@ div.article {
     background-color: blueviolet;
 }
 
-.smallBox{
+.smallBox {
     width: 40px;
     height: 40px;
     line-height: 40px;
@@ -367,15 +367,15 @@ div.article {
 
 #inIconInfo {
     background-image: url(/media/images/serwiswrybnej+plakat.webp);
-    background-position:center;
+    background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     -webkit-background-size: cover;
-   -moz-background-size: cover;
-   -o-background-size: cover;
-   background-size: cover;
-   background-position-y: 50px;
-   filter: alpha(opacity=60);
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position-y: 50px;
+    filter: alpha(opacity=60);
     -moz-opacity: 0.6;
     opacity: 0.6;
     position: absolute;
@@ -407,7 +407,7 @@ div.article {
 }
 
 #iconInfo i {
-    color:  white;
+    color: white;
     font-size: 40px;
     margin: 30px;
 }
@@ -435,11 +435,11 @@ div.article {
 
 div.article {
     margin-bottom: 50px;
-    
+
 }
 
 div.imgWrap {
-    background-color:  blueviolet;
+    background-color: blueviolet;
     overflow: hidden;
 }
 
@@ -449,7 +449,7 @@ div.imgWrap {
 }
 
 div.carousel-item {
-    background-color:  black;
+    background-color: black;
 }
 
 img.img_carousel {
@@ -480,10 +480,11 @@ a.readArticle {
 }
 
 div.newsletter {
-    background-color:blueviolet;
+    background-color: blueviolet;
     color: white;
     min-height: 200px;
 }
+
 .newsletter h4 {
     font-size: 18px;
     line-height: 22px;
@@ -496,7 +497,7 @@ div.newsletter {
 }
 
 .footer {
-    background-color:blueviolet;
+    background-color: blueviolet;
     color: white;
 }
 
@@ -614,7 +615,7 @@ table {
         object-fit: cover;
         height: 520px;
     }
-    
+
     #wrapIconInfo {
         min-height: 400px;
     }
@@ -633,17 +634,18 @@ table {
         z-index: 10;
         text-align: center;
         top: 40px;
-        left: 0;
-        min-width: 40vw;
+        left: -100%;
+        min-width: 50vw;
         transform: translate(0, 0);
         box-shadow: 5px 10px 5px 10px #888888;
         background-color: white;
     }
 
     .search_link a {
-        font-size: 18px;
+        font-size: 15px;
     }
-    
+
+
     img.mini {
         width: 40px;
         height: 40px;
@@ -654,4 +656,52 @@ table {
         font-weight: 700;
         margin-top: 20px;
     }
+}
+
+.dbox {
+    width: 100%;
+    margin-bottom: 25px;
+    padding: 0 20px;
+}
+
+@media (min-width: 768px) {
+    .dbox {
+        margin-bottom: 0;
+        padding: 0;
+    }
+}
+
+.dbox p {
+    margin-bottom: 0;
+}
+
+.dbox p span {
+    font-weight: 500;
+    color: #000;
+}
+
+.dbox p a {
+    color: #2553b8;
+}
+
+.dbox .icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #6610f2;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.dbox .icon span {
+    font-size: 20px;
+    color: #fff;
+}
+
+.dbox .text {
+    width: 100%;
+}
+
+input.contact_button {
+    background: #6610f2;
 }

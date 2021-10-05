@@ -116,7 +116,7 @@
                         <a class="col-10 nav-link text-left mx-auto" href="" title="Artukuły bloga">Blog</a><span class="col-2"></span>
                     </li>
                     <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
-                        <a class="col-10 nav-link text-left mx-auto" href=""
+                        <a class="col-10 nav-link text-left mx-auto" href="{% url 'contact_page' %}"
                             title="Kontak z restauracją">Kontakt</a>
                             <span class="col-2"></span>
                     </li>
@@ -155,8 +155,8 @@
     </nav>
 
     <nav id="nav_main_xl" class="col-12 mx-auto text-center d-none d-lg-block navbar navbar-expand-lg bg-light">
-        <div class="col-10 m-0 p-0 ml-auto collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto col-12 row m-0 p-0 text-center">
+        <div class="col-12 m-0 p-0 mx-auto text-center collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mx-auto row m-0 p-0 text-center">
             <li class="nav-item active">
               <a class="nav-link" href="{% url "front_page" %}">Home <span class="sr-only">(current)</span></a>
             </li>
@@ -179,7 +179,7 @@
                 <a class="nav-link" href="#">Blog</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Kontakt</a>
+                <a class="nav-link" href="{% url 'contact_page' %}">Kontakt</a>
               </li>
           </ul>
         </div>
