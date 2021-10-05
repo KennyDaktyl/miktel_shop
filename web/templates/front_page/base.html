@@ -12,6 +12,7 @@
 
     gtag('config', 'G-7TMZLLG9YZ');
     </script>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -200,16 +201,16 @@
     {% endblock %}
     </div>
 
-    <div class="container-fluid footer mx-auto">
+    <div class="container-fluid footer mx-auto col-12">
         <div class="row justify-content-center top-part">
             <div class="col-md-6 text-center center-content">
                 <div class="d-flex-inline">
-                    <h3 class="footer-heading">Start a Project with itCraft</h3>
+                    <h3 class="footer-heading">Start projektu - lokalni przedsiębiorcy. Profesjonalne usługi.</h3>
                 </div>
                 <div class="d-flex-inline">
-                    <p>We are based in Warsaw, Bydgoszcz & Torun in Poland but we are Google Cloud Partner we can arrange a meeting at Google Campus in Warsaw or in London. We are also present in Norway. Below you will find all the contact details you need.</p>
+                    <p>Posiadam ponad 20 lat doświadczenia w branży telefonów komórkowych i serwisu. Firmę Miktel założyłem w 2006 roku. Usługi świadczę w miejscu zamieszkania w Rybnej od 2016 roku.<br> Posiadam 100% zadowolonych klientów. Z racji miejsca wykonywania usług, większość moich klientów to mieszkańcy gminy Czernichów, nie żadko sąsiedzi.<br> Aktualnie ofertę przedstawiam również On-line. <br><strong> Zapraszam. Michał Pielak</strong></p>
                 </div>
-                <div class="d-flex-inline pt-2"> <button class="btn-pink btn">ESTIMATE PROJECT</button> </div>
+                <div class="d-flex-inline pt-2"> <button class="btn-pink btn">SERWIS W RYBNEJ.PL</button> </div>
             </div>
         </div>
         <div class="row">
@@ -255,15 +256,15 @@
                 </div>
                 <div class="p-2 row flex-fill bd-highlight justify-content-left">
                     <div class="p-2 d-lg-flex">
-                        <div class="p-2 flex-fill d-flex bd-highlight">Services</div>
-                        <div class="p-2 flex-fill d-flex bd-highlight">Portfolio</div>
-                        <div class="p-2 flex-fill d-flex bd-highlight">Pricing</div>
-                        <div class="p-2 flex-fill d-flex bd-highlight">Testimonials</div>
-                        <div class="p-2 flex-fill d-flex bd-highlight">Team</div>
-                        <div class="p-2 flex-fill d-flex bd-highlight">Blog</div>
-                        <div class="p-2 flex-fill d-flex bd-highlight">Carrer</div>
-                        <div class="p-2 flex-fill d-flex bd-highlight">How we work</div>
-                        <div class="p-2 flex-fill d-flex bd-highlight">Manifesto</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Telefony</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Serwis GSM</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Akcesoria GSM</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Pieczątki firmowe</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Dorabianie kluczy</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Immobiliser</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Grawerowanie</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Sklep On-line</div>
+                        <div class="p-2 flex-fill d-flex bd-highlight">Usługi</div>
                     </div>
                 </div>
                 <div class="p-2 align-self-center flex-fill bd-highlight">
@@ -271,7 +272,10 @@
                     <div class="fa fa-envelope-o px-2 grey-text">&nbsp;&nbsp;pielak@miktelgsm.pl</div>
                 </div>
             </div>
+    <a class="col-12 mx-auto text-center text-white" href="{% url 'privacy_policy' %}">Polityka prywatności</a>
+
         </div>
+        
     </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
@@ -307,16 +311,15 @@
             });
         });
     </script>
-  <!-- Cookie Consent by https://www.FreePrivacyPolicy.com -->
-        <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.0.0/cookie-consent.js" charset="UTF-8"></script>
-        <script type="text/javascript" charset="UTF-8">
-        document.addEventListener('DOMContentLoaded', function () {
-        cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"implied","palette":"dark","language":"pl","page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"website_name":"serwiswrybnej.pl"});
-        });
-        </script>
+    <!-- Cookie Consent by https://www.FreePrivacyPolicy.com -->
+    <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.0.0/cookie-consent.js" charset="UTF-8"></script>
+    <script type="text/javascript" charset="UTF-8">
+    document.addEventListener('DOMContentLoaded', function () {
+    cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"implied","palette":"dark","language":"pl","page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"website_privacy_policy_url":"https://serwiswrybnej.pl/polityka-prywatnosci"});
+    });
+    </script>
 
-        <noscript>Cookie Consent by <a href="https://www.FreePrivacyPolicy.com/free-cookie-consent/" rel="nofollow noopener">FreePrivacyPolicy.com</a></noscript>
-<!-- End Cookie Consent -->
+    <!-- End Cookie Consent -->
     {% block script %}
     {% endblock %}
 </body>

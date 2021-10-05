@@ -413,16 +413,16 @@ div.article {
 }
 
 #iconInfo p {
-    font-size: 15px;
+    font-size: 25px;
     font-weight: 600;
     text-transform: uppercase;
 }
 
 #iconInfo strong {
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 18px;
+    font-weight: 500;
     background: red;
-    padding: 0 10px;
+    padding: 10px 15px;
     -moz-border-radius-topleft: 20px;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
