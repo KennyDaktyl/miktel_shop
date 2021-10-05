@@ -75,8 +75,7 @@ class RegisterUserView(View):
                 new_user.save()
                 host = request.scheme + "://" + request.get_host()
                 token = ActivateToken.objects.create(user=new_user, activation_token=str(int(str(uuid.uuid4()).split('-')[0], 16)))
-                msg = send_simple_message('Aktywacja konta', host, new_user, token.activation_token)
-                print(msg)
+                send_simple_message('Aktywacja konta', host, new_user, token.activation_token)
                 messages.error(request, 'Potwierdź email aby zalogować.')
                 return redirect('front_page')
         else:
