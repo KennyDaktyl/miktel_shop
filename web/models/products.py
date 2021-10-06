@@ -16,10 +16,10 @@ from .base import BaseModel
 
 
 def file_size(value):
-    limit = 3 * 1024 * 1024
+    limit = 6 * 1024 * 1024
     if value.size > limit:
         raise ValidationError(
-            'Plik który chcesz wrzucić jest większy niż 3MB.')
+            'Plik który chcesz wrzucić jest większy niż 6MB.')
 
 
 class Store(BaseModel):
