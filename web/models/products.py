@@ -489,7 +489,7 @@ class Products(BaseModel):
         verbose_name_plural = "Produkty"
 
     def __str__(self):
-        return "{} ({})".format(self.name, self.size)
+        return self.name
 
     @property
     def seo_tag_description(self):
