@@ -410,8 +410,8 @@ class Products(BaseModel):
                             blank=True,
                             null=True,
                             max_length=128)
-    image = models.ImageField(verbose_name="Zdjęcie główne",
-                              #   size=[1280, 960],
+    image = ResizedImageField(verbose_name="Zdjęcie główne",
+                              size=[1280, 960],
                               upload_to='images/products/',
                               validators=[file_size],
                               null=True,
