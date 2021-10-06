@@ -1,0 +1,39 @@
+{% extends "front_page/base.html" %}
+
+
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block head %}
+<link rel="canonical" href="https://serwiswrybnej.pl"/>
+<meta name="description" content="{{ description }}">
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <input type="hidden" id='cat' value="{{ sub_category_type.sub_category.category.id }}">
+    <input type="hidden" id='sub_cat' value="{{ sub_category_type.sub_category.id }}">
+    <input type="hidden" id='sub_cat_type' value="{{ sub_category_type.id }}">
+
+    <div class="col-12 mx-auto m-0 p-0" style="background-color: black;">
+        {% load thumbnail %}
+        {% thumbnail sub_cat.image "1280x400" crop='center' format="WEBP"  as im %}
+        <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0 img_carousel" alt="{{ sub_cat.alt}}" title="{{ sub_cat.title }}">
+        {% endthumbnail %}
+        <div class="carousel-caption d-none d-md-block">
+          <h1>{{ sub_cat.title }}</h1>
+          <p>{{ sub_cat.description }}</p>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 offer mt-2 row">
+       
+    <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
+        <h1 class="col-12 mx-auto text-left">{{ sub_cat.name }}</h1>
+
+        <div class="col-12 mt-5 max-auto">
+            {{ sub_cat.desc|safe|escape }}
+           
+
+        </div>

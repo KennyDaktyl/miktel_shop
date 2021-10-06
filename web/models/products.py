@@ -167,6 +167,8 @@ class Category(BaseModel):
 class SubCategory(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa podkategorii", max_length=128)
+    desc = models.TextField(
+        verbose_name="Opis podkategorii", blank=True, null=True)
     category = models.ForeignKey(
         "Category",
         verbose_name="Kategoria podkategorii",
@@ -181,8 +183,7 @@ class SubCategory(BaseModel):
                                  null=True,
                                  blank=True,
                                  default=0)
-    image = ResizedImageField(verbose_name="Zdjęcie główne",
-                              size=[1280, 960],
+    image = models.ImageField(verbose_name="Zdjęcie główne",
                               upload_to='images/categorys/',
                               validators=[file_size],
                               null=True,
@@ -200,6 +201,7 @@ class SubCategory(BaseModel):
 
     class Meta:
         ordering = (
+            "category",
             "number",
             "name",
         )
@@ -259,6 +261,7 @@ class SubCategoryType(BaseModel):
 
     class Meta:
         ordering = (
+            "sub_category",
             "number",
             "name",
         )
@@ -278,14 +281,13 @@ class SubCategoryType(BaseModel):
                        })
 
     def __str__(self):
-        return self.name
+        return self.sub_category.name + ", " + self.name
 
 
 class Brand(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa marki", max_length=128)
-    logo = ResizedImageField(verbose_name="Zdjęcie główne",
-                             size=[1280, 960],
+    logo = models.ImageField(verbose_name="Zdjęcie główne",
                              upload_to='images/categorys/',
                              validators=[file_size],
                              null=True,

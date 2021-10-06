@@ -1,0 +1,101 @@
+{% extends "front_page/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block head %}
+<link rel="canonical" href="https://serwiswrybnej.pl"/>
+<meta name="description" content="{{ description }}">
+<title>{{ title }}</title>
+{% endblock %}
+
+{% block content %}
+    <input type="hidden" id='cat' value="{{ sub_category_type.sub_category.category.id }}">
+    <input type="hidden" id='sub_cat' value="{{ sub_category_type.sub_category.id }}">
+    <input type="hidden" id='sub_cat_type' value="{{ sub_category_type.id }}">
+
+    <div class="col-12 mx-auto m-0 p-0" style="background-color: black;">
+        {% load thumbnail %}
+        {% thumbnail sub_cat.image "1280x400" crop='center' format="WEBP"  as im %}
+        <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0 img_carousel" alt="{{ sub_cat.alt}}" title="{{ sub_cat.title }}">
+        {% endthumbnail %}
+        <div class="carousel-caption d-none d-md-block">
+          <h1>{{ sub_cat.title }}</h1>
+          <p>{{ sub_cat.description }}</p>
+        </div>
+    </div>
+    
+    <div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 offer mt-2 row">
+       
+    <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
+        <h1 class="col-12 mx-auto text-left">{{ sub_cat.name }}</h1>
+
+        <div class="col-12 mt-5 max-auto">
+            <h1>Zamówienie klucza po podaniu producenta oraz numeru</h1>
+            <ul>
+                <div class="col-12 row mx-auto ml-2">
+                    <li class="pl-2 ml-2 col-12">Jania</li>
+                    <li class="pl-2 ml-2 col-12">Expres</li>
+                    <li class="pl-2 ml-2 col-12">Lob</li>
+                    <li class="pl-2 ml-2 col-12">Hobes</li>
+                    <li class="pl-2 ml-2 col-12">Elto</li>
+                    <li class="pl-2 ml-2 col-12">Nemef</li>
+                </div>
+            </ul>
+        </div>
+        {% for product in products %}
+        <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">
+            <div id="showOption" class="col-12 row mx-auto d-flex align-items-center">
+                <form id="form" action="{% url 'add_product' %}" method="POST" class="col-12 row m-0 p-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="" id="prod_id" value="{{product.id}}">
+                    <input id="qty" name="qty" type="hidden" value="1">
+                    <button id="add_product" class="addtobasket btn btn-danger col-8 mx-auto" type="button">
+                        <span>Do koszyka</span>
+                        <i class="fas fa-shopping-cart"></i>
+                    </button>
+                    <a href="{% url 'product_details' cat=product.sub_category_type.sub_category.category.slug sub_cat=product.sub_category_type.sub_category.slug sub_cat_type=product.sub_category_type.slug product=product.slug %}" class="bg-dark text-white align-self-stretch col-3 mx-auto d-flex align-items-center text-decoration-none">
+                        <i class="fas fa-info-circle bg-dark text-white align-self-center mx-auto"></i>
+                    </a>
+                </form>
+            </div>
+            <div class="col-12 mx-auto text-center row">
+                {% if product.is_news %}
+                <div class="boxNovelty smallBox m-2">NEW</div>
+                {% else %}
+                <div class="smallBox m-2"></div>
+                {% endif %}
+                {% if product.discount > 0 %}
+                <div class="boxPromo smallBox bg-danger m-2">{{ product.discount }}%</div>
+                {% else %}
+                <div class="smallBox m-2"></div>
+                {% endif %}
+            </div>
+        <div class="col-12 m-2 mx-auto text-center">
+            {% load thumbnail %}
+            {% thumbnail product.image "200x200" crop='center' format="WEBP"  as im %}
+            <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="">
+            {% endthumbnail %}
+        </div>
+            <p class="productName col-12 mx-auto text-center">{{product.name}}</p>
+            <p class="producerName col-12 mx-auto text-center">{{product.brand}}</p>
+            <blockquote class="col-12 mx-auto row d-flex align-items-center">
+            <p class="producerPrice mx-auto text-center text-danger  m-0 p-0">{{ product.price_promo}} zł</p>
+            {% if product.price_promo != product.price %}
+            <p class="mx-auto text-center m-0 p-0"><del>{{ product.price}} zł</del></p>
+            {% endif %}
+            </blockquote>
+        </div>
+        {% empty %}
+        <p class="col-12 mx-auto text-left">Brak produktów w tej kategorii</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script src="{% static "js/products.js" %}" type="text/javascript"></script>
+{% endblock %}
+
+

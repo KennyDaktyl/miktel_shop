@@ -31,7 +31,7 @@ class SubCategoryProducts(View):
         description = ""
         ctx = {'sub_cat': sub_cat, 'products': products,
                'title': title, 'description': description}
-        return render(request, "products/products_list.html", ctx)
+        return render(request, "products/sub_category_details.html", ctx)
 
 
 class SubCategoryTypeProducts(View):

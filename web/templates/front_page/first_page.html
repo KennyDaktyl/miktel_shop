@@ -13,7 +13,7 @@
 <div class="wrap col-12 m-0 p-0">
 
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
+    <ol class="carousel-indicators" style="z-index: 7;">
       {% for image in images_carousel %}
       <li id="indicator{{ forloop.counter0 }}" data-target="#carouselExampleIndicators" data-slide-to="{{ forloop.counter0 }}"></li>
       {% endfor %}
