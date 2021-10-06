@@ -3,17 +3,13 @@ from django.conf import settings
 import requests
 
 
-def send_simple_message(subject, host, user, token):
-    html_content = render_to_string('accounts/activation_email.html', {
-        'button_link': f"{host}/accounts/activate_account/{token}",
-        'user': user,
-    })
+def send_contact_message(subject, message):
     url = "https://api.eu.mailgun.net/v3/serwiswrybnej.pl/messages"
     auth = ("api", settings.MAILGUN_API_KEY)
     data = {
         "from": "no-reply@serwiswrybnej.pl",
-        "to": [user.email, ],
+        "to": f"Klient <{ settings.DEFAULT_FROM_EMAIL }>",
         "subject": subject,
-        "html": html_content}
-    data['h:Reply-To'] = "Michał Pielak <mpielak@okcode.eu>"
+        "text": message
+    }
     return requests.post(url, auth=auth, data=data)

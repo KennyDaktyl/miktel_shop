@@ -1,8 +1,14 @@
 from PIL import Image
+from django.conf import settings
+from django.core.mail import send_mail
+from django.contrib import messages
 from django.views import View
 from django.shortcuts import render, redirect
 from web.models import Images
 from web.models.products import Products
+
+from .forms import *
+from .functions import *
 
 
 class FirstPage(View):
@@ -17,8 +23,32 @@ class FirstPage(View):
 
 class ContactPage(View):
     def get(self, request):
-        ctx = {}
+        form = ContactForm()
+        ctx = {'form': form}
         return render(request, "front_page/contact_page.html", ctx)
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            captcha = form.cleaned_data['captcha']
+            message += "\n" + "Email kontaktowy - " + str(email)
+            msg = send_contact_message(
+                subject,
+                message,
+            )
+            print(msg)
+            messages.success(request, 'Wysyłanie email zakończnono poprawnie.')
+
+            return redirect('contact_page')
+        else:
+            messages.error(request, 'Wypełnij wszystkie pola formularza.')
+            ctx = {'form': form}
+            return render(request, "front_page/contact_page.html", ctx)
 
 
 class PrivacyPolicyPage(View):
