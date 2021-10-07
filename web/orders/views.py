@@ -44,11 +44,11 @@ class OrderDetails(View):
             request.session['pay_method'] = pay_method.id
             request.session['delivery_method'] = delivery_method.id
 
+            inpost_box_id = None
             if request.is_ajax():
                 if 'inpost_box_id' in request.POST:
                     inpost_box_id = request.POST.get('inpost_box_id')
                     request.session['inpost_box_id'] = inpost_box_id
-            inpost_box_id = None
 
             today = datetime.now()
             store = Store.objects.all().first()
@@ -94,7 +94,7 @@ class InpostBoxSearchView(View):
 
     def post(self, request, order):
         order = Orders.objects.get(pk=order)
-        if order.pay_method.pay_method == '4':
+        if order.pay_method.pay_method == 4:
             return redirect('checkout', order=order.id)
         else:
             return redirect('order_completed', order=order.id)

@@ -151,9 +151,11 @@
              </a>
             {% endif %}
             <div></div>
-            <i id="BasketInfo" class="col-3 main_nav_icon fas fa-shopping-cart text-center m-0 p-0 ">
-                <div id="len_mobile"  class="dot quantityBasket text-center mx-auto ">{{cart.len}}</div>
-            </i>
+            <a class="col-3 m-0 p-0 text-center" href="{% url 'cart_details' %}"> 
+                <i id="BasketInfo" class="col-3 main_nav_icon fas fa-shopping-cart text-center m-0 p-0 ">
+                    <div id="len_mobile"  class="dot quantityBasket text-center mx-auto ">{{cart.len}}</div>
+                </i>
+            </a>
             <div></div>
             
         </ul>
