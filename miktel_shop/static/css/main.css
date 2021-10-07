@@ -322,6 +322,10 @@ div.article {
     margin-top: 65px;
 }
 
+div.product:hover {
+    background-color: ghostwhite;
+}
+
 .product_box span {
     font-size: 14px;
     font-weight: 500;
@@ -342,7 +346,7 @@ div.article {
 }
 
 .productName {
-    font-size: 12px;
+    font-size: 18px;
     font-weight: 700;
     margin-top: 20px;
 }
@@ -354,7 +358,7 @@ div.article {
 }
 
 .producerPrice {
-    font-size: 12px;
+    font-size: 18px;
     font-weight: 700;
     margin-top: 20px;
     color: red;
@@ -586,9 +590,11 @@ img.mini {
 
 /* Basket */
 div.modal-content {
-    background-color: rgb(228, 255, 228);
+    /* background-color: rgb(228, 255, 228); */
 
     /* background-color:#ff8d1e; */
+    background-color: white;
+    border: 4px solid blueviolet;
 }
 
 span.basket {
@@ -596,6 +602,14 @@ span.basket {
     text-transform: uppercase;
     font-weight: 400;
     font-size: 19px;
+}
+
+i.fa-shopping-basket {
+    color: green;
+}
+
+i.fa-shopping-basket:hover {
+    color: white;
 }
 
 table {
@@ -657,7 +671,7 @@ table {
     }
 
     .productName {
-        font-size: 15px;
+        font-size: 18px;
         font-weight: 700;
         margin-top: 20px;
     }

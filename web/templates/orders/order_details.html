@@ -36,35 +36,63 @@
         </div>
         <form method="post" class="uniForm col-md-8 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms">
             {% csrf_token %}
+            <small class="text-danger col-12">{{ form.bill_select.errors }}</small>
             <label for="id_bill_select" class="requiredField col-12 m-0 p-0 align-self-center">{{ form.fields.bill_select.label }}</label>
-            <select id="id_bill_select" name="bill_select" class="form-control input-md">
+            <select id="id_bill_select" name="bill_select" class="form-control input-md" required>
                 {% for key, value in form.fields.bill_select.widget.choices %}
                     <option value="{{ value }}"{% if form.initial.bill_select == value %} selected {% endif %}>
                         {{ key }}
                     </option>
                 {% endfor %}
             </select>
-            <label for="id_delivery_method" class="requiredField col-12 m-0 p-0 align-self-center">{{ form.fields.delivery_method.label }}</label>
-            <select id="id_delivery_method" name="delivery_method" class="form-control input-md" required>
-                {% for el in form.fields.delivery_method.queryset %}
-                    <option value="{{ el.id }}"{% if form.initial.delivery_method == value %} selected {% endif %}  data-delivery_cost="{{ el.price|floatformat:2 }}">
-                        {{ el.name }} +{{ el.price }}zł
-                    </option>
-                {% endfor %}
-            </select>
-            <label for="id_payment_method" class="requiredField col-12 m-0 p-0 align-self-center">{{ form.fields.payment_method.label }}</label>
-            <select id="id_payment_method" name="payment_method" class="form-control input-md" required>
-                {% for el in form.fields.payment_method.queryset %}
-                    <option value="{{ el.id }}"{% if form.initial.payment_method == value %} selected {% endif %}>
-                         {{ el.name }} +{{ el.price }}zł
-                    </option>
-                {% endfor %}
-            </select>
+            <small class="text-danger col-12">{{ form.delivery_method.errors }}</small>
+            <label for="id_delivery_method" class="requiredField col-12 m-0 p-0 mt-3 align-self-center">{{ form.fields.delivery_method.label }}</label>
+            {% for el in form.fields.delivery_method.queryset %}
+            <div id="id_delivery_method" class="controls col-12 row d-flex align-items-center mt-2" >
+                {% if el.default %}
+                <input class="delivery_methods text-left m-0 p-0 col-1" type="radio" name="delivery_method" id="id_delivery_method_{{ forloop.counter0 }}" value="{{ el.id }}" required checked data-delivery_cost="{{el.price}}">
+                {% else %}
+                <input class="delivery_methods m-0 p-0 col-1" type="radio" name="delivery_method" id="id_delivery_method_{{ forloop.counter0 }}" value="{{ el.id }}" required data-delivery_cost="{{el.price}}">
+                {% endif %}
+                <label aria-colcount="" for="id_delivery_method_{{ forloop.counter0 }}" class="text-left radio m-0 p-0 col-10">{{ el }} + {{ el.price }}zł</label>
+                {% load thumbnail %}
+                {% thumbnail el.image "100x50" crop='center' format="WEBP"  as im %}
+                <source srcset="{{ im }}" type="image/webp" />
+                <img class="img-fluid mx-auto m-0 p-0 mr-auto " src="{{ MEDIA_URL }}{{ im }}"
+                    alt="{{item.product.product_id.alt}}" title="{{item.product.product_id.title}}">
+                {% endthumbnail %}
+                {% if el.link %}
+                <a href="{{el.link}}">regulamin</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <small class="text-danger col-12">{{ form.payment_method.errors }}</small>
+            <label for="id_payment_method" class="requiredField col-12 m-0 p-0 mt-3 align-self-center">{{ form.fields.payment_method.label }}</label>
+            {% for el in form.fields.payment_method.queryset %}
+            <div class="controls col-12 row d-flex align-items-center mt-2">
+                {% if el.default %}
+                <input class="text-left m-0 p-0 col-1" type="radio" name="payment_method" id="id_payment_method_{{ forloop.counter0 }}" value="{{ el.id }}" required checked>
+                {% else %}
+                <input class="text-left m-0 p-0 col-1" type="radio" name="payment_method" id="id_payment_method_{{ forloop.counter0 }}" value="{{ el.id }}" required>
+                {% endif %}
+                <label aria-colcount="" for="id_payment_method_{{ forloop.counter0 }}" class="text-left radio m-0 p-0 col-5">{{ el }}</label>
+                {% load thumbnail %}
+                {% thumbnail el.image "100x50" crop='center' format="WEBP"  as im %}
+                <source srcset="{{ im }}" type="image/webp" />
+                <img class="img-fluid mx-auto m-0 p-0 mr-auto " src="{{ MEDIA_URL }}{{ im }}"
+                    alt="{{item.product.product_id.alt}}" title="{{item.product.product_id.title}}">
+                {% endthumbnail %}
+                {% if el.link %}
+                <a href="{{el.link}}">regulamin</a>
+                {% endif %}
+            </div>
+            {% endfor %}
             <div id="easypack-map" style="display: block;"></div>
             <div class="col-12 mx-auto text-center mt-3">
                 <button id="button" class="col-12 text-center mx-auto btn-outline-success" type="submit"
                         value="">Zamawiam z obowiązkiem zapłaty</button>
             </div>
+        </form>
     </main>
 </div>
 {% endblock %}

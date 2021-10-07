@@ -12,7 +12,7 @@ from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework import permissions
 
-from web.cart.cart import Cart 
+from web.cart.cart import Cart
 
 import stripe
 import json
@@ -25,16 +25,18 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 @method_decorator(login_required, name="dispatch")
 class CheckoutView(View):
-    def get(self, request, order_id):
-        order = Orders.objects.get(id=order_id)
+    def get(self, request, order):
+        order = Orders.objects.get(id=order)
         intent = stripe.PaymentIntent.create(
-                amount=order.get_total_price_stripe(),
-                currency='pln',
-                payment_method_types=['p24'],
-                receipt_email=request.user.email,
-            )
-        ctx = {'PAYMENT_INTENT_CLIENT_SECRET': intent['client_secret']}
+            amount=order.get_total_price_stripe(),
+            currency='pln',
+            payment_method_types=['p24'],
+            receipt_email=request.user.email,
+        )
+        ctx = {'order': order,
+               'PAYMENT_INTENT_CLIENT_SECRET': intent['client_secret']}
         return render(request, "payments/checkout.html", ctx)
+
 
 @method_decorator(login_required, name="dispatch")
 class PayMentSuccessView(View):
@@ -43,18 +45,20 @@ class PayMentSuccessView(View):
         cart.clear()
         return render(request, "payments/checkout_success.html")
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class PaymentIntentView(View):
     def post(self, request):
-        try:    
+        try:
             intent = stripe.PaymentIntent.create(
                 amount=1099,
                 currency='pln',
                 payment_method_types=['p24'],
             )
-            return JsonResponse ({'clientSecret': intent['client_secret']})  
+            return JsonResponse({'clientSecret': intent['client_secret']})
         except Exception as e:
             return HttpResponse(status=403)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 class StripeWebhookView(APIView):
@@ -66,8 +70,8 @@ class StripeWebhookView(APIView):
         try:
             sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', None)
             event = stripe.Webhook.construct_event(
-            payload=payload, sig_header=sig_header, secret=settings.STRIPE_ENDPOINT_SECRET
-        )
+                payload=payload, sig_header=sig_header, secret=settings.STRIPE_ENDPOINT_SECRET
+            )
             print(event)
         except ValueError as e:
             print(e)
@@ -88,6 +92,7 @@ class StripeWebhookView(APIView):
         #     print('Unhandled event type {}'.format(event.type))
 
         return HttpResponse(status=200)
+
 
 checkout = CheckoutView.as_view()
 payment_success = PayMentSuccessView.as_view()

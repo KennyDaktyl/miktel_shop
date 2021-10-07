@@ -20,7 +20,7 @@ Wybierz paczkomat | serwiswrybnej.com
 {% endblock %}
 
 {% block content %}
-<input type="hidden" id="order_id" value="{{ order_id }}">
+<input type="hidden" id="order_id" value="{{ order.id }}">
 
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
     <li class="breadcrumb-item text-dark"><a href="{% url 'front_page' %}" class="text-dark">Strona startowa</a></li>

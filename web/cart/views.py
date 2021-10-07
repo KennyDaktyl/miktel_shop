@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views import View
@@ -15,31 +16,18 @@ class AddProductView(View):
     def post(self, request):
         if request.is_ajax():
             prod_id = request.POST.get("prod_id")
-            prod_org = Products.objects.get(pk=int(prod_id))
+            product = Products.objects.get(pk=int(prod_id))
             qty = request.POST.get("qty")
-            product = ProductCopy()
-            product.product_id = prod_org
-            product.qty = int(qty)
-            product.price = prod_org.price
-            if prod_org.price_promo:
-                product.price = prod_org.price_promo
-            product.save()
             cart = Cart(request)
             cart.add(product=product,
-                     price=product.price,
-                     discount=product.discount,
-                     info=product.info,
-                     quantity=product.qty)
+                     quantity=qty)
             dict_obj = {
                 'total': float(cart.get_total_price()),
                 'len': cart.len(),
-                'in_stock': prod_org.qty - int(qty)
+                'in_stock': product.qty - int(qty)
             }
             serialized = json.dumps(dict_obj)
             return HttpResponse(serialized)
-
-
-from django.conf import settings
 
 
 class EditQtyProduct(View):
@@ -99,5 +87,6 @@ class CartDetails(View):
             'delivery_type': delivery_type
         }
         return render(request, "cart/cart_detail.html", ctx)
+
 
 add_product = AddProductView.as_view()

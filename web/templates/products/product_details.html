@@ -41,14 +41,15 @@
                     <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}"
                         title="{{image.title}}">
                     {% endthumbnail %}
-                </a>
+                </a> 
                 {% endthumbnail %}
                 {% empty %}
-                <small class="ml-auto pr-1 col-12 text-right">Brak zdjęć</small>
+                <small class="ml-auto pr-1 col-12 text-center">Brak zdjęć w galerii</small>
                 {% endfor %}
             </div>
             <div class="col-md-6 mx-auto text-center row d-flex align-items-start">
-                <p class="productName col-12 mx-auto text-left align-self-start">{{product.name}}</p>
+                
+                <h1 class="productName col-12 mx-auto text-center align-self-start">{{product.name}}</h1>
                 <blockquote class="col-12 mx-auto row d-flex align-items-center ">
                     {% if product.is_news %}
                         <div class="boxNovelty smallBox ">NEW</div>
@@ -56,14 +57,25 @@
                         {% if product.discount > 0 %}
                         <div class="boxPromo smallBox bg-danger m-2">{{ product.discount }}%</div>
                         {% endif %}
-                    <p class="producerPrice text-center text-danger m-0 pr-2 ">{{ product.price_promo}} zł</p>
-                    {% if product.price_promo != product.price %}
-                    <p class="text-center m-0 p-0 "><del>{{ product.price}} zł</del></p>
+                    <div class="col-12 row m-0 p-0 mt-3">
+                        <p class="producerPrice text-center text-danger m-0 pr-2 ">{{ product.price_promo}} zł</p>
+                        {% if product.price_promo != product.price %}
+                        <p class="text-center m-0 p-0 "><del>{{ product.price}} zł</del></p>
+                    </div>
                     {% endif %}
                     
                 </blockquote>
                 <div class="col-12 row text-left mx-auto">
-                    <span class="font-weight-bold pr-2">Producent:</span> <span class="">{{ product.brand.name }}</span>
+                    <span class="font-weight-bold pr-2">Producent:</span> <small class="m-0 p-0 pl-3 text-dark text-center">{{ product.brand.name }}</small>
+                </div>
+                <div class="col-12 row text-left mx-auto d-flex align-items-center">
+                    <span class="font-weight-bold pr-2">Kategoria:</span><small class="m-0 p-0 pl-3 text-dark text-center">{{ product.sub_category_type.sub_category.category.name }}</small>
+                </div>
+                <div class="col-12 row text-left mx-auto d-flex align-items-center">
+                    <span class="font-weight-bold pr-2">Podkategoria:</span><small class="m-0 p-0 pl-3 text-dark text-center text-dark text-center">{{ product.sub_category_type.sub_category.name }}</small>    
+                </div>
+                <div class="col-12 row text-left mx-auto d-flex align-items-center">
+                    <span class="font-weight-bold pr-2">Typ produktu:</span><small class="m-0 p-0 pl-3 text-dark text-center text-dark text-center">{{ product.sub_category_type.name }}</small>    
                 </div>
                 <div class="col-12 row text-left mx-auto">
                     <span class="font-weight-bold pr-2">Ilość:</span> 
@@ -88,7 +100,7 @@
                     </div>
                     {% if product.qty > 0 %}
                         <span id="add_product" class="input-group-append ml-auto d-flex align-items-center" data-toggle="modal"
-                        data-target="#exampleModal{{object.id}}">
+                        data-target="#exampleModal{{product.id}}">
                             <button class="btn btn-success ml-2" type="button" data-action="add">
                             <i class="basket fa fa-cart-plus"></i> Dodaj produkt</button>
                         </span>
@@ -99,33 +111,34 @@
                         {% endif %}
                 </form>
             </div>
-            <div class="modal fade" id="exampleModal{{object.id}}" tabindex="-1" role="dialog"
+            <div class="modal fade" id="exampleModal{{product.id}}" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
-                        <div class="modal-content p-1 col-12">
-                            <div class="modal-header d-flex align-items-center row">
-                                <div class="col-12 row d-flex align-items-center">
+                        <div class="modal-content p-0 m-0 col-12">
+                            <div class="modal-header d-flex align-items-center row col-12 mx-auto p-2 m-0">
+                                <div class="col-12 row mx-auto m-0 p-0 d-flex align-items-center">
                                     <i class="fas fa-clipboard-check"></i>
-                                    <h5 class="modal-title ml-1" id="exampleModalLabel">Produkt dodano do koszyka
-                                    </h5>
+                                    <h5 class="modal-title ml-1 col-12 mx-auto text-center" id="exampleModalLabel">Produkt dodano do koszyka</h5>
                                 </div>
                                 <div class="col-12 row d-flex align-items-center">
                                     <span class="">Nazwa:</span>
-                                    <p class="p-0 m-0 ml-1">{{object.name}}</p>
+                                    <p class="p-0 m-0 ml-1">{{product.name}}</p>
                                 </div>
+                                {% if product.color.name %}
                                 <div class="col-12 row d-flex align-items-center">
                                     <span class="">Kolor obudowy:</span>
-                                    <p class="p-0 m-0 ml-1 {{object.color.class_text}}">{{object.color.name}}</p>
+                                    <p class="p-0 m-0 ml-1 {{object.color.class_text}}">{{product.color.name}}</p>
                                 </div>
+                                {% endif %}
                                 <div class="col-12 row d-flex align-items-center">
                                     <span class="">Ilość:</span>
                                     <p id="add_qty" class="p-0 m-0 ml-1"></p>
                                 </div>
                                 <div class="col-12 mt-2 mx-auto row d-flex align-items-center">
                                     <span class="basket">KOSZYK</span>
-                                    <a href="{% url 'cart_details' %}" class="row m-0 p-0 ml-auto">
-                                        <button type="button" class="btn btn-outline-success  m-1 p-1 row">
-                                            <i class="text-center mx-auto text-success fas fa-shopping-basket"></i>
+                                    <a href="{% url 'cart_details' %}" class="col-4 row m-0 p-0 ml-auto text-decoration-none">
+                                        <button type="button" class="col-12 btn btn-outline-success  m-1 p-1 row">
+                                            <i class="text-center mx-auto fas fa-shopping-basket"></i>
                                             Koszyk
                                         </button>
                                     </a>

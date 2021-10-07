@@ -98,18 +98,20 @@ class OrderBigForm(forms.Form):
                                          widget=forms.HiddenInput())
 
 
-CHOICES= (
-('Paragon', '1'),
-('Faktura', '2'),
+CHOICES = (
+    ('Paragon', '1'),
+    ('Faktura', '2'),
 )
 
+CHOICES_2 = [('M', 'Male'), ('F', 'Female')]
+
+
 class OrderDetailsForm(forms.Form):
-    bill_select = forms.CharField(label='Dokument handlowy',widget=forms.Select(choices=CHOICES))
-    
-    delivery_method = forms.ModelChoiceField(label='Sposób dostawy', 
-    queryset=DeliveryMethod.objects.all(), required=True)
+    bill_select = forms.CharField(
+        label='Dokument handlowy', widget=forms.Select(choices=CHOICES), required=True)
 
-    payment_method = forms.ModelChoiceField(label='Sposób płatności', 
-    queryset=PayMethod.objects.all(), required=False)
+    delivery_method = forms.ModelChoiceField(label='Sposób dostawy',
+                                             queryset=DeliveryMethod.objects.all(), required=True)
 
-
+    payment_method = forms.ModelChoiceField(label='Sposób płatności',
+                                            queryset=PayMethod.objects.all(), required=True)

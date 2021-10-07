@@ -17,6 +17,7 @@ PAY_METHOD = (
     (1, "gotówka"),
     (2, "karta"),
     (3, "przelew"),
+    (4, "p24")
 )
 PAY_METHOD = sorted(PAY_METHOD)
 

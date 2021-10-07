@@ -10,6 +10,10 @@ from .base import BaseModel
 # from cart.cart import Cart
 
 
+from django_resized import ResizedImageField
+from .products import file_size
+
+
 class PayMethod(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
@@ -17,6 +21,14 @@ class PayMethod(BaseModel):
                             max_length=64)
     pay_method = models.IntegerField(verbose_name="Rodzaj płatności",
                                      choices=PAY_METHOD)
+    image = ResizedImageField(verbose_name="Zdjęcie główne",
+                              size=[1280, 960],
+                              upload_to='images/products/',
+                              validators=[file_size],
+                              null=True,
+                              blank=True)
+    link = models.URLField(verbose_name="Link do regulaminu", null=True,
+                           blank=True)
     price = models.DecimalField(verbose_name="Cena zamówienia",
                                 default=0.00,
                                 decimal_places=2,
@@ -68,7 +80,7 @@ class DeliveryMethod(BaseModel):
                                       default=0.00,
                                       decimal_places=2,
                                       max_digits=7)
-                                      
+
     default = models.BooleanField(verbose_name="Czy domyślny?", default=False)
     inpost_box = models.BooleanField(verbose_name="Czy dostawa to paczkomat?",
                                      default=False)
@@ -168,9 +180,9 @@ class Orders(BaseModel):
 
     def counter_positions(self):
         return ProductCopy.objects.filter(order_id=self).count()
-    
+
     def get_total_price_stripe(self):
-        return int(self.total_price * 100) 
+        return int(self.total_price * 100)
 
     class Meta:
         ordering = ("-id", )
@@ -191,7 +203,7 @@ class ProductCopy(BaseModel):
     product_id = models.ForeignKey("Products",
                                    verbose_name="Relacja do produktu",
                                    on_delete=models.CASCADE)
-    
+
     qty = models.IntegerField(verbose_name="Ilość pozycji")
     price = models.DecimalField(verbose_name="Cena podstawowa",
                                 default=0,

@@ -66,8 +66,9 @@ $(document).ready(function () {
                 "min": 1
             });
             $('#in_stock_info').text(in_stock + 'szt.');
-            $('#add_qty').text(qty + 'szt.');
-            console.log(in_stock, $('#in_stock_info').val(in_stock + 'szt.'));
+            $('#add_qty').text(qty_value + 'szt.');
+            // console.log(in_stock, $('#in_stock_info').val(in_stock + 'szt.'));
+            console.log(qty_value);
 
         }).fail(function (xhr, status, err) {}).always(function (xhr, status) {});
     });
