@@ -94,8 +94,10 @@ $(document).ready(function () {
             nav_main_xl.css('top', "0px");
         } else {
             // nav_main_xl.css('top', nav_position_xl_const - y_scroll_pos + "px");
-            nav_main_xl.css('top', "100px");
-        }
+            if (y_scroll_pos < nav_position_xl_const) {
+                nav_main_xl.css('top', "100px");
+            };
+            }
         lastScrollTop = st;
     });
 
