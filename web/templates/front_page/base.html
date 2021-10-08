@@ -31,8 +31,7 @@
     {% endblock %}
 </head>
 <body>
-    <script src="{% static "js/main.js" %}" type="text/javascript"></script>
-    <script src="{% static "js/search_products.js" %}" type="text/javascript"></script>
+    
     <main  class="container-fluid m-0 p-0">
     <header id="top" class="top col-12 m-0 p-0 pt-3 row">
         {% load thumbnail %}
@@ -302,7 +301,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-    
+    <script src="{% static "js/main.js" %}" type="text/javascript"></script>
+    <script src="{% static "js/search_products.js" %}" type="text/javascript"></script>
     <script type="application/javascript">
         $(document).ready(function () {
             $('.close-cookies').click(function () {
