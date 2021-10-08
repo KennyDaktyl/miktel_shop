@@ -53,7 +53,7 @@ search_input.keyup(function (event) {
                             var price = result[i].price;
                             
                             var new_p = $('<p/>', {
-                                html: sub_cat + ", " + sub_cat_type + ", <strong class='text-primary'>" + name + "</strong>, " + price + " zł",
+                                html: "<strong class='text-primary'>" + name + "</strong>, " + price + " zł",
                                 class: 'text-center text-dark m-0 p-0',
                                 
 
