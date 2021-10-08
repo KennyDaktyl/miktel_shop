@@ -349,13 +349,13 @@ div.article {
 }
 
 .producerName {
-    font-size: 11px;
+    font-size: 18px;
     font-weight: 400;
     margin-top: 10px;
 }
 
 .producerPrice {
-    font-size: 12px;
+    font-size: 18px;
     font-weight: 700;
     margin-top: 20px;
     color: red;
