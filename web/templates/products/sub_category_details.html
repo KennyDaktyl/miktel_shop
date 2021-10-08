@@ -71,6 +71,7 @@
             {% if product.price_promo != product.price %}
             <p class="mx-auto text-center m-0 p-0"><del>{{ product.price}} zł</del></p>
             {% endif %}
+            <small class="col-12 mx-auto text-center text-primary  m-0 p-0">Netto: {{product.price_netto}} + VAT 23%</small>
             </blockquote>
         </div>
         {% empty %}
