@@ -618,6 +618,7 @@ table {
     font-size: 12px;
 }
 
+
 .table p {
     font-size: 14px;
     color: black;
@@ -627,6 +628,23 @@ table {
     font-size: 11px;
     color: black;
 }
+
+th.th_qty {
+    min-width: 140px;
+}
+
+th.th_title {
+    min-width: 180px;
+}
+
+th.th_qty {
+    min-width: 140px;
+}
+
+th.th_price {
+    min-width: 105px;
+}
+
 
 @media screen and (min-width: 768px) {
 
@@ -701,6 +719,18 @@ table {
         -webkit-border-radius: 20px;
         -moz-border-radius: 20px;
         border-radius: 20px;
+    }
+
+    th.th_title {
+        min-width: 300px;
+    }
+
+    th.th_qty {
+        min-width: 150px;
+    }
+
+    th.th_price {
+        min-width: 100px;
     }
 }
 

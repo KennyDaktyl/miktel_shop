@@ -126,7 +126,7 @@ class BusinessForm(forms.ModelForm):
     zip_code = forms.CharField(label="Kod pocztowy",
                                max_length=6,
                                required=True)
-    captcha = ReCaptchaField(required=True)
+    # captcha = ReCaptchaField(required=True)
 
     # is_active = forms.BooleanField(
     #     help_text="Czy użytkownik jest aktywny? (Odznacz zamiast kasować)")

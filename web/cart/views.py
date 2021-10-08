@@ -34,15 +34,13 @@ class EditQtyProduct(View):
     def post(self, request):
         if request.is_ajax():
             prod_id = request.POST.get("prod_id")
-            product = ProductCopy.objects.get(pk=int(prod_id))
+            product = Products.objects.get(pk=int(prod_id))
             qty = int(request.POST.get("qty"))
 
             cart = Cart(request)
             cart.add(product=product,
-                     price=product.price,
-                     discount=product.discount,
-                     info=product.info,
-                     quantity=qty)
+                     quantity=qty,
+                     update_quantity=True)
             cart_dict = request.session.get(settings.CART_SESSION_ID)
             dict_obj = {
                 't_netto': cart_dict[str(product.id)]['t_netto'],
@@ -50,7 +48,7 @@ class EditQtyProduct(View):
                 'total_netto': float(cart.get_total_price_netto()),
                 'total': float(cart.get_total_price()),
                 'len': cart.len(),
-                'in_stock': product.product_id.qty - int(qty)
+                'in_stock': product.qty - int(qty)
             }
             serialized = json.dumps(dict_obj)
             return HttpResponse(serialized)

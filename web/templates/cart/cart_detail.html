@@ -23,26 +23,26 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
-    <li class="breadcrumb-item active" aria-current="page"><a href="">Strona startowa</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">Podsumowanie koszyka</li>
   </nav>
 
 <div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-start">
-    <main class="col-md-10 mx-auto row m-0 p-0 text-center">
+    <main class="col-md-8 mx-auto row m-0 p-0 text-center">
         <div class="col-12 text-left headline m-0 p-0 offer">
             <h1 class="col-12">SZCZEGÓŁY KOSZYKA:</h1>
         </div>
-        <table class="mx-auto table table_basket center" style="margin-left: auto; margin-right: auto;">
-            <thead style="width: 100%;">
+        <table class="table table_basket mb-3">
+            <thead>
                 <tr>
                     <th scope="col" class="text-center">#</th>
                     <th scope="col" class="text-center th_price">Foto</th>
-                    <th scope="col" class="text-center th_title" style="width: 350px;">Nazwa produktu</th>
-                    <th scope="col" class="text-center th_qty" style="width: 150px;">ilość</th>
-                    <th scope="col" class="text-center th_price" style="width: 150px;">Cena netto</th>
-                    <th scope="col" class="text-center th_price" style="width: 150px;">Cena brutto</th>
-                    <th scope="col" class="text-center th_price" style="width: 150px;">Wartość netto</th>
-                    <th scope="col" class="text-center th_price" style="width: 150px;">Wartość brutto</th>
+                    <th scope="col" class="text-center th_title" >Nazwa produktu</th>
+                    <th scope="col" class="text-center th_qty">ilość</th>
+                    <th scope="col" class="text-center th_price">Cena netto</th>
+                    <th scope="col" class="text-center th_price">Cena brutto</th>
+                    <th scope="col" class="text-center th_price">Wartość netto</th>
+                    <th scope="col" class="text-center th_price">Wartość brutto</th>
                     <th scope="col" class="text-center">Usuń</th>
                 </tr>
             </thead>
@@ -68,12 +68,12 @@
                         </div>
                     </td>
                     <td class="text-center">
-                        <form id="form" action="{% url 'add_product' %}" method="POST" class="row m-0 p-0 form">
+                        <form id="form" action="{% url 'add_product' %}" method="POST" class="col-12 row m-0 p-0 form">
                             {% csrf_token %}
-                            <input type="hidden" name="" id="prod_id{{item.id}}">
-                            <input type="number" name="qty" id="qty{{item.id}}" value="{{item.quantity}}"
-                                min="1" max="{{item.qty}}" class="col-6">
-                            <button value="{{item.id}}" class="col-6 btn btn-secondary change_qty mx-auto"
+                            <input type="hidden" name="" id="prod_id{{item.product.id}}">
+                            <input type="number" name="qty" id="qty{{item.product.id}}" value="{{item.quantity}}"
+                                min="1" max="{{item.product.product_id.qty}}" style="max-width: 50px;" class="text-center">
+                            <button value="{{item.product.id}}" class="btn btn-secondary change_qty mx-auto"
                                 type="button" data-action="add">
                                 <i class="fas fa-exchange-alt"></i></button>
                         </form>
@@ -108,7 +108,7 @@
                 </tr>
             </tbody>
         </table>
-        <div class="col-12 text-left mx-auto row d-flex align-items-center">
+        <div class="col-12 text-left mx-auto row d-flex align-items-center mt-3 mb-3">
             <p class="text-danger m-0 p-0 mr-1">Do zapłaty:</p><span></span><strong id="total_price_table" class="">{{cart.get_total_price|floatformat:2}} PLN</strong>
             {% if cart.len > 0 %}
             {% if user.is_authenticated %}

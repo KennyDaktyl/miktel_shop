@@ -28,6 +28,8 @@ $(document).ready(function () {
         $(this).on("click", function () {
             var prod_id = $(this).val();
             var qty = $('#qty' + prod_id).val();
+            console.log(qty);
+            console.log(prod_id);
             $.ajax({
                 url: url_address_edit,
                 type: "POST",

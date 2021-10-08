@@ -14,10 +14,13 @@ from .functions import *
 class FirstPage(View):
     def get(self, request):
         img_carousel = Images.objects.filter(carousel=True)
-        recommended_product = Products.objects.filter(
+        recommended_products = Products.objects.filter(
+            is_recommended=True).order_by('created_time')[:8]
+        promo_products = Products.objects.filter(
             is_promo=True).order_by('created_time')[:8]
         ctx = {'images_carousel': img_carousel,
-               'recommended_product': recommended_product}
+               'recommended_products': recommended_products,
+               'promo_products': promo_products}
         return render(request, "front_page/first_page.html", ctx)
 
 
@@ -57,6 +60,13 @@ class PrivacyPolicyPage(View):
         return render(request, "front_page/privacy_policy.html", ctx)
 
 
+class TermsAndRulesPage(View):
+    def get(self, request):
+        ctx = {}
+        return render(request, "front_page/terms_rules.html", ctx)
+
+
 first_page = FirstPage.as_view()
 contact_page = ContactPage.as_view()
 privacy_policy = PrivacyPolicyPage.as_view()
+terms_rules = TermsAndRulesPage.as_view()

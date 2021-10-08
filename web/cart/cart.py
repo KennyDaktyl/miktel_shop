@@ -26,13 +26,13 @@ class Cart(object):
         """
         if str(product.id) in self.cart:
             qty = int(self.cart[str(product.id)]['quantity'])
-            self.cart[str(product.id)]['quantity'] = qty + int(quantity)
-            print(self.cart[str(product.id)]['quantity'])
+            if update_quantity:
+                self.cart[str(product.id)]['quantity'] = int(quantity)
+            else:
+                self.cart[str(product.id)]['quantity'] = qty + int(quantity)
             self.save()
         else:
-            print("fuck")
-            print(self.cart)
-            print(product.id)
+
             self.cart[product.id] = {
                 'quantity': str(quantity),
                 'price': str(product.price_promo),

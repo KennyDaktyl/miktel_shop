@@ -23,7 +23,7 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
-  <li class="breadcrumb-item text-dark"><a href="{% url 'front_page' %}" class="text-dark">Strona startowa</a></li>
+  <li class="breadcrumb-item text-dark"><a href="{% url 'front_page' %}" class="">Strona startowa</a></li>
   <li class="breadcrumb-item text-dark active" aria-current="page">Rejestracja firmy</li>
 </nav>
 
@@ -187,33 +187,20 @@
               <i class="fas fa-city col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
-          <div class="g-recaptcha-outer mx-auto text-center m-2">
-            <small class="text-danger col-12">{{ form.captcha.errors }}</small>
-            <div class="g-recaptcha-inner mx-auto">
-              {{ form.captcha|as_crispy_field}}
-            </div>
-          </div>
-         <div class="col-md-12 p-1 mx-auto text-center  row d-flex align-items-stretch justify-content-center">
+          <div class="col-md-12 p-1 mx-auto text-center  row d-flex align-items-stretch justify-content-center">
             <a href="" class="col-11">
               <label for="id_rules" class="col-12 requiredField m-0 p-0 align-self-center">
-                Regulamin sklepu<span class="asteriskField ">*</span>
+                Zapoznałem się z regulaminem sklepu<span class="asteriskField ">*</span>
               </label></a>
             <input type="checkbox" name="rules" class="col-1 checkboxinput align-self-center" required="" id="id_rules" >
           </div>
           <div class="col-md-12 p-1 mx-auto text-center row d-flex align-items-stretch justify-content-center">
             <a href="" class="col-11">
               <label for="id_perdon_data" class="col-12 requiredField m-0 p-0 align-self-center">
-                Zgoda na przetwarzanie danych osobowych<span class="asteriskField ">*</span>
+                Wyrażam zgodę na przetwarzanie danych osobowych<span class="asteriskField ">*</span>
               </label></a>
             <input type="checkbox" name="perdon_data" class="col-1 checkboxinput align-self-center" required=""
               id="id_perdon_data">
-          </div>
-          <div class="col-md-12 p-1 mx-auto text-center row d-flex align-items-stretch justify-content-center">
-            <a href="" class="col-11">
-              <label for="id_rodo" class="requiredField m-0 p-0 align-self-center">
-                Zgoda RODO<span class="asteriskField ">*</span>
-              </label></a>
-            <input type="checkbox" name="rodo" class="col-1 checkboxinput align-self-center" required="" id="id_rodo" >
           </div>
           <div class="col-12 mx-auto text-center mt-3">
             <p id="button" class="col-md-5 text-center mx-auto h-100"><input

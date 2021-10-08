@@ -448,6 +448,9 @@ class Products(BaseModel):
         on_delete=models.CASCADE,
         verbose_name="Stawka VAT",
     )
+    is_recommended = models.BooleanField(verbose_name="Czy jest w rekomendowanych",
+                                         default=False)
+
     is_news = models.BooleanField(verbose_name="Czy jest w nowościach",
                                   default=False)
     is_promo = models.BooleanField(verbose_name="Czy jest w propozycjach",

@@ -74,8 +74,10 @@ class RegisterUserView(View):
                 new_user.is_active = False
                 new_user.save()
                 host = request.scheme + "://" + request.get_host()
-                token = ActivateToken.objects.create(user=new_user, activation_token=str(int(str(uuid.uuid4()).split('-')[0], 16)))
-                send_simple_message('Aktywacja konta', host, new_user, token.activation_token)
+                token = ActivateToken.objects.create(
+                    user=new_user, activation_token=str(int(str(uuid.uuid4()).split('-')[0], 16)))
+                send_simple_message('Aktywacja konta', host,
+                                    new_user, token.activation_token)
                 messages.error(request, 'Potwierdź email aby zalogować.')
                 return redirect('front_page')
         else:
@@ -104,7 +106,7 @@ class CompanyRegistrationView(View):
                 new_user.email = form.cleaned_data['email']
                 new_user.set_password(form.cleaned_data['password'])
                 new_user.save()
-                
+
                 profile = Profile()
                 profile.user_id = new_user.id
                 profile.business_name = form.cleaned_data['business_name']
@@ -113,7 +115,7 @@ class CompanyRegistrationView(View):
                 profile.nip_number = form.cleaned_data['nip_number']
                 profile.company = True
                 profile.save()
-                
+
                 address = Address()
                 address.user_id = new_user
                 address.street = form.cleaned_data['street']
@@ -123,13 +125,19 @@ class CompanyRegistrationView(View):
                 address.zip_code = form.cleaned_data['zip_code']
                 address.city = form.cleaned_data['city']
                 address.save()
-                login(request, new_user)
-                messages.error(request, 'Utworzono konto')
+                host = request.scheme + "://" + request.get_host()
+                token = ActivateToken.objects.create(
+                    user=new_user, activation_token=str(int(str(uuid.uuid4()).split('-')[0], 16)))
+                send_simple_message('Aktywacja konta', host,
+                                    new_user, token.activation_token)
+                messages.error(request, 'Potwierdź email aby zalogować.')
                 return redirect('front_page')
         else:
             messages.error(request, 'Wystąpił błąd')
+            print(form.errors)
             ctx = {'form': form}
             return render(request, "accounts/register_business.html", ctx)
+
 
 class ActivateAccount(View):
 
@@ -168,7 +176,7 @@ class ActivateAccount(View):
 #         u.is_active = True  # Not anymore.
 #         u.is_email_confirmed = True
 #         u.save()
-            
+
 #         send_account_activated_email(to=u.email, recipient=u)
 #         data = ActivateUserInfoOutSerializer(u).data
 
@@ -250,7 +258,8 @@ class LoginView(View):
         if form.is_valid():
             user_name_email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=user_name_email, password=password)
+            user = authenticate(
+                request, username=user_name_email, password=password)
             if user is not None:
                 # token = Token.objects.get_or_create(user=user)
                 login(request, user)

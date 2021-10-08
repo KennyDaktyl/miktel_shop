@@ -22,8 +22,8 @@
 {% endblock %}
 
 {% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
-  <li class="breadcrumb-item text-dark"><a href="{% url 'front_page' %}" class="text-dark">Strona startowa</a></li>
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
+  <li class="breadcrumb-item text-dark"><a href="{% url 'front_page' %}" class="">Strona startowa</a></li>
   <li class="breadcrumb-item text-dark active" aria-current="page">Rejestracja klienta</li>
 </nav>
 
@@ -78,6 +78,22 @@
             <span class="input-group-text col-2 text-center align-self-stretch show_password">
               <i id="show_password2" class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0 align-self-start"></i>
             </span>
+          </div>
+
+          <div class="col-md-12 p-1 mx-auto text-center  row d-flex align-items-stretch justify-content-center">
+            <a href="" class="col-11">
+              <label for="id_rules" class="col-12 requiredField m-0 p-0 align-self-center">
+                Zapoznałem się z regulaminem sklepu<span class="asteriskField ">*</span>
+              </label></a>
+            <input type="checkbox" name="rules" class="col-1 checkboxinput align-self-center" required="" id="id_rules" >
+          </div>
+          <div class="col-md-12 p-1 mx-auto text-center row d-flex align-items-stretch justify-content-center">
+            <a href="" class="col-11">
+              <label for="id_perdon_data" class="col-12 requiredField m-0 p-0 align-self-center">
+                Wyrażam zgodę na przetwarzanie danych osobowych<span class="asteriskField ">*</span>
+              </label></a>
+            <input type="checkbox" name="perdon_data" class="col-1 checkboxinput align-self-center" required=""
+              id="id_perdon_data">
           </div>
 
       
