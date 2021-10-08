@@ -50,7 +50,7 @@ search_input.keyup(function (event) {
                             var sub_cat_type = result[i].sub_category_type['name'];
                             var brand = result[i].brand['name'];
                             var name = result[i].name;
-                            var price = result[i].price;
+                            var price = result[i].price_promo;
                             
                             var new_p = $('<p/>', {
                                 html: sub_cat + ", " + sub_cat_type + ", <strong class='text-primary'>" + name + "</strong>, " + price + " zł",
@@ -171,7 +171,7 @@ inputSearch.keyup(function (event) {
                             // var sub_cat_type = result[i].sub_category_type['name'];
                             var brand = result[i].brand['name'];
                             var name = result[i].name;
-                            var price = result[i].price;
+                            var price = result[i].price_promo;
                             
                             var new_p = $('<p/>', {
                                 html: "<strong class='text-primary'>" + name + "</strong>, " + price + " zł",
