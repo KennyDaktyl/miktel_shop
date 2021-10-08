@@ -28,8 +28,6 @@ $(document).ready(function () {
         $(this).on("click", function () {
             var prod_id = $(this).val();
             var qty = $('#qty' + prod_id).val();
-            console.log(qty);
-            console.log(prod_id);
             $.ajax({
                 url: url_address_edit,
                 type: "POST",
@@ -41,7 +39,7 @@ $(document).ready(function () {
             }).done(function (result) {
                 var result_js = $.parseJSON(result);
                
-                
+                console.log(result)
                 var result_t_netto = result_js['t_netto'];
                 result_t_netto = result_t_netto.toFixed(2);
                 $('#t_netto' + prod_id).text(result_t_netto + ' PLN');
@@ -49,8 +47,7 @@ $(document).ready(function () {
                 var result_t_brutto = result_js['t_brutto'];
                 result_t_brutto = result_t_brutto.toFixed(2);
                 $('#t_brutto' + prod_id).text(result_t_brutto + ' PLN');
-                
-                console.log(prod_id,result_t_netto, $('#t_netto' + prod_id));
+                console.log(result_t_brutto)
                 var result_total = result_js['total'];
                 result_total = result_total.toFixed(2);
                 
@@ -79,7 +76,6 @@ $(document).ready(function () {
                     empty_basket.css('display', 'none');
                     normal_basket.css('display', 'block');
                 };
-                console.log(in_stock, $('#in_stock_info' + prod_id).val(in_stock + 'szt.'));
 
             }).fail(function (xhr, status, err) {}).always(function (xhr, status) {});
         });
@@ -87,12 +83,14 @@ $(document).ready(function () {
 
     del_prod.each(function (index) {
         $(this).on("click", function () {
-            var prod_id = $(this).data('product_id');;
+            var prod_id = $(this).data('product_id');
+            var qty = $('#qty' + prod_id).val();
             $.ajax({
                 url: url_address_del,
                 type: "POST",
                 data: {
                     prod_id: prod_id,
+                    qty: qty,
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
                 },
             }).done(function (result) {

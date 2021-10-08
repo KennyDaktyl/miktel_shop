@@ -24,7 +24,8 @@ class AddProductView(View):
             dict_obj = {
                 'total': float(cart.get_total_price()),
                 'len': cart.len(),
-                'in_stock': product.qty - int(qty)
+                'in_stock': product.qty - int(qty),
+
             }
             serialized = json.dumps(dict_obj)
             return HttpResponse(serialized)
@@ -58,7 +59,8 @@ class RemoveProduct(View):
     def post(self, request):
         if request.is_ajax():
             prod_id = request.POST.get("prod_id")
-            product = ProductCopy.objects.get(pk=int(prod_id))
+            qty = request.POST.get("qty")
+            product = Products.objects.get(pk=int(prod_id))
             cart = Cart(request)
             cart.remove(product)
 
@@ -66,7 +68,7 @@ class RemoveProduct(View):
                 'total_netto': float(cart.get_total_price_netto()),
                 'total': float(cart.get_total_price()),
                 'len': cart.len(),
-                'in_stock': product.product_id.qty + product.qty
+                'in_stock': product.qty + int(qty)
             }
             serialized = json.dumps(dict_obj)
             return HttpResponse(serialized)

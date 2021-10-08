@@ -30,6 +30,17 @@ class Cart(object):
                 self.cart[str(product.id)]['quantity'] = int(quantity)
             else:
                 self.cart[str(product.id)]['quantity'] = qty + int(quantity)
+            self.cart[str(product.id)]['price'] = float(product.price_promo)
+            self.cart[str(product.id)]['price_netto'] = round(
+                float(product.price_promo) / float("1." + "23"), 2)
+            self.cart[str(product.id)]['t_netto'] = round(
+                ((float(self.cart[str(product.id)]['price_netto'])) *
+                    int(quantity)), 2)
+            self.cart[str(product.id)]['t_brutto'] = round(
+                ((float(product.price_promo)) * int(quantity)), 2)
+            self.cart[str(product.id)]['discount'] = float(product.discount)
+            # if info:
+            #     self.cart[product.id]['info'] = info
             self.save()
         else:
 
@@ -39,6 +50,7 @@ class Cart(object):
                 'discount': str(product),
                 # 'info': str(product.info),
             }
+
             self.cart[product.id]['price'] = float(product.price_promo)
             self.cart[product.id]['price_netto'] = round(
                 float(product.price_promo) / float("1." + "23"), 2)
@@ -106,13 +118,13 @@ class Cart(object):
             #     '/media/', '')
             item['image'] = item['product']['image'].replace(
                 '/media/', '')
-            # item['price'] = Decimal(item['price_promo'])
-            # item['price_netto'] = round(
-            #     float(item['price'] / float("1." + "23")), 2)
-            # item['discount'] = int(item['discount'])
-            # item['total_price_netto'] = round(
-            #     float(int(item['qty']) * float((item['price_netto']))), 2)
-            # item['total_price'] = item['price'] * item['quantity']
+            item['price'] = float(item['price'])
+            item['price_netto'] = round(
+                float(item['price'] / float("1." + "23")), 2)
+            item['discount'] = int(item['discount'])
+            item['total_price_netto'] = round(
+                float(int(item['quantity']) * float((item['price_netto']))), 2)
+            item['total_price'] = item['price'] * item['quantity']
             yield item
 
     def len(self):
