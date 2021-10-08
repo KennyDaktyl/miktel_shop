@@ -637,7 +637,7 @@ table {
 
     div.search_link {
         position: absolute;
-        z-index: 10;
+        z-index: 21;
         text-align: center;
         top: 40px;
         left: -100%;
