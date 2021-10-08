@@ -25,25 +25,25 @@ class Cart(object):
         Dodanie produktu do koszyka lub edycja parametrów
         """
         if str(product.id) in self.cart:
-            qty = int(self.cart[str(product.id)]['quantity'])
             if update_quantity:
                 self.cart[str(product.id)]['quantity'] = int(quantity)
+                qty = int(self.cart[str(product.id)]['quantity'])
             else:
+                qty = int(self.cart[str(product.id)]['quantity'])
                 self.cart[str(product.id)]['quantity'] = qty + int(quantity)
+            qty = int(self.cart[str(product.id)]['quantity'])
             self.cart[str(product.id)]['price'] = float(product.price_promo)
             self.cart[str(product.id)]['price_netto'] = round(
                 float(product.price_promo) / float("1." + "23"), 2)
             self.cart[str(product.id)]['t_netto'] = round(
-                ((float(self.cart[str(product.id)]['price_netto'])) *
-                    int(quantity)), 2)
+                ((float(self.cart[str(product.id)]['price_netto'])) * qty), 2)
             self.cart[str(product.id)]['t_brutto'] = round(
-                ((float(product.price_promo)) * int(quantity)), 2)
+                ((float(product.price_promo)) * qty), 2)
             self.cart[str(product.id)]['discount'] = float(product.discount)
             # if info:
             #     self.cart[product.id]['info'] = info
             self.save()
         else:
-
             self.cart[product.id] = {
                 'quantity': str(quantity),
                 'price': str(product.price_promo),

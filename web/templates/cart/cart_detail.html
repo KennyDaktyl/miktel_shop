@@ -109,7 +109,7 @@
             </tbody>
         </table>
         <div class="col-12 text-left mx-auto row d-flex align-items-center mt-3 mb-3">
-            <p class="text-danger m-0 p-0 mr-1">Do zapłaty:</p><span></span><strong id="total_price_table" class="">{{cart.get_total_price|floatformat:2}} PLN</strong>
+            <p class="text-danger m-0 p-0 mr-1">Do zapłaty:</p><span></span><strong id="total_price_main" class="">{{cart.get_total_price|floatformat:2}} PLN</strong>
             {% if cart.len > 0 %}
             {% if user.is_authenticated %}
             <a id="normal_basket" href="{% url 'order_details' %}" class="ml-auto text-right">

@@ -10,6 +10,7 @@ $(document).ready(function () {
     var normal_basket = $('#normal_basket');
 
     var total_price = $('#total_price');
+    var total_price_main = $('#total_price_main');
     // var total_price_modal = $('#total_price_modal'+prod_id);
     var len = $('#len');
     // var len_modal = $('#len_modal'+prod_id);
@@ -57,6 +58,7 @@ $(document).ready(function () {
                 var result_len = result_js['len'];
                 total_price.text(result_total + ' PLN');
                 
+                total_price_main.text(result_total + ' PLN');
                 $('#total_price_table').text(result_total + ' PLN');
                 $('#total_price_netto_table').text(result_total_netto + ' PLN');
                 len.text(result_len + 'szt.');
@@ -100,6 +102,8 @@ $(document).ready(function () {
                 total_price.text(result_total + ' PLN');
                 var result_total_netto = result_js['total_netto'];
                 result_total_netto = result_total_netto.toFixed(2);
+
+                total_price_main.text(result_total + ' PLN');
                 $('#total_price_netto_table').text(result_total_netto + ' PLN');
                 $('#total_price_table').text(result_total + ' PLN');
 
