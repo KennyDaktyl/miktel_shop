@@ -68,8 +68,8 @@ $(document).ready(function () {
     intPositionNavXl = parseInt(nav_main_xl.css('top').replace("px", ""));
     const nav_position_xl_const = nav_position_xl;
 
+    var lastScrollTop = 0;
     $(window).on('scroll', function() {
-
         y_scroll_pos = window.pageYOffset;
         nav_position_xl = nav_main_xl.offset().top;
         var st = $(this).scrollTop();
@@ -77,17 +77,24 @@ $(document).ready(function () {
         intPositionNavXl = parseInt(nav_main_xl.css('top').replace("px", ""));
        
 
-        if (intPositionNavXl < 80 ) {
+        // if (intPositionNavXl < 80 ) {
+        //     nav_main_xl.css('top', "0px");
+        // } else {
+        //     if (y_scroll_pos < nav_position_xl_const) {
+        //         nav_main_xl.css('top', nav_position_xl_const - y_scroll_pos + "px");
+        //     };
+        // };
+
+        // if (y_scroll_pos < nav_position_xl_const) {
+        //     nav_main_xl.css('top', nav_position_xl_const - y_scroll_pos + "px");
+        // };
+
+        if (st > lastScrollTop){
             nav_main_xl.css('top', "0px");
         } else {
-            if (y_scroll_pos < nav_position_xl_const) {
-                nav_main_xl.css('top', nav_position_xl_const - y_scroll_pos + "px");
-            };
-        };
-
-        if (y_scroll_pos < nav_position_xl_const) {
             nav_main_xl.css('top', nav_position_xl_const - y_scroll_pos + "px");
-        };
+        }
+        lastScrollTop = st;
     });
 
     var nav_main = $('#nav_main');
