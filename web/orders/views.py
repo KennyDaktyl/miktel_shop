@@ -34,6 +34,13 @@ class OrderDetails(View):
     def post(self, request):
         form = OrderDetailsForm(request.POST)
         cart = Cart(request)
+        inpost_box_id = None
+        if request.is_ajax():
+            if 'inpost_box_id' in request.POST:
+                inpost_box_id = request.POST.get('inpost_box_id')
+                request.session['inpost_box_id'] = inpost_box_id
+                print(inpost_box_id)
+                print('sdsds')
 
         if form.is_valid():
             bill_select = form.cleaned_data['bill_select']
@@ -43,12 +50,6 @@ class OrderDetails(View):
                 name=form.cleaned_data['delivery_method'])
             request.session['pay_method'] = pay_method.id
             request.session['delivery_method'] = delivery_method.id
-
-            inpost_box_id = None
-            if request.is_ajax():
-                if 'inpost_box_id' in request.POST:
-                    inpost_box_id = request.POST.get('inpost_box_id')
-                    request.session['inpost_box_id'] = inpost_box_id
 
             today = datetime.now()
             store = Store.objects.all().first()
@@ -94,6 +95,7 @@ class InpostBoxSearchView(View):
 
     def post(self, request, order):
         order = Orders.objects.get(pk=order)
+        print(order)
         if order.pay_method.pay_method == 4:
             return redirect('checkout', order=order.id)
         else:
@@ -103,6 +105,9 @@ class InpostBoxSearchView(View):
 class OrderCompleted(View):
     def get(self, request, order):
         order = Orders.objects.get(pk=order)
+        order.main_status = 2
+        order.status = 2
+        order.save()
         cart = Cart(request)
         cart.clear()
         ctx = {

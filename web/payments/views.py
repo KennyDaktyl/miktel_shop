@@ -27,6 +27,12 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class CheckoutView(View):
     def get(self, request, order):
         order = Orders.objects.get(id=order)
+        try:
+            order.inpost_box = request.session['inpost_box_id']
+            order.save()
+            del request.session['inpost_box_id']
+        except:
+            pass
         intent = stripe.PaymentIntent.create(
             amount=order.get_total_price_stripe(),
             currency='pln',
@@ -40,7 +46,12 @@ class CheckoutView(View):
 
 @method_decorator(login_required, name="dispatch")
 class PayMentSuccessView(View):
-    def get(self, request):
+    def get(self, request, order):
+        order = Orders.objects.get(id=order)
+        order.main_status = 3
+        order.status = 2
+        order.save()
+
         cart = Cart(request)
         cart.clear()
         return render(request, "payments/checkout_success.html")
