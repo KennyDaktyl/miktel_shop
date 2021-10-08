@@ -7,6 +7,14 @@ ORDER_STATUS = (
 )
 ORDER_STATUS = sorted(ORDER_STATUS)
 
+MAIN_ORDER_STATUS = (
+    (1, "Otwarte"),
+    (2, "Potwierdzone"),
+    (3, "Zapłacone"),
+    (4, "Zrealizowane"),
+)
+MIAN_ORDER_STATUS = sorted(MAIN_ORDER_STATUS)
+
 DELIVERY_TYPE = (
     (1, "Odbiór osobisty"),
     (2, "Dostawa"),
