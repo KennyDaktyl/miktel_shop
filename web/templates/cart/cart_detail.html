@@ -72,7 +72,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="" id="prod_id{{item.product.id}}">
                             <input type="number" name="qty" id="qty{{item.product.id}}" value="{{item.quantity}}"
-                                min="1" max="{{item.product.product_id.qty}}" style="max-width: 50px;" class="text-center">
+                                min="1" max="{{item.product_id.qty}}" style="max-width: 50px;" class="text-center">
                             <button value="{{item.product.id}}" class="btn btn-secondary change_qty mx-auto"
                                 type="button" data-action="add">
                                 <i class="fas fa-exchange-alt"></i></button>
@@ -80,13 +80,13 @@
                     </td>
                     <td class="text-center">{{item.price_netto|floatformat:2}} PLN</td>
                     <td class="text-center">{{item.price|floatformat:2}} PLN</td>
-                    <td class="text-center mx-auto"><strong id="t_netto{{item.id}}">{{item.t_netto|floatformat:2}} PLN</strong></td>
-                    <td class="text-center mx-auto"><strong id="t_brutto{{item.id}}">{{item.t_brutto|floatformat:2}} PLN</strong></td>  
+                    <td class="text-center mx-auto"><strong id="t_netto{{item.product.id}}">{{item.t_netto|floatformat:2}} PLN</strong></td>
+                    <td class="text-center mx-auto"><strong id="t_brutto{{item.product.id}}">{{item.t_brutto|floatformat:2}} PLN</strong></td>  
                     <td class="text-center">
-                        <form id="form" action="{% url 'add_product' %}" method="POST" class="col-12 row m-0 p-0 form">
+                        <form id="form" action="{% url 'del_product' %}" method="POST" class="col-12 row m-0 p-0 form">
                             {% csrf_token %}
                             <i type="button" class="del_prod text-danger fas fa-trash-alt mx-auto"
-                                data-product_id="{{item.id}}"></i>
+                                data-product_id="{{item.product.id}}"></i>
                         </form>
                     </td>
                 </tr>
