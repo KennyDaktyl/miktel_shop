@@ -61,15 +61,16 @@ class ApiProductsListSet(generics.ListAPIView):
     def get_queryset(self):
         search = self.request.query_params.get('search')
         products = Products.objects.all()
-        q_object = reduce(and_, (Q(sub_category_type__sub_category__category__name__contains=search)
-                                 | Q(sub_category_type__sub_category__name__contains=search)
-                                 | Q(sub_category_type__name__contains=search)
-                                 | Q(brand__name__contains=search)
-                                 | Q(name__contains=search)
-                                 for search in search))
-        products = products.filter(q_object)
-        print((products).count())
-        # products = Products.objects.filter(name__icontains=search)
+        # q_object = reduce(and_, (Q(sub_category_type__sub_category__category__name__contains=search)
+        #                          | Q(sub_category_type__sub_category__name__contains=search)
+        #                          | Q(sub_category_type__name__contains=search)
+        #                          | Q(brand__name__contains=search)
+        #                          | Q(name__contains=search)
+        #                          for search in search))
+        # products = products.filter(q_object)
+        # for prod in products:
+        #     print(prod)
+        products = Products.objects.filter(name__icontains=search)
         return products[0:20]
 
 
