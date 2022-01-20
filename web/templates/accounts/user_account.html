@@ -1,0 +1,227 @@
+{% extends "front_page/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block head %}
+{% endblock %}
+
+{% block title %}Konto użytkownika{% endblock %}
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
+  <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
+  <li class="breadcrumb-item text-dark active" aria-current="page">Konto użytkownika</li>
+</nav>
+
+<div class="min_div_page col-md-8 mx-auto text-center row d-flex align-items-start border mt-3 mb-3 p-2">
+    <div class="col-12 row mx-auto offer text-center">
+        <h1 class="mx-auto col-12 text-center m-0 p-0">Konto użytkownika</h1>
+        <a class="col-md-3 m-1 mx-auto" href="{% url 'user_profile' %}">
+            {% if profile %}
+            <button class="button btn-dark col-12">Profil użytkownika</button>
+            {% else %}
+            <button class="button btn-outline-dark col-12">Profil użytkownika</button>
+            {% endif %}
+        </a>
+        <a class="col-md-3 m-1 mx-auto" href="{% url 'user_orders' %}">
+            {% if orders %}
+            <button class="button btn-dark col-12">Zamówienia</button>
+            {% else %}
+            <button class="button btn-outline-dark col-12">Zamówienia</button>
+            {% endif %}
+        </a>
+        <a class="col-md-3 m-1 mx-auto" href="{% url 'user_address' %}">
+            {% if user_address %}
+            <button class="button btn-dark col-12">Dane adresowe</button>
+            {% else %}
+            <button class="button btn-outline-dark col-12">Dane adresowe</button>
+            {% endif %}
+        </a>
+        <a class="col-md-3 m-1 mx-auto" href="{% url 'change_password' %}">
+            {% if change_password %}
+            <button class="button btn-dark col-12">Zmień hasło</button>
+            {% else %}
+            <button class="button btn-outline-dark col-12">Zmień hasło</button>
+            {% endif %}
+        </a>
+
+        {% if profile %}
+        <div class="col-12 row mx-auto text-center mt-3">
+            <div class="col-12">
+            <button class="btn btn-outline-success mx-auto">
+                {% if profile.company %}
+                <p>Konto firmowe</p>
+                {% else %}
+                <p>Konto prywatne</p>
+                {% endif %}
+            </button>
+            </div>
+            <div class="col-12 mt-3">
+                <h1 class="mx-auto">Login:</h1>
+                <h2 class="mx-auto">{{user.email}}</h2>
+            </div>
+            {% if profile.company %}
+            <div class="col-12 mt-3">
+                <h1 class="mx-auto">Płatnik:</h1>
+                <h2 class="mx-auto">{{profile.company_name}}</h2>
+                {% if profile.company_name_l %}
+                <h2 class="mx-auto">{{profile.company_name_l}}</h2>
+                {% endif %}
+                <h2 class="mx-auto">{{profile.nip}}</h2>
+                <h1 class="mx-auto">Telefon:</h1>                
+                {% if profile.phone_number %}
+                <h2 class="mx-auto">{{profile.phone_number}}</h2>
+                {% else %}
+                <h2 class="mx-auto">Brak numeru telefonu</h2>
+                {% endif %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if orders %}
+        <div class="table-responsive col-12 mt-3">
+        <table class="table ">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Dokument</th>
+                <th scope="col">Data</th>
+                <th scope="col">Status</th>
+                <th scope="col">Numer zamówienia</th>
+                <th scope="col">Numer dokumentu</th>
+                <th scope="col">Kwota netto</th>
+                <th scope="col">Kwota brutto</th>
+                <th scope="col">PDF Faktury</th>
+                <th scope="col">Szczegóły</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+              <tr class="">
+                <th class="align-middle" scope="row">{{ forloop.counter }}</th>
+                <td class="align-middle">{% if invoice %} Faktura {% else %} Paragon {% endif %}</td>
+                <td class="align-middle" >{{ order.date }}</td>
+                <td class="align-middle" >{{ order.get_status_display }}</td>
+                <td class="align-middle" >{{ order.number }}</td>
+                <td class="align-middle" >{% if invoice %} {{ order.invoice_number}} {% else %} n/d {% endif %}</td>
+                <td class="align-middle" >{{ order.get_total_price_netto }}</td>
+                <td class="align-middle" >{{ order.total_price }}</td>
+                <td class="align-middle" >{% if not invoice %} <i class="text-success fas fa-file-invoice"></i> {% else %} n/d {% endif %}</td>
+                <td class="align-middle" ><button class="btn btn-outline-warning"><i class="fas fa-info-circle"></i></button></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+          {% endif %}
+        
+               {% if form %}
+        <form method="post" class="uniForm col-md-8 m-0 p-0 mt-3 mb-2 mx-auto text-center blueForms">
+            {% csrf_token %}
+            <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                <small class="text-danger col-12">{{ form.password.errors }}</small>
+                <label for="id_password" class="requiredField col-md-2 m-0 p-0 align-self-center">
+                Hasło<span class="asteriskField">*</span>
+                </label>
+                <input type="password" name="password" class="textinput textInput col-10 col-md-8 table-danger"
+                maxlength="{{ form.password.field.max_length }}" required="{{ form.password.field.required }}"
+                id="id_password" value='{{ form.password.value|default_if_none:"" }}'>
+                <span class="input-group-text col-2 text-center show_password">
+                <i id="show_password" class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0"></i>
+                </span>
+            </div>
+
+            <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                <small class="text-danger col-12">{{ form.password2.errors }}</small>
+                <label for="id_password2" class="requiredField col-md-2 m-0 p-0 align-self-center">
+                Powtórz hasło<span class="asteriskField">*</span>
+                </label>
+                <input type="password" name="password2" class="textinput textInput col-10 col-md-8 align-self-start table-danger"
+                maxlength="{{ form.password2.field.max_length}}" required="{{ form.password2.field.required }}"
+                id="id_password2" value='{{ form.password2.value|default_if_none:"" }}'>
+                <span class="input-group-text col-2 text-center align-self-stretch show_password">
+                <i id="show_password2" class="fas fa-unlock-alt col-12 text-center mx-auto m-0 p-0 align-self-start"></i>
+                </span>
+            </div>
+            <div class="col-12 mx-auto text-center mt-3">
+                <p id="button" class="col-md-5 text-center mx-auto h-100"><input
+                    class="btn btn-outline-success mx-auto text-center col-12" type="submit" value="Zmień hasło"></p>
+            </div>
+        </form>
+          {% endif %}
+        
+        {% if user_address %}
+        <form method="post" class="uniForm col-md-8 m-0 p-0 mt-3 mb-2 mx-auto text-center blueForms">
+            {% csrf_token %}
+        <div class="col-md-12 mt-3 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+          <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ address_form.street.errors }}</small>
+            <label for="id_street" class="requiredField col-md-2 m-0 p-0 align-self-center">
+              Ulica<span class="asteriskField">*</span>
+            </label>
+            <input type="text" name="street" class="textinput textInput col-10 col-md-8"
+              maxlength="{{ address_form.street.field.max_length }}" required="{{ address_form.street.field.required }}" value='{{ address_form.street.value|default_if_none:"" }}'>
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-road col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ address_form.house.errors }}</small>
+            <label for="id_house" class="requiredField col-md-2 m-0 p-0 align-self-center">
+              Nr domu<span class="asteriskField">*</span>
+            </label>
+            <input type="text" name="house" class="textinput textInput col-10 col-md-8"
+              maxlength="{{ address_form.house.field.max_length }}" required="{{ address_form.house.field.required }}" id="id_house" value='{{ address_form.house.value|default_if_none:"" }}'>
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-home col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ address_form.door.errors }}</small>
+            <label for="id_door" class="requiredField col-md-2 m-0 p-0 align-self-center">
+              Nr lokalu
+            </label>
+            <input type="text" name="door" class="textinput textInput col-10 col-md-8"
+              maxlength="{{ address_form.door.field.max_length }}" id="id_door" value='{{ address_form.door.value|default_if_none:"" }}'>
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-home col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ address_form.zip_code.errors }}</small>
+            <label for="id_zip_code" class="requiredField col-md-2 m-0 p-0 align-self-center">
+              Kod pocztowy<span class="asteriskField">*</span>
+            </label>
+            <input type="text" name="zip_code" class="textinput textInput col-10 col-md-8"
+              maxlength="{{ address_form.zip_code.field.max_length }}" required="{{ address_form.zip_code.field.required }}"
+              id="id_zip_code" value='{{ address_form.zip_code.value|default_if_none:"" }}'>
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-barcode col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ address_form.city.errors }}</small>
+            <label for="id_city" class="requiredField col-md-2 m-0 p-0 align-self-center">
+              Miasto<span class="asteriskField">*</span>
+            </label>
+            <input type="text" name="city" class="textinput textInput col-10 col-md-8"
+              maxlength="{{ address_form.city.field.max_length }}" required="{{ address_form.city.field.required }}" id="id_city" value='{{ address_form.city.value|default_if_none:"" }}'>
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-city col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-12 mx-auto text-center mt-3">
+            <p id="button" class="col-md-5 text-center mx-auto h-100"><input
+                class="btn btn-outline-success mx-auto text-center col-12" type="submit" value="Zapisz zmiany"></p>
+        </div>
+       </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block script %}
+<script src="{% static "js/registering.js" %}" type="text/javascript"></script>
+{% endblock %}

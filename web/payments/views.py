@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.http.response import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
@@ -54,7 +54,10 @@ class PayMentSuccessView(View):
 
         cart = Cart(request)
         cart.clear()
-        return render(request, "payments/checkout_success.html")
+        if order.delivery_method == "Odbiór osobisty":
+            return redirect('order_completed', order=order.id)
+        ctx = {"order": order}
+        return render(request, "payments/checkout_success.html", ctx)
 
 
 @method_decorator(csrf_exempt, name='dispatch')

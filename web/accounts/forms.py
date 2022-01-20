@@ -86,6 +86,30 @@ class UserForm(forms.ModelForm):
         return email
 
 
+class ChangePasswordForm(forms.ModelForm):
+    password = forms.CharField(label="Hasło",
+                               widget=forms.PasswordInput,
+                               min_length=6,
+                               help_text="Minimum 6 znaków",
+                               required=True)
+    password2 = forms.CharField(label="Powtórz hasło",
+                                widget=forms.PasswordInput,
+                                min_length=6,
+                                required=True)
+
+    class Meta:
+        model = User
+        fields = (
+            'password',
+        )
+
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('Hasła nie są identyczne.')
+        return cd['password2']
+
+
 class BusinessForm(forms.ModelForm):
     email = forms.EmailField(label="email",
                              widget=forms.EmailInput,
@@ -154,6 +178,17 @@ class BusinessForm(forms.ModelForm):
 
         return email
 
+        return cd['password2']
+
+
+class AddressForm(forms.Form):
+    street = forms.CharField(label="Ulica", max_length=128, required=True)
+    house = forms.CharField(label="Nr domu", max_length=8, required=True)
+    door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
+    city = forms.CharField(label="Miasto", max_length=64, required=True)
+    zip_code = forms.CharField(label="Kod pocztowy",
+                               max_length=6,
+                               required=True)
 
 # class PasswordChangeForm(forms.Form):
 #     password = forms.CharField(label="Hasło",

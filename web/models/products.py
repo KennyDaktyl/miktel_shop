@@ -398,6 +398,8 @@ class Products(BaseModel):
                               null=True,
                               blank=True)
     name = models.CharField(verbose_name="Nazwa produktu", max_length=128)
+    code = models.CharField(
+        verbose_name="Kod kreskowy", blank=True, null=True, max_length=8)
     qty = models.IntegerField(default=1,
                               verbose_name="Ilość produktu na stanie")
     size = models.ForeignKey('Size',
@@ -437,6 +439,12 @@ class Products(BaseModel):
         blank=True,
         null=True,
     )
+    price_netto_purchase = models.DecimalField(verbose_name="Cena zakupu netto",
+                                               default=0,
+                                               decimal_places=2,
+                                               max_digits=7,
+                                               null=True,
+                                               blank=True)
     price_netto = models.DecimalField(verbose_name="Cena netto",
                                       default=0,
                                       decimal_places=2,
@@ -496,7 +504,10 @@ class Products(BaseModel):
 
     @property
     def seo_tag_description(self):
-        description = f"""Produkt marki {self.brand.name}"""
+        if self.brand:
+            description = f"Produkt marki {self.brand.name}"
+        else:
+            description = f"Produkt {self.name}"
         return description
 
 

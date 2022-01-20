@@ -48,7 +48,7 @@ search_input.keyup(function (event) {
                             var cat = result[i].sub_category_type.sub_category.category['name'];
                             var sub_cat = result[i].sub_category_type.sub_category['name'];
                             var sub_cat_type = result[i].sub_category_type['name'];
-                            var brand = result[i].brand['name'];
+                            // var brand = result[i].brand['name'];
                             var name = result[i].name;
                             var price = result[i].price;
                             

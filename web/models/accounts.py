@@ -2,10 +2,12 @@ from django.db import models
 from django.conf import settings
 from .base import BaseModel
 
+
 class ActivateToken(BaseModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
     activation_token = models.CharField(max_length=64, unique=True)
+
 
 class Profile(BaseModel):
     id = models.AutoField(primary_key=True)
@@ -46,7 +48,7 @@ class Profile(BaseModel):
 
 class Address(BaseModel):
     id = models.AutoField(primary_key=True)
-    user_id = models.OneToOneField(
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         null=True,
         blank=True,
@@ -67,10 +69,10 @@ class Address(BaseModel):
 
     class Meta:
         ordering = (
-            "user_id",
+            "user",
             "-id",
         )
         verbose_name_plural = "Adresy"
 
     def __str__(self):
-        return "{}, {}, {}".format(self.user_id, self.street, self.house)
+        return "{}, {}, {}".format(self.user, self.street, self.house)
