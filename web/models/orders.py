@@ -163,8 +163,8 @@ class Orders(BaseModel):
                             null=True,
                             blank=True)
     is_paid = models.BooleanField(verbose_name="Czy zapłacono?", default=False)
-    printed = models.BooleanField(verbose_name="Wydrukowano paragon?",
-                                  default=True)
+    invoice = models.BooleanField(verbose_name="Faktura?",
+                                  default=False)
 
     total_price = models.DecimalField(verbose_name="Cena zamówienia",
                                       default=0.00,
@@ -186,6 +186,10 @@ class Orders(BaseModel):
 
     def get_total_price_stripe(self):
         return int(self.total_price * 100)
+
+    @property
+    def get_total_price_netto(self):
+        return round(float(self.total_price / Decimal(1.23)), 2)
 
     class Meta:
         ordering = ("-id", )

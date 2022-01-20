@@ -15,8 +15,9 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 from web.models.accounts import ActivateToken
+from web.models.orders import Orders
 
-from .forms import LoginForm, UserForm, BusinessForm
+from .forms import LoginForm, UserForm, BusinessForm, ChangePasswordForm, AddressForm
 from .functions import *
 # from products.models import Category
 from web.models import Profile, Address
@@ -149,6 +150,71 @@ class ActivateAccount(View):
         login(request, user)
         return redirect('front_page')
 
+
+@method_decorator(login_required, name="dispatch")
+class UserAccount(View):
+
+    def get(self, request):
+        ctx = {}
+        return render(request, "accounts/user_account.html", ctx)
+
+
+@method_decorator(login_required, name="dispatch")
+class UserOrders(View):
+
+    def get(self, request):
+        orders = Orders.objects.filter(client=request.user)
+        ctx = {"orders": orders}
+        return render(request, "accounts/user_account.html", ctx)
+
+
+@method_decorator(login_required, name="dispatch")
+class UserProfile(View):
+
+    def get(self, request):
+        profile = Profile.objects.get(user=request.user)
+        ctx = {"profile": profile}
+        return render(request, "accounts/user_account.html", ctx)
+
+
+@method_decorator(login_required, name="dispatch")
+class UserAddress(View):
+
+    def get(self, request):
+        address = Address.objects.filter(user=request.user).first()
+        if not address:
+            address = "Brak dodanego adresu"
+        address_form = AddressForm(
+            initial={
+                "street": address.street,
+                "house": address.house,
+                "door": address.door,
+                "zip_code": address.post_code,
+                "city": address.city
+            })
+        ctx = {'address_form': address_form, 'user_address': address}
+        return render(request, "accounts/user_account.html", ctx)
+
+    def post(self, request):
+        address_form = AddressForm(request.POST)
+        address = Address.objects.filter(user=request.user).first()
+        if address_form.is_valid():
+            address.street = address_form.cleaned_data['street']
+            address.house = address_form.cleaned_data['house']
+            address.post_code = address_form.cleaned_data['zip_code']
+            address.city = address_form.cleaned_data['city']
+            if address_form.cleaned_data['door']:
+                address.door = address_form.cleaned_data['door']
+            address.save()
+            messages.error(request, 'Zapisano nowy adres.')
+            return render(request, "accounts/user_account.html")
+
+        else:
+            messages.error(request, 'Wystąpił błąd')
+            ctx = {'addres_form': address_form}
+            return render(request, "accounts/register_business.html", ctx)
+
+
 # class Activate(View):
 
 #     def get_user_agent(self):
@@ -182,29 +248,25 @@ class ActivateAccount(View):
 
 #         return Response(data_out.data)
 
-# # @method_decorator(login_required, name='dispatch')
-# # class ChangeOnlyPasswordView(View):
-# #     permission_required = 'account.add_profile'
+@method_decorator(login_required, name='dispatch')
+class ChangeOnlyPasswordView(View):
 
-# #     def get(self, request, pk):
-# #         profile = Profile.objects.get(pk=pk)
-# #         form_pswd = PasswordChangeForm()
-# #         ctx = {'form_pswd': form_pswd, 'profile': profile}
-# #         return render(request, "account/change_only_password.html", ctx)
+    def get(self, request):
+        form = ChangePasswordForm()
+        ctx = {'form': form}
+        return render(request, "accounts/user_account.html", ctx)
 
-# #     def post(self, request, pk):
-# #         form_pswd = PasswordChangeForm(request.POST)
-# #         profile = Profile.objects.get(pk=pk)
-# #         user = User.objects.get(pk=profile.user.id)
-# #         if form_pswd.is_valid():
-# #             user.set_password(form_pswd.cleaned_data['password'])
-# #             user.save()
-# #             messages.error(request, 'Hasło zostało zmienione')
-# #             return redirect('profile_list')
-# #         else:
-# #             messages.error(request, 'Wystąpił błąd')
-# #             ctx = {'form_pswd': form_pswd, 'profile': profile}
-# #             return render(request, "account/change_only_password.html", ctx)
+    def post(self, request):
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            request.user.set_password(form.cleaned_data['password'])
+            request.user.save()
+            messages.error(request, 'Hasło zostało zmienione')
+            return render(request, "accounts/user_account.html")
+        else:
+            messages.error(request, 'Wystąpił błąd')
+            ctx = {'form': form}
+            return render(request, "accounts/user_account.html", ctx)
 
 # # @method_decorator(login_required, name="dispatch")
 # # class UpdateUserView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -352,3 +414,8 @@ user_logout = LogoutView.as_view()
 register_user = RegisterUserView.as_view()
 activate_account = ActivateAccount.as_view()
 company_registration = CompanyRegistrationView.as_view()
+user_account = UserAccount.as_view()
+user_orders = UserOrders.as_view()
+change_password = ChangeOnlyPasswordView.as_view()
+user_addresses = UserAddress.as_view()
+user_profile = UserProfile.as_view()

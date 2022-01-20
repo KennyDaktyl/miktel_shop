@@ -21,7 +21,11 @@
   </nav>
 
 <div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-start">
-    <h1 class="mx-auto">Płatność została wykonana.</h1>
+    <h1 class="mx-auto col-12">Płatność została wykonana.</h1>
+    <h3 class="mx-auto col-12">Numer zamówienia: <b>{{ order.number }}</b></h2>
+    <h3 class="mx-auto col-12">Typ dokumnetu: <b>{% if order.invoice %} Faktura {% else %}Paragon {% endif %}</b></h2>
+    <h3 class="mx-auto col-12">Wysyłka inpost-paczkomaty do:</h2>
+    <p class="mx-auto col-12"><b>{{ order.inpost_box }}</b></p>
 </div>
 
 {% endblock %}

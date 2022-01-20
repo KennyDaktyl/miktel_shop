@@ -299,6 +299,10 @@ div.product:hover {
     opacity: 1;
 }
 
+div.min_div_page {
+    min-height: 70vh;
+}
+
 
 div.article {
     margin-top: 60px;
@@ -629,6 +633,10 @@ table {
     color: black;
 }
 
+td {
+    vertical-align: middle;
+}
+
 th.th_qty {
     min-width: 140px;
 }
@@ -668,7 +676,7 @@ th.th_price {
 
     div.search_link {
         position: absolute;
-        z-index: 10;
+        z-index: 1000;
         text-align: center;
         top: 40px;
         left: -100%;
@@ -721,6 +729,12 @@ th.th_price {
         border-radius: 20px;
     }
 
+    table {
+        overflow-x: auto;
+        display: table;
+        font-size: 12px;
+    }
+
     th.th_title {
         min-width: 300px;
     }
@@ -732,6 +746,8 @@ th.th_price {
     th.th_price {
         min-width: 100px;
     }
+
+
 }
 
 .dbox {

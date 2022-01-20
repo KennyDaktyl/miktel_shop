@@ -95,7 +95,6 @@ class InpostBoxSearchView(View):
 
     def post(self, request, order):
         order = Orders.objects.get(pk=order)
-        print(order)
         if order.pay_method.pay_method == 4:
             return redirect('checkout', order=order.id)
         else:
