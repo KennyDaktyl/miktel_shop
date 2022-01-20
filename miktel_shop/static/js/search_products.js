@@ -174,7 +174,7 @@ inputSearch.keyup(function (event) {
                             var price = result[i].price;
                             
                             var new_p = $('<p/>', {
-                                html: sub_cat + ", " + brand + ", <strong class='text-primary'>" + name + "</strong>, " + price + " zł",
+                                html: sub_cat + ", " + "<strong class='text-primary'>" + name + "</strong>, " + price + " zł",
                                 class: 'text-center text-dark m-0 p-0',
                                 
 
