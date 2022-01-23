@@ -1,3 +1,4 @@
+import imp
 from django.db.models import Q
 
 from django.views import View
@@ -5,10 +6,13 @@ from django.shortcuts import render, redirect
 from rest_framework import viewsets, generics
 
 from web.models import Products, Category, SubCategory, SubCategoryType
+from web.models.products import Images
 from .serializers import ProductSerializer
 
 from functools import reduce
 from operator import and_, or_
+
+from .forms import *
 
 
 class ShopMainView(View):
@@ -23,8 +27,8 @@ class ShopMainView(View):
 
 
 class SubCategoryProducts(View):
-    def get(self, request, cat, sub_cat):
-        sub_cat = SubCategory.objects.get(slug=sub_cat)
+    def get(self, request, cat, sub_cat, pk):
+        sub_cat = SubCategory.objects.get(pk=pk)
         products = Products.objects.filter(
             sub_category_type__sub_category=sub_cat).filter(is_active=True)
         title = ""
@@ -35,8 +39,8 @@ class SubCategoryProducts(View):
 
 
 class SubCategoryTypeProducts(View):
-    def get(self, request, cat, sub_cat, sub_cat_type):
-        sub_category_type = SubCategoryType.objects.get(slug=sub_cat_type)
+    def get(self, request, cat, sub_cat, sub_cat_type, pk):
+        sub_category_type = SubCategoryType.objects.get(pk=pk)
         products = Products.objects.filter(
             sub_category_type=sub_category_type).filter(is_active=True)
         title = sub_category_type.sub_category.name + " | " + sub_category_type.name
@@ -48,9 +52,43 @@ class SubCategoryTypeProducts(View):
 
 
 class ProductDetails(View):
-    def get(self, request, cat, sub_cat, sub_cat_type, product):
-        product = Products.objects.get(slug=product)
+    def get(self, request, cat, sub_cat, sub_cat_type, product, pk):
+        product = Products.objects.get(pk=pk)
+        if request.user.is_staff:
+            photo_m_form = MainPhotoProductForm()
+            details_form = SelectDetailsProductForm(instance=product)
+            ctx = {'sub_category_type': product.sub_category_type,
+                   'product': product, 'photo_m_form': photo_m_form, "details_form": details_form}
+            return render(request, "products/product_details.html", ctx)
+
         ctx = {'sub_category_type': product.sub_category_type, 'product': product}
+        return render(request, "products/product_details.html", ctx)
+
+    def post(self, request, cat, sub_cat, sub_cat_type, product, pk):
+        product = Products.objects.get(pk=pk)
+        photo_m_form = MainPhotoProductForm(
+            request.POST, request.FILES)
+        details_form = SelectDetailsProductForm(request.POST, instance=product)
+        if request.POST.get('photo_main'):
+            if photo_m_form.is_valid():
+                product.image = request.FILES.get('image')
+                product.alt = photo_m_form.cleaned_data["alt"]
+                product.title = photo_m_form.cleaned_data["title"]
+                product.save()
+
+        if request.POST.get('photo_gallery'):
+            if photo_m_form.is_valid():
+                image = Images()
+                image.image = request.FILES.get('image')
+                image.alt = photo_m_form.cleaned_data["alt"]
+                image.title = photo_m_form.cleaned_data["title"]
+                image.product = product
+                image.save()
+        if request.POST.get('add_details'):
+            if details_form.is_valid():
+                details_form.save()
+        ctx = {'sub_category_type': product.sub_category_type,
+               'product': product, 'photo_m_form': photo_m_form, "details_form": details_form}
         return render(request, "products/product_details.html", ctx)
 
 

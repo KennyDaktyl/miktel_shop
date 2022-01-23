@@ -16,7 +16,7 @@ import socket
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
-ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl',
+ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl', 'www.serwiswrybnej.pl'
                  '51.75.64.242', 'e372-185-172-87-165.ngrok.io']
 
 print(socket.gethostname())
@@ -33,7 +33,7 @@ else:
     DOMAIN = "serwiswrybnej.pl"
     DOMAIN_URL = "https://" + DOMAIN
     DatabaseName = "miktel_shop_v1"
-    DEBUG = True
+    DEBUG = False
     SECURE_SSL_REDIRECT = False
     SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
     SESSION_COOKIE_DOMAIN = f".{DOMAIN}"
@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'captcha',
     'sorl.thumbnail',
-    'web'
+    'web',
+    'django_minify_html'
 ]
 
 STRIPE_ENDPOINT_SECRET = os.environ.get('STRIPE_ENDPOINT_SECRET')
@@ -80,6 +81,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'web.middleware.WwwRedirectMiddleware',
+    'django_minify_html.middleware.MinifyHtmlMiddleware',
 ]
 
 ROOT_URLCONF = 'miktel_shop.urls'

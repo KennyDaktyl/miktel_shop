@@ -114,7 +114,7 @@
                         <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu" id="navbarToggler{{ category.id }}">
                             {% for sub_cat in category.sub_category %}
                             <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
-                                <a class="col-10 nav-link text-left mx-auto" href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug %}" title="">{{ sub_cat.name}}</a>
+                                <a class="col-10 nav-link text-left mx-auto" href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}" title="">{{ sub_cat.name}}</a>
                             </li>
                             {% endfor %}
                         </div>
@@ -184,7 +184,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 {% for sub_cat in category.sub_category %}
-                <a class="dropdown-item" href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug %}">{{ sub_cat.name }}</a>
+                <a class="dropdown-item" href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}">{{ sub_cat.name }}</a>
                 {% endfor %}
               </div>
             </li>

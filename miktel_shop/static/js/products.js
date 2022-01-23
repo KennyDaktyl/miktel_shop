@@ -25,7 +25,7 @@ $(document).ready(function () {
     var len_mobile = $('#len_mobile');
     var add_product = $('#add_product');
     var len_modal = $('#len_modal');
-
+    var ifMobile = false;
 
     $('#form').on('keyup keypress', function (e) {
         var keyCode = e.keyCode || e.which;
@@ -73,13 +73,44 @@ $(document).ready(function () {
         }).fail(function (xhr, status, err) {}).always(function (xhr, status) {});
     });
 
+    var customizeForDevice = function(){
+        var ua = navigator.userAgent;
+        var checker = {
+          iphone: ua.match(/(iPhone|iPod|iPad)/),
+          blackberry: ua.match(/BlackBerry/),
+          android: ua.match(/Android/)
+        };
+        if (checker.android){
+            ifMobile = true;
+        }
+        else if (checker.iphone){
+            ifMobile = true;
+        }
+        else if (checker.blackberry){
+            ifMobile = true;
+        }
+        
+        if (parseInt(screen.width) >= 992 ) {
+            ifMobile = true
+            console.log("ssdfdfd")
+            } else {
+                ifMobile=false
+            };
+        console.log(ifMobile,screen.width);
+        return ifMobile;
+    }
+    customizeForDevice()    
+
     var sub_cat_type = $('#sub_cat_type');
     var sub_cat = $('#sub_cat');
     var cat = $('#cat');
     var ul_submenu = $('ul.SubCat');
+    
     ul_submenu.each(function (e) {
         if ($(this).attr('id').replace('SubMenu', '') == cat.val()) {
-            $(this).addClass('show'); 
+            if (ifMobile) {
+                $(this).addClass('show');
+            } 
             var active_sub_cat = $('#SubCat' + sub_cat.val());
             active_sub_cat.css('color', 'red');
             $(this).siblings().css('background-color', 'red');
@@ -87,8 +118,32 @@ $(document).ready(function () {
         }
     }); 
 
+    var customizeForDevice = function(){
+        var ua = navigator.userAgent;
+        var checker = {
+          iphone: ua.match(/(iPhone|iPod|iPad)/),
+          blackberry: ua.match(/BlackBerry/),
+          android: ua.match(/Android/)
+        };
+        if (checker.android){
+            ifMobile = true;
+        }
+        else if (checker.iphone){
+            ifMobile = true;
+        }
+        else if (checker.blackberry){
+            ifMobile = true;
+        }
+        else {
+            if( screen.width <= 992 ) {ifMobile = true} else {ifMobile=false};
+        }
+        console.log(ifMobile);
+        return ifMobile;
+    }
+    customizeForDevice()    
     
     var ul_type_menu = $('ul.TypeSubCat');
+    console.log(ifMobile);
     ul_type_menu.each(function (e) {
         if ($(this).attr('id').replace('TypeSubMenu', '') == sub_cat.val()) {
             $(this).addClass('show');

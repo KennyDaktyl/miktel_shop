@@ -41,7 +41,7 @@
                     <input type="hidden" name="" id="prod_id" value="{{product.id}}">
                     <input id="qty" name="qty" type="hidden" value="1">
                         
-                    <a href="{% url 'product_details' cat=product.sub_category_type.sub_category.category.slug sub_cat=product.sub_category_type.sub_category.slug sub_cat_type=product.sub_category_type.slug product=product.slug %}" class="col-10 bg-dark text-white align-self-stretch col-6 mx-auto d-flex align-items-center text-decoration-none text-center" style="height: 40px;">
+                    <a href="{% url 'product_details' cat=product.sub_category_type.sub_category.category.slug sub_cat=product.sub_category_type.sub_category.slug sub_cat_type=product.sub_category_type.slug product=product.slug pk=product.pk %}" class="col-10 bg-dark text-white align-self-stretch col-6 mx-auto d-flex align-items-center text-decoration-none text-center" style="height: 40px;">
                         <i class="fas fa-info-circle text-white align-self-center mx-auto col-12 m-0 p-0"></i>
                     </a>
                 </form>
