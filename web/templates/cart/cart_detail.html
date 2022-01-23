@@ -61,7 +61,7 @@
                     </td>
                     <td class="text-center" >
                         <div class="col-12 m-0 p-0 row">
-                            <a href="{% url 'product_details' cat=item.product.sub_category_type.sub_category.category.slug sub_cat=item.product.sub_category_type.sub_category.slug sub_cat_type=item.product.sub_category_type.slug product=item.product.slug %}" class="col-12 text-center m-0 p-0">
+                            <a href="{% url 'product_details' cat=item.product.sub_category_type.sub_category.category.slug sub_cat=item.product.sub_category_type.sub_category.slug sub_cat_type=item.product.sub_category_type.slug product=item.product.slug pk=item.product.id %}" class="col-12 text-center m-0 p-0">
                                 <p class="col-12 text-center m-0 ">{{item.product.name}} {{ item.quantity }}</p>
                                 <span class="col-12 text-center m-0 ">{{item.brand.name}} </span>
                             </a>

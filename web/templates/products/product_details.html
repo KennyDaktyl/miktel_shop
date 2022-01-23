@@ -171,6 +171,32 @@
                 </div>
     </div>
 </div>
+{% if user.is_superuser %}
+<h3>Zdjęcie główne</h3>
+<div class="alert alert-success" role="alert">
+    <form method="post" name="photo_main" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ photo_m_form.as_p }}
+        <button type="submit" name="photo_main" value="True">Ustaw zdjęcię</button>
+    </form>
+</div>
+<h3>Zdjęcie na galerie</h3>
+<div class="alert alert-success"  role="alert">
+    <form method="post" name="photo_gallery" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ photo_m_form.as_p }}
+        <button type="submit" name="photo_gallery" value="True">Ustaw zdjęcię dla galerii</button>
+    </form>
+</div>
+<h3>Dodaj szczegóły</h3>
+<div class="alert alert-success"  role="alert">
+    <form method="post" name="add_details" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ details_form.as_p }}
+        <button type="submit" name="add_details" value="True">Ustaw zdjęcię dla galerii</button>
+    </form>
+</div>
+{% endif %}
 {% endblock %}
 
 

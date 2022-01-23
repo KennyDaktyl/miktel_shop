@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand, CommandError
 import pandas as pd
 import numpy as np
+from datetime import datetime, timedelta
 
 from web.models.products import Category, Products, SubCategory, SubCategoryType, Vat, Store
 
@@ -64,6 +65,8 @@ class Command(BaseCommand):
         df = data.replace({np.nan: None})
         store = Store.objects.get(name="Serwis w Rybnej")
         tax = Vat.objects.get(name=23)
+        date = datetime.now() - timedelta(days=1)
+        # prod_to_del = Products.objects.filter(created_time__gte=date).delete()
         for index, row in df.iterrows():
             row_category = mapping_category(
                 row["Asortyment"])

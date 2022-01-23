@@ -163,6 +163,10 @@ class Category(BaseModel):
     def __str__(self):
         return self.name
 
+    @property
+    def products_count(self):
+        return Products.objects.filter(sub_category_type__sub_category__category=self).count()
+
 
 class SubCategory(BaseModel):
     id = models.AutoField(primary_key=True)
@@ -224,6 +228,10 @@ class SubCategory(BaseModel):
     def __str__(self):
         return self.name
 
+    @property
+    def products_count(self):
+        return Products.objects.filter(sub_category_type__sub_category=self).count()
+
 
 class SubCategoryType(BaseModel):
     id = models.AutoField(primary_key=True)
@@ -282,6 +290,10 @@ class SubCategoryType(BaseModel):
 
     def __str__(self):
         return self.sub_category.name + ", " + self.name
+
+    @property
+    def products_count(self):
+        return Products.objects.filter(sub_category_type=self).count()
 
 
 class Brand(BaseModel):
@@ -481,6 +493,8 @@ class Products(BaseModel):
                            "sub_cat": self.sub_category_type.sub_category.slug,
                            "sub_cat_type": self.sub_category_type.slug,
                            "product": self.slug,
+                           "pk": self.id,
+
                        })
 
     def save(self, *args, **kwargs):
