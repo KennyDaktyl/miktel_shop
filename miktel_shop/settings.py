@@ -20,7 +20,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl', 'www.serwiswrybnej.pl'
                  '51.75.64.242', 'e372-185-172-87-165.ngrok.io']
 
 print(socket.gethostname())
-if socket.gethostname() in ["Asus", "michalp", "DESKTOP-HDDTT8P"]:
+if socket.gethostname() in ["Asus", "michalp", "DESKTOP-HDDTT8P", "michal-asus"]:
     SECURE_SSL_REDIRECT = False
     DEBUG = True
     DOMAIN = "127.0.0.1:8000"
@@ -183,3 +183,11 @@ DJANGORESIZED_DEFAULT_KEEP_META = True
 DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'WEBP'
 DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {'WEBP': ".webp"}
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = True
+
+DEFAULT_RENDERER_CLASSES = (
+    'rest_framework.renderers.JSONRenderer',
+)
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+}

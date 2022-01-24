@@ -22,7 +22,7 @@ class FirstPage(View):
                'recommended_products': recommended_products,
                'promo_products': promo_products}
         return render(request, "front_page/first_page.html", ctx)
-
+    
 
 class ContactPage(View):
     def get(self, request):
