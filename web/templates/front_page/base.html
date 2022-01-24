@@ -67,13 +67,14 @@
                     <form id="search_form" action="{% url 'search_products' %}" method="POST" class="ml-auto text-right form-inline row">
                         {% csrf_token %}
                         <div id="position" class="row">
-                            <input id="search" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <input id="search" class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
                             <div id="div_link" class="bg-white search_link border row">
                                 <p  class="col-12">Wyszukiwarka produktów:</p>
                                 <ul class="align-items-center row  mx-auto" id="link">
                                 </ul>
                             </div>
                         </div>
+                        <button class="m-0 p-0" type="submit"></button>
                     </form>
                 </div>
             </div>

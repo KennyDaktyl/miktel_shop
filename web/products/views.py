@@ -4,6 +4,10 @@ from django.db.models import Q
 from django.views import View
 from django.shortcuts import render, redirect
 from rest_framework import viewsets, generics
+from rest_framework.response import Response
+from rest_framework.renderers import TemplateHTMLRenderer
+from django.http import HttpResponse
+
 
 from web.models import Products, Category, SubCategory, SubCategoryType
 from web.models.products import Images
@@ -25,6 +29,7 @@ class ShopMainView(View):
                'title': title, 'description': description}
         return render(request, "products/products_list.html", ctx)
 
+    
 
 class SubCategoryProducts(View):
     def get(self, request, cat, sub_cat, pk):
@@ -92,7 +97,38 @@ class ProductDetails(View):
         return render(request, "products/product_details.html", ctx)
 
 
-class ApiProductsListSet(generics.ListAPIView):
+class ApiProductsListSet(viewsets.ModelViewSet):
+    queryset = Products.objects.all()
+    serializer_class = ProductSerializer
+    template_name = "products/products_list.html"
+    renderer_classes = [TemplateHTMLRenderer]
+
+    def get_queryset(self):
+        search = self.request.query_params.get('search')
+        products = Products.objects.all()
+        # q_object = reduce(and_, (Q(sub_category_type__sub_category__category__name__contains=search)
+        #                          | Q(sub_category_type__sub_category__name__contains=search)
+        #                          | Q(sub_category_type__name__contains=search)
+        #                          | Q(brand__name__contains=search)
+        #                          | Q(name__contains=search)
+        #                          for search in search))
+        # products = products.filter(q_object)
+        # for prod in products:
+        #     print(prod)
+        products = Products.objects.filter(name__icontains=search)
+        return products[0:20]
+
+    def post(self, request, *args, **kwargs):
+        search = request.POST["search"]
+        products = Products.objects.filter(name__icontains=search)
+        # products = Products.objects.all()
+        # serializer = ProductSerializer(products, many=True)
+        serializer = self.get_serializer(products, many=True)
+        ctx = {'products': serializer.data}
+        return render(request, self.template_name, ctx)
+        return HttpResponse(serializer.data)
+
+class ApiProductsListSetJS(generics.ListAPIView):
     queryset = Products.objects.all()
     serializer_class = ProductSerializer
 
@@ -111,9 +147,9 @@ class ApiProductsListSet(generics.ListAPIView):
         products = Products.objects.filter(name__icontains=search)
         return products[0:20]
 
-
 shop_main_view = ShopMainView.as_view()
 sub_category_products = SubCategoryProducts.as_view()
 sub_category_type = SubCategoryTypeProducts.as_view()
 product_details = ProductDetails.as_view()
-search_products = ApiProductsListSet.as_view()
+search_products = ApiProductsListSet.as_view({'get': 'post'})
+search_products_js = ApiProductsListSetJS.as_view()

@@ -9,8 +9,7 @@ var div_link = $('#div_link');
 div_link.css('display', 'none');
 
 const domain = location.protocol + '//' + location.host
-const form_url = domain + form_action;
-
+const form_url = domain + "/sklep_online/szukaj_js";
 search_input.keyup(function (event) {
 
     if ($(this).val().length > 1) {
@@ -21,7 +20,7 @@ search_input.keyup(function (event) {
             $.ajax({
                 url: form_url,
                 async: true,
-                type: "GET",
+                type: "get",
                 data: {
                     search: search,
                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
@@ -29,7 +28,6 @@ search_input.keyup(function (event) {
                 dataType: "json",
                 success: function (data) {
                     result = JSON.parse(JSON.stringify(data));
-                    console.log(result);
                     link.text('');
                     if (result.length > 0) {
                         link.css('display', 'flex');
