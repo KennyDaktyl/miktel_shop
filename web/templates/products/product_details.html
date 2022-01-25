@@ -5,7 +5,7 @@
 
 {% block head_shop %}
 <link rel="canonical" href="{{ get_domain }}{{ product.get_absolute_url }}"/>
-<meta name="description" content="{{ product.seo_tag_description }}">
+<meta name="description" content="{{ product.seo_tag_description }} o nazwie {{ product.name }}">
 <title>Produkt {{ product.name }} | marki {{ product.brand.name }}</title>
 {% endblock %}
 
@@ -24,7 +24,7 @@
                 <source srcset="{{ im }}" type="image/webp">
                 {% thumbnail  product.image "800x600" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{ product.alt}}"
+                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{product.seo_tag_description}}">
                     title="{{ product.title }}">
                 {% endthumbnail %}
             </a>

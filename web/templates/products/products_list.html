@@ -46,7 +46,7 @@
         <div class="col-12 m-2 mx-auto text-center">
             {% load thumbnail %}
             {% thumbnail product.image "200x200" crop='center' format="WEBP"  as im %}
-            <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="">
+            <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="{{product.seo_tag_description}}">
             {% endthumbnail %}
         </div>
             <p class="productName col-12 mx-auto text-center">{{product.name}}</p>
