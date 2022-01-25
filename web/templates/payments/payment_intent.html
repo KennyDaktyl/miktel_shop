@@ -5,31 +5,14 @@
 {% block head %}
 <meta name=”robots” content=”noindex”>
 <link rel="stylesheet" href="{% static "css/checkout.css" %}" />
-{% endblock %}
-
-{% block title %}Logowanie{% endblock %}
-
-{% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
-  <li class="breadcrumb-item active" aria-current="page"><a href="">Strona startowa</a></li>
-  <li class="breadcrumb-item text-dark active" aria-current="page">Płatności</li>
-</nav>
-
-
-{% extends "front_page/base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
-
-{% block head %}
 <meta name=”robots” content=”noindex”>
-<link rel="stylesheet" href="{% static "css/checkout.css" %}" />
+<link rel="stylesheet" href="{% static " css/checkout.css" %}" />
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
-<script src="{% static "js/client.js" %}" defer></script>
-
+<script src="{% static " js/client.js" %}" defer></script>
 {% endblock %}
 
-{% block title %}Logowanie{% endblock %}
+{% block title %}{% endblock %}
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
