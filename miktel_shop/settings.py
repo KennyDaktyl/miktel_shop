@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'captcha',
     'sorl.thumbnail',
     'web',
-    'django_minify_html'
+    # 'django_minify_html'
 ]
 
 STRIPE_ENDPOINT_SECRET = os.environ.get('STRIPE_ENDPOINT_SECRET')
@@ -82,7 +82,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'web.middleware.WwwRedirectMiddleware',
-    'django_minify_html.middleware.MinifyHtmlMiddleware',
+    # 'django_minify_html.middleware.MinifyHtmlMiddleware',
 ]
 
 ROOT_URLCONF = 'miktel_shop.urls'
