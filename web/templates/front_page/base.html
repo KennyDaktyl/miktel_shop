@@ -19,19 +19,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% compress css %}
 
+    {% compress css %}
     <link rel="stylesheet" href="{% static "css/main.css" %}" />
+    {% endcompress %}
+
+    <link href="{% static " lightbox/dist/css/lightbox.css" %}" rel="stylesheet" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="{% static "lightbox/dist/css/lightbox.css" %}" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="/media/logo/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/media/logo/favicon.ico" type="image/x-icon">
-    {% endcompress %}
 
     {% block head %}
     {% endblock %}
@@ -296,7 +297,9 @@
             </div>
     <a class="col-12 mx-auto text-center text-white" href="{% url 'privacy_policy' %}">Polityka prywatności</a>
 </main>
-    {% compress js %}
+
+    <script src="{% static " js/main.js" %}" type="text/javascript"></script>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
@@ -309,28 +312,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-    <script src="{% static "js/main.js" %}" type="text/javascript"></script>
-    <script src="{% static "js/search_products.js" %}" type="text/javascript"></script>
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $('.close-cookies').click(function () {
-                $(this).parent().hide();
-            });
-        });
-    </script>
+
+    
     <script src="{% static "lightbox/dist/js/lightbox.js" %}"></script>
-    <script>
-        lightbox.option({
-            'albumLabel': "Zdjęcie %1 z %2"
-        })
-    </script>
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $('.close-cookies').click(function () {
-                $(this).parent().hide();
-            });
-        });
-    </script>
     <!-- Cookie Consent by https://www.FreePrivacyPolicy.com -->
     <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.0.0/cookie-consent.js" charset="UTF-8"></script>
     <script type="text/javascript" charset="UTF-8">
@@ -343,7 +327,28 @@
     <!-- End Cookie Consent -->
     {% block script %}
     {% endblock %}
-    {% endcompress %}
+    <script src="{% static " js/search_products.js" %}" type="text/javascript"></script>
+
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $('.close-cookies').click(function () {
+                $(this).parent().hide();
+            });
+        });
+    </script>
+    <script>
+        lightbox.option({
+            'albumLabel': "Zdjęcie %1 z %2"
+        })
+    </script>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $('.close-cookies').click(function () {
+                $(this).parent().hide();
+            });
+        });
+    </script>
+    
 
 </body>
 </html>
