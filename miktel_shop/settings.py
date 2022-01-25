@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'web',
     # 'django_minify_html'
+    'compressor',
+
 ]
 
 STRIPE_ENDPOINT_SECRET = os.environ.get('STRIPE_ENDPOINT_SECRET')
@@ -109,6 +111,13 @@ TEMPLATES = [
         },
     },
 ]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
 
 WSGI_APPLICATION = 'miktel_shop.wsgi.application'
 

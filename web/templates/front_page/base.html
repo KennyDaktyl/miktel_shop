@@ -1,5 +1,7 @@
 {% load static %}
 {% load templatetag %}
+{% load compress %}
+
 
 <!DOCTYPE html>
 <html lang="pl">
@@ -17,6 +19,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% compress css %}
+
     <link rel="stylesheet" href="{% static "css/main.css" %}" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -27,6 +31,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="/media/logo/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/media/logo/favicon.ico" type="image/x-icon">
+    {% endcompress %}
+
     {% block head %}
     {% endblock %}
 </head>
@@ -290,7 +296,9 @@
             </div>
     <a class="col-12 mx-auto text-center text-white" href="{% url 'privacy_policy' %}">Polityka prywatności</a>
 </main>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    {% compress js %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
@@ -331,8 +339,11 @@
     });
     </script>
 
+
     <!-- End Cookie Consent -->
     {% block script %}
     {% endblock %}
+    {% endcompress %}
+
 </body>
 </html>
