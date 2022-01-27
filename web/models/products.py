@@ -409,7 +409,7 @@ class Products(BaseModel):
                               on_delete=models.CASCADE,
                               null=True,
                               blank=True)
-    name = models.CharField(verbose_name="Nazwa produktu", max_length=128)
+    name = models.CharField(verbose_name="Nazwa produktu", max_length=128, db_index=True)
     code = models.CharField(
         verbose_name="Kod kreskowy", blank=True, null=True, max_length=8)
     qty = models.IntegerField(default=1,

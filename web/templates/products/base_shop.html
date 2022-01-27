@@ -14,7 +14,7 @@
     <div class="col-md-3 m-0 p-0 offer row">
         <div class="col-12 navbar navbar-light left_menu row m-0 p-0 mx-auto">
             <ul class="col-12 list-unstyled navbar-nav mr-auto">
-                <h3 class="col-12 mx-auto text-left m-0 p-0 pl-1">Kategorie</h3>
+                <p class="col-12 mx-auto text-left m-0 p-0 pl-1 h4">Kategorie</p>
                 {% for cat in categorys %}
                 <li class="active col-12 m-0 p-0  pl-2 ">
                     <a id="Cat{{ cat.id }}" href="#SubMenu{{ cat.id }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle col-12 text-left ml-0 border-bottom CatMenu">{{ cat.name }}<span class="text-danger"> ({{ cat.products_count }})</span></a>

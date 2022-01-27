@@ -1,4 +1,5 @@
 import imp
+from django.contrib import messages
 from django.db.models import Q
 
 from django.views import View
@@ -80,6 +81,16 @@ class ProductDetails(View):
                 product.alt = photo_m_form.cleaned_data["alt"]
                 product.title = photo_m_form.cleaned_data["title"]
                 product.save()
+                messages.error(request, 'Zaktualizowno szczegóły produktu.')
+                return redirect('product_details', cat=product.sub_category_type.sub_category.category.slug, sub_cat=product.sub_category_type.sub_category.slug, sub_cat_type=product.sub_category_type.slug, product=product.slug, pk=product.id)
+            else:
+                messages.error(request, 'Błąd formularza')
+                photo_m_form = MainPhotoProductForm(
+                    request.POST, request.FILES)
+                details_form = SelectDetailsProductForm(instance=product)
+                ctx = {'sub_category_type': product.sub_category_type,
+                       'product': product, 'photo_m_form': photo_m_form, "details_form": details_form}
+                return render(request, "products/product_details.html", ctx)
 
         if request.POST.get('photo_gallery'):
             if photo_m_form.is_valid():
@@ -89,13 +100,32 @@ class ProductDetails(View):
                 image.title = photo_m_form.cleaned_data["title"]
                 image.product = product
                 image.save()
+                messages.error(request, 'Zaktualizowno szczegóły produktu.')
+                return redirect('product_details', cat=product.sub_category_type.sub_category.category.slug, sub_cat=product.sub_category_type.sub_category.slug, sub_cat_type=product.sub_category_type.slug, product=product.slug, pk=product.id)
+            else:
+                messages.error(request, 'Błąd formularza')
+                photo_m_form = MainPhotoProductForm(
+                    request.POST, request.FILES)
+                details_form = SelectDetailsProductForm(instance=product)
+                ctx = {'sub_category_type': product.sub_category_type,
+                       'product': product, 'photo_m_form': photo_m_form, "details_form": details_form}
+                return render(request, "products/product_details.html", ctx)
+
         if request.POST.get('add_details'):
             if details_form.is_valid():
                 details_form.save()
-        ctx = {'sub_category_type': product.sub_category_type,
-               'product': product, 'photo_m_form': photo_m_form, "details_form": details_form}
-        return render(request, "products/product_details.html", ctx)
+                messages.error(request, 'Zaktualizowno szczegóły produktu.')
+                return redirect('product_details', cat=product.sub_category_type.sub_category.category.slug, sub_cat=product.sub_category_type.sub_category.slug, sub_cat_type=product.sub_category_type.slug, product=product.slug, pk=product.id)
+            else:
+                messages.error(request, 'Błąd formularza')
+                photo_m_form = MainPhotoProductForm()
+                details_form = SelectDetailsProductForm(
+                    request.POST, instance=product)
+                ctx = {'sub_category_type': product.sub_category_type,
+                       'product': product, 'photo_m_form': photo_m_form, "details_form": details_form}
+                return render(request, "products/product_details.html", ctx)
 
+        
 
 class ApiProductsListSet(viewsets.ModelViewSet):
     queryset = Products.objects.all()
