@@ -20,7 +20,7 @@ class FirstPage(View):
         req_no_of_random_items = 8
         
         qs = Products.objects.filter(
-            is_recommended=True).exclude(image=None)
+            is_recommended=True)
         possible_ids = list(
             qs.values_list('id', flat=True))
         possible_ids = random.choices(
