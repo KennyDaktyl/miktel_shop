@@ -21,10 +21,9 @@
             {% thumbnail product.image "1280" crop='center' format="WEBP"  as im %}
             <a href="{{ MEDIA_URL }}{{ im }}" data-lightbox="{{ product.id }}" data-title="{{ product.name }}"
                 class="mx-auto text-center p-0 m-0 mt-2 col-12" title="Link do dużego zdcjęcia {{ product.name }}">
-                <source srcset="{{ im }}" type="image/webp">
                 {% thumbnail  product.image "800x600" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{product.seo_tag_description}}">
+                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{product.seo_tag_description}}" 
                     title="{{ product.title }}">
                 {% endthumbnail %}
             </a>
@@ -35,11 +34,9 @@
             {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
             <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{image.product.id}}" data-title="{{image.product.name}}"
                 class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{image.product.name}}">
-                <source srcset="{{ im }}" type="image/webp">
                 {% thumbnail  image.image "75x75" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}"
-                    title="{{image.title}}">
+                <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}" title="{{image.title}}">
                 {% endthumbnail %}
             </a> 
             {% endthumbnail %}

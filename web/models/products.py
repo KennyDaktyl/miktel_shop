@@ -519,9 +519,9 @@ class Products(BaseModel):
     @property
     def seo_tag_description(self):
         if self.brand:
-            description = f"Produkt marki {self.brand.name}"
+            description = f"Produkt {self.sub_category_type} marki {self.brand.name} {self.name}"
         else:
-            description = f"Produkt {self.name}"
+            description = f"Produkt {self.sub_category_type} o nazwie {self.name}"
         return description
 
 
