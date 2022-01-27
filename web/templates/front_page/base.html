@@ -37,7 +37,7 @@
         {% load thumbnail %}
         {% thumbnail  logo.image "75x75" crop='center' format="WEBP"  as im %}
         <source srcset="{{ im }}" type="image/webp" />
-        <img id="mainLogo" class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}" title="{{image.title}}">
+        <img id="mainLogo" class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{im.alt}}" title="{{im.title}}">
         {% endthumbnail %}
         <div class="d-none d-lg-block wrapHeader col-12 m-0 p-0">
         <div class="col-10 mx-auto text-center row d-flex align-items-center">
