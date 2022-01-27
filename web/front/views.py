@@ -1,3 +1,6 @@
+from email.mime import image
+import random
+
 from PIL import Image
 from django.conf import settings
 from django.core.mail import send_mail
@@ -14,12 +17,19 @@ from .functions import *
 class FirstPage(View):
     def get(self, request):
         img_carousel = Images.objects.filter(carousel=True)
+        req_no_of_random_items = 8
         recommended_products = Products.objects.filter(
-            is_recommended=True).order_by('created_time')[:8]
+            is_recommended=True).exclude(image=None).order_by('created_time')
+        recommended_products_random = list(
+            recommended_products.values_list('id', flat=True))
+        possible_recommended_products_random_ids = random.choices(
+            recommended_products_random, k=8)
+        random_recommended_products = recommended_products.filter(
+            pk__in=possible_recommended_products_random_ids)
         promo_products = Products.objects.filter(
             is_promo=True).order_by('created_time')[:8]
         ctx = {'images_carousel': img_carousel,
-               'recommended_products': recommended_products,
+               'recommended_products': random_recommended_products,
                'promo_products': promo_products}
         return render(request, "front_page/first_page.html", ctx)
     
