@@ -7,7 +7,7 @@ from django.conf.urls import include, url
 from django.urls import path
 from django.views.generic import TemplateView
 from django.conf.urls import handler404, handler500
-from web.front.views import error404, error500
+from web.front.views import error_404, error_500
 
 from .sitemaps import *
 
@@ -35,5 +35,5 @@ urlpatterns = [
     path("sklep_online/", include("web.products.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = error404
-handler500 = error500
+handler404 = error_404
+handler500 = error_500
