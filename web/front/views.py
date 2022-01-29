@@ -9,6 +9,7 @@ from django.views import View
 from django.shortcuts import render, redirect
 from web.models import Images
 from web.models.products import Products
+from django.template import RequestContext
 
 from .forms import *
 from .functions import *
@@ -75,6 +76,20 @@ class TermsAndRulesPage(View):
     def get(self, request):
         ctx = {}
         return render(request, "front_page/terms_rules.html", ctx)
+
+
+def error404(request, *args, **argv):
+    response = render('404.html', {},
+                      context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
+
+
+def error500(request, *args, **argv):
+    response = render('500.html', {},
+                      context_instance=RequestContext(request))
+    response.status_code = 500
+    return response
 
 
 first_page = FirstPage.as_view()
