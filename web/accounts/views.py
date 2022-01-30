@@ -63,7 +63,7 @@ class RegisterUserView(View):
         form = UserForm(request.POST)
         if form.is_valid():
             try:
-                user = User.objects.get(email=form.cleaned_data['email'])
+                user = User.objects.get(username=form.cleaned_data['email'])
                 messages.error(request, 'Email już istnieje w naszej bazie.')
                 ctx = {'form': form}
                 return render(request, "accounts/register_user.html", ctx)
@@ -79,6 +79,10 @@ class RegisterUserView(View):
                     user=new_user, activation_token=str(int(str(uuid.uuid4()).split('-')[0], 16)))
                 send_simple_message('Aktywacja konta', host,
                                     new_user, token.activation_token)
+                profile = Profile()
+                profile.user_id = new_user.id
+                profile.company = False
+                profile.save()
                 messages.error(request, 'Potwierdź email aby zalogować.')
                 return redirect('front_page')
         else:
@@ -97,7 +101,7 @@ class CompanyRegistrationView(View):
         form = BusinessForm(request.POST)
         if form.is_valid():
             try:
-                user = User.objects.get(email=form.cleaned_data['email'])
+                user = User.objects.get(username=form.cleaned_data['email'])
                 messages.error(request, 'Email już istnieje w naszej bazie.')
                 ctx = {'form': form}
                 return render(request, "accounts/register_user.html", ctx)
@@ -118,7 +122,7 @@ class CompanyRegistrationView(View):
                 profile.save()
 
                 address = Address()
-                address.user_id = new_user
+                address.user_id = new_user.id
                 address.street = form.cleaned_data['street']
                 address.house = form.cleaned_data['house']
                 if form.cleaned_data['door']:
