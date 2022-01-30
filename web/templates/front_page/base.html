@@ -17,7 +17,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static "css/main.css" %}" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
@@ -27,6 +26,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="shortcut icon" href="/media/logo/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/media/logo/favicon.ico" type="image/x-icon">
+
+    {% load compress %}
+    {% compress css %}
+    <link rel="stylesheet" href="/static/css/main.css" />
+    {% endcompress %}
+
     {% block head %}
     {% endblock %}
 </head>
@@ -289,8 +294,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-    <script src="{% static "js/main.js" %}" type="text/javascript"></script>
-    <script src="{% static "js/search_products.js" %}" type="text/javascript"></script>
+    {% load compress %}
+    {% compress js %}
+    <script src="/static/js/main.js" type="text/javascript"></script>
+    <script src="/static/js/search_products.js" type="text/javascript"></script>
+    
     <script type="application/javascript">
         $(document).ready(function () {
             $('.close-cookies').click(function () {
@@ -298,7 +306,7 @@
             });
         });
     </script>
-    <script src="{% static "lightbox/dist/js/lightbox.js" %}"></script>
+    <script src="/static/lightbox/css/lightbox.css"></script>
     <script>
         lightbox.option({
             'albumLabel': "Zdjęcie %1 z %2"
@@ -312,12 +320,14 @@
         });
     </script>
     <!-- Cookie Consent by https://www.FreePrivacyPolicy.com -->
-    <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.0.0/cookie-consent.js" charset="UTF-8"></script>
     <script type="text/javascript" charset="UTF-8">
     document.addEventListener('DOMContentLoaded', function () {
     cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"implied","palette":"dark","language":"pl","page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"website_privacy_policy_url":"https://serwiswrybnej.pl/polityka-prywatnosci"});
     });
     </script>
+    {% endcompress %}
+    <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.0.0/cookie-consent.js"
+        charset="UTF-8"></script>
 
     <!-- End Cookie Consent -->
     {% block script %}

@@ -22,7 +22,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'serwiswrybnej.pl', 'www.serwiswrybnej.pl'
 print(socket.gethostname())
 if socket.gethostname() in ["Asus", "michalp", "DESKTOP-HDDTT8P", "michal-asus"]:
     SECURE_SSL_REDIRECT = False
-    DEBUG = True
+    DEBUG = False
     DOMAIN = "127.0.0.1:8000"
     DOMAIN_URL = "http://" + DOMAIN
     DatabaseName = "miktel_shop_v1"
