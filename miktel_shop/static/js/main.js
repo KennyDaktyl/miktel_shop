@@ -15,6 +15,13 @@ $(document).ready(function () {
         }); 
     });
 
+    var SearchFormIcon = $('#SearchFormIcon');
+    var inputSearch = $('#inputSearch');
+
+    SearchFormIcon.on("click", function () {
+        inputSearch.focus();
+    });
+    
     var SearchForm = $('#SearchForm');
     var closeSearchInput = $('#closeSearchInput');
     closeSearchInput.on("click", function () {
@@ -25,8 +32,7 @@ $(document).ready(function () {
         });
         // $('body').removeClass('frozen');
     });
-
-    var inputSearch = $('#inputSearch');
+    inputSearch
     var clearText = $('#clearText');
 
     inputSearch.keyup(function()

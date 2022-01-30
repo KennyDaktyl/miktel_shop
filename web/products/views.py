@@ -1,3 +1,4 @@
+from ast import operator
 import imp
 from django.contrib import messages
 from django.db.models import Q
@@ -164,14 +165,22 @@ class ApiProductsListSetJS(generics.ListAPIView):
 
     def get_queryset(self):
         search = self.request.query_params.get('search')
-        products = Products.objects.all()
-        # q_object = reduce(and_, (Q(sub_category_type__sub_category__category__name__contains=search)
-        #                          | Q(sub_category_type__sub_category__name__contains=search)
-        #                          | Q(sub_category_type__name__contains=search)
-        #                          | Q(brand__name__contains=search)
-        #                          | Q(name__contains=search)
-        #                          for search in search))
+        # search_tab = search.split(" ")
+        # products = Products.objects.all()
+
+        # q_object = reduce(
+        #         or_, (Q(name__contains=search) for search in search_tab))
         # products = products.filter(q_object)
+        # products = Products.objects.filter(
+        #     Q(name__icontains=search) for search in search_tab)
+        # print(search)
+        # print(search_tab)
+        # q_object = reduce(and_, (Q(sub_category_type__name__contains=search) for search in search_tab))
+        # products = products.filter(q_object)
+        # q_object = reduce(
+        #     and_, (Q(name__contains=search) for search in search_tab))
+        # products = products.filter(q_object)
+        # print(products)
         # for prod in products:
         #     print(prod)
         products = Products.objects.filter(name__icontains=search)

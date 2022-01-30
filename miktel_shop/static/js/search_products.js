@@ -157,7 +157,7 @@ inputSearch.keyup(function (event) {
                             var lp = i + 1;
                             var product_url = domain + result[i].product_url;
                             var new_a = $('<a/>', {
-                                class: 'new_a mx-auto text-center text-dark border-bottom row d-flex align-items-center row',
+                                class: 'new_a mx-auto text-center text-dark border-bottom row d-flex align-items-center row col-12 m-0 p-0',
                                 value: lp,
                                 tabindex: lp,
                                 id: lp,
@@ -173,7 +173,7 @@ inputSearch.keyup(function (event) {
                             
                             var new_p = $('<p/>', {
                                 html: sub_cat + ", " + "<strong class='text-primary'>" + name + "</strong>, " + price + " zł",
-                                class: 'text-center text-dark m-0 p-0',
+                                class: 'text-center text-dark m-0 p-0 pr-2 col-10',
                                 
 
                             });
@@ -181,7 +181,7 @@ inputSearch.keyup(function (event) {
                             var image = result[i].image;
                             var new_img = $('<img/>', {
                                 src: image,
-                                class: 'image-fluid mini mr-2',
+                                class: 'image-fluid mini pr-2 col-2 m-0',
 
                             });
                             new_a.click(function () {
