@@ -306,7 +306,6 @@
             });
         });
     </script>
-    <script src="/static/lightbox/css/lightbox.css"></script>
     <script>
         lightbox.option({
             'albumLabel': "Zdjęcie %1 z %2"
@@ -328,7 +327,7 @@
     {% endcompress %}
     <script type="text/javascript" src="//www.freeprivacypolicy.com/public/cookie-consent/4.0.0/cookie-consent.js"
         charset="UTF-8"></script>
-
+    <script src="{% static " lightbox/dist/js/lightbox.js" %}"></script>
     <!-- End Cookie Consent -->
     {% block script %}
     {% endblock %}
