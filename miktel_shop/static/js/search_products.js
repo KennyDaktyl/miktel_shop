@@ -36,7 +36,7 @@ search_input.keyup(function (event) {
                             var lp = i + 1;
                             var product_url = domain + result[i].product_url;
                             var new_a = $('<a/>', {
-                                class: 'new_a mx-auto text-center text-dark border-bottom row d-flex align-items-center row',
+                                class: 'new_a mx-auto text-center text-dark border-bottom row d-flex align-items-center row col-12',
                                 value: lp,
                                 tabindex: lp,
                                 id: lp,
