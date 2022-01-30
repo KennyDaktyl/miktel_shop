@@ -44,14 +44,20 @@ search_input.keyup(function (event) {
                             });
 
                             var cat = result[i].sub_category_type.sub_category.category['name'];
-                            var sub_cat = result[i].sub_category_type.sub_category['name'];
+                            // var sub_cat = result[i].sub_category_type.sub_category['name'];
                             var sub_cat_type = result[i].sub_category_type['name'];
                             // var brand = result[i].brand['name'];
                             var name = result[i].name;
                             var price = result[i].price;
-                            
+                            var qty = parseInt(result[i].qty);
+                            console.log(qty);
+                            if (qty == 0) {
+                                qty = '<b class="text-danger">Brak</b>'
+                            } else {
+                                qty = '<b class="text-success">Dostępny</b>'
+                            }
                             var new_p = $('<p/>', {
-                                html: sub_cat + ", " + sub_cat_type + ", <strong class='text-primary'>" + name + "</strong>, " + price + " zł",
+                                html: sub_cat_type + ", <strong class='text-primary'>" + name + "</strong>, " + price + " zł, " + qty,
                                 class: 'text-center text-dark m-0 p-0',
                                 
 
@@ -157,7 +163,7 @@ inputSearch.keyup(function (event) {
                             var lp = i + 1;
                             var product_url = domain + result[i].product_url;
                             var new_a = $('<a/>', {
-                                class: 'new_a mx-auto text-center text-dark border-bottom row d-flex align-items-center row col-12 m-0 p-0',
+                                class: 'new_a mx-auto text-left text-dark border-bottom row d-flex align-items-center row col-12 m-0 p-0',
                                 value: lp,
                                 tabindex: lp,
                                 id: lp,
@@ -165,15 +171,21 @@ inputSearch.keyup(function (event) {
                             });
 
                             // var cat = result[i].sub_category_type.sub_category.category['name'];
-                            var sub_cat = result[i].sub_category_type.sub_category['name'];
+                            var sub_cat = result[i].sub_category_type['name'];
+                            var qty = parseInt(result[i].qty);
+                            if (qty == 0) {
+                                qty = '<b class="text-danger">Brak</b>'
+                            } else {
+                                qty = '<b class="text-success">Dostępny</b>'
+                            }
                             // var sub_cat_type = result[i].sub_category_type['name'];
                             // var brand = result[i].brand['name'];
                             var name = result[i].name;
                             var price = result[i].price;
                             
                             var new_p = $('<p/>', {
-                                html: sub_cat + ", " + "<strong class='text-primary'>" + name + "</strong>, " + price + " zł",
-                                class: 'text-center text-dark m-0 p-0 pr-2 col-10',
+                                html: sub_cat + ", " + "<strong class='text-primary'>" + name + "</strong>, " + price + " zł " + qty,
+                                class: 'text-left text-dark m-0 p-0 pr-2 col-10',
                                 
 
                             });
@@ -182,6 +194,7 @@ inputSearch.keyup(function (event) {
                             var new_img = $('<img/>', {
                                 src: image,
                                 class: 'image-fluid mini pr-2 col-2 m-0',
+                                style: 'height: auto'
 
                             });
                             new_a.click(function () {

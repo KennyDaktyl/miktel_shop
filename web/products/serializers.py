@@ -10,7 +10,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Products
         depth = 3
         fields = ('name', 'sub_category_type', 'id',
-                  'price_promo', 'price', 'slug', 'product_url', 'image')
+                  'price_promo', 'price', 'slug', 'qty', 'product_url', 'image')
         ordering_fields = "__all__"
         ordering = (
             "name",
