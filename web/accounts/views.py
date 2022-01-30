@@ -1,3 +1,4 @@
+from audioop import add
 import uuid
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from django.contrib.auth.views import LogoutView
@@ -188,6 +189,8 @@ class UserAddress(View):
         address = Address.objects.filter(user=request.user).first()
         if not address:
             address = "Brak dodanego adresu"
+            ctx = {"address": address}
+            return render(request, "accounts/user_account.html", ctx)
         address_form = AddressForm(
             initial={
                 "street": address.street,
@@ -203,6 +206,9 @@ class UserAddress(View):
         address_form = AddressForm(request.POST)
         address = Address.objects.filter(user=request.user).first()
         if address_form.is_valid():
+            if not address:
+                address = Address()
+                address.user= request.user
             address.street = address_form.cleaned_data['street']
             address.house = address_form.cleaned_data['house']
             address.post_code = address_form.cleaned_data['zip_code']

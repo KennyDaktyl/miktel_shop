@@ -155,12 +155,12 @@
             </form>
             
             {% if user.is_authenticated %}
-            <a href="{% url "logout" %}" class="col-3 m-0 p-0 text-center">
-                <i class="col-12 main_nav_icon text-danger fas fa-user text-center m-0 p-0"></i>
+            <a href="{% url "user_account" %}" class="col-3 m-0 p-0 text-center">
+                <i class="col-12 main_nav_icon text-success fas fa-user text-center m-0 p-0"></i>
                  </a>
             {% else %}
             <a href="{% url "login" %}" class="col-3 m-0 p-0 text-center">
-            <i class="col-12 main_nav_icon text-success fas fa-user text-center m-0 p-0"></i>
+            <i class="col-12 main_nav_icon text-danger fas fa-user text-center m-0 p-0"></i>
              </a>
             {% endif %}
             <div></div>
