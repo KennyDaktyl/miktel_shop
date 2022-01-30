@@ -1,5 +1,3 @@
-from django.template import Context, loader
-from django.http import HttpResponse
 from email.mime import image
 import random
 
@@ -80,25 +78,14 @@ class TermsAndRulesPage(View):
         return render(request, "front_page/terms_rules.html", ctx)
 
 
-# def error_404(request, exception):
-#    context = {}
-#    return render(request, 'front_page/404.html', context)
-
-def error_404(request):
-    template = loader.get_template('front_page/404.htm')
-    context = Context({
-        'message': 'All: %s' % request,
-    })
-
-    # 3. Return Template for this view + Data
-    return HttpResponse(content=template.render(context), content_type='text/html; charset=utf-8', status=404)
+def error_404(request, exception):
+   context = {}
+   return render(request, 'front_page/404.html', context)
 
 
 def error_500(request):
-   response = render('front_page/404.html', {},
-                                 context_instance=RequestContext(request))
-   response.status_code = 500
-   return response
+   context = {}
+   return render(request, 'front_page/500.html', context)
 
 first_page = FirstPage.as_view()
 contact_page = ContactPage.as_view()
