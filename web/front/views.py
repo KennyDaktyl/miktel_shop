@@ -79,13 +79,16 @@ class TermsAndRulesPage(View):
 
 
 def error_404(request, exception):
-   context = {}
-   return render(request, 'front_page/404.html', context)
-
+    response = render('front_page/404.html', {},
+                                 context_instance=RequestContext(request))
+    response.status_code = 404
+    return response
 
 def error_500(request):
-   context = {}
-   return render(request, 'front_page/500.html', context)
+   response = render('front_page/404.html', {},
+                                 context_instance=RequestContext(request))
+   response.status_code = 500
+   return response
 
 first_page = FirstPage.as_view()
 contact_page = ContactPage.as_view()
