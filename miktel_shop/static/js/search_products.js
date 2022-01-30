@@ -67,6 +67,7 @@ search_input.keyup(function (event) {
                             var new_img = $('<img/>', {
                                 src: image,
                                 class: 'image-fluid mini mr-2',
+                                style: 'height: auto'
 
                             });
                             new_a.click(function () {
