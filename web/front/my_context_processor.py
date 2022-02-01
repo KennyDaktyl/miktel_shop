@@ -13,3 +13,13 @@ def get_domain(request):
         "version": "1.0",
     }
     return ctx
+
+
+def base_context_processor(request):
+    # return {
+    #     'BASE_URL': "http://%s" % Site.objects.get_current().domain
+    # }
+    # or if you don't want to use 'sites' app
+    return {
+        'BASE_URL': request.build_absolute_uri("/").rstrip("/")
+     }

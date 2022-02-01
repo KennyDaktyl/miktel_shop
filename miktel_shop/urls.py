@@ -15,7 +15,8 @@ sitemaps = {
     'static': StaticViewSitemap,
     'product_details': ProductDetailsSiteView,
     'sub_category_details': SubCategoryDetailsSiteView,
-    'sub_category_type_details': SubCategoryTypeDetailsSiteView
+    'sub_category_type_details': SubCategoryTypeDetailsSiteView,
+    'article_details': ArticleDetailsSiteView
 }
 
 urlpatterns = [
@@ -33,6 +34,7 @@ urlpatterns = [
     path("zamowienia/", include("web.orders.urls")),
     path("payment/", include("web.payments.urls")),
     path("sklep_online/", include("web.products.urls")),
+    path("blog/", include("web.articles.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = error_404

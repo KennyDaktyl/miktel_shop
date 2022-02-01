@@ -8,7 +8,9 @@ from django.contrib import messages
 from django.views import View
 from django.shortcuts import render, redirect
 from web.models import Images
+from web.models import articles
 from web.models.products import Products
+from web.models.articles import Articles
 from django.template import RequestContext
 
 from .forms import *
@@ -30,9 +32,11 @@ class FirstPage(View):
         
         promo_products = Products.objects.filter(
             is_promo=True).order_by('created_time')[:8]
+        articles = Articles.objects.all()
         ctx = {'images_carousel': img_carousel,
                'recommended_products': random_recommended_products,
-               'promo_products': promo_products}
+               'promo_products': promo_products,
+               'articles': articles}
         return render(request, "front_page/first_page.html", ctx)
     
 

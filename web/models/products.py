@@ -218,6 +218,7 @@ class SubCategory(BaseModel):
     def get_absolute_url(self):
         return reverse("sub_category_details",
                        kwargs={
+                           "category": self.category.slug,
                            "sub_category": self.slug,
                            "pk": self.id,
                        })

@@ -4,6 +4,17 @@ from web.models import *
 # Register your models here.
 
 
+@admin.register(Articles)
+class ArticlesAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in Articles._meta.fields]
+    list_filter = (
+        'category',
+    )
+    search_fields = (
+        'title',
+    )
+
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Profile._meta.fields]

@@ -1,0 +1,49 @@
+{% extends "front_page/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block head %}
+<meta name="description" content="{{ object.title }}">
+<title>Blog | {{ object.title }}</title>
+{% endblock %}
+
+
+{% block content %}
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto row">
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'articles_list' %}">Blog</a></li>
+    <li class="breadcrumb-item text-dark active" aria-current="page">{{ object.title }}</li>
+</nav>
+
+<div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 offer mt-2 row">
+    <h1 class="col-11 text-center mx-auto mt-3 mb-3">{{ object.title }}</h1>
+    <span class="col-12 text-center mb-3">{{ object.category.name }}</span>
+    <div class="col-12 col-sm-11 m-0 p-0 mb-3 mx-auto imgWrap">
+        {% thumbnail object.image "800x300" crop='center' format="WEBP" as im %}
+        <source srcset="{{ im }}" type="image/webp" />
+        <img width="800" height="300" class="img-fluid mx-auto col-12 m-0 p-0" src="{{ MEDIA_URL }}{{ im }}"
+            alt="" title="">
+        {% endthumbnail %}
+    </div>
+    <p class="col-10 mx-auto text-center text-danger">{{ object.created_time }}</p>
+    <div class="col-12 col-sm-11 m-0 p-0 mb-3 mx-auto">
+        {{ object.body|safe }}
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org/",
+      "@type": "Article",
+      "name": "{{ object.title }}",
+      "image": ["{{ get_domain }}{{ MEDIA_URL }}{{ object.image }}",
+      {% for image in object.images %}"{{ get_domain }}{{ MEDIA_URL }}{{ image.image }}",{% endfor %}
+      ],
+      "description": "{{ object.body }}",
+      "contentReferenceTime": {{ object.created_time }}
+    }
+    </script>
+{% endblock %}

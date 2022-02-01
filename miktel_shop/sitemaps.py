@@ -2,6 +2,7 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from web.models import Products
 from web.models.products import SubCategory, SubCategoryType
+from web.models.articles import Articles
 
 
 class StaticViewSitemap(Sitemap):
@@ -9,7 +10,7 @@ class StaticViewSitemap(Sitemap):
     changefreq = 'daily'
 
     def items(self):
-        return ['front_page', 'shop_main_view', 'cart_details', 'stripe_webhook', 'contact_page']
+        return ['front_page', 'shop_main_view', 'cart_details', 'stripe_webhook', 'contact_page', 'articles_list', 'privacy_policy', 'terms']
 
     def location(self, item):
         return reverse(item)
@@ -28,6 +29,7 @@ class SubCategoryDetailsSiteView(Sitemap):
                        kwargs={
                            "cat": items.category.slug,
                            "sub_cat": items.slug,
+                           "pk": items.pk
                        })
 
 class SubCategoryTypeDetailsSiteView(Sitemap):
@@ -45,6 +47,7 @@ class SubCategoryTypeDetailsSiteView(Sitemap):
                            "cat": items.sub_category.category.slug,
                            "sub_cat": items.sub_category.slug,
                            "sub_cat_type": items.slug,
+                           "pk": items.pk
                        })
 
 
@@ -64,4 +67,22 @@ class ProductDetailsSiteView(Sitemap):
                            "sub_cat": items.sub_category_type.sub_category.slug,
                            "sub_cat_type": items.sub_category_type.slug,
                            "product": items.slug,
+                           "pk":items.pk
+                       })
+
+
+class ArticleDetailsSiteView(Sitemap):
+    priority = 1.0
+    changefreq = 'always'
+    protocol = 'https'
+
+    def items(self):
+        return Articles.objects.all()
+
+    def location(self, items):
+        return reverse("article_details",
+                       kwargs={
+                           "category": items.category.slug,
+                           "title": items.slug,
+                           "pk": items.pk
                        })
