@@ -112,7 +112,7 @@
         </div>
         
         <div class="col-12 mx-auto mt-3 mb-2">
-            <p class="col-12 text-left">{{ product.desc }}</p>
+            <p class="col-12 text-left">{{ product.desc|safe }}</p>
         </div>
         <div class="modal fade" id="exampleModal{{product.id}}" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
