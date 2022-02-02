@@ -208,6 +208,11 @@
 <script src="{% static " lightbox/dist/js/lightbox.js" %}"></script>
 {% load compress %}
 {% compress js %}
+<script>
+    lightbox.option({
+        'albumLabel': "Zdjęcie %1 z %2"
+    })
+</script>
 <script type="application/ld+json">
     {
       "@context": "https://schema.org/",
