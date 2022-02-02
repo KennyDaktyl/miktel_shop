@@ -4,7 +4,7 @@
 {% load thumbnail %}
 
 {% block head_shop %}
-<link href="{% static " lightbox/dist/css/lightbox.css" %}" rel="stylesheet" />
+<link href="/static/lightbox/dist/css/lightbox.css" rel="stylesheet" />
 
 <link rel="canonical" href="{{ get_domain }}{{ product.get_absolute_url }}"/>
 <meta name="description" content="{{ product.seo_tag_description }} o nazwie {{ product.name }}">
@@ -205,14 +205,14 @@
 
 
 {% block script %}
-<script src="{% static " lightbox/dist/js/lightbox.js" %}"></script>
-{% load compress %}
-{% compress js %}
+<script src="/static/lightbox/dist/js/lightbox.js"></script>
 <script>
     lightbox.option({
         'albumLabel': "Zdjęcie %1 z %2"
     })
 </script>
+{% load compress %}
+{% compress js %}
 <script type="application/ld+json">
     {
       "@context": "https://schema.org/",
