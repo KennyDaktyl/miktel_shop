@@ -3,13 +3,10 @@
 
 
 {% block head %}
-{% load compress %}
-{% compress js %}
-<link rel="stylesheet" href="/static/css/shop.css"/>
-{% endcompress %}
-    {% block head_shop %}
+    <link rel="stylesheet" href="/static/css/shop.css"/>
+        {% block head_shop %}
 
-    {% endblock %}
+        {% endblock %}
 {% endblock %}
 
 {% block content %}
@@ -48,8 +45,5 @@
 {% endblock %}
 
 {% block script %}
-{% load compress %}
-{% compress js %}
 <script src="/static/js/products.js" type="text/javascript"></script>
-{% endcompress %}
 {% endblock %}
