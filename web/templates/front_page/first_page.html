@@ -21,7 +21,7 @@
     <div class="carousel-inner">
       {% for image in images_carousel %}
       <div id=carousel{{ forloop.counter0 }} class="carousel-item" data-interval="10000">
-        <img loading="lazy" width="100%" height="520" src="{{ MEDIA_URL }}{{ image.image }}" class="d-block w-100 img_carousel" alt="{{ image.alt}}" title="{{ image.title }}">
+        <img  width="100%" height="520" src="{{ MEDIA_URL }}{{ image.image }}" class="d-block w-100 img_carousel" alt="{{ image.alt}}" title="{{ image.title }}">
         <div class="carousel-caption d-none d-md-block">
           <h2>{{ image.title }}</h2>
           <p>{{ image.description }}</p>
@@ -106,7 +106,6 @@
         </div>
     </div>
   </div>
-
   <div id="newsInfo" class="col-12 col-md-9 ml-0 mr-0 p-0 mx-auto row offer mt-2 news">
     <h1 class="col-11 ml-3 pl-1">Blog</h1>
     {% for article in articles %}
@@ -125,6 +124,7 @@
       <a class="readArticle col-12 mx-auto text-center text-danger mt-2" href="{{ BASE_URL }}{{article.get_absolute_url }}">Przejdź do artykułu.</a>
     </div>
     {% endfor %}
+  </div>
   <div class="newsletter col-12 m-0 p-0 d-flex align-items-center row">
     <h4 class="col-12 text-center mt-2 pt-2">NEWSLETTER</h4>
     <P class="col-10 mx-auto text-center text-justify text-uppercase">podaj swój adres email aby otrzymywać informacje o ofertach, promocjach i nowych artukułach.</P>
@@ -136,7 +136,7 @@
     </button>
     </form>
   </div>
-
+</div>
   <div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 offer mt-2 row">
     <h1 class="col-11 ml-3 pl-1">Promocje</h1>
 
