@@ -6,9 +6,9 @@
 {% block head_shop %}
 <link href="/static/lightbox/dist/css/lightbox.css" rel="stylesheet" />
 
-<link rel="canonical" href="{{ get_domain }}{{ product.get_absolute_url }}"/>
-<meta name="description" content="{{ product.seo_tag_description }} o nazwie {{ product.name }}">
-<title>Produkt {{ product.name }} | marki {{ product.brand.name }}</title>
+<link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
+<meta name="description" content="{{ object.seo_tag_description }} o nazwie {{ object.name }}">
+<title>Produkt {{ object.name }} | marki {{ object.brand.name }}</title>
 {% endblock %}
 
 {% block content_shop %}
@@ -20,22 +20,22 @@
     <div class="col-12 mx-auto ml-0 mr-0 p-0 mt-2 row product_box d-flex align-items-start">
         <div class="col-md-6 mx-auto text-center row ">
             {% load thumbnail %}
-            {% thumbnail product.image "1280" crop='center' format="WEBP"  as im %}
-            <a href="{{ MEDIA_URL }}{{ im }}" data-lightbox="{{ product.id }}" data-title="{{ product.name }}"
-                class="mx-auto text-center p-0 m-0 mt-2 col-12" title="Link do dużego zdcjęcia {{ product.name }}">
-                {% thumbnail  product.image "800x600" crop='center' format="WEBP"  as im %}
+            {% thumbnail object.image "1280" crop='center' format="WEBP"  as im %}
+            <a href="{{ MEDIA_URL }}{{ im }}" data-lightbox="{{ object.id }}" data-title="{{ object.name }}"
+                class="mx-auto text-center p-0 m-0 mt-2 col-12" title="Link do dużego zdcjęcia {{ object.name }}">
+                {% thumbnail  object.image "800x600" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{product.seo_tag_description}}" 
-                    title="{{ product.title }}">
+                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{object.seo_tag_description}}" 
+                    title="{{ object.title }}">
                 {% endthumbnail %}
             </a>
             {% endthumbnail %}
 
-            {% for image in product.images %}
+            {% for image in object.images %}
             {% load thumbnail %}
             {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
-            <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{image.product.id}}" data-title="{{image.product.name}}"
-                class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{image.product.name}}">
+            <a href="{{ MEDIA_URL }}{{im}}" data-lightbox="{{image.object.id}}" data-title="{{image.object.name}}"
+                class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{image.object.name}}">
                 {% thumbnail  image.image "75x75" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
                 <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}" title="{{image.title}}">
@@ -48,37 +48,37 @@
         </div>
         <div class="col-md-6 mx-auto text-center row d-flex align-items-start">
             
-            <h1 class="productName col-12 mx-auto text-center align-self-start">{{product.name}}</h1>
+            <h1 class="productName col-12 mx-auto text-center align-self-start">{{object.name}}</h1>
             <blockquote class="col-12 mx-auto row d-flex align-items-center ">
-                {% if product.is_news %}
+                {% if object.is_news %}
                     <div class="boxNovelty smallBox ">NEW</div>
                 {% endif %}
-                {% if product.discount > 0 %}
-                    <div class="boxPromo smallBox bg-danger m-2">{{ product.discount }}%</div>
+                {% if object.discount > 0 %}
+                    <div class="boxPromo smallBox bg-danger m-2">{{ object.discount }}%</div>
                 {% endif %}
                 <div class="col-12 row m-0 p-0 mt-3">
-                    <p class="producerPrice text-center text-danger m-0 pr-2 ">{{ product.price_promo}} zł</p>
-                        {% if product.price_promo != product.price %}
-                    <p class="text-center m-0 p-0 "><del>{{ product.price}} zł</del></p>
+                    <p class="producerPrice text-center text-danger m-0 pr-2 ">{{ object.price_promo}} zł</p>
+                        {% if object.price_promo != object.price %}
+                    <p class="text-center m-0 p-0 "><del>{{ object.price}} zł</del></p>
                         {% endif %}
                 </div>
-                <small class="col-12 mx-auto text-left text-primary  m-0 p-0">Netto: {{product.price_netto}} + VAT 23%</small>
+                <small class="col-12 mx-auto text-left text-primary  m-0 p-0">Netto: {{object.price_netto}} + VAT 23%</small>
             </blockquote>
             <div class="col-12 row text-left mx-auto">
-                <span class="font-weight-bold pr-2">Producent:</span> <small class="m-0 p-0 pl-3 text-dark text-center">{{ product.brand.name }}</small>
+                <span class="font-weight-bold pr-2">Producent:</span> <small class="m-0 p-0 pl-3 text-dark text-center">{{ object.brand.name }}</small>
             </div>
             <div class="col-12 row text-left mx-auto d-flex align-items-center">
-                <span class="font-weight-bold pr-2">Kategoria:</span><small class="m-0 p-0 pl-3 text-dark text-center">{{ product.sub_category_type.sub_category.category.name }}</small>
+                <span class="font-weight-bold pr-2">Kategoria:</span><small class="m-0 p-0 pl-3 text-dark text-center">{{ object.sub_category_type.sub_category.category.name }}</small>
             </div>
             <div class="col-12 row text-left mx-auto d-flex align-items-center">
-                <span class="font-weight-bold pr-2">Podkategoria:</span><small class="m-0 p-0 pl-3 text-dark text-center text-dark text-center">{{ product.sub_category_type.sub_category.name }}</small>    
+                <span class="font-weight-bold pr-2">Podkategoria:</span><small class="m-0 p-0 pl-3 text-dark text-center text-dark text-center">{{ object.sub_category_type.sub_category.name }}</small>    
             </div>
             <div class="col-12 row text-left mx-auto d-flex align-items-center">
-                <span class="font-weight-bold pr-2">Typ produktu:</span><small class="m-0 p-0 pl-3 text-dark text-center text-dark text-center">{{ product.sub_category_type.name }}</small>    
+                <span class="font-weight-bold pr-2">Typ produktu:</span><small class="m-0 p-0 pl-3 text-dark text-center text-dark text-center">{{ object.sub_category_type.name }}</small>    
             </div>
             <div class="col-12 row text-left mx-auto">
                 <span class="font-weight-bold pr-2">Ilość:</span> 
-                {% if product.qty > 0 %}
+                {% if object.qty > 0 %}
                 <span class="text-success">dostępny</span>
                 <div class="col-12 ml-0 pl-0 row text-left mx-auto">
                     <span class="font-weight-bold pr-2">Wysyłka:</span> <span class="">2-3 dni</span>
@@ -88,18 +88,18 @@
                 {% endif %}
             </div>
             <div class="col-12 row text-left mx-auto">
-                <span class="font-weight-bold pr-2">Magazyn:</span> <span class=""> {{ product.store.city }}</span>
+                <span class="font-weight-bold pr-2">Magazyn:</span> <span class=""> {{ object.store.city }}</span>
             </div>
             <form action="" class="row col-12 mx-auto m-1 text-left d-flex align-items-center">
                 {% csrf_token %}
-                <input type="hidden" name="" id="prod_id" value="{{product.id}}">
+                <input type="hidden" name="" id="prod_id" value="{{object.id}}">
                 <div class="row text-left d-flex align-items-center m-0 p-0">
-                    <input id="qty" name="qty" class="mx-auto text-left m-0 p-0 mr-2" value="1" type="number" min="1" max="{{ product.qty }}">
+                    <input id="qty" name="qty" class="mx-auto text-left m-0 p-0 mr-2" value="1" type="number" min="1" max="{{ object.qty }}">
                     <span class="mx-auto text-left pl-2">szt.</span>
                 </div>
-                {% if product.qty > 0 %}
+                {% if object.qty > 0 %}
                     <span id="add_product" class="input-group-append ml-auto d-flex align-items-center" data-toggle="modal"
-                    data-target="#exampleModal{{product.id}}">
+                    data-target="#exampleModal{{object.id}}">
                         <button class="btn btn-success ml-2" type="button" data-action="add">
                         <i class="basket fa fa-cart-plus"></i> Dodaj produkt</button>
                     </span>
@@ -112,9 +112,9 @@
         </div>
         
         <div class="col-12 mx-auto mt-3 mb-2">
-            <p class="col-12 text-left">{{ product.desc|safe }}</p>
+            <p class="col-12 text-left">{{ object.desc|safe }}</p>
         </div>
-        <div class="modal fade" id="exampleModal{{product.id}}" tabindex="-1" role="dialog"
+        <div class="modal fade" id="exampleModal{{object.id}}" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content p-0 m-0 col-12">
@@ -125,12 +125,12 @@
                             </div>
                             <div class="col-12 row d-flex align-items-center">
                                 <span class="">Nazwa:</span>
-                                <p class="p-0 m-0 ml-1">{{product.name}}</p>
+                                <p class="p-0 m-0 ml-1">{{object.name}}</p>
                             </div>
-                            {% if product.color.name %}
+                            {% if object.color.name %}
                             <div class="col-12 row d-flex align-items-center">
                                 <span class="">Kolor obudowy:</span>
-                                <p class="p-0 m-0 ml-1 {{object.color.class_text}}">{{product.color.name}}</p>
+                                <p class="p-0 m-0 ml-1 {{object.color.class_text}}">{{object.color.name}}</p>
                             </div>
                             {% endif %}
                             <div class="col-12 row d-flex align-items-center">
@@ -216,23 +216,23 @@
 <script type="application/ld+json">
     {
       "@context": "https://schema.org/",
-      "@type": "Product",
-      "name": "{{ product.name }}",
-      "image": ["{{ get_domain }}{{ MEDIA_URL }}{{product.image}}",
-      {% for image in product.images %}"{{ get_domain }}{{ MEDIA_URL }}{{image.image}}",{%endfor%}
+      "@type": "object",
+      "name": "{{ object.name }}",
+      "image": ["{{ get_domain }}{{ MEDIA_URL }}{{object.image}}",
+      {% for image in object.images %}"{{ get_domain }}{{ MEDIA_URL }}{{image.image}}",{%endfor%}
       ],
-      "description": "{{ product.description }}",
+      "description": "{{ object.description }}",
       "brand": {
         "@type": "Brand",
-        "name": "{{ product.brand.name }}"
+        "name": "{{ object.brand.name }}"
       },
       "offers": {
         "@type": "Offer",
-        "url": "{{ get_domain }}{{ product.get_absolute_url }}",
+        "url": "{{ get_domain }}{{ object.get_absolute_url }}",
         "priceCurrency": "PLN",
-        "price": "{{ product.price_promo }}",
+        "price": "{{ object.price_promo }}",
         "itemCondition": "https://schema.org/NewCondition",
-        {% if product.qty > 0 %}"availability": "https://schema.org/InStock"{% else %}"availability": "https://schema.org/OutOfStock"{% endif %}
+        {% if object.qty > 0 %}"availability": "https://schema.org/InStock"{% else %}"availability": "https://schema.org/OutOfStock"{% endif %}
       }
     }
     </script>

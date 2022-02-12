@@ -20,7 +20,6 @@ class AddMainPhotoForm(forms.ModelForm):
 
     alt = forms.CharField(required=False)
 
-
     class Meta:
         model = Products
         fields = ('image', 'alt', 'title')
@@ -32,6 +31,7 @@ class AddMainPhotoForm(forms.ModelForm):
         required = {
             "alt": False
         }
+
     def __init__(self, *args, **kwargs):
         super(AddMainPhotoForm, self).__init__(*args, **kwargs)
         self.fields['title'].required = False
@@ -42,7 +42,6 @@ class SelectDetailsProductForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(SelectDetailsProductForm, self).__init__(*args, **kwargs)
-
 
     class Meta:
         model = Products

@@ -660,8 +660,25 @@ th.th_price {
     min-width: 105px;
 }
 
+.page-item.active .page-link {
+    background-color: blueviolet;
+    color: white;
+    font-size: 10px;
+}
+
+.pagination-lg .page-link {
+    font-size: 10px;
+}
 
 @media screen and (min-width: 768px) {
+
+    .page-item.active .page-link {
+        font-size: 15px;
+    }
+
+    a.page-link {
+        font-size: 15px;
+    }
 
     .carousel-item img {
         object-fit: cover;
