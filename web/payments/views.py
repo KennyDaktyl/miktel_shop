@@ -1,25 +1,24 @@
-from web.cart.my_context_processor import cart
-from web.models.orders import Orders
+import json
+from datetime import datetime
+
+import stripe
 from django import views
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.http.response import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from rest_framework.views import APIView
 from rest_framework import permissions
+from rest_framework.views import APIView
+from stripe.api_resources import payment_intent
 
 from web.cart.cart import Cart
+from web.cart.my_context_processor import cart
+from web.models.orders import Orders
 
-import stripe
-import json
-
-from datetime import datetime
-
-from stripe.api_resources import payment_intent
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -28,19 +27,21 @@ class CheckoutView(View):
     def get(self, request, order):
         order = Orders.objects.get(id=order)
         try:
-            order.inpost_box = request.session['inpost_box_id']
+            order.inpost_box = request.session["inpost_box_id"]
             order.save()
-            del request.session['inpost_box_id']
+            del request.session["inpost_box_id"]
         except:
             pass
         intent = stripe.PaymentIntent.create(
             amount=order.get_total_price_stripe(),
-            currency='pln',
-            payment_method_types=['p24'],
+            currency="pln",
+            payment_method_types=["p24"],
             receipt_email=request.user.email,
         )
-        ctx = {'order': order,
-               'PAYMENT_INTENT_CLIENT_SECRET': intent['client_secret']}
+        ctx = {
+            "order": order,
+            "PAYMENT_INTENT_CLIENT_SECRET": intent["client_secret"],
+        }
         return render(request, "payments/checkout.html", ctx)
 
 
@@ -55,26 +56,26 @@ class PayMentSuccessView(View):
         cart = Cart(request)
         cart.clear()
         if order.delivery_method == "Odbiór osobisty":
-            return redirect('order_completed', order=order.id)
+            return redirect("order_completed", order=order.id)
         ctx = {"order": order}
         return render(request, "payments/checkout_success.html", ctx)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(csrf_exempt, name="dispatch")
 class PaymentIntentView(View):
     def post(self, request):
         try:
             intent = stripe.PaymentIntent.create(
                 amount=1099,
-                currency='pln',
-                payment_method_types=['p24'],
+                currency="pln",
+                payment_method_types=["p24"],
             )
-            return JsonResponse({'clientSecret': intent['client_secret']})
+            return JsonResponse({"clientSecret": intent["client_secret"]})
         except Exception as e:
             return HttpResponse(status=403)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(csrf_exempt, name="dispatch")
 class StripeWebhookView(APIView):
 
     permission_classes = [permissions.AllowAny]
@@ -82,9 +83,11 @@ class StripeWebhookView(APIView):
     def post(self, request, *args, **kwargs):
         payload = request.body
         try:
-            sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', None)
+            sig_header = request.META.get("HTTP_STRIPE_SIGNATURE", None)
             event = stripe.Webhook.construct_event(
-                payload=payload, sig_header=sig_header, secret=settings.STRIPE_ENDPOINT_SECRET
+                payload=payload,
+                sig_header=sig_header,
+                secret=settings.STRIPE_ENDPOINT_SECRET,
             )
             print(event)
         except ValueError as e:

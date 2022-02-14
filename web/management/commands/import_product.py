@@ -1,9 +1,17 @@
-from django.core.management.base import BaseCommand, CommandError
-import pandas as pd
-import numpy as np
 from datetime import datetime, timedelta
 
-from web.models.products import Category, Products, SubCategory, SubCategoryType, Vat, Store
+import numpy as np
+import pandas as pd
+from django.core.management.base import BaseCommand, CommandError
+
+from web.models.products import (
+    Category,
+    Products,
+    Store,
+    SubCategory,
+    SubCategoryType,
+    Vat,
+)
 
 
 def mapping_category(cat_row):
@@ -45,14 +53,13 @@ def mapping_category(cat_row):
         "STANDARD": "Uchwyty samochodowe",
         "SPORT": "Uchwyty samochodowe",
         "MAGNETYCZNE": "Uchwyty samochodowe",
-        "PREMIUMM": "Ładowarka samochodowa"
+        "PREMIUMM": "Ładowarka samochodowa",
     }
     if cat_row in cat.keys():
         return cat[cat_row]
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
 
         category = Category.objects.get(name="Telefony")
@@ -68,11 +75,9 @@ class Command(BaseCommand):
         date = datetime.now() - timedelta(days=1)
         # prod_to_del = Products.objects.filter(created_time__gte=date).delete()
         for index, row in df.iterrows():
-            row_category = mapping_category(
-                row["Asortyment"])
+            row_category = mapping_category(row["Asortyment"])
             if row_category is not None:
-                sub_cat = SubCategoryType.objects.get(
-                    name=row_category)
+                sub_cat = SubCategoryType.objects.get(name=row_category)
                 created, product = Products.objects.get_or_create(
                     name=row["Nazwa"],
                     sub_category_type=sub_cat,
@@ -84,7 +89,12 @@ class Command(BaseCommand):
                     tax=tax,
                     store=store,
                     discount=20,
-                    is_active=True
+                    is_active=True,
                 )
-                print(row["Nazwa"], row["Cena sprz"],
-                      row["Kod"], row["Ilość"], row["Cena sprz"])
+                print(
+                    row["Nazwa"],
+                    row["Cena sprz"],
+                    row["Kod"],
+                    row["Ilość"],
+                    row["Cena sprz"],
+                )

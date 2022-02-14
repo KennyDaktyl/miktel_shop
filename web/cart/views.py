@@ -1,13 +1,15 @@
+import json
+
 from django.conf import settings
-from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic.detail import DetailView
-from web.models import Category, Brand, Products, ProductCopy, PayMethod
-from web.constans import DELIVERY_TYPE
-from .cart import Cart
 
-import json
+from web.constans import DELIVERY_TYPE
+from web.models import Brand, Category, PayMethod, ProductCopy, Products
+
+from .cart import Cart
 
 # Create your views here.
 
@@ -19,13 +21,11 @@ class AddProductView(View):
             product = Products.objects.get(pk=int(prod_id))
             qty = request.POST.get("qty")
             cart = Cart(request)
-            cart.add(product=product,
-                     quantity=qty)
+            cart.add(product=product, quantity=qty)
             dict_obj = {
-                'total': float(cart.get_total_price()),
-                'len': cart.len(),
-                'in_stock': product.qty - int(qty),
-
+                "total": float(cart.get_total_price()),
+                "len": cart.len(),
+                "in_stock": product.qty - int(qty),
             }
             serialized = json.dumps(dict_obj)
             return HttpResponse(serialized)
@@ -39,17 +39,15 @@ class EditQtyProduct(View):
             qty = int(request.POST.get("qty"))
 
             cart = Cart(request)
-            cart.add(product=product,
-                     quantity=qty,
-                     update_quantity=True)
+            cart.add(product=product, quantity=qty, update_quantity=True)
             cart_dict = request.session.get(settings.CART_SESSION_ID)
             dict_obj = {
-                't_netto': cart_dict[str(product.id)]['t_netto'],
-                't_brutto': cart_dict[str(product.id)]['t_brutto'],
-                'total_netto': float(cart.get_total_price_netto()),
-                'total': float(cart.get_total_price()),
-                'len': cart.len(),
-                'in_stock': product.qty - int(qty)
+                "t_netto": cart_dict[str(product.id)]["t_netto"],
+                "t_brutto": cart_dict[str(product.id)]["t_brutto"],
+                "total_netto": float(cart.get_total_price_netto()),
+                "total": float(cart.get_total_price()),
+                "len": cart.len(),
+                "in_stock": product.qty - int(qty),
             }
             serialized = json.dumps(dict_obj)
             return HttpResponse(serialized)
@@ -65,10 +63,10 @@ class RemoveProduct(View):
             cart.remove(product)
 
             dict_obj = {
-                'total_netto': float(cart.get_total_price_netto()),
-                'total': float(cart.get_total_price()),
-                'len': cart.len(),
-                'in_stock': product.qty + int(qty)
+                "total_netto": float(cart.get_total_price_netto()),
+                "total": float(cart.get_total_price()),
+                "len": cart.len(),
+                "in_stock": product.qty + int(qty),
             }
             serialized = json.dumps(dict_obj)
             return HttpResponse(serialized)
@@ -81,10 +79,10 @@ class CartDetails(View):
         cart = Cart(request)
         categorys = Category.objects.filter(is_active=True)
         ctx = {
-            'cart_ctx': cart,
-            'categorys': categorys,
-            'pay_methods': pay_methods,
-            'delivery_type': delivery_type
+            "cart_ctx": cart,
+            "categorys": categorys,
+            "pay_methods": pay_methods,
+            "delivery_type": delivery_type,
         }
         return render(request, "cart/cart_detail.html", ctx)
 

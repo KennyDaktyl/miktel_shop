@@ -1,4 +1,5 @@
 from django import forms
+
 from web.models import Products
 
 
@@ -22,28 +23,35 @@ class AddMainPhotoForm(forms.ModelForm):
 
     class Meta:
         model = Products
-        fields = ('image', 'alt', 'title')
+        fields = ("image", "alt", "title")
         labels = {
             "image": ("Dodaj zdjęcie"),
             "title": ("Dodaj title zdjęcia"),
             "alt": ("Dodaj tekst alternatywny"),
         }
-        required = {
-            "alt": False
-        }
+        required = {"alt": False}
 
     def __init__(self, *args, **kwargs):
         super(AddMainPhotoForm, self).__init__(*args, **kwargs)
-        self.fields['title'].required = False
-        self.fields['alt'].required = False
+        self.fields["title"].required = False
+        self.fields["alt"].required = False
 
 
 class SelectDetailsProductForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         super(SelectDetailsProductForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Products
-        fields = ('brand', 'size', 'color', 'qty', 'price',
-                  'discount', 'desc', 'is_recommended', 'is_news', 'is_promo')
+        fields = (
+            "brand",
+            "size",
+            "color",
+            "qty",
+            "price",
+            "discount",
+            "desc",
+            "is_recommended",
+            "is_news",
+            "is_promo",
+        )

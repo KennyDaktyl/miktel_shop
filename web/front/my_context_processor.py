@@ -2,14 +2,14 @@ from web.models import Images
 
 
 def logo(request):
-    return {'logo': Images.objects.filter(logo=True).first()}
+    return {"logo": Images.objects.filter(logo=True).first()}
 
 
 def get_domain(request):
     host = request.scheme + "://" + request.get_host()
     ctx = {
-        'get_domain': host,
-        'domain': request.get_host(),
+        "get_domain": host,
+        "domain": request.get_host(),
         "version": "1.0",
     }
     return ctx
@@ -20,6 +20,4 @@ def base_context_processor(request):
     #     'BASE_URL': "http://%s" % Site.objects.get_current().domain
     # }
     # or if you don't want to use 'sites' app
-    return {
-        'BASE_URL': request.build_absolute_uri("/").rstrip("/")
-     }
+    return {"BASE_URL": request.build_absolute_uri("/").rstrip("/")}

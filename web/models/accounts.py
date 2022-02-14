@@ -1,20 +1,24 @@
-from django.db import models
 from django.conf import settings
+from django.db import models
+
 from .base import BaseModel
 
 
 class ActivateToken(BaseModel):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
     activation_token = models.CharField(max_length=64, unique=True)
 
 
 class Profile(BaseModel):
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL,
-                                on_delete=models.CASCADE)
-    phone_number = models.CharField(verbose_name="Numer telefonu",
-                                    max_length=18)
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
+    phone_number = models.CharField(
+        verbose_name="Numer telefonu", max_length=18
+    )
 
     nip_number = models.CharField(
         verbose_name="Numer nip",
@@ -34,16 +38,16 @@ class Profile(BaseModel):
         null=True,
         blank=True,
     )
-    company = models.BooleanField(verbose_name="Profil firmowy?",
-                                  default=False)
+    company = models.BooleanField(verbose_name="Profil firmowy?", default=False)
 
     class Meta:
-        ordering = ("user", )
+        ordering = ("user",)
         verbose_name_plural = "Profil użytkownika"
 
     def __str__(self):
-        return "{}, {}, {}".format(self.user.username, self.user.first_name,
-                                   self.user.last_name)
+        return "{}, {}, {}".format(
+            self.user.username, self.user.first_name, self.user.last_name
+        )
 
 
 class Address(BaseModel):
@@ -57,15 +61,13 @@ class Address(BaseModel):
     )
     street = models.CharField(verbose_name="Ulica", max_length=128)
     house = models.CharField(verbose_name="Nr domu", max_length=8)
-    door = models.CharField(verbose_name="Nr lokalu",
-                            null=True,
-                            blank=True,
-                            max_length=8)
+    door = models.CharField(
+        verbose_name="Nr lokalu", null=True, blank=True, max_length=8
+    )
     city = models.CharField(verbose_name="Miasto", max_length=64)
-    post_code = models.CharField(verbose_name="Kod pocztowy",
-                                 null=True,
-                                 blank=True,
-                                 max_length=6)
+    post_code = models.CharField(
+        verbose_name="Kod pocztowy", null=True, blank=True, max_length=6
+    )
 
     class Meta:
         ordering = (

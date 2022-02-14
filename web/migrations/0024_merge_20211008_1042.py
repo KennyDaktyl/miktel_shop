@@ -6,9 +6,8 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0023_alter_paymethod_pay_method'),
-        ('web', '0023_auto_20211008_1039'),
+        ("web", "0023_alter_paymethod_pay_method"),
+        ("web", "0023_auto_20211008_1039"),
     ]
 
-    operations = [
-    ]
+    operations = []

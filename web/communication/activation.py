@@ -1,7 +1,10 @@
 from urllib.parse import urljoin
+
 from django.conf import settings
 from django.template.loader import get_template
+
 from .base import send_email
+
 # from web.communication.system.commons import BASE_CONTEXT
 
 
@@ -62,11 +65,12 @@ from .base import send_email
 # #     send_activation_email(to, html)
 # #     return html
 
-BASE_CONTEXT =  {
-    "token": "", 
+BASE_CONTEXT = {
+    "token": "",
     "button_link": "",
-    "recipient": None, 
+    "recipient": None,
 }
+
 
 def send_account_activated_email(to, recipient):
     context = dict(BASE_CONTEXT)

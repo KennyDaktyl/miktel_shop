@@ -6,17 +6,17 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0024_orders_main_status'),
+        ("web", "0024_orders_main_status"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='orders',
-            name='printed',
+            model_name="orders",
+            name="printed",
         ),
         migrations.AddField(
-            model_name='orders',
-            name='invoice',
-            field=models.BooleanField(default=False, verbose_name='Faktura?'),
+            model_name="orders",
+            name="invoice",
+            field=models.BooleanField(default=False, verbose_name="Faktura?"),
         ),
     ]

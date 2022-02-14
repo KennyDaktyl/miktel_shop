@@ -6,22 +6,34 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0026_rename_user_id_address_user'),
+        ("web", "0026_rename_user_id_address_user"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='address',
-            options={'ordering': ('user', '-id'), 'verbose_name_plural': 'Adresy'},
+            name="address",
+            options={
+                "ordering": ("user", "-id"),
+                "verbose_name_plural": "Adresy",
+            },
         ),
         migrations.AddField(
-            model_name='products',
-            name='code',
-            field=models.CharField(blank=True, max_length=8, null=True, verbose_name='Kod kreskowy'),
+            model_name="products",
+            name="code",
+            field=models.CharField(
+                blank=True, max_length=8, null=True, verbose_name="Kod kreskowy"
+            ),
         ),
         migrations.AddField(
-            model_name='products',
-            name='price_netto_purchase',
-            field=models.DecimalField(blank=True, decimal_places=2, default=0, max_digits=7, null=True, verbose_name='Cena zakupu netto'),
+            model_name="products",
+            name="price_netto_purchase",
+            field=models.DecimalField(
+                blank=True,
+                decimal_places=2,
+                default=0,
+                max_digits=7,
+                null=True,
+                verbose_name="Cena zakupu netto",
+            ),
         ),
     ]

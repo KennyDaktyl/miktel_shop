@@ -1,4 +1,5 @@
 from re import template
+
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
@@ -22,6 +23,7 @@ class ArticleList(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
+
 
 article_details = ArticleDetails.as_view()
 articles_list = ArticleList.as_view()

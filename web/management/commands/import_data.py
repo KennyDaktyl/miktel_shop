@@ -1,6 +1,6 @@
-from django.core.management.base import BaseCommand, CommandError
-import pandas as pd
 import numpy as np
+import pandas as pd
+from django.core.management.base import BaseCommand, CommandError
 
 from web.models.products import Category, SubCategory, SubCategoryType
 
@@ -44,14 +44,13 @@ def mapping_category(cat_row):
         "STANDARD": "Uchwyty samochodowe",
         "SPORT": "Uchwyty samochodowe",
         "MAGNETYCZNE": "Uchwyty samochodowe",
-        "PREMIUMM": "Ładowarka samochodowa"
+        "PREMIUMM": "Ładowarka samochodowa",
     }
     if cat_row in cat.keys():
         return cat[cat_row]
 
 
 class Command(BaseCommand):
-
     def handle(self, *args, **options):
 
         category = Category.objects.get(name="Telefony")
@@ -63,9 +62,9 @@ class Command(BaseCommand):
         data = pd.read_csv(file_path, index_col=0)
         df = data.replace({np.nan: None})
         for index, row in df.iterrows():
-            row_category = mapping_category(
-                row["Asortyment"])
+            row_category = mapping_category(row["Asortyment"])
             if row_category is not None:
                 created, sub_cat = SubCategoryType.objects.get_or_create(
-                    name=row_category, sub_category=sub_category)
+                    name=row_category, sub_category=sub_category
+                )
                 print(created, sub_cat)

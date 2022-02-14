@@ -1,27 +1,35 @@
-from audioop import add
 import uuid
-from django.contrib.auth import get_user_model, authenticate, login, logout
-from django.contrib.auth.views import LogoutView
+from audioop import add
 
-from django.views import View
 # from django.views.generic.edit \
 #     import CreateView, UpdateView, DeleteView
 from django.contrib import messages
+from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LogoutView
+
 # from django.contrib.messages.views import SuccessMessageMixin
 # from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
+
 # from django.urls import reverse_lazy, reverse
 # from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
+from django.views import View
 
+# from products.models import Category
+from web.models import Address, Profile
 from web.models.accounts import ActivateToken
 from web.models.orders import Orders
 
-from .forms import LoginForm, UserForm, BusinessForm, ChangePasswordForm, AddressForm
+from .forms import (
+    AddressForm,
+    BusinessForm,
+    ChangePasswordForm,
+    LoginForm,
+    UserForm,
+)
 from .functions import *
-# from products.models import Category
-from web.models import Profile, Address
 
 User = get_user_model()
 
@@ -57,108 +65,116 @@ User = get_user_model()
 class RegisterUserView(View):
     def get(self, request):
         form = UserForm()
-        ctx = {'form': form}
+        ctx = {"form": form}
         return render(request, "accounts/register_user.html", ctx)
 
     def post(self, request):
         form = UserForm(request.POST)
         if form.is_valid():
             try:
-                user = User.objects.get(username=form.cleaned_data['email'])
-                messages.error(request, 'Email już istnieje w naszej bazie.')
-                ctx = {'form': form}
+                user = User.objects.get(username=form.cleaned_data["email"])
+                messages.error(request, "Email już istnieje w naszej bazie.")
+                ctx = {"form": form}
                 return render(request, "accounts/register_user.html", ctx)
             except User.DoesNotExist:
                 new_user = form.save(commit=False)
-                new_user.username = form.cleaned_data['email']
-                new_user.email = form.cleaned_data['email']
-                new_user.set_password(form.cleaned_data['password'])
+                new_user.username = form.cleaned_data["email"]
+                new_user.email = form.cleaned_data["email"]
+                new_user.set_password(form.cleaned_data["password"])
                 new_user.is_active = False
                 new_user.save()
                 host = request.scheme + "://" + request.get_host()
                 token = ActivateToken.objects.create(
-                    user=new_user, activation_token=str(int(str(uuid.uuid4()).split('-')[0], 16)))
-                send_simple_message('Aktywacja konta', host,
-                                    new_user, token.activation_token)
+                    user=new_user,
+                    activation_token=str(
+                        int(str(uuid.uuid4()).split("-")[0], 16)
+                    ),
+                )
+                send_simple_message(
+                    "Aktywacja konta", host, new_user, token.activation_token
+                )
                 profile = Profile()
                 profile.user_id = new_user.id
                 profile.company = False
                 profile.save()
-                messages.error(request, 'Potwierdź email aby zalogować.')
-                return redirect('front_page')
+                messages.error(request, "Potwierdź email aby zalogować.")
+                return redirect("front_page")
         else:
-            messages.error(request, 'Wystąpił błąd')
-            ctx = {'form': form}
+            messages.error(request, "Wystąpił błąd")
+            ctx = {"form": form}
             return render(request, "accounts/register_user.html", ctx)
 
 
 class CompanyRegistrationView(View):
     def get(self, request):
         form = BusinessForm()
-        ctx = {'form': form}
+        ctx = {"form": form}
         return render(request, "accounts/register_business.html", ctx)
 
     def post(self, request):
         form = BusinessForm(request.POST)
         if form.is_valid():
             try:
-                user = User.objects.get(username=form.cleaned_data['email'])
-                messages.error(request, 'Email już istnieje w naszej bazie.')
-                ctx = {'form': form}
+                user = User.objects.get(username=form.cleaned_data["email"])
+                messages.error(request, "Email już istnieje w naszej bazie.")
+                ctx = {"form": form}
                 return render(request, "accounts/register_user.html", ctx)
             except User.DoesNotExist:
                 new_user = form.save(commit=False)
-                new_user.username = form.cleaned_data['email']
-                new_user.email = form.cleaned_data['email']
-                new_user.set_password(form.cleaned_data['password'])
+                new_user.username = form.cleaned_data["email"]
+                new_user.email = form.cleaned_data["email"]
+                new_user.set_password(form.cleaned_data["password"])
                 new_user.save()
 
                 profile = Profile()
                 profile.user_id = new_user.id
-                profile.business_name = form.cleaned_data['business_name']
-                profile.business_name_l = form.cleaned_data['business_name_l']
-                profile.phone_number = form.cleaned_data['phone_number']
-                profile.nip_number = form.cleaned_data['nip_number']
+                profile.business_name = form.cleaned_data["business_name"]
+                profile.business_name_l = form.cleaned_data["business_name_l"]
+                profile.phone_number = form.cleaned_data["phone_number"]
+                profile.nip_number = form.cleaned_data["nip_number"]
                 profile.company = True
                 profile.save()
 
                 address = Address()
                 address.user_id = new_user.id
-                address.street = form.cleaned_data['street']
-                address.house = form.cleaned_data['house']
-                if form.cleaned_data['door']:
-                    address.door = form.cleaned_data['door']
-                address.zip_code = form.cleaned_data['zip_code']
-                address.city = form.cleaned_data['city']
+                address.street = form.cleaned_data["street"]
+                address.house = form.cleaned_data["house"]
+                if form.cleaned_data["door"]:
+                    address.door = form.cleaned_data["door"]
+                address.zip_code = form.cleaned_data["zip_code"]
+                address.city = form.cleaned_data["city"]
                 address.save()
                 host = request.scheme + "://" + request.get_host()
                 token = ActivateToken.objects.create(
-                    user=new_user, activation_token=str(int(str(uuid.uuid4()).split('-')[0], 16)))
-                send_simple_message('Aktywacja konta', host,
-                                    new_user, token.activation_token)
-                messages.error(request, 'Potwierdź email aby zalogować.')
-                return redirect('front_page')
+                    user=new_user,
+                    activation_token=str(
+                        int(str(uuid.uuid4()).split("-")[0], 16)
+                    ),
+                )
+                send_simple_message(
+                    "Aktywacja konta", host, new_user, token.activation_token
+                )
+                messages.error(request, "Potwierdź email aby zalogować.")
+                return redirect("front_page")
         else:
-            messages.error(request, 'Wystąpił błąd')
+            messages.error(request, "Wystąpił błąd")
             print(form.errors)
-            ctx = {'form': form}
+            ctx = {"form": form}
             return render(request, "accounts/register_business.html", ctx)
 
 
 class ActivateAccount(View):
-
     def get(self, request, token):
         user = ActivateToken.objects.get(activation_token=token).user
         user.is_active = True
         user.save()
-        messages.error(request, 'Konto aktywne.')
+        messages.error(request, "Konto aktywne.")
         login(request, user)
-        return redirect('front_page')
+        return redirect("front_page")
 
 
 @method_decorator(login_required, name="dispatch")
 class UserAccount(View):
-
     def get(self, request):
         ctx = {}
         return render(request, "accounts/user_account.html", ctx)
@@ -166,7 +182,6 @@ class UserAccount(View):
 
 @method_decorator(login_required, name="dispatch")
 class UserOrders(View):
-
     def get(self, request):
         orders = Orders.objects.filter(client=request.user)
         ctx = {"orders": orders}
@@ -175,7 +190,6 @@ class UserOrders(View):
 
 @method_decorator(login_required, name="dispatch")
 class UserProfile(View):
-
     def get(self, request):
         profile = Profile.objects.get(user=request.user)
         ctx = {"profile": profile}
@@ -184,7 +198,6 @@ class UserProfile(View):
 
 @method_decorator(login_required, name="dispatch")
 class UserAddress(View):
-
     def get(self, request):
         address = Address.objects.filter(user=request.user).first()
         if not address:
@@ -197,9 +210,10 @@ class UserAddress(View):
                 "house": address.house,
                 "door": address.door,
                 "zip_code": address.post_code,
-                "city": address.city
-            })
-        ctx = {'address_form': address_form, 'user_address': address}
+                "city": address.city,
+            }
+        )
+        ctx = {"address_form": address_form, "user_address": address}
         return render(request, "accounts/user_account.html", ctx)
 
     def post(self, request):
@@ -208,20 +222,20 @@ class UserAddress(View):
         if address_form.is_valid():
             if not address:
                 address = Address()
-                address.user= request.user
-            address.street = address_form.cleaned_data['street']
-            address.house = address_form.cleaned_data['house']
-            address.post_code = address_form.cleaned_data['zip_code']
-            address.city = address_form.cleaned_data['city']
-            if address_form.cleaned_data['door']:
-                address.door = address_form.cleaned_data['door']
+                address.user = request.user
+            address.street = address_form.cleaned_data["street"]
+            address.house = address_form.cleaned_data["house"]
+            address.post_code = address_form.cleaned_data["zip_code"]
+            address.city = address_form.cleaned_data["city"]
+            if address_form.cleaned_data["door"]:
+                address.door = address_form.cleaned_data["door"]
             address.save()
-            messages.error(request, 'Zapisano nowy adres.')
+            messages.error(request, "Zapisano nowy adres.")
             return render(request, "accounts/user_account.html")
 
         else:
-            messages.error(request, 'Wystąpił błąd')
-            ctx = {'addres_form': address_form}
+            messages.error(request, "Wystąpił błąd")
+            ctx = {"addres_form": address_form}
             return render(request, "accounts/register_business.html", ctx)
 
 
@@ -258,25 +272,26 @@ class UserAddress(View):
 
 #         return Response(data_out.data)
 
-@method_decorator(login_required, name='dispatch')
-class ChangeOnlyPasswordView(View):
 
+@method_decorator(login_required, name="dispatch")
+class ChangeOnlyPasswordView(View):
     def get(self, request):
         form = ChangePasswordForm()
-        ctx = {'form': form}
+        ctx = {"form": form}
         return render(request, "accounts/user_account.html", ctx)
 
     def post(self, request):
         form = ChangePasswordForm(request.POST)
         if form.is_valid():
-            request.user.set_password(form.cleaned_data['password'])
+            request.user.set_password(form.cleaned_data["password"])
             request.user.save()
-            messages.error(request, 'Hasło zostało zmienione')
+            messages.error(request, "Hasło zostało zmienione")
             return render(request, "accounts/user_account.html")
         else:
-            messages.error(request, 'Wystąpił błąd')
-            ctx = {'form': form}
+            messages.error(request, "Wystąpił błąd")
+            ctx = {"form": form}
             return render(request, "accounts/user_account.html", ctx)
+
 
 # # @method_decorator(login_required, name="dispatch")
 # # class UpdateUserView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -322,36 +337,37 @@ class ChangeOnlyPasswordView(View):
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
-        ctx = {'form': form}
+        ctx = {"form": form}
         return render(request, "accounts/login.html", ctx)
 
     def post(self, request):
         form = LoginForm(request.POST)
         if form.is_valid():
-            user_name_email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
+            user_name_email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
             user = authenticate(
-                request, username=user_name_email, password=password)
+                request, username=user_name_email, password=password
+            )
             if user is not None:
                 # token = Token.objects.get_or_create(user=user)
                 login(request, user)
-                messages.error(request, 'Zalogowano poprawnie.')
-                return redirect('front_page')
+                messages.error(request, "Zalogowano poprawnie.")
+                return redirect("front_page")
             else:
-                messages.error(request, 'Błędne hasło lub login')
-                ctx = {'form': form}
+                messages.error(request, "Błędne hasło lub login")
+                ctx = {"form": form}
                 return render(request, "accounts/login.html", ctx)
         else:
-            messages.error(request, 'Błędne hasło lub login')
-            ctx = {'form': form}
+            messages.error(request, "Błędne hasło lub login")
+            ctx = {"form": form}
             return render(request, "accounts/login.html", ctx)
 
 
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        messages.error(request, 'Wylogowano poprawnie.')
-        return redirect('login')
+        messages.error(request, "Wylogowano poprawnie.")
+        return redirect("login")
 
 
 # @method_decorator(login_required, name='dispatch')

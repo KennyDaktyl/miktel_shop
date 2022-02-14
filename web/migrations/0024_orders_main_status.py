@@ -6,13 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0023_auto_20211008_1039'),
+        ("web", "0023_auto_20211008_1039"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='orders',
-            name='main_status',
-            field=models.IntegerField(choices=[(1, 'Otwarte'), (2, 'Potwierdzone'), (3, 'Zapłacone'), (4, 'Zrealizowane')], default=1, verbose_name='Status zamówienia'),
+            model_name="orders",
+            name="main_status",
+            field=models.IntegerField(
+                choices=[
+                    (1, "Otwarte"),
+                    (2, "Potwierdzone"),
+                    (3, "Zapłacone"),
+                    (4, "Zrealizowane"),
+                ],
+                default=1,
+                verbose_name="Status zamówienia",
+            ),
         ),
     ]

@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0009_auto_20211001_1156'),
+        ("web", "0009_auto_20211001_1156"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='images',
-            name='description',
-            field=models.CharField(blank=True, max_length=264, null=True, verbose_name='Mały opis dla obrazka na karuzeli'),
+            model_name="images",
+            name="description",
+            field=models.CharField(
+                blank=True,
+                max_length=264,
+                null=True,
+                verbose_name="Mały opis dla obrazka na karuzeli",
+            ),
         ),
     ]

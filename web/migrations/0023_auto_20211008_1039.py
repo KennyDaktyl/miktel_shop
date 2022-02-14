@@ -6,18 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0022_paymethod_link'),
+        ("web", "0022_paymethod_link"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='products',
-            name='is_recommended',
-            field=models.BooleanField(default=False, verbose_name='Czy jest w rekomendowanych'),
+            model_name="products",
+            name="is_recommended",
+            field=models.BooleanField(
+                default=False, verbose_name="Czy jest w rekomendowanych"
+            ),
         ),
         migrations.AlterField(
-            model_name='paymethod',
-            name='pay_method',
-            field=models.IntegerField(choices=[(1, 'gotówka'), (2, 'karta'), (3, 'przelew'), (4, 'p24')], verbose_name='Rodzaj płatności'),
+            model_name="paymethod",
+            name="pay_method",
+            field=models.IntegerField(
+                choices=[
+                    (1, "gotówka"),
+                    (2, "karta"),
+                    (3, "przelew"),
+                    (4, "p24"),
+                ],
+                verbose_name="Rodzaj płatności",
+            ),
         ),
     ]

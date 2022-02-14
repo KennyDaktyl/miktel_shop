@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0011_alter_images_description'),
+        ("web", "0011_alter_images_description"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='images',
-            name='logo',
-            field=models.BooleanField(default=False, verbose_name='Logo główne'),
+            model_name="images",
+            name="logo",
+            field=models.BooleanField(
+                default=False, verbose_name="Logo główne"
+            ),
         ),
     ]

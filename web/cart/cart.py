@@ -1,7 +1,9 @@
 from decimal import Decimal
-from web.models.orders import DeliveryMethod
+
 from django.conf import settings
+
 from web.models import Products
+from web.models.orders import DeliveryMethod
 from web.products.serializers import ProductSerializer
 
 
@@ -17,53 +19,66 @@ class Cart(object):
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
 
-    def add(self,
-            product,
-            quantity=1,
-            update_quantity=False):
+    def add(self, product, quantity=1, update_quantity=False):
         """
         Dodanie produktu do koszyka lub edycja parametrów
         """
         if str(product.id) in self.cart:
             if update_quantity:
-                self.cart[str(product.id)]['quantity'] = int(quantity)
-                qty = int(self.cart[str(product.id)]['quantity'])
+                self.cart[str(product.id)]["quantity"] = int(quantity)
+                qty = int(self.cart[str(product.id)]["quantity"])
             else:
-                qty = int(self.cart[str(product.id)]['quantity'])
-                self.cart[str(product.id)]['quantity'] = qty + int(quantity)
-            qty = int(self.cart[str(product.id)]['quantity'])
-            self.cart[str(product.id)]['price'] = float(product.price_promo)
-            self.cart[str(product.id)]['price_netto'] = round(
-                float(product.price_promo) / float("1." + "23"), 2)
-            self.cart[str(product.id)]['t_netto'] = round(
-                ((float(self.cart[str(product.id)]['price_netto'])) * qty), 2)
-            self.cart[str(product.id)]['t_brutto'] = round(
-                ((float(product.price_promo)) * qty), 2)
-            self.cart[str(product.id)]['discount'] = float(product.discount)
-            # if info:
-            #     self.cart[product.id]['info'] = info
+                qty = int(self.cart[str(product.id)]["quantity"])
+                self.cart[str(product.id)]["quantity"] = qty + int(quantity)
+            qty = int(self.cart[str(product.id)]["quantity"])
+            self.cart[str(product.id)]["price"] = float(product.price_promo)
+            self.cart[str(product.id)]["price_netto"] = round(
+                float(product.price_promo) / float("1." + "23"), 2
+            )
+            total_netto = round(
+                ((float(self.cart[str(product.id)]["price_netto"])) * qty), 2
+            )
+            self.cart[str(product.id)]["t_netto"] = total_netto
+            total_brutto = round(
+                ((float(product.price_promo)) * qty), 2
+            )
+            self.cart[str(product.id)]["t_brutto"] = total_brutto
+            self.cart[str(product.id)]["discount"] = float(product.discount)
+            self.cart[product.id]["vat"] = product.tax.name
+            self.cart[product.id]["total_vat"] = round(
+                (total_brutto - total_netto), 2)
+            self.cart[product.id]["name"] = product.name
             self.save()
         else:
             self.cart[product.id] = {
-                'quantity': str(quantity),
-                'price': str(product.price_promo),
-                'discount': str(product),
+                "quantity": str(quantity),
+                "price": str(product.price_promo),
+                "discount": str(product),
                 # 'info': str(product.info),
             }
+            self.cart[product.id]["price"] = float(product.price_promo)
+            self.cart[product.id]["price_netto"] = round(
+                float(product.price_promo) / float("1." + "23"), 2
+            )
+            total_netto = round(
+                ((float(self.cart[product.id]["price_netto"]))
+                 * int(quantity)),
+                2,
+            )
+            self.cart[product.id]["t_netto"] = total_netto
+            total_brutto = round(
+                ((float(product.price_promo)) * int(quantity)), 2
+            )
+            self.cart[product.id]["t_brutto"] = total_brutto
+            self.cart[product.id]["discount"] = float(product.discount)
+            self.cart[product.id]["quantity"] = int(quantity)
+            self.cart[product.id]["vat"] = product.tax.name
+            self.cart[product.id]["total_vat"] = round(
+                (total_brutto - total_netto), 2)
+            self.cart[product.id]["name"] = product.name
 
-            self.cart[product.id]['price'] = float(product.price_promo)
-            self.cart[product.id]['price_netto'] = round(
-                float(product.price_promo) / float("1." + "23"), 2)
-            self.cart[product.id]['t_netto'] = round(
-                ((float(self.cart[product.id]['price_netto'])) *
-                    int(quantity)), 2)
-            self.cart[product.id]['t_brutto'] = round(
-                ((float(product.price_promo)) * int(quantity)), 2)
-            self.cart[product.id]['discount'] = float(product.discount)
-            self.cart[product.id]['quantity'] = int(quantity)
             # if info:
             #     self.cart[product.id]['info'] = info
-            print(self.cart[product.id]['quantity'])
             self.save()
 
     # def add_delivery_method(self,
@@ -87,9 +102,14 @@ class Cart(object):
         """
         Obliczanie wartości koszyka wraz z rabatem
         """
-        _sum = sum((float(item['price_netto']) *
-                    (float((100 - float(item['discount'])) / 100)) *
-                    int(item['quantity'])) for item in self.cart.values())
+        _sum = sum(
+            (
+                float(item["price_netto"])
+                * (float((100 - float(item["discount"])) / 100))
+                * int(item["quantity"])
+            )
+            for item in self.cart.values()
+        )
         return round(float(_sum), 2)
 
     def get_total_price(self):
@@ -97,8 +117,10 @@ class Cart(object):
         Obliczanie wartości koszyka wraz z rabatem
         """
 
-        _sum = sum((float(item['price']) * int(item['quantity']))
-                   for item in self.cart.values())
+        _sum = sum(
+            (float(item["price"]) * int(item["quantity"]))
+            for item in self.cart.values()
+        )
         return round(float(_sum), 2)
 
     def __iter__(self):
@@ -110,29 +132,31 @@ class Cart(object):
         cart = self.cart.copy()
         for product in products:
             product_serial = ProductSerializer(product)
-            cart[str(product.id)]['product'] = product_serial.data
+            cart[str(product.id)]["product"] = product_serial.data
 
         for item in cart.values():
-            print(item['product']['image'])
-            # image = (item['image']).replace(
-            #     '/media/', '')
-            item['image'] = item['product']['image'].replace(
-                '/media/', '')
-            item['price'] = float(item['price'])
-            item['price_netto'] = round(
-                float(item['price'] / float("1." + "23")), 2)
-            item['discount'] = int(item['discount'])
-            item['total_price_netto'] = round(
-                float(int(item['quantity']) * float((item['price_netto']))), 2)
-            item['total_price'] = item['price'] * item['quantity']
+            item["image"] = item["product"]["image"].replace("/media/", "")
+            item["price"] = float(item["price"])
+            item["price_netto"] = round(
+                float(item["price"] / float("1." + "23")), 2
+            )
+            item["discount"] = int(item["discount"])
+            item["total_price_netto"] = round(
+                float(int(item["quantity"]) * float((item["price_netto"]))), 2
+            )
+            item["total_price"] = item["price"] * item["quantity"]
+            item["vat"] = item["product"]["tax"]
             yield item
+
+    def get_products(self):
+        return self.cart
 
     def len(self):
         """
         Obliczanie sumy elementów w koszyku
         """
 
-        return sum(item['quantity'] for item in self.cart.values())
+        return sum(item["quantity"] for item in self.cart.values())
 
     def save(self):
         self.session.modified = True

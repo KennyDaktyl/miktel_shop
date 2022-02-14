@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0017_auto_20211006_1158'),
+        ("web", "0017_auto_20211006_1158"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='subcategory',
-            name='desc',
-            field=models.TextField(blank=True, null=True, verbose_name='Opis podkategorii'),
+            model_name="subcategory",
+            name="desc",
+            field=models.TextField(
+                blank=True, null=True, verbose_name="Opis podkategorii"
+            ),
         ),
     ]

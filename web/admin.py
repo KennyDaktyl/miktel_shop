@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from web.models import *
 
 # Register your models here.
@@ -7,24 +8,18 @@ from web.models import *
 @admin.register(Articles)
 class ArticlesAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Articles._meta.fields]
-    list_filter = (
-        'category',
-    )
-    search_fields = (
-        'title',
-    )
+    list_filter = ("category",)
+    search_fields = ("title",)
 
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Profile._meta.fields]
-    list_filter = (
-        'company',
-    )
+    list_filter = ("company",)
     search_fields = (
-        'last_name',
-        'username',
-        'nip_number',
+        "last_name",
+        "username",
+        "nip_number",
     )
 
 
@@ -35,8 +30,7 @@ class AddressAdmin(admin.ModelAdmin):
         # 'workplace',
         # 'worker_position',
     )
-    search_fields = ('user_id', )
-
+    search_fields = ("user_id",)
 
 
 @admin.register(PayMethod)
@@ -53,21 +47,19 @@ class DeliveryMethodAdmin(admin.ModelAdmin):
 class OrdersAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Orders._meta.fields]
     list_filter = (
-        'store',
-        'pay_method',
+        "store",
+        "pay_method",
     )
-    search_fields = ('number', )
+    search_fields = ("number",)
 
 
 @admin.register(ProductCopy)
 class ProductCopyAdmin(admin.ModelAdmin):
     list_display = [f.name for f in ProductCopy._meta.fields]
-    exclude = ['order']
+    exclude = ["order"]
 
-from django.contrib import admin
 
 # Register your models here.
-
 
 
 @admin.register(Store)
@@ -94,38 +86,47 @@ class BrandAdmin(admin.ModelAdmin):
 class ProductsAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Products._meta.fields]
     list_filter = (
-        'store_id',
-        'sub_category_type',
-        'size',
+        "store_id",
+        "sub_category_type",
+        "size",
     )
-    search_fields = ('name', )
+    search_fields = ("name",)
 
 
 @admin.register(Size)
 class SizeAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Size._meta.fields]
     # list_filter = ('sub_category', )
-    search_fields = ('name', )
+    search_fields = ("name",)
 
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Category._meta.fields]
-    search_fields = ('name', )
+    search_fields = ("name",)
+
 
 @admin.register(SubCategory)
 class SubCategoryAdmin(admin.ModelAdmin):
     list_display = [f.name for f in SubCategory._meta.fields]
-    search_fields = ('name', )
+    search_fields = ("name",)
+
 
 @admin.register(SubCategoryType)
 class SubCategoryTypeAdmin(admin.ModelAdmin):
     list_display = [f.name for f in SubCategoryType._meta.fields]
-    search_fields = ('name', )
+    search_fields = ("name",)
 
 
 @admin.register(Images)
 class ImagesAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Images._meta.fields]
+    # list_filter = ('post', )
+    # search_fields = ('post', )
+
+
+@admin.register(Invoices)
+class InvoicesAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in Invoices._meta.fields]
     # list_filter = ('post', )
     # search_fields = ('post', )

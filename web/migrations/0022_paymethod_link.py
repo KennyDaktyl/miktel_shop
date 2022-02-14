@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('web', '0021_paymethod_image'),
+        ("web", "0021_paymethod_image"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='paymethod',
-            name='link',
-            field=models.URLField(blank=True, null=True, verbose_name='Link do regulaminu'),
+            model_name="paymethod",
+            name="link",
+            field=models.URLField(
+                blank=True, null=True, verbose_name="Link do regulaminu"
+            ),
         ),
     ]

@@ -1,6 +1,6 @@
-from django.template.loader import render_to_string
-from django.conf import settings
 import requests
+from django.conf import settings
+from django.template.loader import render_to_string
 
 
 def send_contact_message(subject, message):
@@ -10,6 +10,6 @@ def send_contact_message(subject, message):
         "from": "no-reply@serwiswrybnej.pl",
         "to": f"Klient <{ settings.DEFAULT_FROM_EMAIL }>",
         "subject": subject,
-        "text": message
+        "text": message,
     }
     return requests.post(url, auth=auth, data=data)
