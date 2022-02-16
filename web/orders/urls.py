@@ -17,6 +17,9 @@ urlpatterns = [
         name="order_completed",
     ),
     path(
+        "podsumowanie/<int:order>", order_success, name="order_success"
+    ),
+    path(
         "create_invoice/<int:pk>",
         create_invoice,
         name="create_invoice",

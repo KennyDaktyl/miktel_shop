@@ -29,7 +29,6 @@ class CheckoutView(View):
         try:
             order.inpost_box = request.session["inpost_box_id"]
             order.save()
-            del request.session["inpost_box_id"]
         except:
             pass
         intent = stripe.PaymentIntent.create(
@@ -43,22 +42,6 @@ class CheckoutView(View):
             "PAYMENT_INTENT_CLIENT_SECRET": intent["client_secret"],
         }
         return render(request, "payments/checkout.html", ctx)
-
-
-@method_decorator(login_required, name="dispatch")
-class PayMentSuccessView(View):
-    def get(self, request, order):
-        order = Orders.objects.get(id=order)
-        order.main_status = 3
-        order.status = 2
-        order.save()
-
-        cart = Cart(request)
-        cart.clear()
-        if order.delivery_method == "Odbiór osobisty":
-            return redirect("order_completed", order=order.id)
-        ctx = {"order": order}
-        return render(request, "payments/checkout_success.html", ctx)
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -112,6 +95,5 @@ class StripeWebhookView(APIView):
 
 
 checkout = CheckoutView.as_view()
-payment_success = PayMentSuccessView.as_view()
 payment_intent = PaymentIntentView.as_view()
 stripe_webhook = StripeWebhookView.as_view()
