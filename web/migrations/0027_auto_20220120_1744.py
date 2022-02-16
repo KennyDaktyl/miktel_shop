@@ -21,7 +21,10 @@ class Migration(migrations.Migration):
             model_name="products",
             name="code",
             field=models.CharField(
-                blank=True, max_length=8, null=True, verbose_name="Kod kreskowy"
+                blank=True,
+                max_length=8,
+                null=True,
+                verbose_name="Kod kreskowy",
             ),
         ),
         migrations.AddField(

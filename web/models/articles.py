@@ -12,7 +12,9 @@ from .products import Category
 def file_size(value):
     limit = 6 * 1024 * 1024
     if value.size > limit:
-        raise ValidationError("Plik który chcesz wrzucić jest większy niż 6MB.")
+        raise ValidationError(
+            "Plik który chcesz wrzucić jest większy niż 6MB."
+        )
 
 
 class Articles(BaseModel):

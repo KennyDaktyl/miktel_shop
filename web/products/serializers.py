@@ -22,7 +22,7 @@ class ProductSerializer(serializers.ModelSerializer):
             "qty",
             "product_url",
             "image",
-            "tax"
+            "tax",
         )
         ordering_fields = "__all__"
         ordering = ("name",)

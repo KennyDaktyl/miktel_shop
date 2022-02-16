@@ -306,7 +306,9 @@ class Migration(migrations.Migration):
                 (
                     "google_maps_link",
                     models.TextField(
-                        blank=True, null=True, verbose_name="Link z mapy google"
+                        blank=True,
+                        null=True,
+                        verbose_name="Link z mapy google",
                     ),
                 ),
                 (

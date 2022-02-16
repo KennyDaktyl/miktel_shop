@@ -116,13 +116,15 @@ class ProductDetails(DetailView):
             if details_form.is_valid():
                 details_form.save()
                 context["photo_m_form"] = AddMainPhotoForm(
-                    instance=self.object)
+                    instance=self.object
+                )
                 context["details_form"] = details_form
                 messages.success(self.request, self.success_message_add)
                 return self.render_to_response(context=context)
             else:
                 context["photo_m_form"] = AddMainPhotoForm(
-                    instance=self.object)
+                    instance=self.object
+                )
                 context["details_form"] = details_form
                 messages.success(self.request, self.success_message_error)
                 return self.render_to_response(context=context)

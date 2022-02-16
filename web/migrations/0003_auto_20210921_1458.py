@@ -148,7 +148,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "promo",
-                    models.BooleanField(default=False, verbose_name="Promocja"),
+                    models.BooleanField(
+                        default=False, verbose_name="Promocja"
+                    ),
                 ),
                 (
                     "discount",

@@ -17,7 +17,9 @@ from .base import BaseModel
 def file_size(value):
     limit = 6 * 1024 * 1024
     if value.size > limit:
-        raise ValidationError("Plik który chcesz wrzucić jest większy niż 6MB.")
+        raise ValidationError(
+            "Plik który chcesz wrzucić jest większy niż 6MB."
+        )
 
 
 class Store(BaseModel):
@@ -612,7 +614,9 @@ class Images(BaseModel):
         related_name="product_gallery",
     )
     main = models.BooleanField(verbose_name="Zdjęcie główne", default=False)
-    stamp = models.BooleanField(verbose_name="Zdjęcie wzornika?", default=False)
+    stamp = models.BooleanField(
+        verbose_name="Zdjęcie wzornika?", default=False
+    )
     carousel = models.BooleanField(
         verbose_name="Zdjęcie na karuzele?", default=False
     )

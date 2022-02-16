@@ -107,7 +107,7 @@
                 <td class="align-middle" >{% if invoice %} {{ order.invoice_number}} {% else %} n/d {% endif %}</td>
                 <td class="align-middle" >{{ order.get_total_price_netto }}</td>
                 <td class="align-middle" >{{ order.total_price }}</td>
-                <td class="align-middle" >{% if not invoice %} <a href="{% url 'create_invoice' pk=order.id %}"><i class="text-success fas fa-file-invoice"></i></a>{% else %} n/d {% endif %}</td>
+                <td class="align-middle" >{% if order.pdf and order.invoice %} <a href="{% url 'create_invoice' pk=order.id %}"><i class="text-success fas fa-file-invoice"></i></a>{% else %} n/d {% endif %}</td>
                 <td class="align-middle" ><button class="btn btn-outline-warning"><i class="fas fa-info-circle"></i></button></td>
               </tr>
               {% endfor %}

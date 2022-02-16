@@ -137,7 +137,10 @@ class Orders(BaseModel):
     )
     date = models.DateTimeField(auto_now_add=True, db_index=True)
     store = models.ForeignKey(
-        "Store", on_delete=models.CASCADE, verbose_name="Magazyn", db_index=True
+        "Store",
+        on_delete=models.CASCADE,
+        verbose_name="Magazyn",
+        db_index=True,
     )
 
     client = models.ForeignKey(
@@ -173,7 +176,8 @@ class Orders(BaseModel):
     )
     sms_send = models.BooleanField(verbose_name="Sms", default=False)
     sms_time = models.TimeField(
-        verbose_name="Czas smsa", blank=True, null=True)
+        verbose_name="Czas smsa", blank=True, null=True
+    )
     promo = models.BooleanField(verbose_name="Promocja", default=False)
     discount = models.IntegerField(verbose_name="Rabat", default=0)
     info = models.CharField(
@@ -189,7 +193,8 @@ class Orders(BaseModel):
         max_digits=7,
     )
     products_item = models.JSONField(
-        verbose_name="Produkty", null=True, blank=True)
+        verbose_name="Produkty", null=True, blank=True
+    )
     pdf = models.ForeignKey(
         "Invoices",
         verbose_name="Faktura",
@@ -241,7 +246,9 @@ class ProductCopy(BaseModel):
         blank=True,
     )
     product_id = models.ForeignKey(
-        "Products", verbose_name="Relacja do produktu", on_delete=models.CASCADE
+        "Products",
+        verbose_name="Relacja do produktu",
+        on_delete=models.CASCADE,
     )
 
     qty = models.IntegerField(verbose_name="Ilość pozycji")
@@ -269,7 +276,7 @@ class ProductCopy(BaseModel):
 
 class Invoices(BaseModel):
     number = models.CharField(max_length=120)
-    pdf = models.FileField(upload_to='pdf/', null=True, blank=True)
+    pdf = models.FileField(upload_to="pdf/", null=True, blank=True)
 
     class Meta:
         ordering = ("-id",)

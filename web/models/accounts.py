@@ -38,7 +38,9 @@ class Profile(BaseModel):
         null=True,
         blank=True,
     )
-    company = models.BooleanField(verbose_name="Profil firmowy?", default=False)
+    company = models.BooleanField(
+        verbose_name="Profil firmowy?", default=False
+    )
 
     class Meta:
         ordering = ("user",)

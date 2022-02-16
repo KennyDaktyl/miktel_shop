@@ -1,43 +1,22 @@
-from operator import inv
-from django_renderpdf.views import PDFView
-from io import BytesIO
-from unittest.mock import patch
-from xml.etree.ElementInclude import include
-from django.core.files import File
-from django.template.loader import get_template
-import tempfile
-import os
-from django.template.loader import render_to_string
-from weasyprint import HTML
-from django.core.files.storage import FileSystemStorage
-import json
 from datetime import datetime
-from decimal import Decimal
 
 import stripe
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views import View
+from weasyprint import HTML
 
 from web.cart.cart import Cart
-from web.constans import DELIVERY_TYPE
-from web.models import (
-    Address,
-    Category,
-    DeliveryMethod,
-    Orders,
-    Invoices,
-    PayMethod,
-    Profile,
-    Store,
-)
+from web.models import DeliveryMethod, Orders, Invoices, PayMethod, Store
 
-from .forms import OrderBigForm, OrderDetailsForm
-from .functions import new_number, render_to_pdf, create_pdf_invoice
+from .forms import OrderDetailsForm
+from .functions import create_pdf_invoice, new_number, new_invoice_number
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -57,14 +36,10 @@ class OrderDetails(View):
             if "inpost_box_id" in request.POST:
                 inpost_box_id = request.POST.get("inpost_box_id")
                 request.session["inpost_box_id"] = inpost_box_id
-                print(inpost_box_id)
-                print("sdsds")
 
         if form.is_valid():
-            bill_select = form.cleaned_data["bill_select"]
             pay_method = PayMethod.objects.get(
-                name=form.cleaned_data["payment_method"]
-            )
+                name=form.cleaned_data["payment_method"])
             delivery_method = DeliveryMethod.objects.get(
                 name=form.cleaned_data["delivery_method"]
             )
@@ -80,14 +55,14 @@ class OrderDetails(View):
             order.store = store
             order.client = request.user
             order.phone_number = request.user.profile.phone_number
-            order.delivery_method = DeliveryMethod.objects.get(
-                id=int(request.session["delivery_method"])
-            )
+            order.delivery_method = delivery_method.name
             order.pay_method = PayMethod.objects.get(
                 id=int(request.session["pay_method"])
             )
+            order.invoice = True if form.cleaned_data["bill_select"] == "2" else False
             # order.inpost_box = inpost_box_id
-            order.total_price = float(order.delivery_method.price) + float(
+            print(cart.get_total_price())
+            order.total_price = float(delivery_method.price) + float(
                 cart.get_total_price()
             )
             order.save()
@@ -126,59 +101,45 @@ class OrderCompleted(View):
     def get(self, request, order):
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
+        if order.invoice:
+            invoice_number = new_invoice_number()
+            invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
+            invoice.number = invoice_number
+            invoice.save()
+            create_pdf_invoice(order, invoice, created)
         order.main_status = 2
         order.status = 2
-        order.products_item = cart.get_products()
+        if not order.products_item:
+            order.products_item = cart.get_products()
         order.save()
         cart.clear()
         ctx = {"order": order}
-        create_pdf_invoice(order)
         return render(request, "orders/order_completed.html", ctx)
 
 
-class CreateInvoice(PDFView):
-    template_name = 'orders/invoice.html'
-    allow_force_html = True
-    prompt_download = True
-    download_name = "faktura.pdf"
+class CreateInvoice(View):
+    def get(self, request, pk):
+        order = Orders.objects.get(pk=pk)
+        
 
-    def get_context_data(self, *args, **kwargs):
-        """Pass some extra context to the template."""
-        context = super().get_context_data(*args, **kwargs)
-        order = Orders.objects.get(pk=kwargs['pk'])
-        invoice_number = (order.number).replace("/", "-")
-        filename = f"faktura_{invoice_number}_WWW.pdf"
-        invoice, created = Invoices.objects.get_or_create(
-            pdf=filename)
-        invoice_number = (order.number).replace("/", "-")
-        if created:
-            os.remove(os.path.join(
-                settings.MEDIA_ROOT + "pdf/" + str(invoice.pdf)))
-        order.pdf = invoice
-        order.save()
-        context['order'] = order
-        context['invoice'] = invoice
-        print(self.get_download_name())
-        # invoice.pdf.save(filename, File(BytesIO(pdf.content)))
-        return context
+        filename = f"faktura_{order.pdf.number}.pdf"
+        context = {
+            "order": order,
+        }
+        html_string = render_to_string("orders/invoice.html", context)
 
-    #     filename = f"faktura_{invoice_number}_WWW.pdf"
-    #     invoice, created = Invoices.objects.get_or_create(
-    #         pdf=filename)
-    #     if created:
-    #         os.remove(os.path.join(
-    #             settings.MEDIA_ROOT + "pdf/" + str(invoice.pdf)))
-    #     invoice.pdf.save(filename, File(BytesIO(pdf.content)))
-    #     order.pdf = invoice
-    #     order.save()
-    #     print(order.products_item)
-    #     invoice.number = f"{invoice_number}_WWW"
-    #     pdf = render_to_pdf('orders/invoice.html',
-    #                         {'order': order, 'invoice': invoice})
-    #     invoice.pdf.save(filename, File(BytesIO(pdf.content)))
-    #     response = HttpResponse(invoice.pdf, content_type='application/pdf')
-    #     response['Content-Disposition'] = f'filename={filename}'
-    #     return response
+        html = HTML(string=html_string)
+        html.write_pdf(target=settings.MEDIA_ROOT + f"/pdf/{filename}")
+
+        fs = FileSystemStorage(settings.MEDIA_ROOT + "/pdf")
+        with fs.open(settings.MEDIA_ROOT + f"/pdf/{filename}") as pdf:
+            response = HttpResponse(
+                pdf, content_type="application/pdf")
+            response[
+                "Content-Disposition"] = 'attachment; filename="{}"'.format(
+                filename
+            )
+        return response
 
 
 order_completed = OrderCompleted.as_view()

@@ -85,7 +85,7 @@
           Data wystawienia:
         </p>
         <p style="width: 100%;">
-          {{ invoice.created_time }}
+          {{ order.pdf.created_time }}
         </p>
         <p style="width: 100%;font-weight: 900;">
           Data sprzedaży:
@@ -95,7 +95,7 @@
         </p>
       </div>
    </div>
-   <h1>Faktura VAT {{ invoice.number }}</h1>
+   <h1>Faktura VAT {{ order.pdf.number }}</h1>
    <table>
      <thead>
        <tr>
