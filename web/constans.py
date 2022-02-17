@@ -9,9 +9,8 @@ ORDER_STATUS = sorted(ORDER_STATUS)
 
 MAIN_ORDER_STATUS = (
     (1, "Otwarte"),
-    (2, "Potwierdzone"),
+    (2, "Do zapłaty"),
     (3, "Zapłacone"),
-    (4, "Zrealizowane"),
 )
 MIAN_ORDER_STATUS = sorted(MAIN_ORDER_STATUS)
 

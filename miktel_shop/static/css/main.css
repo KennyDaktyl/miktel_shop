@@ -623,6 +623,10 @@ i.fa-shopping-basket:hover {
     color: white;
 }
 
+i.link_invoice {
+    font-size: 30px;
+}
+
 table {
     overflow-x: auto;
     display: block;

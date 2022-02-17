@@ -17,10 +17,10 @@ from stripe.api_resources import payment_intent
 
 from web.cart.cart import Cart
 from web.cart.my_context_processor import cart
-from web.models.orders import Orders
+from web.models.orders import Orders, Invoices, DeliveryMethod
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
-
+from web.orders.functions import new_invoice_number, create_pdf_invoice
 
 @method_decorator(login_required, name="dispatch")
 class CheckoutView(View):
@@ -41,24 +41,11 @@ class CheckoutView(View):
         ctx = {
             "order": order,
             "PAYMENT_INTENT_CLIENT_SECRET": intent["client_secret"],
+            "PUBLIC_KEY": settings.STRIPE_PUBLIC_KEY
         }
         return render(request, "payments/checkout.html", ctx)
 
 
-@method_decorator(login_required, name="dispatch")
-class PayMentSuccessView(View):
-    def get(self, request, order):
-        order = Orders.objects.get(id=order)
-        order.main_status = 3
-        order.status = 2
-        order.save()
-
-        cart = Cart(request)
-        cart.clear()
-        if order.delivery_method == "Odbiór osobisty":
-            return redirect("order_completed", order=order.id)
-        ctx = {"order": order}
-        return render(request, "payments/checkout_success.html", ctx)
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -109,6 +96,30 @@ class StripeWebhookView(APIView):
         #     print('Unhandled event type {}'.format(event.type))
 
         return HttpResponse(status=200)
+
+@method_decorator(login_required, name="dispatch")
+class PayMentSuccessView(View):
+    def get(self, request, order):
+        cart = Cart(request)
+        order = Orders.objects.get(id=order)
+        order.main_status = 3
+        order.status = 2
+        if order.pdf_created:
+            invoice_number = new_invoice_number()
+            invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
+            invoice.number = invoice_number
+            invoice.save()
+            create_pdf_invoice(order, invoice, created)
+        if not order.products_item:
+            order.products_item = cart.get_products()
+        delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
+        if delivery_method.inpost_box and not order.products_item.get(delivery_method.id):
+            order.products_item.update(delivery_method.delivery_dict)
+        order.save()
+        cart.clear()
+        ctx = {"order": order}
+        return render(request, "payments/checkout_success.html", ctx)
+
 
 
 checkout = CheckoutView.as_view()

@@ -59,9 +59,7 @@ class OrderDetails(View):
             order.pay_method = PayMethod.objects.get(
                 id=int(request.session["pay_method"])
             )
-            order.invoice = True if form.cleaned_data["bill_select"] == "2" else False
-            # order.inpost_box = inpost_box_id
-            print(cart.get_total_price())
+            order.pdf_created = True if form.cleaned_data["bill_select"] == "2" else False
             order.total_price = float(delivery_method.price) + float(
                 cart.get_total_price()
             )
@@ -101,7 +99,7 @@ class OrderCompleted(View):
     def get(self, request, order):
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
-        if order.invoice:
+        if order.pdf_created:
             invoice_number = new_invoice_number()
             invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
             invoice.number = invoice_number
@@ -111,6 +109,9 @@ class OrderCompleted(View):
         order.status = 2
         if not order.products_item:
             order.products_item = cart.get_products()
+        delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
+        if delivery_method.inpost_box and order.products_item.get(delivery_method.id):
+            order.products_item.update(delivery_method.delivery_dict)
         order.save()
         cart.clear()
         ctx = {"order": order}
@@ -122,7 +123,7 @@ class CreateInvoice(View):
         order = Orders.objects.get(pk=pk)
         
 
-        filename = f"faktura_{order.pdf.number}.pdf"
+        filename = f"faktura_{order.invoice_created.number}.pdf"
         context = {
             "order": order,
         }

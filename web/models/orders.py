@@ -95,7 +95,12 @@ class DeliveryMethod(BaseModel):
         decimal_places=2,
         max_digits=7,
     )
-
+    price_netto = models.DecimalField(
+        verbose_name="Cena netto",
+        default=0.00,
+        decimal_places=2,
+        max_digits=7,
+    )
     default = models.BooleanField(verbose_name="Czy domyślny?", default=False)
     inpost_box = models.BooleanField(
         verbose_name="Czy dostawa to paczkomat?", default=False
@@ -115,6 +120,7 @@ class DeliveryMethod(BaseModel):
             for el in all_methods:
                 el.default = False
                 el.save()
+        self.price_netto = float(self.price) / 1.23
         super(DeliveryMethod, self).save(*args, **kwargs)
 
     class Meta:
@@ -123,6 +129,19 @@ class DeliveryMethod(BaseModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def delivery_dict(self):
+        return {str(self.id): {
+                "name": self.name.replace(" (*tylko przedpłata)", ""),
+                "price": float(self.price),
+                "price_netto": float(self.price_netto),
+                "quantity": 1,
+                "vat": 23,
+                "total_vat": float(self.price) - float(self.price_netto),
+                "t_netto": float(self.price_netto),
+                "t_brutto": float(self.price)}
+        }
 
 
 # Pay_Method have to not NONE - order have to get pay_method id
@@ -184,7 +203,6 @@ class Orders(BaseModel):
         verbose_name="Informacje", max_length=256, null=True, blank=True
     )
     is_paid = models.BooleanField(verbose_name="Czy zapłacono?", default=False)
-    invoice = models.BooleanField(verbose_name="Faktura?", default=False)
 
     total_price = models.DecimalField(
         verbose_name="Cena zamówienia",
@@ -195,7 +213,9 @@ class Orders(BaseModel):
     products_item = models.JSONField(
         verbose_name="Produkty", null=True, blank=True
     )
-    pdf = models.ForeignKey(
+    pdf_created = models.BooleanField(verbose_name="Faktura?", default=False)
+
+    invoice_created = models.ForeignKey(
         "Invoices",
         verbose_name="Faktura",
         on_delete=models.CASCADE,

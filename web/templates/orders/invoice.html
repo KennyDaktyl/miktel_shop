@@ -53,9 +53,17 @@
       src: url("/usr/share/fonts/truetype/freefont/FreeSans.ttf");
       margin: 3px;
       padding: 0;
+      font-size: 12px;
      }
      table {
        width: 100%;
+     }
+     th {
+       font-size: 12px;
+       font-weight: bold;
+     }
+     td {
+       font-size: 12px;
      }
 </style>  
 <meta charset="UTF-8">
@@ -73,6 +81,15 @@
           32-061 Rybna, ul. Wspólna 2<br>
           Nip: 678 280 52 34<br>
         </p>
+        <p style="width: 100%;font-weight: 900; margin-top: 30px;">
+          Nabywca:
+        </p>
+        <p style="width: 100%;">
+          {{ order.client.profile.company_name}}<br>
+          {% if order.client.profile.company_name_l %} {{ order.client.profile.company_name_l}} {% endif %}<br>
+          {{ order.client.address.post_code}}, {{ order.client.address.city}}, {{ order.client.address.street}} {{ order.client.address.house }} {% if order.client.address.door %} {{ order.client.address.door }} {% endif %}<br>
+          Nip: {{ order.client.profile.nip_number}}<br>
+        </p>
       </div>
       <div class="box-50-r">
         <p style="width: 100%;font-weight: 900;">
@@ -85,7 +102,7 @@
           Data wystawienia:
         </p>
         <p style="width: 100%;">
-          {{ order.pdf.created_time }}
+          {{ order.invoice_created.created_time }}
         </p>
         <p style="width: 100%;font-weight: 900;">
           Data sprzedaży:
@@ -93,9 +110,10 @@
         <p style="width: 100%;">
           {{ order.created_time }}
         </p>
+        
       </div>
    </div>
-   <h1>Faktura VAT {{ order.pdf.number }}</h1>
+   <h4 style="width: 100%; text-align: center;">Faktura VAT {{ order.invoice_created.number }}</h4>
    <table>
      <thead>
        <tr>

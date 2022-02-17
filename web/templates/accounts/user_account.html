@@ -88,6 +88,7 @@
                 <th scope="col">Dokument</th>
                 <th scope="col">Data</th>
                 <th scope="col">Status</th>
+                <th scope="col">Płatność</th>
                 <th scope="col">Numer zamówienia</th>
                 <th scope="col">Numer dokumentu</th>
                 <th scope="col">Kwota netto</th>
@@ -100,14 +101,15 @@
                 {% for order in orders %}
               <tr class="">
                 <th class="align-middle" scope="row">{{ forloop.counter }}</th>
-                <td class="align-middle">{% if invoice %} Faktura {% else %} Paragon {% endif %}</td>
+                <td class="align-middle">{% if order.pdf and order.invoice %} Faktura {% else %} Paragon {% endif %}</td>
                 <td class="align-middle" >{{ order.date }}</td>
                 <td class="align-middle" >{{ order.get_status_display }}</td>
+                <td class="align-middle" >{{ order.get_main_status_display }}</td>
                 <td class="align-middle" >{{ order.number }}</td>
-                <td class="align-middle" >{% if invoice %} {{ order.invoice_number}} {% else %} n/d {% endif %}</td>
+                <td class="align-middle" >{% if order.pdf_created and order.invoice_created %} {{ order.invoice_created.number }} {% else %} paragon {% endif %}</td>
                 <td class="align-middle" >{{ order.get_total_price_netto }}</td>
                 <td class="align-middle" >{{ order.total_price }}</td>
-                <td class="align-middle" >{% if order.pdf and order.invoice %} <a href="{% url 'create_invoice' pk=order.id %}"><i class="text-success fas fa-file-invoice"></i></a>{% else %} n/d {% endif %}</td>
+                <td class="align-middle" >{% if order.pdf_created and order.invoice_created %} <a href="{% url 'create_invoice' pk=order.id %}"><i class="text-success fas fa-file-invoice"></i></a>{% else %} n/d {% endif %}</td>
                 <td class="align-middle" ><button class="btn btn-outline-warning"><i class="fas fa-info-circle"></i></button></td>
               </tr>
               {% endfor %}

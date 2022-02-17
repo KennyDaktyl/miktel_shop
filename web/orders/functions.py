@@ -94,8 +94,6 @@ def render_to_pdf(template_src, context_dict={}):
     html = template.render(context_dict)
     result = BytesIO()
 
-    print(new_invoice_number())
-
     pdf = pisa.pisaDocument(
         src=BytesIO(html.encode("UTF-8")), dest=result, encoding="UTF-8"
     )
@@ -109,11 +107,10 @@ def create_pdf_invoice(order, invoice, created):
         os.remove(
             os.path.join(settings.MEDIA_ROOT + "pdf/faktura_" + str(invoice.number))
         )
-    order.pdf = invoice
+    order.invoice_created = invoice
     order.save()
-    invoice.save()
     context = {
-        "order": order, "invoice": order.pdf
+        "order": order, "invoice": order.invoice_created
     }
     html_string = render_to_string("orders/invoice.html", context)
 
