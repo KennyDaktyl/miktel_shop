@@ -21,7 +21,7 @@ Wybierz paczkomat | serwiswrybnej.com
 
 {% block content %}
 <input type="hidden" id="order_id" value="{{ order.id }}">
-
+<input type="hidden" id="pay_method" value="{{ pay_method }}">
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row fixed-top">
     <li class="breadcrumb-item text-dark"><a href="{% url 'front_page' %}" class="text-dark">Strona startowa</a></li>
     <li class="breadcrumb-item text-dark"><a href="{% url 'cart_details' %}" class="text-dark">Koszyk</a></li>
@@ -41,8 +41,12 @@ Wybierz paczkomat | serwiswrybnej.com
 {% block script %}
 <script>
     var order = $('#order_id').val();
-    console.log(order);
-    var url_redirect = '/payment/checkout/' + order;
+    var pay_method = $('#pay_method').val();
+    if (pay_method == "1" || pay_method == "3") {
+        var url_redirect = '/zamowienia/podsumowanie/' + order;    
+    } else {
+        var url_redirect = '/payment/checkout/' + order;
+    }
     var url=window.location.href;
     var easypack_map = $('#easypack-map');
     window.easyPackAsyncInit = function () {

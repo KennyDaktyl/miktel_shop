@@ -29,7 +29,6 @@ class CheckoutView(View):
         try:
             order.inpost_box = request.session["inpost_box_id"]
             order.save()
-            del request.session["inpost_box_id"]
         except:
             pass
         intent = stripe.PaymentIntent.create(
@@ -44,8 +43,6 @@ class CheckoutView(View):
             "PUBLIC_KEY": settings.STRIPE_PUBLIC_KEY
         }
         return render(request, "payments/checkout.html", ctx)
-
-
 
 
 @method_decorator(csrf_exempt, name="dispatch")
@@ -123,6 +120,5 @@ class PayMentSuccessView(View):
 
 
 checkout = CheckoutView.as_view()
-payment_success = PayMentSuccessView.as_view()
 payment_intent = PaymentIntentView.as_view()
 stripe_webhook = StripeWebhookView.as_view()

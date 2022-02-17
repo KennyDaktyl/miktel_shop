@@ -5,7 +5,6 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import get_template, render_to_string
 from weasyprint import HTML
-from xhtml2pdf import pisa
 
 from web.models import Invoices, Orders
 
@@ -103,6 +102,7 @@ def render_to_pdf(template_src, context_dict={}):
 
 
 def create_pdf_invoice(order, invoice, created):
+    print(created)
     if not created:
         os.remove(
             os.path.join(settings.MEDIA_ROOT + "pdf/faktura_" + str(invoice.number))

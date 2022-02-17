@@ -1,6 +1,5 @@
-const url = "{% url 'payment_success' %}"
 const order_id = $('#order_id').val();
-const domain = location.protocol + '//' + location.host + '/payment/payment_success' + "/" + order_id;
+const domain = location.protocol + '//' + location.host + '/zamowienia/podsumowanie/' + order_id;
 // A reference to Stripe.js initialized with your real test publishable API key.
 var PAYMENT_INTENT_CLIENT_SECRET = $('#p_i_sec').val();
 var PUBLIC_KEY = $('#public_key').val();

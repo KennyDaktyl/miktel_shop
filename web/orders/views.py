@@ -34,9 +34,9 @@ class OrderDetails(View):
         inpost_box_id = None
         if request.is_ajax():
             if "inpost_box_id" in request.POST:
-                inpost_box_id = request.POST.get("inpost_box_id")
-                request.session["inpost_box_id"] = inpost_box_id
-
+                request.session["inpost_box_id"] = request.POST.get(
+                    "inpost_box_id")
+                
         if form.is_valid():
             pay_method = PayMethod.objects.get(
                 name=form.cleaned_data["payment_method"])
@@ -45,7 +45,6 @@ class OrderDetails(View):
             )
             request.session["pay_method"] = pay_method.id
             request.session["delivery_method"] = delivery_method.id
-
             today = datetime.now()
             store = Store.objects.all().first()
             order = Orders()
@@ -56,16 +55,12 @@ class OrderDetails(View):
             order.client = request.user
             order.phone_number = request.user.profile.phone_number
             order.delivery_method = delivery_method.name
-            order.pay_method = PayMethod.objects.get(
-                id=int(request.session["pay_method"])
-            )
-            order.pdf_created = True if form.cleaned_data["bill_select"] == "2" else False
             order.total_price = float(delivery_method.price) + float(
                 cart.get_total_price()
             )
             order.save()
 
-            ctx = {"order": order}
+            ctx = {"order": order, "pay_method": order.pay_method.id}
             if delivery_method.inpost_box:
                 return render(request, "orders/inpost_box.html", ctx)
 
@@ -82,6 +77,24 @@ class OrderDetails(View):
 
 
 @method_decorator(login_required, name="dispatch")
+class OrderSuccess(View):
+    def get(self, request, order):
+        order = Orders.objects.get(id=order)
+        order.main_status = 3
+        order.inpost_box = request.session["inpost_box_id"]
+        order.status = 2
+        order.save()
+        del request.session["inpost_box_id"]
+
+        if order.pay_method == 4:
+            ctx = {"order": order}
+            return render(request, "payments/checkout_success.html", ctx)
+        else:
+            return redirect("order_completed", order=order.id)
+        
+
+
+@method_decorator(login_required, name="dispatch")
 class InpostBoxSearchView(View):
     def get(self, request, order):
         ctx = {"order_id": order}
@@ -89,17 +102,18 @@ class InpostBoxSearchView(View):
 
     def post(self, request, order):
         order = Orders.objects.get(pk=order)
-        if order.pay_method.pay_method == 4:
-            return redirect("checkout", order=order.id)
-        else:
+        if order.pay_method in ["Przelew tradycyjny", "Płatność przy odbiorze"]:
             return redirect("order_completed", order=order.id)
+        else:
+            return redirect("checkout", order=order.id)
 
 
+@method_decorator(login_required, name="dispatch")
 class OrderCompleted(View):
     def get(self, request, order):
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
-        if order.pdf_created:
+        if order.invoice:
             invoice_number = new_invoice_number()
             invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
             invoice.number = invoice_number
@@ -118,6 +132,7 @@ class OrderCompleted(View):
         return render(request, "orders/order_completed.html", ctx)
 
 
+@method_decorator(login_required, name="dispatch")
 class CreateInvoice(View):
     def get(self, request, pk):
         order = Orders.objects.get(pk=pk)
@@ -144,4 +159,5 @@ class CreateInvoice(View):
 
 
 order_completed = OrderCompleted.as_view()
+order_success = OrderSuccess.as_view()
 create_invoice = CreateInvoice.as_view()
