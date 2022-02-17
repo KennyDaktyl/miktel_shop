@@ -245,6 +245,21 @@ class Orders(BaseModel):
     @property
     def get_total_price_netto(self):
         return round(float(self.total_price / Decimal(1.23)), 2)
+    
+    @property
+    def get_invoice_total_price_netto(self):
+        total_price = round(float(self.total_price / Decimal(1.23)), 2)
+        delivery_method = DeliveryMethod.objects.get(name=self.delivery_method)
+        return round(float(total_price) + float(delivery_method.price_netto), 2)
+    
+    @property
+    def get_invoice_total_price(self):
+        delivery_method = DeliveryMethod.objects.get(name=self.delivery_method)
+        return round(float(self.total_price) + float(delivery_method.price_netto), 2)
+    
+    @property
+    def get_invoice_total_vat(self):
+        return round(float(self.get_invoice_total_price - self.get_invoice_total_price_netto), 2)
 
     class Meta:
         ordering = ("-id",)

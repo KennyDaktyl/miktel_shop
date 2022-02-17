@@ -5,6 +5,12 @@
     font-family: FreeSans;
     src: url("/usr/share/fonts/truetype/freefont/FreeSerif.ttf");
     }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     
     body {
     font-family: FreeSans;
@@ -20,7 +26,7 @@
     table {
        border: 1px solid;
        margin: 0 auto;
-       width: 70%;
+       width: 100%;
      }
 
      td, th {
@@ -61,6 +67,7 @@
      th {
        font-size: 12px;
        font-weight: bold;
+       box-sizing: border-box;
      }
      td {
        font-size: 12px;
@@ -114,7 +121,7 @@
       </div>
    </div>
    <h4 style="width: 100%; text-align: center;">Faktura VAT {{ order.invoice_created.number }}</h4>
-   <table>
+   <table class="main">
      <thead>
        <tr>
          <th class="">L.P</th>
@@ -146,5 +153,43 @@
       {% endfor %}
      </tbody>
    </table>
+   
+   <table style="margin-top:15px">
+      <thead>
+        <tr>
+          <th colspan="7" style="border: 0px">Według stawki VAT</th>
+          <th style="border: 0px">Kwota Vat</th>
+          <th style="border: 0px">Warość netto</th>
+          <th style="border: 0px">Warość brutto</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr style="border: 0px">
+       <td colspan="7" style="border: 0px">Podstawowy podatek VAT 23%</td>
+       <td style="border: 0px">{{ order.get_invoice_total_vat }}</td>
+       <td style="border: 0px">{{ order.get_invoice_total_price_netto }}</td>
+       <td style="border: 0px">{{ order.get_invoice_total_price }}</td>
+     </tr>
+    </tbody>
+    </table>
+    
+    <table style="margin-top:15px">
+      <thead>
+        <tr>
+          <th colspan="8" style="border: 0px"></th>
+          <th style="border: 0px">Kwota do zapłaty:</th>
+        </tr>
+      </thead>
+      <tbody>
+       <tr style="border: 0px">
+         <td colspan="8" style="border: 0px"></td>
+          <td style="border: 0px">{{ order.get_invoice_total_price }}</td>
+      </tr>
+      </tbody>
+    </table>
+    
+      <div style="margin: 0px; padding: xp; width: 40%; background-color: gray; display: inline;">Odebrał</div>
+      <div style="border: 1px solid;height: 80px;  width: 40%; display: inline;"></div>
+      <div style="border: 1px solid;height: 80px;  width: 40%; display: inline;"></div>
  </body>
 </html>
