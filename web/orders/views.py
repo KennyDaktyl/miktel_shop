@@ -100,6 +100,7 @@ class PaymentSuccess(View):
             if order.pdf_created:
                 invoice_number = new_invoice_number()
                 invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
+                invoice.order = order
                 invoice.number = invoice_number
                 invoice.save()
                 create_pdf_invoice(order, invoice, created)
@@ -132,6 +133,7 @@ class OrderCompleted(View):
         if order.pdf_created:
             invoice_number = new_invoice_number()
             invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
+            invoice.order = order
             invoice.number = invoice_number
             invoice.save()
             create_pdf_invoice(order, invoice, created)

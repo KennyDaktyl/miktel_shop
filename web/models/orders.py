@@ -310,6 +310,8 @@ class ProductCopy(BaseModel):
 
 
 class Invoices(BaseModel):
+    order = models.ForeignKey("Orders", on_delete=models.CASCADE, null=True,
+        blank=True)
     number = models.CharField(max_length=120)
     pdf = models.FileField(upload_to="pdf/", null=True, blank=True)
 
