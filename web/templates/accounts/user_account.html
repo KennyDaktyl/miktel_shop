@@ -78,8 +78,10 @@
             {% endif %}
         </div>
         {% endif %}
+        
 
         {% if orders %}
+
         <div class="table-responsive col-12 mt-3">
         <table class="table ">
             <thead class="thead-dark">
@@ -101,7 +103,7 @@
                 {% for order in orders %}
               <tr class="">
                 <th class="align-middle" scope="row">{{ forloop.counter }}</th>
-                <td class="align-middle">{% if order.pdf and order.invoice %} Faktura {% else %} Paragon {% endif %}</td>
+                <td class="align-middle">{% if order.pdf_created and order.invoice_created %} Faktura {% else %} Paragon {% endif %}</td>
                 <td class="align-middle" >{{ order.date }}</td>
                 <td class="align-middle" >{{ order.get_status_display }}</td>
                 <td class="align-middle" >{{ order.get_main_status_display }}</td>

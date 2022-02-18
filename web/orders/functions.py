@@ -102,7 +102,6 @@ def render_to_pdf(template_src, context_dict={}):
 
 
 def create_pdf_invoice(order, invoice, created):
-    print(created)
     if not created:
         os.remove(
             os.path.join(settings.MEDIA_ROOT + "pdf/faktura_" + str(invoice.number))

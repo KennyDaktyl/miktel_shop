@@ -166,9 +166,9 @@
       <tbody>
       <tr style="border: 0px">
        <td colspan="7" style="border: 0px">Podstawowy podatek VAT 23%</td>
-       <td style="border: 0px">{{ order.get_invoice_total_vat }}</td>
-       <td style="border: 0px">{{ order.get_invoice_total_price_netto }}</td>
-       <td style="border: 0px">{{ order.get_invoice_total_price }}</td>
+       <td style="border: 0px">{{ order.get_invoice_total_vat|floatformat:2 }}</td>
+       <td style="border: 0px">{{ order.get_invoice_total_price_netto|floatformat:2 }}</td>
+       <td style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }}</td>
      </tr>
     </tbody>
     </table>
@@ -176,20 +176,41 @@
     <table style="margin-top:15px">
       <thead>
         <tr>
-          <th colspan="8" style="border: 0px"></th>
+          <th colspan="8" style="border: 0px; text-align: left;">Sposób płatności</th>
           <th style="border: 0px">Kwota do zapłaty:</th>
         </tr>
       </thead>
       <tbody>
        <tr style="border: 0px">
-         <td colspan="8" style="border: 0px"></td>
-          <td style="border: 0px">{{ order.get_invoice_total_price }}</td>
+         <td colspan="8" style="border: 0px;  text-align: left">{{ order.pay_method }}</td>
+          <td style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }}</td>
       </tr>
       </tbody>
     </table>
-    
-      <div style="margin: 0px; padding: xp; width: 40%; background-color: gray; display: inline;">Odebrał</div>
-      <div style="border: 1px solid;height: 80px;  width: 40%; display: inline;"></div>
-      <div style="border: 1px solid;height: 80px;  width: 40%; display: inline;"></div>
+
+    <div style="display: flex; flex-wrap: wrap; flex-direction: row; width: 100%; margin-top: 20px;">
+      <div style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Status płatności</div>
+      {% if order.main_status != 3 %}
+      <p style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Kwota do zapłaty:</p>
+      {% else %}
+      <p style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Zapłacono przelewem</p>
+      {% endif %}
+      <p style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }}</p>
+    </div>
+
+    <section style="display: flex; flex-wrap: wrap; flex-direction: row; width: 100%; margin-top: 20px;">
+        <div style="display: flex; flex-wrap: wrap; flex-direction: row; width: 100%;">
+          <div style="margin: 0px; padding: 0px; width: 50%; background-color: gray; text-align: center;">Odebrał</div>
+          <div style="margin: 0px; padding: 0px; width: 50%; background-color: gray; text-align: center;">Wystawił</div>
+        </div>
+        <div style="display: flex; flex-wrap: nowrap; flex-direction: row; width: 100%;">
+          <div style="border: 1px solid;height: 80px; margin: 0px; padding: 0px; width: 50%; box-sizing: border-box;"></div>
+          <div style="border: 1px solid;height: 80px; margin: 0px; padding: 0px; width: 50%; box-sizing: border-box;"></div>
+        </div>
+        <div style="display: flex; flex-wrap: nowrap; flex-direction: row; width: 100%;">
+          <p style="border: 1px solid; margin: 0px; padding: 0px; width: 50%; box-sizing: border-box; text-align: center; font-size: 9px;">Podpis osoby upoważnionej do odbioru faktury VAT</p>
+          <p style="border: 1px solid; margin: 0px; padding: 0px; width: 50%; box-sizing: border-box; text-align: center; font-size: 9px;">Podpis osoby upoważnionej do wystawienia faktury VAT</p>
+        </div>
+    </section>
  </body>
 </html>

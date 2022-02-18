@@ -149,7 +149,7 @@ class Orders(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.CharField(verbose_name="Numer zamówienia", max_length=64)
     main_status = models.IntegerField(
-        verbose_name="Status zamówienia", choices=MAIN_ORDER_STATUS, default=1
+        verbose_name="Status płatności", choices=MAIN_ORDER_STATUS, default=1
     )
     status = models.IntegerField(
         verbose_name="Status zamówienia", choices=ORDER_STATUS, default=1
@@ -314,7 +314,7 @@ class Invoices(BaseModel):
     pdf = models.FileField(upload_to="pdf/", null=True, blank=True)
 
     class Meta:
-        ordering = ("-id",)
+        ordering = ("-created_time",)
         verbose_name_plural = "Faktury"
 
     def __str__(self):
