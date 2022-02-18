@@ -215,7 +215,7 @@ class Orders(BaseModel):
     )
     pdf_created = models.BooleanField(verbose_name="Faktura?", default=False)
 
-    invoice_created = models.ForeignKey(
+    invoice_created = models.OneToOneField(
         "Invoices",
         verbose_name="Faktura",
         on_delete=models.CASCADE,
