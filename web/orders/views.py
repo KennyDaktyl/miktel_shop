@@ -96,7 +96,7 @@ class PaymentSuccess(View):
             pass
         order.status = 2
         order.save()
-        if order.pay_method == 4:
+        if order.pay_method == "przelew p24" and order.delivery_method == "InPost Paczkomaty (*tylko przedpłata)":
             if order.pdf_created:
                 invoice_number = new_invoice_number()
                 invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
