@@ -24,7 +24,7 @@
     <h1 class="mx-auto col-12">Płatność została wykonana.</h1>
     <h3 class="mx-auto col-12">Numer zamówienia: <b>{{ order.number }}</b></h2>
     <h3 class="mx-auto col-12">Typ dokumnetu: <b>{% if order.invoice_created and order.pdf_created %} Faktura {% else %}Paragon {% endif %}</b></h2>
-    <p class="mx-auto col-12">{% if order.pdf_created and order.invoice_created %} <a href="{% url 'create_invoice' pk=order.id %}"><i class="text-success fas fa-file-invoice link_invoice"></i></a>{% endif %}</p>
+    <p class="mx-auto col-12">{% if order.pdf_created and order.invoice_created %} <a href="{{ MEDIA_URL }}pdf/faktura_{{order.invoice_created.pdf }}" download="{{ MEDIA_URL }}pdf/faktura_{{order.invoice_created.pdf }}"><i class="text-success fas fa-file-invoice link_invoice"></i></a>{% endif %}</p>
     <h3 class="mx-auto col-12">Wysyłka inpost-paczkomaty do:</h2>
     <p class="mx-auto col-12"><b>{{ order.inpost_box }}</b></p>
 </div>

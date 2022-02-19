@@ -85,33 +85,6 @@ class OrderDetails(View):
 
 
 @method_decorator(login_required, name="dispatch")
-class PaymentSuccess(View):
-    def get(self, request, order):
-        order = Orders.objects.get(id=order)
-        order.main_status = 3
-        try:
-            order.inpost_box = request.session["inpost_box_id"]
-            del request.session["inpost_box_id"]
-        except:
-            pass
-        order.status = 2
-        order.save()
-        if order.pay_method == "przelew p24" and order.delivery_method == "InPost Paczkomaty (*tylko przedpłata)":
-            if order.pdf_created:
-                invoice_number = new_invoice_number()
-                invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
-                invoice.order = order
-                invoice.number = invoice_number
-                invoice.save()
-                create_pdf_invoice(order, invoice, created)
-            ctx = {"order": order}
-            return render(request, "payments/checkout_success.html", ctx)
-        else:
-            return redirect("order_completed", order=order.id)
-        
-
-
-@method_decorator(login_required, name="dispatch")
 class InpostBoxSearchView(View):
     def get(self, request, order):
         ctx = {"order_id": order}
@@ -130,22 +103,32 @@ class OrderCompleted(View):
     def get(self, request, order):
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
-        if order.pdf_created:
-            invoice_number = new_invoice_number()
-            invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
-            invoice.order = order
-            invoice.number = invoice_number
-            invoice.save()
-            create_pdf_invoice(order, invoice, created)
         order.status = 2
         if not order.products_item:
             order.products_item = cart.get_products()
         delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
         if delivery_method.inpost_box and not order.products_item.get(delivery_method.id):
             order.products_item.update(delivery_method.delivery_dict)
-        order.save()
+        if order.pdf_created and not order.invoice_created:
+            invoice_number = new_invoice_number()
+            invoice, created = Invoices.objects.get_or_create(
+                pdf=invoice_number)
+            invoice.order = order
+            invoice.number = invoice_number
+            invoice.save()
+            create_pdf_invoice(order, invoice, created)
         cart.clear()
         ctx = {"order": order}
+        order.save()
+        if order.pay_method == "przelew p24" and order.delivery_method == "InPost Paczkomaty (*tylko przedpłata)":
+            try:
+                order.inpost_box = request.session["inpost_box_id"]
+                del request.session["inpost_box_id"]
+            except:
+                pass
+            order.main_status =3
+            order.save()
+            return render(request, "payments/checkout_success.html", ctx)
         return render(request, "orders/order_completed.html", ctx)
 
 
@@ -176,5 +159,4 @@ class CreateInvoice(View):
 
 
 order_completed = OrderCompleted.as_view()
-order_success = PaymentSuccess.as_view()
 create_invoice = CreateInvoice.as_view()

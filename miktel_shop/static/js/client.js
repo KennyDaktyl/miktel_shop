@@ -1,5 +1,5 @@
 const order_id = $('#order_id').val();
-const domain = location.protocol + '//' + location.host + '/zamowienia/podsumowanie/' + order_id;
+const domain = location.protocol + '//' + location.host + '/zamowienia/zamowienie_zakonczono/' + order_id;
 // A reference to Stripe.js initialized with your real test publishable API key.
 var PAYMENT_INTENT_CLIENT_SECRET = $('#p_i_sec').val();
 var PUBLIC_KEY = $('#public_key').val();
@@ -47,12 +47,6 @@ form.addEventListener('submit', function(event) {
       },
       payment_method_options: {
         p24: {
-          // In order to be able to pass the `tos_shown_and_accepted` parameter, you must
-          // ensure that the P24 regulations and information obligation consent
-          // text is clearly visible to the customer. See
-          // stripe.com/docs/payments/p24/accept-a-payment#requirements
-          // for directions.
-          // tos_shown_and_accepted: true,
         }
       },
       return_url: domain,

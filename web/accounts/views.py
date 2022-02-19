@@ -26,8 +26,11 @@ from .forms import (
     AddressForm,
     BusinessForm,
     ChangePasswordForm,
+    CompanyForm,
     LoginForm,
     UserForm,
+    StandartForm,
+    BusinessForm
 )
 from .functions import *
 
@@ -189,12 +192,72 @@ class UserOrders(View):
 
 
 @method_decorator(login_required, name="dispatch")
-class UserProfile(View):
+class UserProfileView(View):
     def get(self, request):
         profile = Profile.objects.get(user=request.user)
-        ctx = {"profile": profile}
-        return render(request, "accounts/user_account.html", ctx)
+        print(request.GET.get("change_account"))
+        if profile.company or request.GET.get("change_account"):
+            bussines_form = CompanyForm(instance=profile,
+                initial={
+                "email": profile.user.email})
+            ctx = {"profile": profile, "bussines_form": bussines_form, "change_account": True}
+            return render(request, "accounts/user_account.html", ctx)
+        else:
+            standart_form = StandartForm(
+                initial={
+                    "email": profile.user.email,
+                    "phone_number": profile.phone_number
+                    })
+            ctx = {"profile": profile, "standart_form": standart_form}
+            return render(request, "accounts/user_account.html", ctx)
 
+    def post(self,request):
+        profile = Profile.objects.get(user=request.user)
+        bussines_form = CompanyForm(request.POST)
+        standart_form = StandartForm(request.POST)
+        if "bussines_form" in request.POST:
+            if bussines_form.is_valid():
+                user = User.objects.get(profile=profile)
+                user.email = bussines_form.cleaned_data["email"]
+                user.save()
+                bussines_form.save(commit=False)
+                profile.company = True
+                profile.company_name = bussines_form.cleaned_data["company_name"]
+                profile.company_name_l = bussines_form.cleaned_data["company_name_l"]
+                profile.nip_number = bussines_form.cleaned_data["nip_number"]
+                profile.phone_number = bussines_form.cleaned_data["phone_number"]
+                profile.save()
+                messages.error(request, "Zapisano nowe dane.")
+                return redirect('user_profile')
+            else:
+                profile = Profile.objects.get(user=request.user)
+                bussines_form = CompanyForm(request.POST, initial={
+                "email": profile.user.email,
+                "company_name": profile.company_name,
+                "company_name_l": profile.company_name_l,
+                "nip_number": profile.nip_number,
+                "phone_number": profile.phone_number})
+                print(bussines_form)
+                messages.error(request, "Błąd danych formularza")
+                ctx = {"profile": profile,
+                       "bussines_form": bussines_form, "change_account": True}
+                return render(request, "accounts/user_account.html", ctx)
+        if "standart_form" in request.POST:
+            if standart_form.is_valid():
+                user = User.objects.get(profile=profile)
+                user.email = standart_form.cleaned_data["email"]
+                user.save()
+                profile.phone_number = standart_form.cleaned_data["phone_number"]
+                profile.save()
+                messages.error(request, "Zapisano nowe dane.")
+                return redirect('user_profile')
+            else:
+                standart_form = StandartForm(request.POST, initial={
+                    "email": profile.user.email,
+                    "phone_number": profile.phone_number})
+                messages.error(request, "Błąd danych formularza")
+                ctx = {"profile": profile, "standart_form": standart_form}
+                return render(request, "accounts/user_account.html", ctx)
 
 @method_decorator(login_required, name="dispatch")
 class UserAddress(View):
@@ -225,10 +288,9 @@ class UserAddress(View):
                 address.user = request.user
             address.street = address_form.cleaned_data["street"]
             address.house = address_form.cleaned_data["house"]
+            address.door = address_form.cleaned_data["door"]
             address.post_code = address_form.cleaned_data["zip_code"]
             address.city = address_form.cleaned_data["city"]
-            if address_form.cleaned_data["door"]:
-                address.door = address_form.cleaned_data["door"]
             address.save()
             messages.error(request, "Zapisano nowy adres.")
             return render(request, "accounts/user_account.html")
@@ -444,4 +506,4 @@ user_account = UserAccount.as_view()
 user_orders = UserOrders.as_view()
 change_password = ChangeOnlyPasswordView.as_view()
 user_addresses = UserAddress.as_view()
-user_profile = UserProfile.as_view()
+user_profile = UserProfileView.as_view()

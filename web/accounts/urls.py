@@ -22,7 +22,7 @@ urlpatterns = [
         name="company_registration",
     ),
     path("konto_uzytkownika", user_account, name="user_account"),
-    path("pofil_uzytkownika", user_profile, name="user_profile"),
+    path("profil_uzytkownika", user_profile, name="user_profile"),
     path("zamowienia", user_orders, name="user_orders"),
     path("zmiana_hasla", change_password, name="change_password"),
     path("adresy_uzytkownika", user_addresses, name="user_address"),

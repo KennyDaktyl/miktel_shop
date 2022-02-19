@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.core.validators import MinLengthValidator, EmailValidator
 
 from .base import BaseModel
 
@@ -22,6 +23,7 @@ class Profile(BaseModel):
 
     nip_number = models.CharField(
         verbose_name="Numer nip",
+        validators=[MinLengthValidator(10)],
         max_length=13,
         null=True,
         blank=True,
