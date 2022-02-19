@@ -7,7 +7,6 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django_resized import ResizedImageField
 
-from django_cleanup.signals import cleanup_pre_delete
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
