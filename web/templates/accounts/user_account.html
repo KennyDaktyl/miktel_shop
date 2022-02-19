@@ -213,7 +213,7 @@
                 <td class="align-middle" >{% if order.pdf_created and order.invoice_created %} {{ order.invoice_created.number }} {% else %} paragon {% endif %}</td>
                 <td class="align-middle" >{{ order.get_total_price_netto }}</td>
                 <td class="align-middle" >{{ order.total_price }}</td>
-                <td class="align-middle" >{% if order.pdf_created and order.invoice_created %} <a href="{{ MEDIA_URL }}pdf/faktura_{{order.invoice_created.pdf }}" download="{{ MEDIA_URL }}pdf/faktura_{{order.invoice_created.pdf }}"><i class="text-success fas fa-file-invoice"></i></a>{% else %} n/d {% endif %}</td>
+                <td class="align-middle" >{% if order.pdf_created and order.invoice_created %} <a href="{{ MEDIA_URL }}{{order.invoice_created.pdf }}" download="Faktura_{{order.invoice_created.number }}.pdf"><i class="text-success fas fa-file-invoice"></i></a>{% else %} n/d {% endif %}</td>
                 <td class="align-middle" ><button class="btn btn-outline-warning"><i class="fas fa-info-circle"></i></button></td>
               </tr>
               {% endfor %}

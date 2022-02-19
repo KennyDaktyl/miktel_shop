@@ -1,4 +1,5 @@
 from datetime import datetime
+from operator import inv
 
 import stripe
 from django.conf import settings
@@ -111,12 +112,14 @@ class OrderCompleted(View):
             order.products_item.update(delivery_method.delivery_dict)
         if order.pdf_created and not order.invoice_created:
             invoice_number = new_invoice_number()
+            file_name = "pdf/faktura_" + invoice_number + ".pdf"
             invoice, created = Invoices.objects.get_or_create(
-                pdf=invoice_number)
+                pdf=file_name)
             invoice.order = order
             invoice.number = invoice_number
             invoice.save()
-            create_pdf_invoice(order, invoice, created)
+            print(invoice.pdf, file_name)
+            create_pdf_invoice(order, invoice, created, file_name)
         cart.clear()
         ctx = {"order": order}
         order.save()
@@ -132,31 +135,29 @@ class OrderCompleted(View):
         return render(request, "orders/order_completed.html", ctx)
 
 
-@method_decorator(login_required, name="dispatch")
-class CreateInvoice(View):
-    def get(self, request, pk):
-        order = Orders.objects.get(pk=pk)
-        
+# @method_decorator(login_required, name="dispatch")
+# class CreateInvoice(View):
+#     def get(self, request, pk):
+#         order = Orders.objects.get(pk=pk)
+#         filename = f"faktura_{order.invoice_created.number}.pdf"
+#         context = {
+#             "order": order,
+#         }
+#         html_string = render_to_string("orders/invoice.html", context)
 
-        filename = f"faktura_{order.invoice_created.number}.pdf"
-        context = {
-            "order": order,
-        }
-        html_string = render_to_string("orders/invoice.html", context)
+#         html = HTML(string=html_string)
+#         html.write_pdf(target=settings.MEDIA_ROOT + f"/pdf/{filename}")
 
-        html = HTML(string=html_string)
-        html.write_pdf(target=settings.MEDIA_ROOT + f"/pdf/{filename}")
-
-        fs = FileSystemStorage(settings.MEDIA_ROOT + "/pdf")
-        with fs.open(settings.MEDIA_ROOT + f"/pdf/{filename}") as pdf:
-            response = HttpResponse(
-                pdf, content_type="application/pdf")
-            response[
-                "Content-Disposition"] = 'attachment; filename="{}"'.format(
-                filename
-            )
-        return response
+#         fs = FileSystemStorage(settings.MEDIA_ROOT + "/pdf")
+#         with fs.open(settings.MEDIA_ROOT + f"/pdf/{filename}") as pdf:
+#             response = HttpResponse(
+#                 pdf, content_type="application/pdf")
+#             response[
+#                 "Content-Disposition"] = 'attachment; filename="{}"'.format(
+#                 filename
+#             )
+#         return response
 
 
 order_completed = OrderCompleted.as_view()
-create_invoice = CreateInvoice.as_view()
+# create_invoice = CreateInvoice.as_view()

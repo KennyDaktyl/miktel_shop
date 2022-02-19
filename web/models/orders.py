@@ -7,6 +7,11 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django_resized import ResizedImageField
 
+from django_cleanup.signals import cleanup_pre_delete
+from django.db.models.signals import pre_delete
+from django.dispatch.dispatcher import receiver
+
+
 from web.constans import *
 
 from .base import BaseModel
@@ -313,11 +318,16 @@ class Invoices(BaseModel):
     order = models.ForeignKey("Orders", on_delete=models.CASCADE, null=True,
         blank=True)
     number = models.CharField(max_length=120)
-    pdf = models.FileField(upload_to="pdf/", null=True, blank=True)
+    pdf = models.FileField(null=True, blank=True)
 
     class Meta:
         ordering = ("-created_time",)
         verbose_name_plural = "Faktury"
 
     def __str__(self):
-        return self.number
+        return str(self.pdf)
+
+
+@receiver(pre_delete, sender=Invoices)
+def mymodel_delete(sender, instance, **kwargs):
+    instance.pdf.delete(False)

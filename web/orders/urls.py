@@ -16,9 +16,9 @@ urlpatterns = [
         order_completed,
         name="order_completed",
     ),
-    path(
-        "create_invoice/<int:pk>",
-        create_invoice,
-        name="create_invoice",
-    ),
+    # path(
+    #     "create_invoice/<int:pk>",
+    #     create_invoice,
+    #     name="create_invoice",
+    # ),
 ]

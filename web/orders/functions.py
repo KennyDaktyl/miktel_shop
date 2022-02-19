@@ -53,6 +53,7 @@ def new_invoice_number():
     try:
         last_number = Invoices.objects.all().first()
         if last_number:
+            last_number.number = last_number.number.replace("pdf/faktura_", "").replace(".pdf", "")
             number_indx = int(last_number.number[:3]) + 1
             ln_month = last_number.created_time.month
             ln_year = last_number.created_time.year
@@ -101,11 +102,12 @@ def render_to_pdf(template_src, context_dict={}):
     return None
 
 
-def create_pdf_invoice(order, invoice, created):
+def create_pdf_invoice(order, invoice, created, file_name):
     if not created:
         os.remove(
-            os.path.join(settings.MEDIA_ROOT + "pdf/faktura_" + str(invoice.number))
+            os.path.join(settings.MEDIA_ROOT + file_name)
         )
+    print("Test0 " + os.path.join(settings.MEDIA_ROOT + file_name))
     order.invoice_created = invoice
     order.save()
     context = {
@@ -114,4 +116,4 @@ def create_pdf_invoice(order, invoice, created):
     html_string = render_to_string("orders/invoice.html", context)
 
     html = HTML(string=html_string)
-    html.write_pdf(target=settings.MEDIA_ROOT + f"pdf/faktura_{invoice.number}")
+    html.write_pdf(target=settings.MEDIA_ROOT + str(invoice.pdf))
