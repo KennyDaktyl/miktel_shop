@@ -52,6 +52,7 @@ def new_invoice_number():
     day = datetime.now().day
     try:
         last_number = Invoices.objects.all().first()
+        print("last_number" + last_number.number)
         if last_number:
             last_number.number = last_number.number.replace("pdf/faktura_", "").replace(".pdf", "")
             number_indx = int(last_number.number[:3]) + 1

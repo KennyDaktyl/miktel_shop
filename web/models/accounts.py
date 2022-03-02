@@ -45,7 +45,7 @@ class Profile(BaseModel):
     )
 
     class Meta:
-        ordering = ("user",)
+        ordering = ("-id",)
         verbose_name_plural = "Profil użytkownika"
 
     def __str__(self):

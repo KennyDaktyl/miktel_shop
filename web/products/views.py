@@ -138,28 +138,14 @@ class ApiProductsListSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         search = self.request.query_params.get("search")
-        products = Products.objects.all()
-        # q_object = reduce(and_, (Q(sub_category_type__sub_category__category__name__contains=search)
-        #                          | Q(sub_category_type__sub_category__name__contains=search)
-        #                          | Q(sub_category_type__name__contains=search)
-        #                          | Q(brand__name__contains=search)
-        #                          | Q(name__contains=search)
-        #                          for search in search))
-        # products = products.filter(q_object)
-        # for prod in products:
-        #     print(prod)
         products = Products.objects.filter(name__icontains=search)
         return products[0:20]
 
     def post(self, request, *args, **kwargs):
         search = request.POST["search"]
         products = Products.objects.filter(name__icontains=search)
-        # products = Products.objects.all()
-        # serializer = ProductSerializer(products, many=True)
-        serializer = self.get_serializer(products, many=True)
-        ctx = {"products": serializer.data}
+        ctx = {"object_list": products}
         return render(request, self.template_name, ctx)
-        return HttpResponse(serializer.data)
 
 
 class ApiProductsListSetJS(generics.ListAPIView):
@@ -168,24 +154,6 @@ class ApiProductsListSetJS(generics.ListAPIView):
 
     def get_queryset(self):
         search = self.request.query_params.get("search")
-        # search_tab = search.split(" ")
-        # products = Products.objects.all()
-
-        # q_object = reduce(
-        #         or_, (Q(name__contains=search) for search in search_tab))
-        # products = products.filter(q_object)
-        # products = Products.objects.filter(
-        #     Q(name__icontains=search) for search in search_tab)
-        # print(search)
-        # print(search_tab)
-        # q_object = reduce(and_, (Q(sub_category_type__name__contains=search) for search in search_tab))
-        # products = products.filter(q_object)
-        # q_object = reduce(
-        #     and_, (Q(name__contains=search) for search in search_tab))
-        # products = products.filter(q_object)
-        # print(products)
-        # for prod in products:
-        #     print(prod)
         products = Products.objects.filter(name__icontains=search)
         return products[0:20]
 

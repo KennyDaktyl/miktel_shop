@@ -71,6 +71,7 @@
      }
      td {
        font-size: 12px;
+       padding: 5px 7px;
      }
 </style>  
 <meta charset="UTF-8">
@@ -94,7 +95,7 @@
         <p style="width: 100%;">
           {{ order.client.profile.company_name}}<br>
           {% if order.client.profile.company_name_l %} {{ order.client.profile.company_name_l}} {% endif %}<br>
-          {{ order.client.address.post_code}}, {{ order.client.address.city}}, {{ order.client.address.street}} {{ order.client.address.house }} {% if order.client.address.door %} {{ order.client.address.door }} {% endif %}<br>
+          {{ order.client.address.post_code}} {{ order.client.address.city}}, {{ order.client.address.street}} {{ order.client.address.house }} {% if order.client.address.door %} {{ order.client.address.door }} {% endif %}<br><br>
           Nip: {{ order.client.profile.nip_number}}<br>
         </p>
       </div>
@@ -144,8 +145,8 @@
            <td>szt.</td>
            <td>{{ value.quantity }}</td>
            <td>{{ value.price_netto|floatformat:2  }}</td>
-           <td>{{ value.t_netto|floatformat:2  }}</td>
-           <td>{{ value.vat|floatformat:2  }}</td>
+           <td>{{ value.t_netto|floatformat:2 }}</td>
+           <td>23%</td>
            <td>{{ value.total_vat|floatformat:2  }}</td>
            <td>{{ value.price|floatformat:2  }}</td>
             <td>{{ value.t_brutto|floatformat:2  }}</td>

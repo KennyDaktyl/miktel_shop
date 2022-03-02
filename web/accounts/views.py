@@ -34,35 +34,8 @@ from .forms import (
 )
 from .functions import *
 
+
 User = get_user_model()
-
-
-# class ChoiceAccountReqisterView(View):
-#     def get(self, request):
-#         categorys = Category.objects.filter(is_active=True)
-#         form = LoginForm()
-#         ctx = {'form': form, 'categorys': categorys}
-#         return render(request, "account/choice_account_register.html", ctx)
-
-#     def post(self, request):
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             email = form.cleaned_data['email']
-#             password = form.cleaned_data['password']
-#             user = authenticate(request, username=email, password=password)
-#             if user is not None:
-#                 # token = Token.objects.get_or_create(user=user)
-#                 login(request, user)
-#                 return redirect('order_details')
-#             else:
-#                 messages.error(request, 'Błędne hasło lub login')
-#                 ctx = {'form': form}
-#                 return render(request, "account/choice_account_register.html",
-#                               ctx)
-#         else:
-#             messages.error(request, 'Błędne hasło lub login')
-#             ctx = {'form': form}
-#             return render(request, "account/choice_account_register.html", ctx)
 
 
 class RegisterUserView(View):
@@ -127,13 +100,14 @@ class CompanyRegistrationView(View):
                 new_user.username = form.cleaned_data["email"]
                 new_user.email = form.cleaned_data["email"]
                 new_user.set_password(form.cleaned_data["password"])
+                new_user.is_active = False
                 new_user.save()
 
                 profile = Profile()
                 profile.user_id = new_user.id
-                profile.business_name = form.cleaned_data["business_name"]
-                profile.business_name_l = form.cleaned_data["business_name_l"]
-                profile.phone_number = form.cleaned_data["phone_number"]
+                profile.company_name = form.cleaned_data["business_name"]
+                profile.company_name_l = form.cleaned_data["business_name_l"]
+                profile.phone_number = form.cleaned_data["phone_number"].replace(" ", "")
                 profile.nip_number = form.cleaned_data["nip_number"]
                 profile.company = True
                 profile.save()
@@ -144,7 +118,7 @@ class CompanyRegistrationView(View):
                 address.house = form.cleaned_data["house"]
                 if form.cleaned_data["door"]:
                     address.door = form.cleaned_data["door"]
-                address.zip_code = form.cleaned_data["zip_code"]
+                address.post_code = form.cleaned_data["zip_code"]
                 address.city = form.cleaned_data["city"]
                 address.save()
                 host = request.scheme + "://" + request.get_host()
@@ -161,7 +135,6 @@ class CompanyRegistrationView(View):
                 return redirect("front_page")
         else:
             messages.error(request, "Wystąpił błąd")
-            print(form.errors)
             ctx = {"form": form}
             return render(request, "accounts/register_business.html", ctx)
 
@@ -195,7 +168,6 @@ class UserOrders(View):
 class UserProfileView(View):
     def get(self, request):
         profile = Profile.objects.get(user=request.user)
-        print(request.GET.get("change_account"))
         if profile.company or request.GET.get("change_account"):
             bussines_form = CompanyForm(instance=profile,
                 initial={

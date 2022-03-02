@@ -20,6 +20,7 @@ EMAIL_REGEX = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
 
 
 def is_digit(value):
+    value = value.replace(" ", "")
     if value.isdigit() == False:
         raise ValidationError('Wpisuj tylko cyfry')
 
