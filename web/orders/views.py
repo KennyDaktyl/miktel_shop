@@ -5,6 +5,7 @@ import stripe
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -14,10 +15,10 @@ from django.views import View
 from weasyprint import HTML
 
 from web.cart.cart import Cart
-from web.models import DeliveryMethod, Orders, Invoices, PayMethod, Store
+from web.models import DeliveryMethod, Orders, Invoices, PayMethod, Store, ActivateToken
 
 from .forms import OrderDetailsForm
-from .functions import create_pdf_invoice, new_number, new_invoice_number
+from .functions import create_pdf_invoice, new_number, new_invoice_number, send_email_order_completed
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -102,6 +103,7 @@ class InpostBoxSearchView(View):
 @method_decorator(login_required, name="dispatch")
 class OrderCompleted(View):
     def get(self, request, order):
+        host = request.scheme + "://" + request.get_host()
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
         order.status = 2
@@ -118,46 +120,36 @@ class OrderCompleted(View):
             invoice.order = order
             invoice.number = invoice_number
             invoice.save()
-            print(invoice.pdf, file_name)
             create_pdf_invoice(order, invoice, created, file_name)
+            send_email_order_completed(order, host, file_name)
+        else:
+            send_email_order_completed(order, host)
         cart.clear()
         ctx = {"order": order}
         order.save()
-        if order.pay_method == "przelew p24" and order.delivery_method == "InPost Paczkomaty (*tylko przedpłata)":
+        if order.pay_method == "przelew p24":
             try:
                 order.inpost_box = request.session["inpost_box_id"]
                 del request.session["inpost_box_id"]
             except:
                 pass
-            order.main_status =3
+            order.main_status = 3
             order.save()
             return render(request, "payments/checkout_success.html", ctx)
         return render(request, "orders/order_completed.html", ctx)
 
 
-# @method_decorator(login_required, name="dispatch")
-# class CreateInvoice(View):
-#     def get(self, request, pk):
-#         order = Orders.objects.get(pk=pk)
-#         filename = f"faktura_{order.invoice_created.number}.pdf"
-#         context = {
-#             "order": order,
-#         }
-#         html_string = render_to_string("orders/invoice.html", context)
+class RedirectFromOrderEmail(View):
+    def get(self, request, token):
+        try:
+            user = ActivateToken.objects.get(activation_token=token).user
+            login(request, user)
+            return redirect("user_orders")
+        except ActivateToken.DoesNotExist:
+            messages.error(request, "Błędny token")
+            return redirect("front_page")
 
-#         html = HTML(string=html_string)
-#         html.write_pdf(target=settings.MEDIA_ROOT + f"/pdf/{filename}")
-
-#         fs = FileSystemStorage(settings.MEDIA_ROOT + "/pdf")
-#         with fs.open(settings.MEDIA_ROOT + f"/pdf/{filename}") as pdf:
-#             response = HttpResponse(
-#                 pdf, content_type="application/pdf")
-#             response[
-#                 "Content-Disposition"] = 'attachment; filename="{}"'.format(
-#                 filename
-#             )
-#         return response
-
-
+order_details = OrderDetails.as_view()
+inpost_box = InpostBoxSearchView.as_view()
 order_completed = OrderCompleted.as_view()
-# create_invoice = CreateInvoice.as_view()
+redirect_from_email = RedirectFromOrderEmail.as_view()

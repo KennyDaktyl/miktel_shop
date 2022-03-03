@@ -136,7 +136,7 @@ class DeliveryMethod(BaseModel):
 
     @property
     def delivery_dict(self):
-        return {str(self.id): {
+        return {"dm" + str(self.id): {
                 "name": self.name.replace(" (*tylko przedpłata)", ""),
                 "price": float(self.price),
                 "price_netto": float(self.price_netto),
