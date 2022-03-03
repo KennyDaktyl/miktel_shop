@@ -88,6 +88,7 @@
           Michał Pielak Miktel<br>
           32-061 Rybna, ul. Wspólna 2<br>
           Nip: 678 280 52 34<br>
+          Numer konta: 21 1020 2906 0000 1702 0373 8333<br>
         </p>
         <p style="width: 100%;font-weight: 900; margin-top: 30px;">
           Nabywca:
@@ -95,7 +96,7 @@
         <p style="width: 100%;">
           {{ order.client.profile.company_name}}<br>
           {% if order.client.profile.company_name_l %} {{ order.client.profile.company_name_l}} {% endif %}<br>
-          {{ order.client.address.post_code}} {{ order.client.address.city}}, {{ order.client.address.street}} {{ order.client.address.house }} {% if order.client.address.door %} {{ order.client.address.door }} {% endif %}<br><br>
+          {{ order.client.address.post_code}} {{ order.client.address.city}}, {{ order.client.address.street}} {{ order.client.address.house }} {% if order.client.address.door %} / {{ order.client.address.door }} {% endif %}<br>
           Nip: {{ order.client.profile.nip_number}}<br>
         </p>
       </div>
@@ -178,13 +179,17 @@
       <thead>
         <tr>
           <th colspan="8" style="border: 0px; text-align: left;">Sposób płatności</th>
-          <th style="border: 0px">Kwota do zapłaty:</th>
+            {% if order.main_status != 3 %}
+            <th style="border: 0px">Kwota do zapłaty:</th>
+            {% else %}
+            <th style="border: 0px">Zapłacono</th>
+            {% endif %}
         </tr>
       </thead>
       <tbody>
        <tr style="border: 0px">
          <td colspan="8" style="border: 0px;  text-align: left">{{ order.pay_method }}</td>
-          <td style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }}</td>
+          <td style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }} PLN</td>
       </tr>
       </tbody>
     </table>
@@ -193,10 +198,13 @@
       <div style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Status płatności</div>
       {% if order.main_status != 3 %}
       <p style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Kwota do zapłaty:</p>
+        {% if order.pay_method == "przelew" %}
+        <p style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Termin płatności: 14 dni</p>
+        {% endif %}
       {% else %}
       <p style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Zapłacono przelewem</p>
       {% endif %}
-      <p style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }}</p>
+      <p style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }} PLN</p>
     </div>
 
     <section style="display: flex; flex-wrap: wrap; flex-direction: row; width: 100%; margin-top: 20px;">
