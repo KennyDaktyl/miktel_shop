@@ -475,7 +475,7 @@ class Products(BaseModel):
     )
     alt = models.CharField(
         verbose_name="Alternatywny text dla obrazka",
-        max_length=125,
+        max_length=125, blank=True, null=True
     )
     title = models.CharField(
         verbose_name="Title dla obrazka", blank=True, null=True, max_length=70
@@ -565,6 +565,8 @@ class Products(BaseModel):
         self.price_netto = float(self.price_promo) / float(
             "1." + str(self.tax.name)
         )
+        if not self.image:
+            self.image = "images/products/no_image.webp"
         super(Products, self).save()
 
     class Meta:
