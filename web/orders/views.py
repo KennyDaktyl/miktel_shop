@@ -133,11 +133,13 @@ class OrderCompleted(View):
                 pass
             order.main_status = 3
             order.save()
-            create_pdf_invoice(order, invoice, created, file_name)
+            if order.pdf_created and not order.invoice_created:
+                create_pdf_invoice(order, invoice, created, file_name)
             send_email_order_completed(order, host, file_name)
             return render(request, "payments/checkout_success.html", ctx)
-        create_pdf_invoice(order, invoice, created, file_name)
-        send_email_order_completed(order, host, file_name)
+        if order.pdf_created and not order.invoice_created:
+            create_pdf_invoice(order, invoice, created, file_name)
+            send_email_order_completed(order, host, file_name)
         return render(request, "orders/order_completed.html", ctx)
 
 
