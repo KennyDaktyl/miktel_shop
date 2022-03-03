@@ -23,10 +23,31 @@
 <div class="col-12 mx-auto text-center m-0 p-0 row d-flex align-items-start">
     <h1 class="mx-auto col-12">Płatność została wykonana.</h1>
     <h3 class="mx-auto col-12">Numer zamówienia: <b>{{ order.number }}</b></h2>
+<<<<<<< HEAD
     <h3 class="mx-auto col-12">Typ dokumentu: <b>{% if order.invoice %} Faktura {% else %}Paragon {% endif %}</b></h2>
     <p class="mx-auto col-12">{% if order.invoice %} <a href="{{ MEDIA_URL }}{{order.invoice.pdf }}" download="{{ MEDIA_URL }}pdf/faktura_{{order.invoice.pdf }}"><i class="text-success fas fa-file-invoice link_invoice"></i></a>{% endif %}</p>
+=======
+    <h3 class="mx-auto col-12">Typ dokumnetu: <b>{% if order.invoice_created and order.pdf_created %} Faktura {% else %}Paragon {% endif %}</b></h2>
+      <p class="mx-auto col-12">{% if order.pdf_created and order.invoice_created %} <a href="{{ MEDIA_URL }}{{order.invoice_created.pdf }}" download="Faktura_{{order.invoice_created.number }}.pdf"><i class="text-success fas fa-file-invoice link_invoice"></i></a>{% endif %}</p>    {% if order.inpost_box %}
+>>>>>>> 561ed0dae4ae1a36bc77768a2520cb44e3b3c9de
     <h3 class="mx-auto col-12">Wysyłka inpost-paczkomaty do:</h2>
     <p class="mx-auto col-12"><b>{{ order.inpost_box }}</b></p>
+    {% endif %}
+    {% if order.delivery_method == "Odbiór osobisty" %}
+    <h1 class="mx-auto col-12">Zapraszam po odbiór towaru</h1>
+    <h2 class="mx-auto col-12">Godziny pracy:</h2>
+    <p class="mx-auto col-12">Pon-piątek: 8-17</p>
+    <p class="mx-auto col-12">Sobota: 9-14</p>
+    <h2 class="mx-auto col-12">Adres:</h2>
+    <p class="mx-auto col-12">32-071 Rybna, ul. Wspólna 2</p>
+    <h2 class="mx-auto col-12">Telefon:</h2>
+    <p class="mx-auto col-12">506 029 980</p>
+    {% load thumbnail %}
+    {% thumbnail  order.store.image "275x275" crop='center' format="WEBP"  as im %}
+    <source srcset="{{ im }}" type="image/webp" />
+    <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{im}}" alt="{{image.alt}}" title="{{image.title}}">
+    {% endthumbnail %}
+    {% endif %}
 </div>
 
 {% endblock %}

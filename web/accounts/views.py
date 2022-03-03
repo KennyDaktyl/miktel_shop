@@ -1,23 +1,16 @@
 import uuid
 from audioop import add
 
-# from django.views.generic.edit \
-#     import CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 
-# from django.contrib.messages.views import SuccessMessageMixin
-# from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import redirect, render
 
-# from django.urls import reverse_lazy, reverse
-# from django.http import HttpResponseRedirect
 from django.utils.decorators import method_decorator
 from django.views import View
 
-# from products.models import Category
 from web.models import Address, Profile
 from web.models.accounts import ActivateToken
 from web.models.orders import Orders
@@ -146,7 +139,9 @@ class ActivateAccount(View):
         user.save()
         messages.error(request, "Konto aktywne.")
         login(request, user)
+        send_activate_info_message(user)
         return redirect("front_page")
+
 
 
 @method_decorator(login_required, name="dispatch")
@@ -209,7 +204,6 @@ class UserProfileView(View):
                 "company_name_l": profile.company_name_l,
                 "nip_number": profile.nip_number,
                 "phone_number": profile.phone_number})
-                print(bussines_form)
                 messages.error(request, "Błąd danych formularza")
                 ctx = {"profile": profile,
                        "bussines_form": bussines_form, "change_account": True}
@@ -230,6 +224,7 @@ class UserProfileView(View):
                 messages.error(request, "Błąd danych formularza")
                 ctx = {"profile": profile, "standart_form": standart_form}
                 return render(request, "accounts/user_account.html", ctx)
+
 
 @method_decorator(login_required, name="dispatch")
 class UserAddress(View):
@@ -273,40 +268,6 @@ class UserAddress(View):
             return render(request, "accounts/register_business.html", ctx)
 
 
-# class Activate(View):
-
-#     def get_user_agent(self):
-#         return self.request.META.get("HTTP_USER_AGENT", "")
-
-#     def get_ip(self):
-#         return self.request.META.get("REMOTE_ADDR", "")
-
-#     def post(self, request, *args, **kwargs):
-#         # ser = ActivateSerializer(data=request.data)
-#         # ser.is_valid(raise_exception=True)
-#         # vd = ser.validated_data
-#         try:
-#             u = User.objects.get(activation_token=vd['token'])
-#         except User.DoesNotExist:
-#             raise ValidationError("bad activation", "bad_activation")
-
-#         # if u.activation_send_time and (timezone.now() - u.activation_send_time) > \
-#         #         timedelta(minutes=settings.ACTIVATION_EXPIRATION_MINUTES):
-#         #     raise ValidationError(code='activation_expired',
-#         #                           detail='Email activation token expired.')
-
-#         u.activation_token = None
-#         u.activation_send_time = None
-#         u.is_active = True  # Not anymore.
-#         u.is_email_confirmed = True
-#         u.save()
-
-#         send_account_activated_email(to=u.email, recipient=u)
-#         data = ActivateUserInfoOutSerializer(u).data
-
-#         return Response(data_out.data)
-
-
 @method_decorator(login_required, name="dispatch")
 class ChangeOnlyPasswordView(View):
     def get(self, request):
@@ -327,47 +288,6 @@ class ChangeOnlyPasswordView(View):
             return render(request, "accounts/user_account.html", ctx)
 
 
-# # @method_decorator(login_required, name="dispatch")
-# # class UpdateUserView(PermissionRequiredMixin, SuccessMessageMixin, UpdateView):
-# #     permission_required = "account.change_user"
-# #     model = User
-# #     # fields = "__all__"
-# #     form_class = UserProfileForm
-# #     template_name_suffix = "_update_form"
-# #     success_url = reverse_lazy("profile_list")
-# #     success_message = 'Zaktualizowano konto użytkownika'
-
-# # @method_decorator(login_required, name="dispatch")
-# # class UpdateProfileView(PermissionRequiredMixin, SuccessMessageMixin,
-# #                         UpdateView):
-# #     permission_required = "account.change_profile"
-# #     model = Profile
-# #     # fields = "__all__"
-# #     form_class = ProfileForm
-# #     template_name_suffix = "_update_form"
-# #     success_url = reverse_lazy("profile_list")
-# #     success_message = 'Zaktualizowano profil użytkownika'
-
-# #     # def form_valid(self, form):
-# #     #     form.instance.user = SubCategory.objects.get(
-# #     #         pk=self.kwargs.get('pk'))
-# #     #     return super().form_valid(form)
-
-# # @method_decorator(login_required, name="dispatch")
-# # class DeleteProfileView(PermissionRequiredMixin, SuccessMessageMixin,
-# #                         DeleteView):
-# #     permission_required = "account.delete_profile"
-# #     model = Profile
-# #     fields = "__all__"
-# #     template_name_suffix = "_confirm_delete"
-# #     success_url = reverse_lazy("profile_list")
-# #     success_message = 'Usunięto konto'
-
-# #     def delete(self, request, *args, **kwargs):
-# #         messages.success(self.request, self.success_message)
-# #         return super(DeleteProfileView, self).delete(request, *args, **kwargs)
-
-
 class LoginView(View):
     def get(self, request):
         form = LoginForm()
@@ -383,7 +303,6 @@ class LoginView(View):
                 request, username=user_name_email, password=password
             )
             if user is not None:
-                # token = Token.objects.get_or_create(user=user)
                 login(request, user)
                 messages.error(request, "Zalogowano poprawnie.")
                 return redirect("front_page")
@@ -402,71 +321,6 @@ class LogoutView(View):
         logout(request)
         messages.error(request, "Wylogowano poprawnie.")
         return redirect("login")
-
-
-# @method_decorator(login_required, name='dispatch')
-# class AddAddressBasketView(SuccessMessageMixin, CreateView):
-
-#     model = Address
-#     form_class = AddressBasketForm
-
-#     success_message = 'Dodano adres klienta'
-#     success_url = ("")
-
-#     def get_initial(self, *args, **kwargs):
-#         initial = super(AddAddressBasketView, self).get_initial(**kwargs)
-#         initial['user'] = self.request.user
-#         return initial
-
-#     def form_valid(self, form):
-#         self.object = form.save(commit=False)
-#         self.object.user_id = self.request.user
-#         self.object.save()
-#         print(form.instance.user_id, )
-#         return HttpResponseRedirect(self.get_success_url())
-
-#     def get_success_url(self, *args, **kwargs):
-#         return reverse('order_details')
-
-
-# @method_decorator(login_required, name='dispatch')
-# class UpdateAddressBasketView(SuccessMessageMixin, UpdateView):
-
-#     model = Address
-#     form_class = AddressBasketForm
-#     template_name_suffix = "_update_form"
-#     success_message = 'Dodano adres klienta'
-#     success_url = ("")
-
-#     def get_initial(self, *args, **kwargs):
-#         initial = super(UpdateAddressBasketView, self).get_initial(**kwargs)
-#         initial['user'] = self.request.user
-#         return initial
-
-#     def form_valid(self, form):
-#         self.object = form.save(commit=False)
-#         self.object.user_id = self.request.user
-#         self.object.main = True
-#         self.object.save()
-#         print(form.instance.user_id, )
-#         return HttpResponseRedirect(self.get_success_url())
-
-#     def get_success_url(self, *args, **kwargs):
-#         return reverse('order_details')
-
-
-# @method_decorator(login_required, name="dispatch")
-# class DeleteAddressBasketView(SuccessMessageMixin, DeleteView):
-#     model = Address
-#     fields = "__all__"
-#     template_name_suffix = "_confirm_delete"
-#     success_url = reverse_lazy("order_details")
-#     success_message = 'Usunięto adres'
-
-#     def delete(self, request, *args, **kwargs):
-#         messages.success(self.request, self.success_message)
-#         return super(DeleteAddressBasketView,
-#                      self).delete(request, *args, **kwargs)
 
 
 user_login = LoginView.as_view()

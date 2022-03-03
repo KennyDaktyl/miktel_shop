@@ -1,12 +1,11 @@
 import os
-from io import BytesIO
+import requests
 
 from django.conf import settings
-from django.http import HttpResponse
-from django.template.loader import get_template, render_to_string
+from django.template.loader import render_to_string
 from weasyprint import HTML
 
-from web.models import Invoices, Orders
+from web.models import Invoices, Orders, ActivateToken
 
 
 def new_number(store_id, year, month, day):
@@ -112,6 +111,7 @@ def create_pdf_invoice(order):
 
     html = HTML(string=html_string)
     html.write_pdf(target=settings.MEDIA_ROOT + str(invoice.pdf))
+    return file_name
 
 
 def order_pay_status(order):
@@ -129,3 +129,34 @@ def order_inpost_box(request, order, delivery_method):
             del request.session["inpost_box_id"]
         except KeyError:
             pass
+
+def send_email_order_completed(order, host, file_name=False):
+    token = ActivateToken.objects.get(user=order.client).activation_token
+    html_content = render_to_string(
+        "orders/order_completed_email.html",
+        {
+            "order": order,
+            "user": order.client.profile, 
+            "button_link": f"{host}/zamowienia/redirect_from_email/{token}",
+        },
+    )
+    url = "https://api.eu.mailgun.net/v3/serwiswrybnej.pl/messages"
+    auth = ("api", settings.MAILGUN_API_KEY)
+    
+
+    subject = "Zamówienie nr: " + order.number
+    data = {
+        "from": "no-reply@serwiswrybnej.pl",
+        "to": [
+            order.client.email, "pielak@miktelgsm.pl"
+        ],
+        "subject": subject,
+        "html": html_content,
+    }
+    data["h:Reply-To"] = "Michał Pielak <pielak@miktelgsm.pl>"
+    if file_name:
+        invoice_file_path = os.path.join(settings.MEDIA_ROOT + file_name)
+        files=[("attachment", ("Faktura " + order.invoice_created.number, open(invoice_file_path, "rb").read())),]
+        return requests.post(url, auth=auth, data=data, files=files)
+    return requests.post(url, auth=auth, data=data)
+    
