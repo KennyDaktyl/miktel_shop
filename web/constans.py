@@ -2,17 +2,18 @@ ORDER_STATUS = (
     (1, "Otwarte"),
     (2, "W przygotowaniu"),
     (3, "W dostawie"),
-    (4, "Zrealizowane"),
-    (5, "Anulowane"),
+    (4, "Gotowe do odbioru"),
+    (5, "Zrealizowane"),
+    (6, "Anulowane"),
 )
 ORDER_STATUS = sorted(ORDER_STATUS)
 
-MAIN_ORDER_STATUS = (
+PAY_ORDER_STATUS = (
     (1, "Otwarte"),
     (2, "Do zapłaty"),
     (3, "Zapłacone"),
 )
-MIAN_ORDER_STATUS = sorted(MAIN_ORDER_STATUS)
+PAY_ORDER_STATUS = sorted(PAY_ORDER_STATUS)
 
 DELIVERY_TYPE = (
     (1, "Odbiór osobisty"),

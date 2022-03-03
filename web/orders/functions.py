@@ -14,7 +14,7 @@ def new_number(store_id, year, month, day):
         last_number = Orders.objects.filter(store_id=store_id).first()
         if last_number:
             number_indx = int(last_number.number[:3]) + 1
-            ln_day = last_number.date.day
+            ln_day = last_number.created_time.day
             if ln_day != day:
                 number_indx = 1
             if number_indx < 10:
@@ -52,7 +52,6 @@ def new_invoice_number():
     day = datetime.now().day
     try:
         last_number = Invoices.objects.all().first()
-        print("last_number" + last_number.number)
         if last_number:
             last_number.number = last_number.number.replace("pdf/faktura_", "").replace(".pdf", "")
             number_indx = int(last_number.number[:3]) + 1
@@ -88,33 +87,45 @@ def new_invoice_number():
         number_format = f"001-{day}-{month}-{year}-WWW"
         return number_format
 
+def create_invoice(order):
+    invoice_number = new_invoice_number()
+    file_name = "pdf/faktura_" + invoice_number + ".pdf"
+    invoice, created = Invoices.objects.get_or_create(
+        pdf=file_name, order=order)
+    invoice.order = order
+    invoice.number = invoice_number
+    invoice.save()
+    return invoice, created, file_name
 
-
-def render_to_pdf(template_src, context_dict={}):
-    template = get_template(template_src)
-    html = template.render(context_dict)
-    result = BytesIO()
-
-    pdf = pisa.pisaDocument(
-        src=BytesIO(html.encode("UTF-8")), dest=result, encoding="UTF-8"
-    )
-    if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type="application/pdf")
-    return None
-
-
-def create_pdf_invoice(order, invoice, created, file_name):
+def create_pdf_invoice(order):
+    invoice, created, file_name = create_invoice(order)
     if not created:
         os.remove(
             os.path.join(settings.MEDIA_ROOT + file_name)
         )
-    print("Test0 " + os.path.join(settings.MEDIA_ROOT + file_name))
-    order.invoice_created = invoice
+    order.invoice = invoice
     order.save()
     context = {
-        "order": order, "invoice": order.invoice_created
+        "order": order, "invoice": order.invoice
     }
     html_string = render_to_string("orders/invoice.html", context)
 
     html = HTML(string=html_string)
     html.write_pdf(target=settings.MEDIA_ROOT + str(invoice.pdf))
+
+
+def order_pay_status(order):
+    if order.pay_method.pay_method == 4:
+        order.pay_status = 3
+
+
+def order_inpost_box(request, order, delivery_method):
+    if order.pay_status == 3 and order.delivery_method.inpost_box:
+        try:
+            order.inpost_box = request.session["inpost_box_id"]
+            order.products_item.get("dm" + str(delivery_method.id))
+            if not order.products_item.get("dm" + str(delivery_method.id)):
+                order.products_item.update(delivery_method.delivery_dict)
+            del request.session["inpost_box_id"]
+        except KeyError:
+            pass

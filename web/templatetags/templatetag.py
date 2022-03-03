@@ -1,4 +1,5 @@
 from django import template
+import datetime
 
 register = template.Library()
 
@@ -9,3 +10,8 @@ def query_transform(context, **kwargs):
     for k, v in kwargs.items():
         query[k] = v
     return query.urlencode()
+
+
+@register.filter
+def plus_days(value, days):
+    return (value + datetime.timedelta(days=days)).date()

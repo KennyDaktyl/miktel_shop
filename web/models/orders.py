@@ -11,7 +11,7 @@ from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 
 
-from web.constans import *
+from web.constans import PAY_METHOD, ORDER_STATUS, PAY_ORDER_STATUS
 
 from .base import BaseModel
 from .products import file_size
@@ -136,7 +136,7 @@ class DeliveryMethod(BaseModel):
 
     @property
     def delivery_dict(self):
-        return {str(self.id): {
+        return {"dm" + str(self.id): {
                 "name": self.name.replace(" (*tylko przedpłata)", ""),
                 "price": float(self.price),
                 "price_netto": float(self.price_netto),
@@ -152,13 +152,12 @@ class DeliveryMethod(BaseModel):
 class Orders(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.CharField(verbose_name="Numer zamówienia", max_length=64)
-    main_status = models.IntegerField(
-        verbose_name="Status płatności", choices=MAIN_ORDER_STATUS, default=1
+    pay_status = models.IntegerField(
+        verbose_name="Status płatności", choices=PAY_ORDER_STATUS, default=1
     )
     status = models.IntegerField(
         verbose_name="Status zamówienia", choices=ORDER_STATUS, default=1
     )
-    date = models.DateTimeField(auto_now_add=True, db_index=True)
     store = models.ForeignKey(
         "Store",
         on_delete=models.CASCADE,
@@ -171,14 +170,10 @@ class Orders(BaseModel):
         on_delete=models.CASCADE,
         verbose_name="Klient",
         related_name="clinet_id",
-        null=True,
-        blank=True,
     )
-    delivery_method = models.CharField(
-        verbose_name="Rodzaj dostawy", max_length=64
-    )
-    inpost_box = models.CharField(
-        verbose_name="Numer paczkomatu", null=True, blank=True, max_length=64
+    delivery_method = models.ForeignKey("DeliveryMethod",
+                                        verbose_name="Rodzaj dostawy", on_delete=models.CASCADE)
+    pay_method = models.ForeignKey("PayMethod", verbose_name="Rodzaj płatności", on_delete=models.CASCADE
     )
     address = models.ForeignKey(
         "Address",
@@ -187,13 +182,12 @@ class Orders(BaseModel):
         null=True,
         blank=True,
     )
+    inpost_box = models.CharField(
+        verbose_name="Numer paczkomatu", null=True, blank=True, max_length=64
+    )
     phone_number = models.CharField(
         verbose_name="Numer telefonu", null=True, blank=True, max_length=12
     )
-    pay_method = models.CharField(
-        verbose_name="Rodzaj płatności", max_length=64
-    )
-
     start_delivery_time = models.TimeField(
         verbose_name="Czas wywozu", blank=True, null=True
     )
@@ -206,8 +200,6 @@ class Orders(BaseModel):
     info = models.CharField(
         verbose_name="Informacje", max_length=256, null=True, blank=True
     )
-    is_paid = models.BooleanField(verbose_name="Czy zapłacono?", default=False)
-
     total_price = models.DecimalField(
         verbose_name="Cena zamówienia",
         default=0.00,
@@ -217,9 +209,8 @@ class Orders(BaseModel):
     products_item = models.JSONField(
         verbose_name="Produkty", null=True, blank=True
     )
-    pdf_created = models.BooleanField(verbose_name="Faktura?", default=False)
-
-    invoice_created = models.OneToOneField(
+    invoice_true = models.BooleanField(verbose_name="Czy wybrano fakturę", default=False)
+    invoice = models.OneToOneField(
         "Invoices",
         verbose_name="Faktura",
         on_delete=models.CASCADE,
@@ -232,16 +223,6 @@ class Orders(BaseModel):
 
     def status_count(self, status):
         return self.objects.filter(status=status).count()
-
-    def positions_on_order(self):
-        return (
-            ProductCopy.objects.filter(order=self)
-            .order_by("product")
-            .order_by("id")
-        )
-
-    def counter_positions(self):
-        return ProductCopy.objects.filter(order_id=self).count()
 
     def get_total_price_stripe(self):
         return int(self.total_price * 100)
@@ -314,9 +295,9 @@ class ProductCopy(BaseModel):
 
 
 class Invoices(BaseModel):
-    order = models.ForeignKey("Orders", on_delete=models.CASCADE, null=True,
-        blank=True)
-    number = models.CharField(max_length=120)
+    order = models.ForeignKey(
+        "Orders", on_delete=models.CASCADE, null=True, blank=True)
+    number = models.CharField(max_length=64)
     pdf = models.FileField(null=True, blank=True)
 
     class Meta:

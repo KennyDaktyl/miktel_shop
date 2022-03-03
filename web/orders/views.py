@@ -17,7 +17,7 @@ from web.cart.cart import Cart
 from web.models import DeliveryMethod, Orders, Invoices, PayMethod, Store
 
 from .forms import OrderDetailsForm
-from .functions import create_pdf_invoice, new_number, new_invoice_number
+from .functions import create_pdf_invoice, new_number, order_pay_status, order_inpost_box
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -25,7 +25,10 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 @method_decorator(login_required, name="dispatch")
 class OrderDetails(View):
     def get(self, request):
-        form = OrderDetailsForm()
+        if request.user.profile.company:
+            form = OrderDetailsForm(initial={"bill_select": "2"})
+        else:
+            form = OrderDetailsForm()
         ctx = {"form": form}
         return render(request, "orders/order_details.html", ctx)
 
@@ -55,16 +58,13 @@ class OrderDetails(View):
             )
             order.store = store
             order.client = request.user
-            order.main_status = 2
+            order.pay_status = 2
             order.phone_number = request.user.profile.phone_number
-            order.delivery_method = delivery_method.name
-            # Jeśli wysyłka inpostem - tylko płatność P24 Stripe
+            order.delivery_method = delivery_method
+            order.pay_method = pay_method
             if delivery_method.inpost_box:
-                pay_method = PayMethod.objects.get(pay_method=4)
-                order.pay_method = pay_method.get_pay_method_display()
-            else:    
-                order.pay_method = pay_method.get_pay_method_display()
-            order.pdf_created = True if form.cleaned_data["bill_select"] == "2" else False
+                order.pay_method = PayMethod.objects.get(pay_method=4)
+            order.invoice_true = True if form.cleaned_data["bill_select"] == "2" else False
             order.total_price = float(delivery_method.price) + float(
                 cart.get_total_price()
             )
@@ -76,9 +76,8 @@ class OrderDetails(View):
             if pay_method.pay_method == 4:
                 response = redirect("checkout", order=order.id)
                 return response
-            else:
-                response = redirect("order_completed", order=order.id)
-                return response
+            response = redirect("order_completed", order=order.id)
+            return response
         else:
             messages.error(request, "Wystąpił błąd")
             ctx = {"form": form}
@@ -93,10 +92,9 @@ class InpostBoxSearchView(View):
 
     def post(self, request, order):
         order = Orders.objects.get(pk=order)
-        if order.pay_method in ["Przelew tradycyjny", "Płatność przy odbiorze"]:
-            return redirect("order_completed", order=order.id)
-        else:
+        if order.pay_method.pay_method == "4":
             return redirect("checkout", order=order.id)
+        return redirect("order_completed", order=order.id)
 
 
 @method_decorator(login_required, name="dispatch")
@@ -108,56 +106,16 @@ class OrderCompleted(View):
         if not order.products_item:
             order.products_item = cart.get_products()
         delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
-        if delivery_method.inpost_box and not order.products_item.get(delivery_method.id):
-            order.products_item.update(delivery_method.delivery_dict)
-        if order.pdf_created and not order.invoice_created:
-            invoice_number = new_invoice_number()
-            file_name = "pdf/faktura_" + invoice_number + ".pdf"
-            invoice, created = Invoices.objects.get_or_create(
-                pdf=file_name)
-            invoice.order = order
-            invoice.number = invoice_number
-            invoice.save()
-            print(invoice.pdf, file_name)
-            create_pdf_invoice(order, invoice, created, file_name)
+        order_pay_status(order)
+        order_inpost_box(request, order, delivery_method)
+        if order.invoice_true and not order.invoice:
+            create_pdf_invoice(order)
         cart.clear()
-        ctx = {"order": order}
         order.save()
-        if order.pay_method == "przelew p24" and order.delivery_method == "InPost Paczkomaty (*tylko przedpłata)":
-            try:
-                order.inpost_box = request.session["inpost_box_id"]
-                del request.session["inpost_box_id"]
-            except:
-                pass
-            order.main_status =3
-            order.save()
+        ctx = {"order": order}
+        if order.pay_status == 3:
             return render(request, "payments/checkout_success.html", ctx)
         return render(request, "orders/order_completed.html", ctx)
 
 
-# @method_decorator(login_required, name="dispatch")
-# class CreateInvoice(View):
-#     def get(self, request, pk):
-#         order = Orders.objects.get(pk=pk)
-#         filename = f"faktura_{order.invoice_created.number}.pdf"
-#         context = {
-#             "order": order,
-#         }
-#         html_string = render_to_string("orders/invoice.html", context)
-
-#         html = HTML(string=html_string)
-#         html.write_pdf(target=settings.MEDIA_ROOT + f"/pdf/{filename}")
-
-#         fs = FileSystemStorage(settings.MEDIA_ROOT + "/pdf")
-#         with fs.open(settings.MEDIA_ROOT + f"/pdf/{filename}") as pdf:
-#             response = HttpResponse(
-#                 pdf, content_type="application/pdf")
-#             response[
-#                 "Content-Disposition"] = 'attachment; filename="{}"'.format(
-#                 filename
-#             )
-#         return response
-
-
 order_completed = OrderCompleted.as_view()
-# create_invoice = CreateInvoice.as_view()
