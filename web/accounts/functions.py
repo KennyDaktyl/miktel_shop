@@ -13,8 +13,9 @@ def send_simple_message(subject, host, user, token):
     )
     url = "https://api.eu.mailgun.net/v3/serwiswrybnej.pl/messages"
     auth = ("api", settings.MAILGUN_API_KEY)
+    html_content = "<h1>asadasdsda</h1>"
     data = {
-        "from": "no-reply@serwiswrybnej.pl",
+        "from": "admin@serwiswrybnej.pl",
         "to": [
             user.email,
         ],
@@ -35,7 +36,7 @@ def send_activate_info_message(user):
     url = "https://api.eu.mailgun.net/v3/serwiswrybnej.pl/messages"
     auth = ("api", settings.MAILGUN_API_KEY)
     data = {
-        "from": "no-reply@serwiswrybnej.pl",
+        "from": "admin@serwiswrybnej.pl",
         "to": [
             "pielak@miktelgsm.pl",
         ],

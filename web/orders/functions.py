@@ -146,7 +146,7 @@ def send_email_order_completed(order, host, file_name=False):
 
     subject = "Zamówienie nr: " + order.number
     data = {
-        "from": "no-reply@serwiswrybnej.pl",
+        "from": "admin@serwiswrybnej.pl",
         "to": [
             order.client.email, "pielak@miktelgsm.pl"
         ],
@@ -156,7 +156,7 @@ def send_email_order_completed(order, host, file_name=False):
     data["h:Reply-To"] = "Michał Pielak <pielak@miktelgsm.pl>"
     if file_name:
         invoice_file_path = os.path.join(settings.MEDIA_ROOT + file_name)
-        files=[("attachment", ("Faktura " + order.invoice_created.number, open(invoice_file_path, "rb").read())),]
+        files=[("attachment", ("Faktura " + order.invoice.number, open(invoice_file_path, "rb").read())),]
         return requests.post(url, auth=auth, data=data, files=files)
     return requests.post(url, auth=auth, data=data)
     

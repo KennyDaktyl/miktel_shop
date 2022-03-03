@@ -70,7 +70,7 @@ class Address(BaseModel):
     )
     city = models.CharField(verbose_name="Miasto", max_length=64)
     post_code = models.CharField(
-        verbose_name="Kod pocztowy", null=True, blank=True, max_length=6
+        verbose_name="Kod pocztowy", max_length=6
     )
 
     class Meta:

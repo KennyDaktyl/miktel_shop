@@ -197,7 +197,6 @@
 
     <div style="display: flex; flex-wrap: wrap; flex-direction: row; width: 100%; margin-top: 20px;">
       <div style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Status płatności</div>
-      {{ order.status }}
       {% if order.pay_status != 3 %}
         <p style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Kwota do zapłaty:</p>
           {% if order.pay_method.pay_method == 3 %}
