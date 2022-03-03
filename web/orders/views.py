@@ -107,6 +107,13 @@ class OrderCompleted(View):
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
         order.status = 2
+        if order.pay_method == "przelew p24":
+            try:
+                order.inpost_box = request.session["inpost_box_id"]
+                del request.session["inpost_box_id"]
+            except:
+                pass
+            order.main_status = 3
         if not order.products_item:
             order.products_item = cart.get_products()
         delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
@@ -120,26 +127,15 @@ class OrderCompleted(View):
             invoice.order = order
             invoice.number = invoice_number
             invoice.save()
+            create_pdf_invoice(order, invoice, created, file_name)
+            send_email_order_completed(order, host, file_name)
         else:
             send_email_order_completed(order, host)
         cart.clear()
         ctx = {"order": order}
         order.save()
         if order.pay_method == "przelew p24":
-            try:
-                order.inpost_box = request.session["inpost_box_id"]
-                del request.session["inpost_box_id"]
-            except:
-                pass
-            order.main_status = 3
-            order.save()
-            if order.pdf_created and not order.invoice_created:
-                create_pdf_invoice(order, invoice, created, file_name)
-            send_email_order_completed(order, host, file_name)
             return render(request, "payments/checkout_success.html", ctx)
-        if order.pdf_created and not order.invoice_created:
-            create_pdf_invoice(order, invoice, created, file_name)
-            send_email_order_completed(order, host, file_name)
         return render(request, "orders/order_completed.html", ctx)
 
 
