@@ -16,6 +16,7 @@ from web.constans import PAY_METHOD, ORDER_STATUS, PAY_ORDER_STATUS
 from .base import BaseModel
 from .products import file_size
 
+
 # from cart.cart import Cart
 
 
@@ -175,6 +176,8 @@ class Orders(BaseModel):
                                         verbose_name="Rodzaj dostawy", on_delete=models.CASCADE)
     pay_method = models.ForeignKey("PayMethod", verbose_name="Rodzaj płatności", on_delete=models.CASCADE
     )
+    payment_intent = models.CharField("Id płatności w Stripe", null=True, blank=True, max_length=32)
+    payment_success = models.BooleanField(verbose_name="Elektroniczna płatność udana", default=False)
     address = models.ForeignKey(
         "Address",
         on_delete=models.CASCADE,

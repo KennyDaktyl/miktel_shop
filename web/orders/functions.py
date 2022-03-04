@@ -114,13 +114,8 @@ def create_pdf_invoice(order):
     return file_name
 
 
-def order_pay_status(order):
-    if order.pay_method.pay_method == 4:
-        order.pay_status = 3
-
-
 def order_inpost_box(request, order, delivery_method):
-    if order.pay_status == 3 and order.delivery_method.inpost_box:
+    if order.pay_method.pay_method == 4 and order.delivery_method.inpost_box:
         try:
             order.inpost_box = request.session["inpost_box_id"]
             order.products_item.get("dm" + str(delivery_method.id))

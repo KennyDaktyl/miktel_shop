@@ -37,6 +37,8 @@ class CheckoutView(View):
             payment_method_types=["p24"],
             receipt_email=request.user.email,
         )
+        order.payment_intent = intent["id"]
+        order.save()
         ctx = {
             "order": order,
             "PAYMENT_INTENT_CLIENT_SECRET": intent["client_secret"],
@@ -81,16 +83,15 @@ class StripeWebhookView(APIView):
             print(e)
             return HttpResponse(status=400)
 
-        # # Handle the event
-        # if event.type == 'payment_intent.succeeded':
-        #     payment_intent = event.data.object # contains a stripe.PaymentIntent
-        #     print('PaymentIntent was successful!')
-        # elif event.type == 'payment_method.attached':
-        #     payment_method = event.data.object # contains a stripe.PaymentMethod
-        #     print('PaymentMethod was attached to a Customer!')
-        # # ... handle other event types
-        # else:
-        #     print('Unhandled event type {}'.format(event.type))
+        if event.type == 'payment_intent.succeeded':
+            payment_intent = event.data.object # contains a stripe.PaymentIntent
+            print('PaymentIntent was successful!')
+        elif event.type == 'payment_method.attached':
+            payment_method = event.data.object # contains a stripe.PaymentMethod
+            print('PaymentMethod was attached to a Customer!')
+        # ... handle other event types
+        else:
+            print('Unhandled event type {}'.format(event.type))
 
         return HttpResponse(status=200)
 

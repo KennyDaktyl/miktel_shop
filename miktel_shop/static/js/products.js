@@ -50,7 +50,6 @@ $(document).ready(function () {
                 csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
             },
         }).done(function (result) {
-            console.log(result);
             var result_js = $.parseJSON(result);
             var result_total = result_js['total'];
             result_total = result_total.toFixed(2);
@@ -67,8 +66,6 @@ $(document).ready(function () {
             });
             $('#in_stock_info').text(in_stock + 'szt.');
             $('#add_qty').text(qty_value + 'szt.');
-            // console.log(in_stock, $('#in_stock_info').val(in_stock + 'szt.'));
-            console.log(qty_value);
 
         }).fail(function (xhr, status, err) {}).always(function (xhr, status) {});
     });
@@ -92,11 +89,9 @@ $(document).ready(function () {
         
         if (parseInt(screen.width) >= 992 ) {
             ifMobile = true
-            console.log("ssdfdfd")
             } else {
                 ifMobile=false
             };
-        console.log(ifMobile,screen.width);
         return ifMobile;
     }
     customizeForDevice()    
@@ -137,19 +132,16 @@ $(document).ready(function () {
         else {
             if( screen.width <= 992 ) {ifMobile = true} else {ifMobile=false};
         }
-        console.log(ifMobile);
         return ifMobile;
     }
     customizeForDevice()    
     
     var ul_type_menu = $('ul.TypeSubCat');
-    console.log(ifMobile);
     ul_type_menu.each(function (e) {
         if ($(this).attr('id').replace('TypeSubMenu', '') == sub_cat.val()) {
             $(this).addClass('show');
             var active_type_sub_cat = $('#TypeSubCat' + sub_cat_type.val());
             active_type_sub_cat.css('color', 'red');
-            console.log( $(this).attr('id'), sub_cat.val());
         };
     }); 
 });

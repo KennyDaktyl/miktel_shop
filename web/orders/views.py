@@ -13,7 +13,7 @@ from web.cart.cart import Cart
 from web.models import DeliveryMethod, Orders, Invoices, PayMethod, Store, ActivateToken
 
 from .forms import OrderDetailsForm
-from .functions import create_pdf_invoice, new_number, order_pay_status, order_inpost_box, new_invoice_number, send_email_order_completed
+from .functions import create_pdf_invoice, new_number, order_inpost_box, new_invoice_number, send_email_order_completed
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -21,15 +21,12 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 @method_decorator(login_required, name="dispatch")
 class OrderDetails(View):
     def get(self, request):
-        if request.user.profile.company:
-            form = OrderDetailsForm(initial={"bill_select": "2"})
-        else:
-            form = OrderDetailsForm()
+        form = OrderDetailsForm(client=request.user)
         ctx = {"form": form}
         return render(request, "orders/order_details.html", ctx)
 
     def post(self, request):
-        form = OrderDetailsForm(request.POST)
+        form = OrderDetailsForm(request.POST, client=request.user)
         cart = Cart(request)
         inpost_box_id = None
         if request.is_ajax():
@@ -100,17 +97,19 @@ class OrderCompleted(View):
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
         order.status = 2
-        if order.pay_method == "przelew p24":
-            try:
-                order.inpost_box = request.session["inpost_box_id"]
-                del request.session["inpost_box_id"]
-            except:
-                pass
-            order.main_status = 3
+        
+        if order.pay_method.pay_method == 4:
+            payment_intent_status = stripe.PaymentIntent.retrieve(
+                 order.payment_intent
+            )     
+            order.payment_success = True if payment_intent_status["status"] == "succeeded" else False
+            if order.payment_success:
+                order.pay_status = 3
+            order.save()
+        
         if not order.products_item:
             order.products_item = cart.get_products()
         delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
-        order_pay_status(order)
         order_inpost_box(request, order, delivery_method)
         if order.invoice_true and not order.invoice:
             file_name = create_pdf_invoice(order)
@@ -120,8 +119,10 @@ class OrderCompleted(View):
         cart.clear()
         order.save()
         ctx = {"order": order}
-        if order.pay_status == 3:
-            return render(request, "payments/checkout_success.html", ctx)
+        if order.pay_method.pay_method == 4:
+            if order.payment_success:        
+                return render(request, "payments/checkout_success.html", ctx)
+            return render(request, "payments/checkout_failed.html", ctx)
         return render(request, "orders/order_completed.html", ctx)
 
 

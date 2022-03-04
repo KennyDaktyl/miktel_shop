@@ -50,7 +50,6 @@ search_input.keyup(function (event) {
                             var name = result[i].name;
                             var price = result[i].price;
                             var qty = parseInt(result[i].qty);
-                            console.log(qty);
                             if (qty == 0) {
                                 qty = '<b class="text-danger">Brak</b>'
                             } else {
@@ -155,7 +154,6 @@ inputSearch.keyup(function (event) {
                 dataType: "json",
                 success: function (data) {
                     result = JSON.parse(JSON.stringify(data));
-                    console.log(result);
                     link_mobile.text('');
                     if (result.length > 0) {
                         link_mobile.css('display', 'flex');
