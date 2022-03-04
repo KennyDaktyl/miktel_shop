@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from web.constans import STAMP_COLORS
 from web.models import ProductCopy
 

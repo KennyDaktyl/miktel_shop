@@ -1,16 +1,11 @@
 import uuid
-from audioop import add
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LogoutView
-
 from django.shortcuts import redirect, render
-
 from django.utils.decorators import method_decorator
 from django.views import View
-
 from web.models import Address, Profile
 from web.models.accounts import ActivateToken
 from web.models.orders import Orders
@@ -21,12 +16,10 @@ from .forms import (
     ChangePasswordForm,
     CompanyForm,
     LoginForm,
-    UserForm,
     StandartForm,
-    BusinessForm
+    UserForm,
 )
-from .functions import *
-
+from .functions import send_simple_message, send_activate_info_message
 
 User = get_user_model()
 
@@ -41,7 +34,7 @@ class RegisterUserView(View):
         form = UserForm(request.POST)
         if form.is_valid():
             try:
-                user = User.objects.get(username=form.cleaned_data["email"])
+                User.objects.get(username=form.cleaned_data["email"])
                 messages.error(request, "Email już istnieje w naszej bazie.")
                 ctx = {"form": form}
                 return render(request, "accounts/register_user.html", ctx)
@@ -84,7 +77,7 @@ class CompanyRegistrationView(View):
         form = BusinessForm(request.POST)
         if form.is_valid():
             try:
-                user = User.objects.get(username=form.cleaned_data["email"])
+                User.objects.get(username=form.cleaned_data["email"])
                 messages.error(request, "Email już istnieje w naszej bazie.")
                 ctx = {"form": form}
                 return render(request, "accounts/register_user.html", ctx)
@@ -100,7 +93,9 @@ class CompanyRegistrationView(View):
                 profile.user_id = new_user.id
                 profile.company_name = form.cleaned_data["business_name"]
                 profile.company_name_l = form.cleaned_data["business_name_l"]
-                profile.phone_number = form.cleaned_data["phone_number"].replace(" ", "")
+                profile.phone_number = form.cleaned_data[
+                    "phone_number"
+                ].replace(" ", "")
                 profile.nip_number = form.cleaned_data["nip_number"]
                 profile.company = True
                 profile.save()
@@ -143,7 +138,6 @@ class ActivateAccount(View):
         return redirect("front_page")
 
 
-
 @method_decorator(login_required, name="dispatch")
 class UserAccount(View):
     def get(self, request):
@@ -164,21 +158,26 @@ class UserProfileView(View):
     def get(self, request):
         profile = Profile.objects.get(user=request.user)
         if profile.company or request.GET.get("change_account"):
-            bussines_form = CompanyForm(instance=profile,
-                initial={
-                "email": profile.user.email})
-            ctx = {"profile": profile, "bussines_form": bussines_form, "change_account": True}
+            bussines_form = CompanyForm(
+                instance=profile, initial={"email": profile.user.email}
+            )
+            ctx = {
+                "profile": profile,
+                "bussines_form": bussines_form,
+                "change_account": True,
+            }
             return render(request, "accounts/user_account.html", ctx)
         else:
             standart_form = StandartForm(
                 initial={
                     "email": profile.user.email,
-                    "phone_number": profile.phone_number
-                    })
+                    "phone_number": profile.phone_number,
+                }
+            )
             ctx = {"profile": profile, "standart_form": standart_form}
             return render(request, "accounts/user_account.html", ctx)
 
-    def post(self,request):
+    def post(self, request):
         profile = Profile.objects.get(user=request.user)
         bussines_form = CompanyForm(request.POST)
         standart_form = StandartForm(request.POST)
@@ -189,38 +188,57 @@ class UserProfileView(View):
                 user.save()
                 bussines_form.save(commit=False)
                 profile.company = True
-                profile.company_name = bussines_form.cleaned_data["company_name"]
-                profile.company_name_l = bussines_form.cleaned_data["company_name_l"]
+                profile.company_name = bussines_form.cleaned_data[
+                    "company_name"
+                ]
+                profile.company_name_l = bussines_form.cleaned_data[
+                    "company_name_l"
+                ]
                 profile.nip_number = bussines_form.cleaned_data["nip_number"]
-                profile.phone_number = bussines_form.cleaned_data["phone_number"]
+                profile.phone_number = bussines_form.cleaned_data[
+                    "phone_number"
+                ]
                 profile.save()
                 messages.error(request, "Zapisano nowe dane.")
-                return redirect('user_profile')
+                return redirect("user_profile")
             else:
                 profile = Profile.objects.get(user=request.user)
-                bussines_form = CompanyForm(request.POST, initial={
-                "email": profile.user.email,
-                "company_name": profile.company_name,
-                "company_name_l": profile.company_name_l,
-                "nip_number": profile.nip_number,
-                "phone_number": profile.phone_number})
+                bussines_form = CompanyForm(
+                    request.POST,
+                    initial={
+                        "email": profile.user.email,
+                        "company_name": profile.company_name,
+                        "company_name_l": profile.company_name_l,
+                        "nip_number": profile.nip_number,
+                        "phone_number": profile.phone_number,
+                    },
+                )
                 messages.error(request, "Błąd danych formularza")
-                ctx = {"profile": profile,
-                       "bussines_form": bussines_form, "change_account": True}
+                ctx = {
+                    "profile": profile,
+                    "bussines_form": bussines_form,
+                    "change_account": True,
+                }
                 return render(request, "accounts/user_account.html", ctx)
         if "standart_form" in request.POST:
             if standart_form.is_valid():
                 user = User.objects.get(profile=profile)
                 user.email = standart_form.cleaned_data["email"]
                 user.save()
-                profile.phone_number = standart_form.cleaned_data["phone_number"]
+                profile.phone_number = standart_form.cleaned_data[
+                    "phone_number"
+                ]
                 profile.save()
                 messages.error(request, "Zapisano nowe dane.")
-                return redirect('user_profile')
+                return redirect("user_profile")
             else:
-                standart_form = StandartForm(request.POST, initial={
-                    "email": profile.user.email,
-                    "phone_number": profile.phone_number})
+                standart_form = StandartForm(
+                    request.POST,
+                    initial={
+                        "email": profile.user.email,
+                        "phone_number": profile.phone_number,
+                    },
+                )
                 messages.error(request, "Błąd danych formularza")
                 ctx = {"profile": profile, "standart_form": standart_form}
                 return render(request, "accounts/user_account.html", ctx)

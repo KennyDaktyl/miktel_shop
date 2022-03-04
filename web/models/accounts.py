@@ -1,6 +1,6 @@
 from django.conf import settings
+from django.core.validators import MinLengthValidator
 from django.db import models
-from django.core.validators import MinLengthValidator, EmailValidator
 
 from .base import BaseModel
 
@@ -69,9 +69,7 @@ class Address(BaseModel):
         verbose_name="Nr lokalu", null=True, blank=True, max_length=8
     )
     city = models.CharField(verbose_name="Miasto", max_length=64)
-    post_code = models.CharField(
-        verbose_name="Kod pocztowy", max_length=6
-    )
+    post_code = models.CharField(verbose_name="Kod pocztowy", max_length=6)
 
     class Meta:
         ordering = (

@@ -3,21 +3,13 @@ from decimal import Decimal
 from django.conf import settings
 from django.db import models
 from django.db.models import Sum
-from django.urls import reverse
-from django.utils.text import slugify
-from django_resized import ResizedImageField
-
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
-
-
-from web.constans import PAY_METHOD, ORDER_STATUS, PAY_ORDER_STATUS
+from django_resized import ResizedImageField
+from web.constans import ORDER_STATUS, PAY_METHOD, PAY_ORDER_STATUS
 
 from .base import BaseModel
 from .products import file_size
-
-
-# from cart.cart import Cart
 
 
 class PayMethod(BaseModel):
@@ -50,7 +42,7 @@ class PayMethod(BaseModel):
     is_active = models.BooleanField(verbose_name="Czy aktualna", default=True)
 
     def save(self, *args, **kwargs):
-        if self.default == True:
+        if self.default is True:
             all_methods = PayMethod.objects.exclude(pk=self.id)
             for el in all_methods:
                 el.default = False
@@ -120,7 +112,7 @@ class DeliveryMethod(BaseModel):
             return self.price
 
     def save(self, *args, **kwargs):
-        if self.default == True:
+        if self.default is True:
             all_methods = DeliveryMethod.objects.exclude(pk=self.id)
             for el in all_methods:
                 el.default = False
@@ -137,7 +129,9 @@ class DeliveryMethod(BaseModel):
 
     @property
     def delivery_dict(self):
-        return {"dm" + str(self.id): {
+        return {
+            "dm"
+            + str(self.id): {
                 "name": self.name.replace(" (*tylko przedpłata)", ""),
                 "price": float(self.price),
                 "price_netto": float(self.price_netto),
@@ -145,7 +139,8 @@ class DeliveryMethod(BaseModel):
                 "vat": 23,
                 "total_vat": float(self.price) - float(self.price_netto),
                 "t_netto": float(self.price_netto),
-                "t_brutto": float(self.price)}
+                "t_brutto": float(self.price),
+            }
         }
 
 
@@ -172,12 +167,20 @@ class Orders(BaseModel):
         verbose_name="Klient",
         related_name="clinet_id",
     )
-    delivery_method = models.ForeignKey("DeliveryMethod",
-                                        verbose_name="Rodzaj dostawy", on_delete=models.CASCADE)
-    pay_method = models.ForeignKey("PayMethod", verbose_name="Rodzaj płatności", on_delete=models.CASCADE
+    delivery_method = models.ForeignKey(
+        "DeliveryMethod",
+        verbose_name="Rodzaj dostawy",
+        on_delete=models.CASCADE,
     )
-    payment_intent = models.CharField("Id płatności w Stripe", null=True, blank=True, max_length=32)
-    payment_success = models.BooleanField(verbose_name="Elektroniczna płatność udana", default=False)
+    pay_method = models.ForeignKey(
+        "PayMethod", verbose_name="Rodzaj płatności", on_delete=models.CASCADE
+    )
+    payment_intent = models.CharField(
+        "Id płatności w Stripe", null=True, blank=True, max_length=32
+    )
+    payment_success = models.BooleanField(
+        verbose_name="Elektroniczna płatność udana", default=False
+    )
     address = models.ForeignKey(
         "Address",
         on_delete=models.CASCADE,
@@ -212,7 +215,9 @@ class Orders(BaseModel):
     products_item = models.JSONField(
         verbose_name="Produkty", null=True, blank=True
     )
-    invoice_true = models.BooleanField(verbose_name="Czy wybrano fakturę", default=False)
+    invoice_true = models.BooleanField(
+        verbose_name="Czy wybrano fakturę", default=False
+    )
     invoice = models.OneToOneField(
         "Invoices",
         verbose_name="Faktura",
@@ -233,21 +238,31 @@ class Orders(BaseModel):
     @property
     def get_total_price_netto(self):
         return round(float(self.total_price / Decimal(1.23)), 2)
-    
+
     @property
     def get_invoice_total_price_netto(self):
         total_price = round(float(self.total_price / Decimal(1.23)), 2)
         delivery_method = DeliveryMethod.objects.get(name=self.delivery_method)
-        return round(float(total_price) + float(delivery_method.price_netto), 2)
-    
+        return round(
+            float(total_price) + float(delivery_method.price_netto), 2
+        )
+
     @property
     def get_invoice_total_price(self):
         delivery_method = DeliveryMethod.objects.get(name=self.delivery_method)
-        return round(float(self.total_price) + float(delivery_method.price_netto), 2)
-    
+        return round(
+            float(self.total_price) + float(delivery_method.price_netto), 2
+        )
+
     @property
     def get_invoice_total_vat(self):
-        return round(float(self.get_invoice_total_price - self.get_invoice_total_price_netto), 2)
+        return round(
+            float(
+                self.get_invoice_total_price
+                - self.get_invoice_total_price_netto
+            ),
+            2,
+        )
 
     class Meta:
         ordering = ("-id",)
@@ -299,7 +314,8 @@ class ProductCopy(BaseModel):
 
 class Invoices(BaseModel):
     order = models.ForeignKey(
-        "Orders", on_delete=models.CASCADE, null=True, blank=True)
+        "Orders", on_delete=models.CASCADE, null=True, blank=True
+    )
     number = models.CharField(max_length=64)
     pdf = models.FileField(null=True, blank=True)
 

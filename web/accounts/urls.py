@@ -1,12 +1,17 @@
-from django.contrib.auth import logout
-from django.contrib.auth import views as auth_views
 from django.urls import path
 
-from .views import *
-
-# from django.conf import settings
-# from django.conf.urls.static import static
-# from django.conf.urls import url
+from .views import (
+    user_account,
+    user_addresses,
+    user_login,
+    register_user,
+    activate_account,
+    user_logout,
+    company_registration,
+    user_orders,
+    user_profile,
+    change_password
+)
 
 urlpatterns = [
     path("login/", user_login, name="login"),

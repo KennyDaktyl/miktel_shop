@@ -1,7 +1,11 @@
-from django.conf.urls.static import static
 from django.urls import path
 
-from .views import order_completed, order_details, inpost_box, redirect_from_email
+from .views import (
+    inpost_box,
+    order_completed,
+    order_details,
+    redirect_from_email,
+)
 
 # CartDetails,
 urlpatterns = [
@@ -16,7 +20,9 @@ urlpatterns = [
         order_completed,
         name="order_completed",
     ),
-     path(
-        "redirect_from_email/<token>", redirect_from_email, name="redirect_from_email"
+    path(
+        "redirect_from_email/<token>",
+        redirect_from_email,
+        name="redirect_from_email",
     ),
 ]

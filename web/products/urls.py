@@ -1,7 +1,13 @@
-from django.conf import settings
 from django.urls import path
 
-from .views import *
+from .views import (
+    product_details,
+    search_products,
+    search_products_js,
+    shop_main_view,
+    sub_category_products,
+    sub_category_type,
+)
 
 urlpatterns = [
     path("", shop_main_view, name="shop_main_view"),
@@ -22,7 +28,4 @@ urlpatterns = [
         product_details,
         name="product_details",
     ),
-    # path('kategorie/<slug:slug>',
-    #      CategoryDetails.as_view(),
-    #      name='category_details'),
 ]

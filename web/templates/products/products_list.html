@@ -18,7 +18,6 @@
 
     <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
         <h1 class="col-12 mx-auto text-left">{{ sub_cat.name }}</h1>
-        <h1>{{ products }}</h1>
         {% for product in object_list %}
         <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">
             <div id="showOption" class="col-12 row mx-auto d-flex align-items-center">
@@ -66,6 +65,7 @@
     
         {% endfor %}
     </div>
+    {% if page_obj.has_previous %}
     <div class="col-12 input-group mb-3 mt-3 mx-auto text-center pagination">
         <div class=""></div>
         <div aria-label="..." class="row col-12 m-0 p-0 justify-content-center mx-auto text-center">
@@ -97,6 +97,7 @@
         </ul>
         </span>
         </div>
+        {% endif %}
     </div>
     
 {% endblock %}

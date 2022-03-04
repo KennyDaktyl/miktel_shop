@@ -1,17 +1,9 @@
-from importlib.metadata import requires
 import re
-from datetime import datetime
-
-from captcha.fields import ReCaptchaField
-from crispy_forms.helper import FormHelper
 from django import forms
 
-# from .models import Profile, Address
-# from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-
 from web.models.accounts import Profile
 
 User = get_user_model()
@@ -21,12 +13,11 @@ EMAIL_REGEX = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
 
 def is_digit(value):
     value = value.replace(" ", "")
-    if value.isdigit() == False:
-        raise ValidationError('Wpisuj tylko cyfry')
+    if value.isdigit() is False:
+        raise ValidationError("Wpisuj tylko cyfry")
 
 
 class LoginForm(forms.Form):
-    # username = forms.CharField(label="Login", required=True)
 
     email = forms.EmailField(
         label="email",
@@ -51,7 +42,6 @@ class UserForm(forms.ModelForm):
         widget=forms.EmailInput,
         validators=[validate_email],
         required=True,
-
     )
 
     password = forms.CharField(
@@ -134,18 +124,16 @@ class StandartForm(forms.ModelForm):
         required=False,
         min_length=6,
         max_length=15,
-        validators=[is_digit]
+        validators=[is_digit],
     )
 
     class Meta:
         model = Profile
-        fields = (
-            "phone_number",
-        )
+        fields = ("phone_number",)
 
     def only_int(value):
-        if value.isdigit() == False:
-            raise ValidationError('Wpisuj tylko cyfry')
+        if value.isdigit() is False:
+            raise ValidationError("Wpisuj tylko cyfry")
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -153,8 +141,9 @@ class StandartForm(forms.ModelForm):
             raise forms.ValidationError("Zły format email.")
         return email
 
+
 class BusinessForm(forms.ModelForm):
-    
+
     email = forms.EmailField(
         label="email",
         widget=forms.EmailInput,
@@ -172,14 +161,14 @@ class BusinessForm(forms.ModelForm):
         required=True,
         min_length=10,
         max_length=10,
-        validators=[is_digit]
+        validators=[is_digit],
     )
     phone_number = forms.CharField(
         label="Telefon",
         required=True,
         min_length=6,
         max_length=15,
-        validators=[is_digit]
+        validators=[is_digit],
     )
 
     password = forms.CharField(
@@ -219,7 +208,7 @@ class BusinessForm(forms.ModelForm):
         else:
             return email
 
-    
+
 class CompanyForm(forms.ModelForm):
 
     email = forms.EmailField(
@@ -233,14 +222,14 @@ class CompanyForm(forms.ModelForm):
         required=True,
         min_length=6,
         max_length=15,
-        validators=[is_digit]
+        validators=[is_digit],
     )
     nip_number = forms.CharField(
         label="NIP",
         required=True,
         min_length=10,
         max_length=10,
-        validators=[is_digit]
+        validators=[is_digit],
     )
 
     class Meta:
@@ -250,7 +239,7 @@ class CompanyForm(forms.ModelForm):
             "company_name",
             "company_name_l",
             "nip_number",
-            "phone_number"
+            "phone_number",
         )
 
     def clean_email(self):
@@ -263,8 +252,9 @@ class CompanyForm(forms.ModelForm):
     def only_int(self):
         nip_number = self.cleaned_data.get("nip_number")
         phone_number = self.cleaned_data.get("phone_number")
-        if nip_number.isdigit() == False or phone_number.isdigit() == False:
-            raise ValidationError('Wpisuj tylko cyfry')
+        if nip_number.isdigit() is False or phone_number.isdigit() is False:
+            raise ValidationError("Wpisuj tylko cyfry")
+
 
 class AddressForm(forms.Form):
     street = forms.CharField(label="Ulica", max_length=128, required=True)

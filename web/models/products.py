@@ -1,7 +1,5 @@
 import sys
-from decimal import Decimal
 from io import BytesIO
-from typing import cast
 
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -475,7 +473,9 @@ class Products(BaseModel):
     )
     alt = models.CharField(
         verbose_name="Alternatywny text dla obrazka",
-        max_length=125, blank=True, null=True
+        max_length=125,
+        blank=True,
+        null=True,
     )
     title = models.CharField(
         verbose_name="Title dla obrazka", blank=True, null=True, max_length=70
@@ -579,7 +579,7 @@ class Products(BaseModel):
     @property
     def seo_tag_description(self):
         if self.brand:
-            description = f"Produkt {self.sub_category_type} marki {self.brand.name} {self.name}"
+            description = f"Produkt {self.sub_category_type} marki {self.brand.name} {self.name}"  # noqa
         else:
             description = (
                 f"Produkt {self.sub_category_type} o nazwie {self.name}"

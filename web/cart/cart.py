@@ -1,9 +1,5 @@
-from decimal import Decimal
-
 from django.conf import settings
-
 from web.models import Products
-from web.models.orders import DeliveryMethod
 from web.products.serializers import ProductSerializer
 
 
@@ -42,7 +38,6 @@ class Cart(object):
             total_brutto = round(((float(product.price_promo)) * qty), 2)
             self.cart[str(product.id)]["t_brutto"] = total_brutto
             self.cart[str(product.id)]["discount"] = float(product.discount)
-            print(product.tax.name)
             self.cart[str(product.id)]["vat"] = product.tax.name
             self.cart[str(product.id)]["total_vat"] = round(
                 (total_brutto - total_netto), 2
@@ -54,7 +49,6 @@ class Cart(object):
                 "quantity": str(quantity),
                 "price": str(product.price_promo),
                 "discount": str(product),
-                # 'info': str(product.info),
             }
             self.cart[str(product.id)]["price"] = float(product.price_promo)
             self.cart[str(product.id)]["price_netto"] = round(
@@ -79,18 +73,7 @@ class Cart(object):
                 (total_brutto - total_netto), 2
             )
             self.cart[str(product.id)]["name"] = product.name
-
-            # if info:
-            #     self.cart[str(product.id)]['info'] = info
             self.save()
-
-    # def add_delivery_method(self,
-    #         delivery_method):
-    #     """
-    #     Dodanie kosztu przesyłki
-    #     """
-    #     self.cart['delivery_method'] = delivery_method
-    #     self.save()
 
     def remove(self, product):
         """

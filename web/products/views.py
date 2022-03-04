@@ -1,12 +1,10 @@
 from django.contrib import messages
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from rest_framework import generics, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
-
 from web.models import Category, Products, SubCategory, SubCategoryType
 
 from .forms import AddMainPhotoForm, SelectDetailsProductForm

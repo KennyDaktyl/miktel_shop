@@ -3,17 +3,21 @@ from datetime import datetime
 import stripe
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views import View
-
 from web.cart.cart import Cart
-from web.models import DeliveryMethod, Orders, Invoices, PayMethod, Store, ActivateToken
+from web.models import ActivateToken, DeliveryMethod, Orders, PayMethod, Store
 
 from .forms import OrderDetailsForm
-from .functions import create_pdf_invoice, new_number, order_inpost_box, new_invoice_number, send_email_order_completed
+from .functions import (
+    create_pdf_invoice,
+    new_number,
+    order_inpost_box,
+    send_email_order_completed,
+)
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -22,6 +26,10 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 class OrderDetails(View):
     def get(self, request):
         form = OrderDetailsForm(client=request.user)
+        if request.user.profile.company:
+            form = OrderDetailsForm(
+                client=request.user, initial={"bill_select": "2"}
+            )
         ctx = {"form": form}
         return render(request, "orders/order_details.html", ctx)
 
@@ -36,7 +44,8 @@ class OrderDetails(View):
 
         if form.is_valid():
             pay_method = PayMethod.objects.get(
-                name=form.cleaned_data["payment_method"])
+                name=form.cleaned_data["payment_method"]
+            )
             delivery_method = DeliveryMethod.objects.get(
                 name=form.cleaned_data["delivery_method"]
             )
@@ -57,7 +66,9 @@ class OrderDetails(View):
             order.pay_method = pay_method
             if delivery_method.inpost_box:
                 order.pay_method = PayMethod.objects.get(pay_method=4)
-            order.invoice_true = True if form.cleaned_data["bill_select"] == "2" else False
+            order.invoice_true = (
+                True if form.cleaned_data["bill_select"] == "2" else False
+            )
             order.total_price = float(delivery_method.price) + float(
                 cart.get_total_price()
             )
@@ -97,19 +108,25 @@ class OrderCompleted(View):
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
         order.status = 2
-        
+
         if order.pay_method.pay_method == 4:
             payment_intent_status = stripe.PaymentIntent.retrieve(
-                 order.payment_intent
-            )     
-            order.payment_success = True if payment_intent_status["status"] == "succeeded" else False
+                order.payment_intent
+            )
+            order.payment_success = (
+                True
+                if payment_intent_status["status"] == "succeeded"
+                else False
+            )
             if order.payment_success:
                 order.pay_status = 3
             order.save()
-        
+
         if not order.products_item:
             order.products_item = cart.get_products()
-        delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
+        delivery_method = DeliveryMethod.objects.get(
+            name=order.delivery_method
+        )
         order_inpost_box(request, order, delivery_method)
         if order.invoice_true and not order.invoice:
             file_name = create_pdf_invoice(order)
@@ -120,11 +137,10 @@ class OrderCompleted(View):
         order.save()
         ctx = {"order": order}
         if order.pay_method.pay_method == 4:
-            if order.payment_success:        
+            if order.payment_success:
                 return render(request, "payments/checkout_success.html", ctx)
             return render(request, "payments/checkout_failed.html", ctx)
         return render(request, "orders/order_completed.html", ctx)
-
 
 
 class RedirectFromOrderEmail(View):
@@ -136,6 +152,7 @@ class RedirectFromOrderEmail(View):
         except ActivateToken.DoesNotExist:
             messages.error(request, "Błędny token")
             return redirect("front_page")
+
 
 order_details = OrderDetails.as_view()
 inpost_box = InpostBoxSearchView.as_view()

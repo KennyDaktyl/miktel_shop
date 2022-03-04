@@ -1,6 +1,5 @@
 import requests
 from django.conf import settings
-from django.template.loader import render_to_string
 
 
 def send_contact_message(subject, message):

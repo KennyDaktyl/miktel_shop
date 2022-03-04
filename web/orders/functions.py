@@ -1,11 +1,11 @@
 import os
-import requests
+from datetime import datetime
 
+import requests
 from django.conf import settings
 from django.template.loader import render_to_string
 from weasyprint import HTML
-
-from web.models import Invoices, Orders, ActivateToken
+from web.models import ActivateToken, Invoices, Orders
 
 
 def new_number(store_id, year, month, day):
@@ -43,7 +43,6 @@ def new_number(store_id, year, month, day):
         number_format = f"001/{day}/{month}/{year}"
         return number_format
 
-from datetime import datetime
 
 def new_invoice_number():
     year = datetime.now().year
@@ -52,7 +51,9 @@ def new_invoice_number():
     try:
         last_number = Invoices.objects.all().first()
         if last_number:
-            last_number.number = last_number.number.replace("pdf/faktura_", "").replace(".pdf", "")
+            last_number.number = last_number.number.replace(
+                "pdf/faktura_", ""
+            ).replace(".pdf", "")
             number_indx = int(last_number.number[:3]) + 1
             ln_month = last_number.created_time.month
             ln_year = last_number.created_time.year
@@ -86,27 +87,26 @@ def new_invoice_number():
         number_format = f"001-{day}-{month}-{year}-WWW"
         return number_format
 
+
 def create_invoice(order):
     invoice_number = new_invoice_number()
     file_name = "pdf/faktura_" + invoice_number + ".pdf"
     invoice, created = Invoices.objects.get_or_create(
-        pdf=file_name, order=order)
+        pdf=file_name, order=order
+    )
     invoice.order = order
     invoice.number = invoice_number
     invoice.save()
     return invoice, created, file_name
 
+
 def create_pdf_invoice(order):
     invoice, created, file_name = create_invoice(order)
     if not created:
-        os.remove(
-            os.path.join(settings.MEDIA_ROOT + file_name)
-        )
+        os.remove(os.path.join(settings.MEDIA_ROOT + file_name))
     order.invoice = invoice
     order.save()
-    context = {
-        "order": order, "invoice": order.invoice
-    }
+    context = {"order": order, "invoice": order.invoice}
     html_string = render_to_string("orders/invoice.html", context)
 
     html = HTML(string=html_string)
@@ -125,33 +125,38 @@ def order_inpost_box(request, order, delivery_method):
         except KeyError:
             pass
 
+
 def send_email_order_completed(order, host, file_name=False):
     token = ActivateToken.objects.get(user=order.client).activation_token
     html_content = render_to_string(
         "orders/order_completed_email.html",
         {
             "order": order,
-            "user": order.client.profile, 
+            "user": order.client.profile,
             "button_link": f"{host}/zamowienia/redirect_from_email/{token}",
         },
     )
     url = "https://api.eu.mailgun.net/v3/serwiswrybnej.pl/messages"
     auth = ("api", settings.MAILGUN_API_KEY)
-    
 
     subject = "Zamówienie nr: " + order.number
     data = {
         "from": "admin@serwiswrybnej.pl",
-        "to": [
-            order.client.email, "pielak@miktelgsm.pl"
-        ],
+        "to": [order.client.email, "pielak@miktelgsm.pl"],
         "subject": subject,
         "html": html_content,
     }
     data["h:Reply-To"] = "Michał Pielak <pielak@miktelgsm.pl>"
     if file_name:
         invoice_file_path = os.path.join(settings.MEDIA_ROOT + file_name)
-        files=[("attachment", ("Faktura " + order.invoice.number, open(invoice_file_path, "rb").read())),]
+        files = [
+            (
+                "attachment",
+                (
+                    "Faktura " + order.invoice.number,
+                    open(invoice_file_path, "rb").read(),
+                ),
+            ),
+        ]
         return requests.post(url, auth=auth, data=data, files=files)
     return requests.post(url, auth=auth, data=data)
-    

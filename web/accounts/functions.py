@@ -24,6 +24,7 @@ def send_simple_message(subject, host, user, token):
     data["h:Reply-To"] = "Michał Pielak <pielak@miktelgsm.pl>"
     return requests.post(url, auth=auth, data=data)
 
+
 def send_activate_info_message(user):
     subject = f"Nowy użytkownik w serwisie {user.email}"
     html_content = render_to_string(

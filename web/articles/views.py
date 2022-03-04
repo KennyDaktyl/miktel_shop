@@ -1,8 +1,5 @@
-from re import template
-
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-
 from web.models.articles import Articles
 
 
