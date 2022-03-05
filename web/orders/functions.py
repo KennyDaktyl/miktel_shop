@@ -3,6 +3,7 @@ from datetime import datetime
 
 import requests
 from django.conf import settings
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from weasyprint import HTML
 from web.models import ActivateToken, Invoices, Orders
@@ -160,3 +161,23 @@ def send_email_order_completed(order, host, file_name=False):
         ]
         return requests.post(url, auth=auth, data=data, files=files)
     return requests.post(url, auth=auth, data=data)
+
+def send_email_order_completed_by_django(order, host, file_name=False):
+    subject, from_email, to = \
+        f"Zamówienie w serwisie w Rybnej nr: {order.number} zakończono pomyślnie.", \
+        settings.EMAIL_HOST_USER, order.client.email
+    token = ActivateToken.objects.get(user=order.client).activation_token
+    html_content = render_to_string(
+        "orders/order_completed_email.html",
+        {
+            "order": order,
+            "user": order.client.profile,
+            "button_link": f"{host}/zamowienia/redirect_from_email/{token}",
+        },
+    )
+    html_content = html_content
+    msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+    msg.attach_alternative(html_content, "text/html")
+    if file_name:
+        msg.attach("Faktura: " + order.invoice.number, order.invoice.pdf.read())
+    msg.send()

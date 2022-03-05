@@ -19,7 +19,11 @@ from .forms import (
     StandartForm,
     UserForm,
 )
-from .functions import send_simple_message, send_activate_info_message
+from .functions import (send_simple_message, 
+    send_activate_info_message, 
+    send_activate_email_by_django,
+    send_activate_info_email_by_django
+)
 
 User = get_user_model()
 
@@ -55,6 +59,8 @@ class RegisterUserView(View):
                 send_simple_message(
                     "Aktywacja konta", host, new_user, token.activation_token
                 )
+                send_activate_email_by_django(
+                    "Aktywacja konta", host, new_user, token.activation_token)
                 profile = Profile()
                 profile.user_id = new_user.id
                 profile.company = False
@@ -119,6 +125,8 @@ class CompanyRegistrationView(View):
                 send_simple_message(
                     "Aktywacja konta", host, new_user, token.activation_token
                 )
+                send_activate_email_by_django(
+                    "Aktywacja konta", host, new_user, token.activation_token)
                 messages.error(request, "Potwierdź email aby zalogować.")
                 return redirect("front_page")
         else:
@@ -135,6 +143,7 @@ class ActivateAccount(View):
         messages.error(request, "Konto aktywne.")
         login(request, user)
         send_activate_info_message(user)
+        send_activate_info_email_by_django(user)
         return redirect("front_page")
 
 
