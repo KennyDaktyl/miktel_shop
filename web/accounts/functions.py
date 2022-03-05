@@ -67,7 +67,7 @@ def send_activate_email_by_django(subject, host, user, token):
 def send_activate_info_email_by_django(user):
     subject, from_email, to = \
         f"Nowy użytkownik w serwisie {user.email}", \
-        settings.EMAIL_HOST_USER, settings.EMAIL_HOST_USE
+        settings.EMAIL_HOST_USER, settings.EMAIL_HOST_USER
     html_content = render_to_string(
         "accounts/activation_info_email.html",
         {
