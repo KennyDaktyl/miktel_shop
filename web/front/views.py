@@ -13,7 +13,7 @@ from .forms import ContactForm
 from .functions import send_contact_message
 
 
-# @method_decorator(cache_page(60 * 720), name='dispatch')
+@method_decorator(cache_page(60 * 720), name='dispatch')
 class FirstPage(View):
     def get(self, request):
         img_carousel = Images.objects.filter(carousel=True)
