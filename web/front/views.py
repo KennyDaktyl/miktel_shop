@@ -1,4 +1,5 @@
 import random
+import os
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
@@ -12,7 +13,7 @@ from .forms import ContactForm
 from .functions import send_contact_message
 
 
-@method_decorator(cache_page(60 * 720), name='dispatch')
+# @method_decorator(cache_page(60 * 720), name='dispatch')
 class FirstPage(View):
     def get(self, request):
         img_carousel = Images.objects.filter(carousel=True)
@@ -33,6 +34,7 @@ class FirstPage(View):
             "recommended_products": random_recommended_products,
             "promo_products": promo_products,
             "articles": articles,
+            "app_id": os.environ.get('APP_ID')
         }
         return render(request, "front_page/first_page.html", ctx)
 
