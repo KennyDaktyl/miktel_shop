@@ -226,9 +226,6 @@
         'albumLabel': "Zdjęcie %1 z %2"
     })
 </script>
-
-{% load compress %}
-{% compress js %}
 <script>
         (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
@@ -239,6 +236,9 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 </script>
+{% load compress %}
+{% compress js %}
+
 <script type="application/ld+json">
     {
       "@context": "https://schema.org/",
