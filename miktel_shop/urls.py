@@ -25,6 +25,7 @@ sitemaps = {
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path('admin/clearcache/', include('clearcache.urls')),
     path(
         "sitemap.xml",
         sitemap,

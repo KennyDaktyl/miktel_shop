@@ -75,7 +75,8 @@ INSTALLED_APPS = [
     "sorl.thumbnail",
     "web",
     "compressor",
-    "django_social_share"
+    "django_social_share",
+    'clearcache',
 ]
 
 STRIPE_ENDPOINT_SECRET = os.environ.get("STRIPE_ENDPOINT_SECRET")
