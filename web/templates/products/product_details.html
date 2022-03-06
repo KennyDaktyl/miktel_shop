@@ -2,10 +2,19 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load thumbnail %}
+{% load social_share %}
+
 
 {% block head_shop %}
-<link href="/static/lightbox/dist/css/lightbox.css" rel="stylesheet" />
+<meta property="fb:app_id" content="{{ app_id }}" />
+<meta property="og:url" content="{{ get_domain }}{{ object.get_absolute_url }}"/>
+<meta property="og:type" content="product" />
+<meta property="og:title" content="Produkt {{ object.name }} | z kategorii {{ object.sub_category_type.sub_category.category.name }}" />
+<meta property="og:description" content="{{ object.desc }}" />
+<meta property="og:image" content="{{ MEDIA_URL }}{{ object.image }}" />
 
+
+<link href="/static/lightbox/dist/css/lightbox.css" rel="stylesheet" />
 <link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
 <meta name="description" content="{{ object.seo_tag_description }} o nazwie {{ object.name }}">
 <title>Produkt {{ object.name }} | marki {{ object.brand.name }}</title>
@@ -47,6 +56,15 @@
             {% endfor %}
         </div>
         <div class="col-md-6 mx-auto text-center row d-flex align-items-start">
+            
+            <div class="col-12 text-right">
+                <div class="fb-share-button" data-href="{{ request.build_absolute_uri }}" data-layout="button" data-size="small"
+                    data-mobile-iframe="false">
+                    <a class="fb-xfbml-parse-ignore" target="_blank"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Udostępnij
+                    </a>
+                </div>
+            </div>
             
             <h1 class="productName col-12 mx-auto text-center align-self-start">{{object.name}}</h1>
             <blockquote class="col-12 mx-auto row d-flex align-items-center ">
@@ -175,6 +193,7 @@
     </div>
 </div>
 
+
 {% if user.is_superuser %}
 <h3>Zdjęcie główne</h3>
 <div class="alert alert-success" role="alert">
@@ -211,8 +230,19 @@
         'albumLabel': "Zdjęcie %1 z %2"
     })
 </script>
+
 {% load compress %}
 {% compress js %}
+<script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+</script>
 <script type="application/ld+json">
     {
       "@context": "https://schema.org/",

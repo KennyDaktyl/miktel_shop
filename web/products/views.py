@@ -1,3 +1,4 @@
+import os
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
 from django.views import View
@@ -83,6 +84,8 @@ class ProductDetails(DetailView):
             context["details_form"] = SelectDetailsProductForm(
                 instance=self.object
             )
+            context["app_id"] = app_id = os.environ.get('APP_ID')
+
         return context
 
     def post(self, request, *args, **kwargs):
