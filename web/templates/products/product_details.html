@@ -58,11 +58,7 @@
         <div class="col-md-6 mx-auto text-center row d-flex align-items-start">
             
             <div class="col-12 text-right">
-                <div class="fb-share-button" data-href="{{ request.build_absolute_uri }}" data-layout="button" data-size="small"
-                    data-mobile-iframe="false">
-                    <a class="fb-xfbml-parse-ignore" target="_blank"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse">Udostępnij
-                    </a>
+                <div class="fb-share-button" data-href="{{ get_domain }}{{ object.get_absolute_url }}" data-layout="button_count">
                 </div>
             </div>
             
