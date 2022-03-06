@@ -84,8 +84,7 @@ class ProductDetails(DetailView):
             context["details_form"] = SelectDetailsProductForm(
                 instance=self.object
             )
-            context["app_id"] = app_id = os.environ.get('APP_ID')
-
+        context["app_id"] = os.environ.get('APP_ID')
         return context
 
     def post(self, request, *args, **kwargs):
