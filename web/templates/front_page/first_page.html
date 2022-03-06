@@ -3,7 +3,10 @@
 {% load crispy_forms_tags %}
 {% load thumbnail %}
 {% load social_share %}
+{% load cache %}
 
+
+{% cache 500 sidebar %}
 {% block head %}
 <meta property="fb:app_id" content="{{ app_id }}" />
 <meta property="og:url" content="{{ get_domain }}{{ object.get_absolute_url }}" />
@@ -202,6 +205,8 @@
   </div>
   <div id="fb-root"></div>
   {% endblock %}
+
+{% endcache %}
 
 {% block script %}
 

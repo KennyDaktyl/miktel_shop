@@ -1,0 +1,41 @@
+.left_menu a {
+    font-size: 0.8rem;
+    line-height: 1.2em;
+    font-weight: 300;
+    display: block;
+    padding: 10px 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #fff;
+    color: #000;
+}
+
+.left_menu a:hover {
+    /* background-color:red; */
+    color: white;
+    text-decoration: none;
+    color: red;
+}
+a.CatMenu {
+    font-size: 1em;
+    color: #000;
+}
+
+a.SubMenu {
+    font-size: 0.9rem;
+    color: #000;
+}
+
+/* a.SubMenu:hover {
+    color: white;
+} */
+
+
+/* .left_menu a:hover {
+    color: #000;
+}
+
+.left_menu li:hover {
+    color: white;
+} */
