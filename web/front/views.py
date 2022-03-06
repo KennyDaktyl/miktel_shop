@@ -1,8 +1,9 @@
 import random
-
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from web.models import Images
 from web.models.articles import Articles
 from web.models.products import Products
@@ -11,6 +12,7 @@ from .forms import ContactForm
 from .functions import send_contact_message
 
 
+@method_decorator(cache_page(60 * 720), name='dispatch')
 class FirstPage(View):
     def get(self, request):
         img_carousel = Images.objects.filter(carousel=True)

@@ -74,7 +74,6 @@ INSTALLED_APPS = [
     "captcha",
     "sorl.thumbnail",
     "web",
-    # 'django_minify_html'
     "compressor",
 ]
 
@@ -100,6 +99,17 @@ MIDDLEWARE = [
 ROOT_URLCONF = "miktel_shop.urls"
 
 CART_SESSION_ID = "cart"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
 
 TEMPLATES = [
     {
