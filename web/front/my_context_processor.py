@@ -1,4 +1,5 @@
 from web.models import Images
+from uuid import uuid4
 
 
 def logo(request):
@@ -14,6 +15,13 @@ def get_domain(request):
     }
     return ctx
 
+def get_cache_uuid(request):
+    ctx = {
+        "uuid": uuid4(),
+        "domain": request.get_host(),
+        "version": "1.0",
+    }
+    return ctx
 
 def base_context_processor(request):
     # return {

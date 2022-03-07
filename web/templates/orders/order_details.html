@@ -23,7 +23,7 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
-    <li class="breadcrumb-item active" aria-current="page"><a href="">Strona startowa</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}?chache={{ uuid }}">Strona startowa</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">Podsumowanie</li>
   </nav>
 
