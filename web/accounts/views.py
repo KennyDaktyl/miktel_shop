@@ -1,4 +1,5 @@
 import uuid
+from uuid import uuid4
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login, logout
@@ -53,7 +54,7 @@ class RegisterUserView(View):
                 token = ActivateToken.objects.create(
                     user=new_user,
                     activation_token=str(
-                        int(str(uuid.uuid4()).split("-")[0], 16)
+                        int(str(uuid.uuid()).split("-")[0], 16)
                     ),
                 )
                 send_simple_message(
@@ -66,7 +67,9 @@ class RegisterUserView(View):
                 profile.company = False
                 profile.save()
                 messages.error(request, "Potwierdź email aby zalogować.")
-                return redirect("front_page")
+                response = redirect("front_page")
+                response['Location'] += '?cache=' + str(uuid4())
+                return response
         else:
             messages.error(request, "Wystąpił błąd")
             ctx = {"form": form}
@@ -119,7 +122,7 @@ class CompanyRegistrationView(View):
                 token = ActivateToken.objects.create(
                     user=new_user,
                     activation_token=str(
-                        int(str(uuid.uuid4()).split("-")[0], 16)
+                        int(str(uuid.uuid()).split("-")[0], 16)
                     ),
                 )
                 send_simple_message(
@@ -128,7 +131,9 @@ class CompanyRegistrationView(View):
                 send_activate_email_by_django(
                     "Aktywacja konta", host, new_user, token.activation_token)
                 messages.error(request, "Potwierdź email aby zalogować.")
-                return redirect("front_page")
+                response = redirect("front_page")
+                response['Location'] += '?cache=' + str(uuid4())
+                return response
         else:
             messages.error(request, "Wystąpił błąd")
             ctx = {"form": form}
@@ -144,7 +149,9 @@ class ActivateAccount(View):
         login(request, user)
         send_activate_info_message(user)
         send_activate_info_email_by_django(user)
-        return redirect("front_page")
+        response = redirect("front_page")
+        response['Location'] += '?cache=' + str(uuid4())
+        return response
 
 
 @method_decorator(login_required, name="dispatch")
@@ -332,7 +339,9 @@ class LoginView(View):
             if user is not None:
                 login(request, user)
                 messages.error(request, "Zalogowano poprawnie.")
-                return redirect("front_page")
+                response = redirect("front_page")
+                response['Location'] += '?cache=' + str(uuid4())
+                return response
             else:
                 messages.error(request, "Błędne hasło lub login")
                 ctx = {"form": form}
