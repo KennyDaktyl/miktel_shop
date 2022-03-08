@@ -56,7 +56,7 @@ class ContactPage(View):
                 subject,
                 message,
             )
-            send_email_contact_message_by_django(subject, message)
+            # send_email_contact_message_by_django(subject, message)
             messages.success(request, "Wysyłanie email zakończnono poprawnie.")
 
             return redirect("contact_page")

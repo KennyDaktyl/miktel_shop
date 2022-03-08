@@ -132,8 +132,8 @@ class OrderCompleted(View):
         if order.invoice_true and not order.invoice:
             file_name = create_pdf_invoice(order)
             send_email_order_completed(order, host, file_name=file_name)
-            send_email_order_completed_by_django(
-                order, host, file_name=file_name)
+            # send_email_order_completed_by_django(
+            #     order, host, file_name=file_name)
         else:
             send_email_order_completed(order, host)
         cart.clear()
