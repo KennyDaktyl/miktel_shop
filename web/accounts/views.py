@@ -1,4 +1,3 @@
-import uuid
 from uuid import uuid4
 
 from django.contrib import messages
@@ -54,7 +53,7 @@ class RegisterUserView(View):
                 token = ActivateToken.objects.create(
                     user=new_user,
                     activation_token=str(
-                        int(str(uuid.uuid()).split("-")[0], 16)
+                        int(str(uuid4()).split("-")[0], 16)
                     ),
                 )
                 send_simple_message(
@@ -122,7 +121,7 @@ class CompanyRegistrationView(View):
                 token = ActivateToken.objects.create(
                     user=new_user,
                     activation_token=str(
-                        int(str(uuid.uuid()).split("-")[0], 16)
+                        int(str(uuid4()).split("-")[0], 16)
                     ),
                 )
                 send_simple_message(

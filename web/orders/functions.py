@@ -142,7 +142,7 @@ def send_email_order_completed(order, host, file_name=False):
 
     subject = "Zamówienie nr: " + order.number
     data = {
-        "from": "admin@serwiswrybnej.pl",
+        "from": "no-reply@serwiswrybnej.pl",
         "to": [order.client.email, "pielak@miktelgsm.pl"],
         "subject": subject,
         "html": html_content,

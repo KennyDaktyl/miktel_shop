@@ -14,7 +14,7 @@ def send_simple_message(subject, host, user, token):
     url = "https://api.eu.mailgun.net/v3/serwiswrybnej.pl/messages"
     auth = ("api", settings.MAILGUN_API_KEY)
     data = {
-        "from": "rejestracja@miktelgsm.pl",
+        "from": "rejestracja@serwiswrybnej.pl",
         "to": [
             user.email,
         ],
