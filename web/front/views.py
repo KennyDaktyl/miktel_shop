@@ -10,7 +10,7 @@ from web.models.articles import Articles
 from web.models.products import Products
 
 from .forms import ContactForm
-from .functions import send_contact_message
+from .functions import send_contact_message, send_email_contact_message_by_django
 
 
 class FirstPage(View):
@@ -56,6 +56,7 @@ class ContactPage(View):
                 subject,
                 message,
             )
+            send_email_contact_message_by_django(subject, message)
             messages.success(request, "Wysyłanie email zakończnono poprawnie.")
 
             return redirect("contact_page")
