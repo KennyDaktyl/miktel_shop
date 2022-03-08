@@ -132,6 +132,9 @@ TEMPLATES = [
                 "web.front.my_context_processor.base_context_processor",
                 "web.products.my_context_processor.menu_category",
             ],
+            'libraries': {
+                'staticfiles': 'django.templatetags.static',
+            }
         },
     },
 ]
@@ -190,6 +193,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = "static"
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
 STATICFILES_DIRS = (os.path.join(SITE_ROOT, "static/"),)
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 

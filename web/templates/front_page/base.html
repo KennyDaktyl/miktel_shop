@@ -1,4 +1,5 @@
-{% load static %}
+{% load staticfiles %}
+{% load static from staticfiles %}
 {% load templatetag %}
 
 <!DOCTYPE html>
@@ -13,16 +14,15 @@
 
     gtag('config', 'G-7TMZLLG9YZ');
     </script>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
+
     <link rel="shortcut icon" href="/media/logo/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/media/logo/favicon.ico" type="image/x-icon">
 
@@ -101,7 +101,7 @@
             <div class="col-lg-12 m-0 p-0" id="navbarTogglerMenu">
                 <ul id="nav_menu" class="col-12 row m-0 p-0 overflow-auto">
                     <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
-                        <a class="col-10 nav-link text-left mx-auto" href="{% url 'front_page' %}?chache={{ uuid }}" title="Sklep On-line">Home</a><span class="col-2"></span>
+                        <a class="col-10 nav-link text-left mx-auto" href="{% url 'front_page' %}?cache={{ uuid }}" title="Sklep On-line">Home</a><span class="col-2"></span>
                     </li>
                     <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
                         <a class="col-10 nav-link text-left text-danger mx-auto" href="{% url 'shop_main_view' %}" title="Sklep On-line">Sklep On-line</a><span class="col-2"></span>
@@ -178,7 +178,7 @@
         <div class="col-12 m-0 p-0 mx-auto text-center collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mx-auto row m-0 p-0 text-center">
             <li class="nav-item active">
-              <a class="nav-link" href="{% url 'front_page' %}?chache={{ uuid }}">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'front_page' %}?cache={{ uuid }}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-danger" href="{% url 'shop_main_view' %}">Sklep On-line</a>
@@ -296,20 +296,22 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
     </script>
-
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script>
-        (function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+        $(window).load(function () {
+                (function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) { return; }
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.onload = function () { fbAsyncInit(); }
+                    js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));
+            });
     </script>
     <script async defer crossorigin="anonymous"
         src="https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v13.0&appId=1963046893902808&autoLogAppEvents=1"
@@ -327,17 +329,9 @@
         });
     </script>
     
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $('.close-cookies').click(function () {
-                $(this).parent().hide();
-            });
-        });
-    </script>
-    <!-- Cookie Consent by https://www.FreePrivacyPolicy.com -->
     <script type="text/javascript" charset="UTF-8">
-    document.addEventListener('DOMContentLoaded', function () {
-    cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"implied","palette":"dark","language":"pl","page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"website_privacy_policy_url":"https://serwiswrybnej.pl/polityka-prywatnosci"});
+        document.addEventListener('DOMContentLoaded', function () {
+        cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"implied","palette":"dark","language":"pl","page_load_consent_levels":["strictly-necessary","functionality","tracking","targeting"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"website_privacy_policy_url":"https://serwiswrybnej.pl/polityka-prywatnosci"});
     });
     </script>
     {% endcompress %}
