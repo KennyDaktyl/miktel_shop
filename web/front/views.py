@@ -80,12 +80,12 @@ class TermsAndRulesPage(View):
 
 def error_404(request, exception):
     context = {}
-    return render(request, "front_page/404.html", context)
+    return render(request, "front_page/404.html", context, status=404)
 
 
 def error_500(request):
     context = {}
-    return render(request, "front_page/500.html", context)
+    return render(request, "front_page/500.html", context, status=500)
 
 
 first_page = FirstPage.as_view()
