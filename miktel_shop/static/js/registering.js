@@ -66,12 +66,10 @@ $(document).ready(function () {
             
             $(this).removeClass('table-success');
             $(this).addClass('table-danger');
-            console.log($(this).attr('id'));
 
         } else {
             $(this).removeClass('table-danger');
             $(this).addClass('table-success');
-            console.log($(this).attr('id'));
         }
     });
 
@@ -114,25 +112,31 @@ $(document).ready(function () {
         input_password2.addClass('table-success');
          } else {
         input_password.removeClass('table-success');
-        input_password.removeClass('table-seccess');
-        input_password2.addClass('table-danger');
+        input_password.addClass('table-danger');
         input_password2.addClass('table-danger');
     }
 
+    input_password.keyup(function () {
+        if (input_password.val().length > 5) {
+            input_password.removeClass('table-danger');
+            input_password.addClass('table-success');
+        } else {
+            input_password.removeClass('table-success');
+            input_password.addClass('table-danger');
+        }
+    });
+
     input_password2.keyup(function(){
-        if ($(this).val() === input_password.val()) {
+        if ($(this).val() === input_password.val() && input_password2.val().length > 5) {
             $(this).removeClass('table-danger');
             input_password.removeClass('table-danger');
-
             input_password.addClass('table-success');
             $(this).addClass('table-success');
             } else {
                 $(this).removeClass('table-success');
-                input_password.removeClass('table-seccess');
+                input_password.removeClass('table-success');
                 input_password.addClass('table-danger');
                 $(this).addClass('table-danger');
         }
     });
-
-    console.log(input_password.val(), input_password2.val())
 });

@@ -32,7 +32,7 @@
         <h1 class="col-12 mt-2">REJESTRACJA KLIENTA:</h1>
       </div>
     </div>
-    <form method="post" class="uniForm col-md-8 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms">
+    <form method="post" class="uniForm col-md-12 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms">
       {% csrf_token %}
       <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
         <div class="col-md-12 mx-auto text-center row m-0 p-0">
@@ -43,10 +43,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.email.errors }}</small>
-            <label for="id_email" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_email" class="requiredField col-md-4 m-0 p-0 align-self-center">
               Email<span class="asteriskField ">*</span>
             </label>
-            <input type="email" name="email" class="emailinput col-10 col-md-8"
+            <input type="email" name="email" class="emailinput col-10 col-md-6"
               maxlength="{{ form.email.field.max_length }}" required="{{ form.email.field.required }}" id="id_email" value='{{ form.email.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-at col-12 text-center mx-auto m-0 p-0"></i>
@@ -54,10 +54,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.password.errors }}</small>
-            <label for="id_password" class="requiredField col-md-2 m-0 p-0 align-self-center">
-              Hasło<span class="asteriskField">*</span>
+            <label for="id_password" class="requiredField col-md-4 m-0 p-0 align-self-center">
+              Hasło (min. 6 znaków)<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password" class="textinput textInput col-10 col-md-8 table-danger"
+            <input type="password" name="password" class="textinput textInput col-10 col-md-6 table-danger"
               maxlength="{{ form.password.field.max_length }}" required="{{ form.password.field.required }}"
               id="id_password" value='{{ form.password.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center show_password">
@@ -67,10 +67,10 @@
 
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.password2.errors }}</small>
-            <label for="id_password2" class="requiredField col-md-2 m-0 p-0 align-self-center">
-              Powtórz hasło<span class="asteriskField">*</span>
+            <label for="id_password2" class="requiredField col-md-4 m-0 p-0 align-self-center">
+              Powtórz hasło (min. 6 znaków)<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password2" class="textinput textInput col-10 col-md-8 align-self-start table-danger"
+            <input type="password" name="password2" class="textinput textInput col-10 col-md-6 align-self-start table-danger"
               maxlength="{{ form.password2.field.max_length}}" required="{{ form.password2.field.required }}"
               id="id_password2" value='{{ form.password2.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center align-self-stretch show_password">
@@ -99,7 +99,8 @@
             <p id="button" class="col-md-5 text-center mx-auto h-100"><input
                 class="btn btn-outline-success mx-auto text-center col-12" type="submit" value="Utwórz konto"></p>
           </div>
-    </form>
+          <small class="col-12 text-center text-danger">*Email aktywacyjny często wpada do Spam lub Ofery</small>
+        </form>
   </main>
 </div>
 {% endblock %}

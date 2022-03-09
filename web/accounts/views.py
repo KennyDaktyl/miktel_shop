@@ -65,7 +65,8 @@ class RegisterUserView(View):
                 profile.user_id = new_user.id
                 profile.company = False
                 profile.save()
-                messages.error(request, "Potwierdź email aby zalogować.")
+                messages.error(
+                    request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)")
                 response = redirect("front_page")
                 response['Location'] += '?cache=' + str(uuid4())
                 return response
@@ -129,7 +130,8 @@ class CompanyRegistrationView(View):
                 )
                 # send_activate_email_by_django(
                 #     "Aktywacja konta", host, new_user, token.activation_token)
-                messages.error(request, "Potwierdź email aby zalogować.")
+                messages.error(
+                    request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)")
                 response = redirect("front_page")
                 response['Location'] += '?cache=' + str(uuid4())
                 return response

@@ -134,8 +134,12 @@ class OrderCompleted(View):
             send_email_order_completed(order, host, file_name=file_name)
             # send_email_order_completed_by_django(
             #     order, host, file_name=file_name)
+            messages.error(
+                request, "Wysłano email z Fakturą Vat. (*Sprawdź Spam lub ofery)")
         else:
             send_email_order_completed(order, host)
+            messages.error(
+            request, "Wysłano email z informacją o zamówieniu. (*Sprawdź Spam lub ofery)")
         cart.clear()
         order.save()
         ctx = {"order": order}
