@@ -154,7 +154,7 @@ def send_email_order_completed(order, host, file_name=False):
             (
                 "attachment",
                 (
-                    "faktura-" + order.invoice.number,
+                    "faktura-" + order.invoice.number + ".pdf",
                     open(invoice_file_path, "rb").read(),
                 ),
             ),
@@ -179,5 +179,5 @@ def send_email_order_completed_by_django(order, host, file_name=False):
     msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     if file_name:
-        msg.attach("faktura-" + order.invoice.number, order.invoice.pdf.read() + ".pdf")
+        msg.attach("faktura-" + order.invoice.number + ".pdf", order.invoice.pdf.read())
     msg.send()
