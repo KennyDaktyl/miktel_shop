@@ -91,7 +91,7 @@ def new_invoice_number():
 
 def create_invoice(order):
     invoice_number = new_invoice_number()
-    file_name = "pdf/faktura_" + invoice_number + ".pdf"
+    file_name = "pdf/faktura-" + invoice_number + ".pdf"
     invoice, created = Invoices.objects.get_or_create(
         pdf=file_name, order=order
     )
@@ -154,7 +154,7 @@ def send_email_order_completed(order, host, file_name=False):
             (
                 "attachment",
                 (
-                    "Faktura " + order.invoice.number,
+                    "faktura-" + order.invoice.number,
                     open(invoice_file_path, "rb").read(),
                 ),
             ),
@@ -179,5 +179,5 @@ def send_email_order_completed_by_django(order, host, file_name=False):
     msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     if file_name:
-        msg.attach("Faktura: " + order.invoice.number, order.invoice.pdf.read())
+        msg.attach("faktura-" + order.invoice.number, order.invoice.pdf.read() + ".pdf")
     msg.send()
