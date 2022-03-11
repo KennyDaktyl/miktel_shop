@@ -212,8 +212,8 @@ class SubCategory(BaseModel):
         return reverse(
             "sub_category_products",
             kwargs={
-                "category": self.category.slug,
-                "sub_category": self.slug,
+                "cat": self.category.slug,
+                "sub_cat": self.slug,
                 "pk": self.id,
             },
         )
@@ -277,9 +277,9 @@ class SubCategoryType(BaseModel):
         return reverse(
             "sub_category_type_products",
             kwargs={
-                "category": self.sub_category.category.slug,
-                "sub_category": self.sub_category.slug,
-                "slug": self.slug,
+                "cat": self.sub_category.category.slug,
+                "sub_cat": self.sub_category.slug,
+                "sub_cat_type": self.slug,
                 "pk": self.id,
             },
         )

@@ -131,7 +131,6 @@ class ProductRedirectView(RedirectView):
 class SubCategoryRedirectView(RedirectView):
     permanent = False
     query_string = True
-    pattern_name = "sub_category_products"
 
     def get(self, *args, **kwargs):
         sub_category = get_object_or_404(SubCategory, slug=kwargs["sub_cat"], pk=kwargs["pk"])
@@ -142,11 +141,11 @@ class SubCategoryRedirectView(RedirectView):
 class SubCategoryTypeRedirectView(RedirectView):
     permanent = False
     query_string = True
-    pattern_name = "sub_category_type_products"
 
     def get(self, *args, **kwargs):
         sub_category_type = get_object_or_404(
             SubCategoryType, slug=kwargs["sub_cat_type"], pk=kwargs["pk"])
+        print(sub_category_type.get_absolute_url())
         return redirect(sub_category_type.get_absolute_url())
 
 
