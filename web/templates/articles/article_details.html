@@ -5,13 +5,13 @@
 
 {% block head %}
 <link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
-<meta name="description" content="{{ object.title }}">
+<meta name="description" content="Artykuł o tytule {{ object.title }}">
 <title>Blog | {{ object.title }}</title>
 {% endblock %}
 
 
 {% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto row">
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
     <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
     <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'articles_list' %}">Blog</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">{{ object.title }}</li>

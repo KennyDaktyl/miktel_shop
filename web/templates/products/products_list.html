@@ -17,7 +17,11 @@
     <input type="hidden" id='sub_cat_type' value="{{ sub_category_type.id }}">
 
     <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
-        <h1 class="col-12 mx-auto text-left">{{ sub_cat.name }}</h1>
+        {% if sub_cat %}
+        <h1 class="col-12 mx-auto text-left">Produkty z kategorii: {{ sub_cat.name }}</h1>
+        {% else %}
+        <h1 class="col-12 mx-auto text-left">Lista produktów</h1>
+        {% endif %}
         {% for product in object_list %}
         <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">
             <div id="showOption" class="col-12 row mx-auto d-flex align-items-center">

@@ -4,13 +4,15 @@
 {% load thumbnail %}
 
 {% block head %}
-<title>Blog | Lista artykułów.</title>
+<link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
+<meta name="description" content="Blog. Artykuły z branży serwisu telefonów komórkowych, dorabiania kluczy samochodowych oraz wyrabiania pieczątek.">
+<title>Blog | Lista artykułów z branży serwisu telefonów komórkowych.</title>
 {% endblock %}
 
 {% block title %}{% endblock %}
 
 {% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto row">
+<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
     <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">Blog</li>
 </nav>
