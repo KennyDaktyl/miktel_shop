@@ -98,7 +98,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "web.middleware.WwwRedirectMiddleware",
-    # 'django_minify_html.middleware.MinifyHtmlMiddleware',
+    "csp.middleware.CSPMiddleware"
 ]
 
 ROOT_URLCONF = "miktel_shop.urls"
