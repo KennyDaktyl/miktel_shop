@@ -68,7 +68,7 @@ CSP_DEFAULT_SRC = ["'self'", 'https://google.com', 'https://www.google.com',
     'https://www.googletagmanager.com', 'https://cdn.jsdelivr.net', 'https://use.fontawesome.com',
     'https://fonts.gstatic.com', 'https://www.googletagmanager.com/gtag/js', 'https://www.gstatic.com/recaptcha/',
     'https://web.facebook.com', 'https://www.freeprivacypolicy.com/public/cookie-consent/', 
-    'https://www.freeprivacypolicy.com/public/cookie-consent/4.0.0/cookie-consent.js', 'https://www.facebook.com/tr/']
+    'www.freeprivacypolicy.com', 'https://www.facebook.com/tr/']
 CSP_IMG_SRC = ["'self'", 'https://www.w3.org/2000/svg']
 # Application definition
 

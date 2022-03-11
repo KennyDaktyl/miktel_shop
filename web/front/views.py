@@ -17,10 +17,10 @@ from .functions import send_contact_message, send_email_contact_message_by_djang
 
 @method_decorator(
     csp_update(
-        FRAME_SRC=["'self' https://www.freeprivacypolicy.com/", 
-                  "https://www.google.com/maps/", 'https://connect.facebook.net',
-                  'https://www.facebook.com', 'https://web.facebook.com/v13.0/plugins/',
-                  'https://www.googletagmanager.com/gtag/',]
+        FRAME_SRC=["'self' https://www.freeprivacypolicy.com", 
+                  "https://www.google.com", 'https://connect.facebook.net',
+                  'https://www.facebook.com', 'https://web.facebook.com',
+                  'https://www.googletagmanager.com','https://www.freeprivacypolicy.com']
     ),
     name="dispatch",
 )
