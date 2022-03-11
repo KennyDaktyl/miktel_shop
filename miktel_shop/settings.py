@@ -54,7 +54,7 @@ else:
     SECURE_SSL_REDIRECT = True
     STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
     STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
-    ALLOWED_HOSTS = ["www.serwiswrybnej.pl" "51.75.64.242",]
+    ALLOWED_HOSTS = ["www.serwiswrybnej.pl", "51.75.64.242",]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Application definition
