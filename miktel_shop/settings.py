@@ -62,7 +62,8 @@ CSP_DEFAULT_SRC = ("'self'", 'serwiswrybnej.pl', 'google.com', 'www.google.com',
     'www.facebook.com', 'googleanalitics.com', 'www.googletagmanager.com', 
     'cdn.jsdelivr.net', 'use.fontawesome.com', 'fonts.gstatic.com', 
     'www.freeprivacypolicy.com', 'connect.facebook.net', 'code.jquery.com',
-    'cdn.jsdelivr.net', 'cdn.jsdelivr.net', 'ajax.googleapis.com', 'www.w3.org')
+    'cdn.jsdelivr.net', 'cdn.jsdelivr.net', 'ajax.googleapis.com', 'www.w3.org',
+    'connect.facebook.net')
 CSP_STYLE_SRC = ("'unsafe-inline'", "https:")
 
 # Application definition
