@@ -63,7 +63,7 @@ CSP_DEFAULT_SRC = ("'self'", 'serwiswrybnej.pl', 'google.com', 'www.google.com',
     'cdn.jsdelivr.net', 'use.fontawesome.com', 'fonts.gstatic.com', 
     'www.freeprivacypolicy.com', 'connect.facebook.net', 'code.jquery.com',
     'cdn.jsdelivr.net', 'cdn.jsdelivr.net', 'ajax.googleapis.com', 'www.w3.org',
-    'connect.facebook.net', 'https://connect.facebook.net', 'https://ajax.googleapis.com',
+    'connect.facebook.net', 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0', 'https://ajax.googleapis.com',
     'https://www.googletagmanager.com', 'https://cdn.jsdelivr.net', 'https://use.fontawesome.com',
     'https://fonts.gstatic.com')
 CSP_STYLE_SRC = ("'unsafe-inline'", "https:")
