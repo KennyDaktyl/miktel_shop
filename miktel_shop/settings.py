@@ -16,13 +16,6 @@ import socket
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "serwiswrybnej.pl",
-    "www.serwiswrybnej.pl" "51.75.64.242",
-    "e372-185-172-87-165.ngrok.io",
-]
-
 
 print(socket.gethostname())
 if socket.gethostname() in [
@@ -40,20 +33,29 @@ if socket.gethostname() in [
     SECURE_SSL_REDIRECT = False
     STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY_TEST")
     STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY_TEST")
+    ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "e372-185-172-87-165.ngrok.io",
+]
 else:
     DOMAIN = "serwiswrybnej.pl"
     DOMAIN_URL = "https://" + DOMAIN
     DatabaseName = "miktel_shop_v1"
     DEBUG = False
-    SECURE_SSL_REDIRECT = True
     SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
     SESSION_COOKIE_DOMAIN = f".{DOMAIN}"
     SESSION_COOKIE_AGE = 10 * 60
     SESSION_SAVE_EVERY_REQUEST = True
+    SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_DOMAIN = f".{DOMAIN}"
     CSRF_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = True
+    SECURE_SSL_REDIRECT = True
     STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
     STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+    ALLOWED_HOSTS = ["www.serwiswrybnej.pl" "51.75.64.242",]
+
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Application definition
 
