@@ -15,14 +15,6 @@ def get_domain(request):
     }
     return ctx
 
-def get_cache_uuid(request):
-    ctx = {
-        "uuid": uuid4(),
-        "domain": request.get_host(),
-        "version": "1.0",
-    }
-    return ctx
-
 def base_context_processor(request):
     # return {
     #     'BASE_URL': "http://%s" % Site.objects.get_current().domain

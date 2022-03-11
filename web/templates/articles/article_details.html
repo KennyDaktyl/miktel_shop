@@ -4,6 +4,7 @@
 {% load thumbnail %}
 
 {% block head %}
+<link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
 <meta name="description" content="{{ object.title }}">
 <title>Blog | {{ object.title }}</title>
 {% endblock %}
@@ -11,7 +12,7 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto row">
-    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}?chache={{ uuid }}">Strona startowa</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
     <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'articles_list' %}">Blog</a></li>
     <li class="breadcrumb-item text-dark active" aria-current="page">{{ object.title }}</li>
 </nav>
@@ -23,7 +24,7 @@
         {% thumbnail object.image "800x300" crop='center' format="WEBP" as im %}
         <source srcset="{{ im }}" type="image/webp" />
         <img width="800" height="300" class="img-fluid mx-auto col-12 m-0 p-0" src="{{ MEDIA_URL }}{{ im }}"
-            alt="" title="">
+            alt="{{ im.alt }}" title="{{ im.title }}">
         {% endthumbnail %}
     </div>
     <p class="col-10 mx-auto text-center text-danger">{{ object.created_time }}</p>

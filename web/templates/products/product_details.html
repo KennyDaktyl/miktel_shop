@@ -244,14 +244,12 @@
       "@context": "https://schema.org/",
       "@type": "object",
       "name": "{{ object.name }}",
-      "image": ["{{ get_domain }}{{ MEDIA_URL }}{{object.image}}",
-      {% for image in object.images %}"{{ get_domain }}{{ MEDIA_URL }}{{image.image}}",{%endfor%}
-      ],
+      "image": ["{{ get_domain }}{{ MEDIA_URL }}{{object.image}}", {% for image in object.images %} "{{ get_domain }}{{ MEDIA_URL }}{{image.image}}",{%endfor%}],
       "description": "{{ object.description }}",
       "brand": {
         "@type": "Brand",
         "name": "{{ object.brand.name }}"
-      },
+                },
       "offers": {
         "@type": "Offer",
         "url": "{{ get_domain }}{{ object.get_absolute_url }}",
@@ -259,7 +257,7 @@
         "price": "{{ object.price_promo }}",
         "itemCondition": "https://schema.org/NewCondition",
         {% if object.qty > 0 %}"availability": "https://schema.org/InStock"{% else %}"availability": "https://schema.org/OutOfStock"{% endif %}
-      }
+                }
     }
     </script>
     {% endcompress %}
