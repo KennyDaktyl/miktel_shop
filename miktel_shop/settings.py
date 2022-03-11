@@ -66,7 +66,6 @@ CSP_DEFAULT_SRC = ("'self'", 'serwiswrybnej.pl', 'google.com', 'www.google.com',
     'connect.facebook.net', 'https://connect.facebook.net', 'https://ajax.googleapis.com',
     'https://www.googletagmanager.com', 'https://cdn.jsdelivr.net', 'https://use.fontawesome.com',
     'https://fonts.gstatic.com', 'https://www.googletagmanager.com/gtag/js')
-CSP_FRAME_SRC = ('connect.facebook.net', 'https://connect.facebook.net', 'www.google.com')
 # Application definition
 
 INSTALLED_APPS = [
