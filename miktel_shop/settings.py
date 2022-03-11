@@ -59,9 +59,9 @@ else:
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 CSP_DEFAULT_SRC = ("'self'", 'serwiswrybnej.pl', 'google.com', 
-    'facebook.com', 'googleanalitics.com', 'googletagmanager.com', 
+    'www.facebook.com', 'googleanalitics.com', 'googletagmanager.com', 
     'cdn.jsdelivr.net', 'use.fontawesome.com', 'fonts.gstatic.com', 
-    'freeprivacypolicy.com', 'connect.facebook.net', 'code.jquery.com',
+    'www.freeprivacypolicy.com', 'connect.facebook.net', 'code.jquery.com',
     'cdn.jsdelivr.net', 'cdn.jsdelivr.net', 'ajax.googleapis.com')
 CSP_STYLE_SRC = ("'unsafe-inline'", "https:")
 
