@@ -58,7 +58,7 @@ else:
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-CSP_DEFAULT_SRC = ("'self'", 'serwiswrybnej.pl', 'google.com', 
+CSP_DEFAULT_SRC = ("'self'", 'serwiswrybnej.pl', 'google.com', 'www.google.com',
     'www.facebook.com', 'googleanalitics.com', 'www.googletagmanager.com', 
     'cdn.jsdelivr.net', 'use.fontawesome.com', 'fonts.gstatic.com', 
     'www.freeprivacypolicy.com', 'connect.facebook.net', 'code.jquery.com',
