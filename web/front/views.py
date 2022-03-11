@@ -1,6 +1,5 @@
 import random
 import os
-from csp.decorators import csp
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
@@ -17,7 +16,6 @@ from .functions import send_contact_message, send_email_contact_message_by_djang
 
 class FirstPage(View):
 
-    @csp(DEFAULT_SRC=["'self'"], SCRIPT_SRC=['google.com', 'googleanalytics.com', 'facebook.com',])
     def get(self, request):
         img_carousel = Images.objects.filter(carousel=True)
 

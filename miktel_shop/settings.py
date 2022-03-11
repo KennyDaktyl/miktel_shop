@@ -58,7 +58,11 @@ else:
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-CSP_DEFAULT_SRC = ("'self'", "https://serwiswrybnej.pl")
+CSP_DEFAULT_SRC = ("'self'", "https://serwiswrybnej.pl", "google.com", 
+    "facebook.com", "googleanalitics.com", "https://www.googletagmanager.com", 
+    "https://cdn.jsdelivr.net/", "https://use.fontawesome.com", "https://fonts.gstatic.com", 
+    "www.freeprivacypolicy.com", "https://connect.facebook.net", "https://code.jquery.com",
+    "https://cdn.jsdelivr.net", "https://cdn.jsdelivr.net", "https://ajax.googleapis.com")
 CSP_STYLE_SRC = ("'unsafe-inline'", "https:")
 
 # Application definition
