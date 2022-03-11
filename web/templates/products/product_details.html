@@ -43,7 +43,7 @@
             {% for image in object.images %}
             {% load thumbnail %}
             {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
-            <a href="{{ MEDIA_URL }}{ {im }}" data-lightbox="{{ image.product.id }}" data-title="{{ image.product.name}}"
+            <a href="{{ MEDIA_URL }}{{ im }}" data-lightbox="{{ image.product.id }}" data-title="{{ image.product.name}}"
                 class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{image.object.name}}">
                 {% thumbnail  image.image "75x75" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
