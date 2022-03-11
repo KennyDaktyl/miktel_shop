@@ -2,7 +2,9 @@ Sitemap: https://serwiswrybnej.pl/sitemap.xml
 
 User-agent: *
 Dissalow: /accounts/
+Dissalow: /admin/
 Dissalow: /regulamin
 Dissalow: /polityka-prywatnosci
 Dissalow: /koszyk/
 Dissalow: /zamowienia/
+Dissalow: /payment/

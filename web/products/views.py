@@ -1,8 +1,9 @@
 import os
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View
 from django.views.generic import ListView
+from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from rest_framework import generics, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -130,6 +131,15 @@ class ProductDetails(DetailView):
                 return self.render_to_response(context=context)
 
 
+class ProductRedirectView(RedirectView):
+    permanent = False
+    query_string = True
+    pattern_name = 'product_details'
+    
+    def get(self, *args, **kwargs):
+        product = get_object_or_404(Products, pk=kwargs['pk'])
+        return redirect(product.get_absolute_url())
+
 class ApiProductsListSet(viewsets.ModelViewSet):
     queryset = Products.objects.all()
     serializer_class = ProductSerializer
@@ -162,5 +172,6 @@ shop_main_view = ShopMainView.as_view()
 sub_category_products = SubCategoryProducts.as_view()
 sub_category_type = SubCategoryTypeProducts.as_view()
 product_details = ProductDetails.as_view()
+redirect_product =  ProductRedirectView.as_view()
 search_products = ApiProductsListSet.as_view({"get": "post"})
 search_products_js = ApiProductsListSetJS.as_view()

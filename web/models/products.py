@@ -545,9 +545,7 @@ class Products(BaseModel):
         return reverse(
             "product_details",
             kwargs={
-                "cat": self.sub_category_type.sub_category.category.slug,
                 "sub_cat": self.sub_category_type.sub_category.slug,
-                "sub_cat_type": self.sub_category_type.slug,
                 "product": self.slug,
                 "pk": self.id,
             },

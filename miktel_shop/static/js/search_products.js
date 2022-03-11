@@ -9,7 +9,7 @@ var div_link = $('#div_link');
 div_link.css('display', 'none');
 
 const domain = location.protocol + '//' + location.host
-const form_url = domain + "/sklep_online/szukaj_js";
+const form_url = domain + "/produkty/szukaj_js";
 search_input.keyup(function (event) {
 
     if ($(this).val().length > 1) {

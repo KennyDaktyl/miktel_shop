@@ -6,6 +6,7 @@ from django.conf.urls import include, url
 from django.urls import path
 from django.views.generic import TemplateView
 from web.front.views import error_404, error_500
+from web.products.views import redirect_product
 
 from .sitemaps import (
     StaticViewSitemap,
@@ -43,8 +44,10 @@ urlpatterns = [
     path("koszyk/", include("web.cart.urls")),
     path("zamowienia/", include("web.orders.urls")),
     path("payment/", include("web.payments.urls")),
-    path("sklep_online/", include("web.products.urls")),
+    path("produkty/", include("web.products.urls")),
     path("blog/", include("web.articles.urls")),
+
+    path("sklep_online/produkty/<slug:cat>/<slug:sub_cat>/<slug:sub_cat_type>/<slug:product>/<int:pk>", redirect_product, name="redirect-products")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = error_404

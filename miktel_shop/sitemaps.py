@@ -76,9 +76,7 @@ class ProductDetailsSiteView(Sitemap):
         return reverse(
             "product_details",
             kwargs={
-                "cat": items.sub_category_type.sub_category.category.slug,
                 "sub_cat": items.sub_category_type.sub_category.slug,
-                "sub_cat_type": items.sub_category_type.slug,
                 "product": items.slug,
                 "pk": items.pk,
             },
