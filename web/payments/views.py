@@ -103,17 +103,13 @@ class PayMentSuccessView(View):
         order.status = 2
         if order.pdf_created:
             invoice_number = new_invoice_number()
-            invoice, created = Invoices.objects.get_or_create(
-                pdf=invoice_number
-            )
+            invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)
             invoice.number = invoice_number
             invoice.save()
             create_pdf_invoice(order, invoice, created)
         if not order.products_item:
             order.products_item = cart.get_products()
-        delivery_method = DeliveryMethod.objects.get(
-            name=order.delivery_method
-        )
+        delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
         if delivery_method.inpost_box and not order.products_item.get(
             delivery_method.id
         ):

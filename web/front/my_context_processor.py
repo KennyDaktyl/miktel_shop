@@ -15,6 +15,7 @@ def get_domain(request):
     }
     return ctx
 
+
 def base_context_processor(request):
     # return {
     #     'BASE_URL': "http://%s" % Site.objects.get_current().domain

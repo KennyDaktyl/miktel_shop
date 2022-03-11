@@ -34,9 +34,9 @@ if socket.gethostname() in [
     STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY_TEST")
     STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY_TEST")
     ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "e372-185-172-87-165.ngrok.io",
-]
+        "127.0.0.1",
+        "e372-185-172-87-165.ngrok.io",
+    ]
 else:
     DOMAIN = "serwiswrybnej.pl"
     DOMAIN_URL = "https://" + DOMAIN
@@ -50,27 +50,30 @@ else:
     CSRF_COOKIE_DOMAIN = f".{DOMAIN}"
     CSRF_COOKIE_HTTPONLY = True
     CSRF_COOKIE_SECURE = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = True
     STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
     STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
-    ALLOWED_HOSTS = ["serwiswrybnej.pl", "51.75.64.242",]
+    ALLOWED_HOSTS = [
+        "serwiswrybnej.pl",
+        "51.75.64.242",
+    ]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # CSP_INCLUDE_NONCE_IN=['script-src',]
-CSP_DEFAULT_SRC = ["'self'", 'https://google.com', 'https://www.google.com',
-    'https://www.facebook.com', 'https://googleanalitics.com', 'https://www.googletagmanager.com/gtag', 
-    'https://cdn.jsdelivr.net', 'https://use.fontawesome.com', 'https://fonts.gstatic.com', 
-    'https://www.freeprivacypolicy.com', 'https://connect.facebook.net', 'https://code.jquery.com',
-    'https://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net', 'https://ajax.googleapis.com', 'https://www.w3.org',
-    'https://connect.facebook.net', 'https://connect.facebook.net', 'https://ajax.googleapis.com',
-    'https://www.googletagmanager.com', 'https://cdn.jsdelivr.net', 'https://use.fontawesome.com',
-    'https://fonts.gstatic.com', 'https://www.googletagmanager.com/gtag/js', 'https://www.gstatic.com/recaptcha/',
-    'https://web.facebook.com', 'https://www.freeprivacypolicy.com/public/cookie-consent/', 
-    'www.freeprivacypolicy.com', 'https://www.facebook.com/tr/']
-CSP_IMG_SRC = ["'self'", 'https://www.w3.org/2000/svg']
-# Application definition
+# CSP_DEFAULT_SRC = ["'self'", 'https://google.com', 'https://www.google.com',
+#     'https://www.facebook.com', 'https://googleanalitics.com', 'https://www.googletagmanager.com/gtag',
+#     'https://cdn.jsdelivr.net', 'https://use.fontawesome.com', 'https://fonts.gstatic.com',
+#     'https://www.freeprivacypolicy.com', 'https://connect.facebook.net', 'https://code.jquery.com',
+#     'https://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net', 'https://ajax.googleapis.com', 'https://www.w3.org',
+#     'https://connect.facebook.net', 'https://connect.facebook.net', 'https://ajax.googleapis.com',
+#     'https://www.googletagmanager.com', 'https://cdn.jsdelivr.net', 'https://use.fontawesome.com',
+#     'https://fonts.gstatic.com', 'https://www.googletagmanager.com/gtag/js', 'https://www.gstatic.com/recaptcha/',
+#     'https://web.facebook.com', 'https://www.freeprivacypolicy.com/public/cookie-consent/',
+#     'www.freeprivacypolicy.com', 'https://www.facebook.com/tr/']
+# CSP_IMG_SRC = ["'self'", 'https://www.w3.org/2000/svg']
+# # Application definition
 
 INSTALLED_APPS = [
     "web.accounts.apps.AccountConfig",
@@ -88,7 +91,7 @@ INSTALLED_APPS = [
     "web",
     "compressor",
     "django_social_share",
-    'clearcache',
+    "clearcache",
 ]
 
 STRIPE_ENDPOINT_SECRET = os.environ.get("STRIPE_ENDPOINT_SECRET")
@@ -107,7 +110,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "web.middleware.WwwRedirectMiddleware",
-    "csp.middleware.CSPMiddleware"
+    # "csp.middleware.CSPMiddleware"
 ]
 
 ROOT_URLCONF = "miktel_shop.urls"
@@ -120,7 +123,7 @@ CACHES = {
         "LOCATION": "redis://127.0.0.1:6379/1",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
+        },
     }
 }
 
@@ -143,9 +146,9 @@ TEMPLATES = [
                 "web.front.my_context_processor.base_context_processor",
                 "web.products.my_context_processor.menu_category",
             ],
-            'libraries': {
-                'staticfiles': 'django.templatetags.static',
-            }
+            "libraries": {
+                "staticfiles": "django.templatetags.static",
+            },
         },
     },
 ]
@@ -180,7 +183,7 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator", # noqa
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa
@@ -237,7 +240,7 @@ DEFAULT_RENDERER_CLASSES = ("rest_framework.renderers.JSONRenderer",)
 
 REST_FRAMEWORK = {"DEFAULT_RENDERER_CLASSES": DEFAULT_RENDERER_CLASSES}
 
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-FACEBOOK_APP_ID = os.environ.get('APP_ID')
-SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get('SOCIAL_AUTH_FACEBOOK_KEY')
-SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('SOCIAL_AUTH_FACEBOOK_SECRET')
+SOCIAL_AUTH_FACEBOOK_SCOPE = ["email"]
+FACEBOOK_APP_ID = os.environ.get("APP_ID")
+SOCIAL_AUTH_FACEBOOK_KEY = os.environ.get("SOCIAL_AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get("SOCIAL_AUTH_FACEBOOK_SECRET")

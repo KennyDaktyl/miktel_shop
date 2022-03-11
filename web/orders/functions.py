@@ -52,9 +52,9 @@ def new_invoice_number():
     try:
         last_number = Invoices.objects.all().first()
         if last_number:
-            last_number.number = last_number.number.replace(
-                "pdf/faktura_", ""
-            ).replace(".pdf", "")
+            last_number.number = last_number.number.replace("pdf/faktura_", "").replace(
+                ".pdf", ""
+            )
             number_indx = int(last_number.number[:3]) + 1
             ln_month = last_number.created_time.month
             ln_year = last_number.created_time.year
@@ -92,9 +92,7 @@ def new_invoice_number():
 def create_invoice(order):
     invoice_number = new_invoice_number()
     file_name = "pdf/faktura-" + invoice_number + ".pdf"
-    invoice, created = Invoices.objects.get_or_create(
-        pdf=file_name, order=order
-    )
+    invoice, created = Invoices.objects.get_or_create(pdf=file_name, order=order)
     invoice.order = order
     invoice.number = invoice_number
     invoice.save()
@@ -162,10 +160,13 @@ def send_email_order_completed(order, host, file_name=False):
         return requests.post(url, auth=auth, data=data, files=files)
     return requests.post(url, auth=auth, data=data)
 
+
 def send_email_order_completed_by_django(order, host, file_name=False):
-    subject, from_email, to = \
-        f"Zamówienie w serwisie w Rybnej nr: {order.number} zakończono pomyślnie.", \
-        settings.EMAIL_HOST_USER, order.client.email
+    subject, from_email, to = (
+        f"Zamówienie w serwisie w Rybnej nr: {order.number} zakończono pomyślnie.",
+        settings.EMAIL_HOST_USER,
+        order.client.email,
+    )
     token = ActivateToken.objects.get(user=order.client).activation_token
     html_content = render_to_string(
         "orders/order_completed_email.html",

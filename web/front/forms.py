@@ -22,9 +22,7 @@ class ContactForm(forms.Form):
     )
     message = forms.CharField(
         label="Treść wiadomości",
-        widget=forms.Textarea(
-            attrs={"cols": 30, "rows": 4, "placeholder": "message"}
-        ),
+        widget=forms.Textarea(attrs={"cols": 30, "rows": 4, "placeholder": "message"}),
         required=True,
     )
 

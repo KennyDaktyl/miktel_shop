@@ -3,6 +3,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 
+
 def send_simple_message(subject, host, user, token):
     html_content = render_to_string(
         "accounts/activation_email.html",
@@ -48,9 +49,7 @@ def send_activate_info_message(user):
 
 
 def send_activate_email_by_django(subject, host, user, token):
-    subject, from_email, to = \
-        subject, \
-        settings.EMAIL_HOST_USER, user.email
+    subject, from_email, to = subject, settings.EMAIL_HOST_USER, user.email
     html_content = render_to_string(
         "accounts/activation_email.html",
         {
@@ -65,9 +64,11 @@ def send_activate_email_by_django(subject, host, user, token):
 
 
 def send_activate_info_email_by_django(user):
-    subject, from_email, to = \
-        f"Nowy użytkownik w serwisie {user.email}", \
-        settings.EMAIL_HOST_USER, settings.EMAIL_HOST_USER
+    subject, from_email, to = (
+        f"Nowy użytkownik w serwisie {user.email}",
+        settings.EMAIL_HOST_USER,
+        settings.EMAIL_HOST_USER,
+    )
     html_content = render_to_string(
         "accounts/activation_info_email.html",
         {

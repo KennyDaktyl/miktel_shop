@@ -15,9 +15,7 @@ from .products import file_size
 class PayMethod(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
-    name = models.CharField(
-        verbose_name="Nazwa metody płatności", max_length=64
-    )
+    name = models.CharField(verbose_name="Nazwa metody płatności", max_length=64)
     pay_method = models.IntegerField(
         verbose_name="Rodzaj płatności", choices=PAY_METHOD
     )
@@ -29,9 +27,7 @@ class PayMethod(BaseModel):
         null=True,
         blank=True,
     )
-    link = models.URLField(
-        verbose_name="Link do regulaminu", null=True, blank=True
-    )
+    link = models.URLField(verbose_name="Link do regulaminu", null=True, blank=True)
     price = models.DecimalField(
         verbose_name="Cena zamówienia",
         default=0.00,
@@ -55,9 +51,7 @@ class PayMethod(BaseModel):
         pm_income_all_count = orders_in_this_pay_m.count()
         pm_income_closed_count = orders_realised.count()
         if orders_realised.aggregate(Sum("total_price"))["total_price__sum"]:
-            _sum = orders_realised.aggregate(Sum("total_price"))[
-                "total_price__sum"
-            ]
+            _sum = orders_realised.aggregate(Sum("total_price"))["total_price__sum"]
         else:
             _sum = 0.00
 
@@ -74,12 +68,8 @@ class PayMethod(BaseModel):
 class DeliveryMethod(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
-    id_code = models.CharField(
-        verbose_name="Kod dla id iframe inposta", max_length=64
-    )
-    name = models.CharField(
-        verbose_name="Nazwa metody płatności", max_length=64
-    )
+    id_code = models.CharField(verbose_name="Kod dla id iframe inposta", max_length=64)
+    name = models.CharField(verbose_name="Nazwa metody płatności", max_length=64)
     price = models.DecimalField(
         verbose_name="Cena za dostawę",
         default=0.00,
@@ -198,9 +188,7 @@ class Orders(BaseModel):
         verbose_name="Czas wywozu", blank=True, null=True
     )
     sms_send = models.BooleanField(verbose_name="Sms", default=False)
-    sms_time = models.TimeField(
-        verbose_name="Czas smsa", blank=True, null=True
-    )
+    sms_time = models.TimeField(verbose_name="Czas smsa", blank=True, null=True)
     promo = models.BooleanField(verbose_name="Promocja", default=False)
     discount = models.IntegerField(verbose_name="Rabat", default=0)
     info = models.CharField(
@@ -212,9 +200,7 @@ class Orders(BaseModel):
         decimal_places=2,
         max_digits=7,
     )
-    products_item = models.JSONField(
-        verbose_name="Produkty", null=True, blank=True
-    )
+    products_item = models.JSONField(verbose_name="Produkty", null=True, blank=True)
     invoice_true = models.BooleanField(
         verbose_name="Czy wybrano fakturę", default=False
     )
@@ -243,24 +229,17 @@ class Orders(BaseModel):
     def get_invoice_total_price_netto(self):
         total_price = round(float(self.total_price / Decimal(1.23)), 2)
         delivery_method = DeliveryMethod.objects.get(name=self.delivery_method)
-        return round(
-            float(total_price) + float(delivery_method.price_netto), 2
-        )
+        return round(float(total_price) + float(delivery_method.price_netto), 2)
 
     @property
     def get_invoice_total_price(self):
         delivery_method = DeliveryMethod.objects.get(name=self.delivery_method)
-        return round(
-            float(self.total_price) + float(delivery_method.price_netto), 2
-        )
+        return round(float(self.total_price) + float(delivery_method.price_netto), 2)
 
     @property
     def get_invoice_total_vat(self):
         return round(
-            float(
-                self.get_invoice_total_price
-                - self.get_invoice_total_price_netto
-            ),
+            float(self.get_invoice_total_price - self.get_invoice_total_price_netto),
             2,
         )
 
@@ -313,9 +292,7 @@ class ProductCopy(BaseModel):
 
 
 class Invoices(BaseModel):
-    order = models.ForeignKey(
-        "Orders", on_delete=models.CASCADE, null=True, blank=True
-    )
+    order = models.ForeignKey("Orders", on_delete=models.CASCADE, null=True, blank=True)
     number = models.CharField(max_length=64)
     pdf = models.FileField(null=True, blank=True)
 

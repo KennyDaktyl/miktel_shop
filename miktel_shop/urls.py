@@ -6,7 +6,8 @@ from django.conf.urls import include, url
 from django.urls import path
 from django.views.generic import TemplateView
 from web.front.views import error_404, error_500
-from web.products.views import redirect_product
+from web.products.views import redirect_product, redirect_sub_category, \
+redirect_sub_category_type
 
 from .sitemaps import (
     StaticViewSitemap,
@@ -26,7 +27,7 @@ sitemaps = {
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('admin/clearcache/', include('clearcache.urls')),
+    path("admin/clearcache/", include("clearcache.urls")),
     path(
         "sitemap.xml",
         sitemap,
@@ -46,8 +47,21 @@ urlpatterns = [
     path("payment/", include("web.payments.urls")),
     path("produkty/", include("web.products.urls")),
     path("blog/", include("web.articles.urls")),
-
-    path("sklep_online/produkty/<slug:cat>/<slug:sub_cat>/<slug:sub_cat_type>/<slug:product>/<int:pk>", redirect_product, name="redirect-products")
+    path(
+        "sklep_online/produkty/<slug:cat>/<slug:sub_cat>/<slug:sub_cat_type>/<slug:product>/<int:pk>",
+        redirect_product,
+        name="redirect-products",
+    ),
+    path(
+        "sklep_online/produkty/<slug:cat>/<slug:sub_cat>/<int:pk>",
+        redirect_sub_category,
+        name="redirect_sub_category",
+    ),
+    path(
+        "sklep_online/produkty/<slug:cat>/<slug:sub_cat>/<slug:sub_cat_type>/<int:pk>",
+        redirect_sub_category_type,
+        name="redirect_sub_category_type",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = error_404

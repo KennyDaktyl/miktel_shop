@@ -25,9 +25,7 @@ class LoginForm(forms.Form):
         validators=[validate_email],
         required=True,
     )
-    password = forms.CharField(
-        label="Hasło", widget=forms.PasswordInput, required=True
-    )
+    password = forms.CharField(label="Hasło", widget=forms.PasswordInput, required=True)
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -150,9 +148,7 @@ class BusinessForm(forms.ModelForm):
         validators=[validate_email],
         required=True,
     )
-    business_name = forms.CharField(
-        label="Nazwa firmy", max_length=128, required=True
-    )
+    business_name = forms.CharField(label="Nazwa firmy", max_length=128, required=True)
     business_name_l = forms.CharField(
         label="nazwa c.d.", max_length=128, required=False
     )
@@ -188,9 +184,7 @@ class BusinessForm(forms.ModelForm):
     house = forms.CharField(label="Nr domu", max_length=8, required=True)
     door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
     city = forms.CharField(label="Miasto", max_length=64, required=True)
-    zip_code = forms.CharField(
-        label="Kod pocztowy", max_length=6, required=True
-    )
+    zip_code = forms.CharField(label="Kod pocztowy", max_length=6, required=True)
 
     class Meta:
         model = User
@@ -261,6 +255,4 @@ class AddressForm(forms.Form):
     house = forms.CharField(label="Nr domu", max_length=8, required=True)
     door = forms.CharField(label="Nr lokalu", max_length=8, required=False)
     city = forms.CharField(label="Miasto", max_length=64, required=True)
-    zip_code = forms.CharField(
-        label="Kod pocztowy", max_length=6, required=True
-    )
+    zip_code = forms.CharField(label="Kod pocztowy", max_length=6, required=True)

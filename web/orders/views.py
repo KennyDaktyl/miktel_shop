@@ -17,7 +17,7 @@ from .functions import (
     new_number,
     order_inpost_box,
     send_email_order_completed,
-    send_email_order_completed_by_django
+    send_email_order_completed_by_django,
 )
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -28,9 +28,7 @@ class OrderDetails(View):
     def get(self, request):
         form = OrderDetailsForm(client=request.user)
         if request.user.profile.company:
-            form = OrderDetailsForm(
-                client=request.user, initial={"bill_select": "2"}
-            )
+            form = OrderDetailsForm(client=request.user, initial={"bill_select": "2"})
         ctx = {"form": form}
         return render(request, "orders/order_details.html", ctx)
 
@@ -44,9 +42,7 @@ class OrderDetails(View):
                 request.session["inpost_box_id"] = inpost_box_id
 
         if form.is_valid():
-            pay_method = PayMethod.objects.get(
-                name=form.cleaned_data["payment_method"]
-            )
+            pay_method = PayMethod.objects.get(name=form.cleaned_data["payment_method"])
             delivery_method = DeliveryMethod.objects.get(
                 name=form.cleaned_data["delivery_method"]
             )
@@ -111,13 +107,9 @@ class OrderCompleted(View):
         order.status = 2
 
         if order.pay_method.pay_method == 4:
-            payment_intent_status = stripe.PaymentIntent.retrieve(
-                order.payment_intent
-            )
+            payment_intent_status = stripe.PaymentIntent.retrieve(order.payment_intent)
             order.payment_success = (
-                True
-                if payment_intent_status["status"] == "succeeded"
-                else False
+                True if payment_intent_status["status"] == "succeeded" else False
             )
             if order.payment_success:
                 order.pay_status = 3
@@ -125,9 +117,7 @@ class OrderCompleted(View):
 
         if not order.products_item:
             order.products_item = cart.get_products()
-        delivery_method = DeliveryMethod.objects.get(
-            name=order.delivery_method
-        )
+        delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
         order_inpost_box(request, order, delivery_method)
         if order.invoice_true and not order.invoice:
             file_name = create_pdf_invoice(order)
@@ -135,11 +125,14 @@ class OrderCompleted(View):
             # send_email_order_completed_by_django(
             #     order, host, file_name=file_name)
             messages.error(
-                request, "Wysłano email z Fakturą Vat. (*Sprawdź Spam lub ofery)")
+                request, "Wysłano email z Fakturą Vat. (*Sprawdź Spam lub ofery)"
+            )
         else:
             send_email_order_completed(order, host)
             messages.error(
-            request, "Wysłano email z informacją o zamówieniu. (*Sprawdź Spam lub ofery)")
+                request,
+                "Wysłano email z informacją o zamówieniu. (*Sprawdź Spam lub ofery)",
+            )
         cart.clear()
         order.save()
         ctx = {"order": order}

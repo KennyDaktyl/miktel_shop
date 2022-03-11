@@ -19,10 +19,11 @@ from .forms import (
     StandartForm,
     UserForm,
 )
-from .functions import (send_simple_message, 
-    send_activate_info_message, 
+from .functions import (
+    send_simple_message,
+    send_activate_info_message,
     send_activate_email_by_django,
-    send_activate_info_email_by_django
+    send_activate_info_email_by_django,
 )
 
 User = get_user_model()
@@ -52,9 +53,7 @@ class RegisterUserView(View):
                 host = request.scheme + "://" + request.get_host()
                 token = ActivateToken.objects.create(
                     user=new_user,
-                    activation_token=str(
-                        int(str(uuid4()).split("-")[0], 16)
-                    ),
+                    activation_token=str(int(str(uuid4()).split("-")[0], 16)),
                 )
                 send_simple_message(
                     "Aktywacja konta", host, new_user, token.activation_token
@@ -66,9 +65,10 @@ class RegisterUserView(View):
                 profile.company = False
                 profile.save()
                 messages.error(
-                    request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)")
+                    request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)"
+                )
                 response = redirect("front_page")
-                response['Location'] += '?cache=' + str(uuid4())
+                response["Location"] += "?cache=" + str(uuid4())
                 return response
         else:
             messages.error(request, "Wystąpił błąd")
@@ -102,9 +102,9 @@ class CompanyRegistrationView(View):
                 profile.user_id = new_user.id
                 profile.company_name = form.cleaned_data["business_name"]
                 profile.company_name_l = form.cleaned_data["business_name_l"]
-                profile.phone_number = form.cleaned_data[
-                    "phone_number"
-                ].replace(" ", "")
+                profile.phone_number = form.cleaned_data["phone_number"].replace(
+                    " ", ""
+                )
                 profile.nip_number = form.cleaned_data["nip_number"]
                 profile.company = True
                 profile.save()
@@ -121,9 +121,7 @@ class CompanyRegistrationView(View):
                 host = request.scheme + "://" + request.get_host()
                 token = ActivateToken.objects.create(
                     user=new_user,
-                    activation_token=str(
-                        int(str(uuid4()).split("-")[0], 16)
-                    ),
+                    activation_token=str(int(str(uuid4()).split("-")[0], 16)),
                 )
                 send_simple_message(
                     "Aktywacja konta", host, new_user, token.activation_token
@@ -131,9 +129,10 @@ class CompanyRegistrationView(View):
                 # send_activate_email_by_django(
                 #     "Aktywacja konta", host, new_user, token.activation_token)
                 messages.error(
-                    request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)")
+                    request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)"
+                )
                 response = redirect("front_page")
-                response['Location'] += '?cache=' + str(uuid4())
+                response["Location"] += "?cache=" + str(uuid4())
                 return response
         else:
             messages.error(request, "Wystąpił błąd")
@@ -151,7 +150,7 @@ class ActivateAccount(View):
         send_activate_info_message(user)
         # send_activate_info_email_by_django(user)
         response = redirect("front_page")
-        response['Location'] += '?cache=' + str(uuid4())
+        response["Location"] += "?cache=" + str(uuid4())
         return response
 
 
@@ -205,16 +204,10 @@ class UserProfileView(View):
                 user.save()
                 bussines_form.save(commit=False)
                 profile.company = True
-                profile.company_name = bussines_form.cleaned_data[
-                    "company_name"
-                ]
-                profile.company_name_l = bussines_form.cleaned_data[
-                    "company_name_l"
-                ]
+                profile.company_name = bussines_form.cleaned_data["company_name"]
+                profile.company_name_l = bussines_form.cleaned_data["company_name_l"]
                 profile.nip_number = bussines_form.cleaned_data["nip_number"]
-                profile.phone_number = bussines_form.cleaned_data[
-                    "phone_number"
-                ]
+                profile.phone_number = bussines_form.cleaned_data["phone_number"]
                 profile.save()
                 messages.error(request, "Zapisano nowe dane.")
                 return redirect("user_profile")
@@ -242,9 +235,7 @@ class UserProfileView(View):
                 user = User.objects.get(profile=profile)
                 user.email = standart_form.cleaned_data["email"]
                 user.save()
-                profile.phone_number = standart_form.cleaned_data[
-                    "phone_number"
-                ]
+                profile.phone_number = standart_form.cleaned_data["phone_number"]
                 profile.save()
                 messages.error(request, "Zapisano nowe dane.")
                 return redirect("user_profile")
@@ -334,14 +325,12 @@ class LoginView(View):
         if form.is_valid():
             user_name_email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
-            user = authenticate(
-                request, username=user_name_email, password=password
-            )
+            user = authenticate(request, username=user_name_email, password=password)
             if user is not None:
                 login(request, user)
                 messages.error(request, "Zalogowano poprawnie.")
                 response = redirect("front_page")
-                response['Location'] += '?cache=' + str(uuid4())
+                response["Location"] += "?cache=" + str(uuid4())
                 return response
             else:
                 messages.error(request, "Błędne hasło lub login")

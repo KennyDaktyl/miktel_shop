@@ -10,9 +10,7 @@ from .base import BaseModel
 def file_size(value):
     limit = 6 * 1024 * 1024
     if value.size > limit:
-        raise ValidationError(
-            "Plik który chcesz wrzucić jest większy niż 6MB."
-        )
+        raise ValidationError("Plik który chcesz wrzucić jest większy niż 6MB.")
 
 
 class Articles(BaseModel):
@@ -21,9 +19,7 @@ class Articles(BaseModel):
         "category", on_delete=models.CASCADE, verbose_name="Kategoria artykułu"
     )
     title = models.CharField(verbose_name="Tytyuł artykułu", max_length=256)
-    slug = models.SlugField(
-        verbose_name="Slug", blank=True, null=True, max_length=256
-    )
+    slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=256)
     body = models.TextField(verbose_name="Treść artukułu")
     image = ResizedImageField(
         verbose_name="Zdjęcie główne",

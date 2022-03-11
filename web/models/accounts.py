@@ -6,20 +6,14 @@ from .base import BaseModel
 
 
 class ActivateToken(BaseModel):
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-    )
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     activation_token = models.CharField(max_length=64, unique=True)
 
 
 class Profile(BaseModel):
     id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-    )
-    phone_number = models.CharField(
-        verbose_name="Numer telefonu", max_length=18
-    )
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    phone_number = models.CharField(verbose_name="Numer telefonu", max_length=18)
 
     nip_number = models.CharField(
         verbose_name="Numer nip",
@@ -40,9 +34,7 @@ class Profile(BaseModel):
         null=True,
         blank=True,
     )
-    company = models.BooleanField(
-        verbose_name="Profil firmowy?", default=False
-    )
+    company = models.BooleanField(verbose_name="Profil firmowy?", default=False)
 
     class Meta:
         ordering = ("-id",)

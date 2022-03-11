@@ -4,30 +4,20 @@ from web.models.products import Category, SubCategory, SubCategoryType, Image
 
 
 class CategorySerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Category
         depth = 1
-        fields = (
-            "name",
-            "id",
-            "slug"
-        )
+        fields = ("name", "id", "slug")
         ordering = ("name",)
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
-    
+
     class Meta:
         model = SubCategory
         depth = 1
-        fields = (
-            "name",
-            "category",
-            "id",
-            "slug"
-        )
+        fields = ("name", "category", "id", "slug")
         ordering = ("name",)
 
 
@@ -37,17 +27,11 @@ class SubCategoryTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubCategoryType
         depth = 1
-        fields = (
-            "name",
-            "sub_category",
-            "id",
-            "slug"
-        )
+        fields = ("name", "sub_category", "id", "slug")
         ordering = ("name",)
 
 
 class ImageSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Image
         depth = 1
@@ -57,10 +41,9 @@ class ImageSerializer(serializers.ModelSerializer):
         )
         ordering = ("image",)
 
+
 class ProductSerializer(serializers.ModelSerializer):
-    product_url = serializers.URLField(
-        source="get_absolute_url", read_only=True
-    )
+    product_url = serializers.URLField(source="get_absolute_url", read_only=True)
     sub_category_type = SubCategoryTypeSerializer(read_only=True)
 
     class Meta:

@@ -8,9 +8,7 @@ class ContactForm(forms.Form):
     helper = FormHelper()
     email = forms.EmailField(
         label="Podaj swój email kontaktowy",
-        widget=forms.EmailInput(
-            attrs={"placeholder": "kowalski.janusz@gmail.com"}
-        ),
+        widget=forms.EmailInput(attrs={"placeholder": "kowalski.janusz@gmail.com"}),
         required=True,
     )
     subject = forms.CharField(

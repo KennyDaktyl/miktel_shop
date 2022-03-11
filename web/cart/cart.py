@@ -55,16 +55,11 @@ class Cart(object):
                 float(product.price_promo) / float("1." + "23"), 2
             )
             total_netto = round(
-                (
-                    (float(self.cart[str(product.id)]["price_netto"]))
-                    * int(quantity)
-                ),
+                ((float(self.cart[str(product.id)]["price_netto"])) * int(quantity)),
                 2,
             )
             self.cart[str(product.id)]["t_netto"] = total_netto
-            total_brutto = round(
-                ((float(product.price_promo)) * int(quantity)), 2
-            )
+            total_brutto = round(((float(product.price_promo)) * int(quantity)), 2)
             self.cart[str(product.id)]["t_brutto"] = total_brutto
             self.cart[str(product.id)]["discount"] = float(product.discount)
             self.cart[str(product.id)]["quantity"] = int(quantity)
@@ -123,9 +118,7 @@ class Cart(object):
         for item in cart.values():
             item["image"] = item["product"]["image"].replace("/media/", "")
             item["price"] = float(item["price"])
-            item["price_netto"] = round(
-                float(item["price"] / float("1." + "23")), 2
-            )
+            item["price_netto"] = round(float(item["price"] / float("1." + "23")), 2)
             item["discount"] = int(item["discount"])
             item["total_price_netto"] = round(
                 float(int(item["quantity"]) * float((item["price_netto"]))), 2

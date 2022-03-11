@@ -11,6 +11,7 @@ def query_transform(context, **kwargs):
         query[k] = v
     return query.urlencode()
 
+
 @register.filter
 def plus_days(value, days):
     return (value + datetime.timedelta(days=days)).date()

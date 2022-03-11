@@ -1,6 +1,7 @@
 import random
 import os
-from csp.decorators import csp_update
+
+# from csp.decorators import csp_update
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
@@ -15,17 +16,16 @@ from web.models.products import Products
 from .forms import ContactForm
 from .functions import send_contact_message, send_email_contact_message_by_django
 
-@method_decorator(
-    csp_update(
-        FRAME_SRC=["'self' https://www.freeprivacypolicy.com", 
-                  "https://www.google.com", 'https://connect.facebook.net',
-                  'https://www.facebook.com', 'https://web.facebook.com',
-                  'https://www.googletagmanager.com','https://www.freeprivacypolicy.com']
-    ),
-    name="dispatch",
-)
+# @method_decorator(
+#     csp_update(
+#         FRAME_SRC=["'self' https://www.freeprivacypolicy.com",
+#                   "https://www.google.com", 'https://connect.facebook.net',
+#                   'https://www.facebook.com', 'https://web.facebook.com',
+#                   'https://www.googletagmanager.com','https://www.freeprivacypolicy.com']
+#     ),
+#     name="dispatch",
+# )
 class FirstPage(View):
-
     def get(self, request):
         img_carousel = Images.objects.filter(carousel=True)
 
@@ -45,19 +45,19 @@ class FirstPage(View):
             "recommended_products": random_recommended_products,
             "promo_products": promo_products,
             "articles": articles,
-            "app_id": os.environ.get('APP_ID')
+            "app_id": os.environ.get("APP_ID"),
         }
         return render(request, "front_page/first_page.html", ctx)
 
-@method_decorator(
-    csp_update(
-        FRAME_SRC=["'self' https://www.google.com/recaptcha/", 
-                  "https://www.google.com/maps/"]
-    ),
-    name="dispatch",
-)
+
+# @method_decorator(
+#     csp_update(
+#         FRAME_SRC=["'self' https://www.google.com/recaptcha/",
+#                   "https://www.google.com/maps/"]
+#     ),
+#     name="dispatch",
+# )
 class ContactPage(View):
-    
     def get(self, request):
         form = ContactForm()
         ctx = {"form": form, "public_key": settings.RECAPTCHA_PUBLIC_KEY}
