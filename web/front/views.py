@@ -1,5 +1,6 @@
 import random
 import os
+from csp.decorators import csp_exempt
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
@@ -9,10 +10,11 @@ from web.models import Images
 from web.models.articles import Articles
 from web.models.products import Products
 
+
 from .forms import ContactForm
 from .functions import send_contact_message, send_email_contact_message_by_django
 
-
+@csp_exempt
 class FirstPage(View):
     def get(self, request):
         img_carousel = Images.objects.filter(carousel=True)
