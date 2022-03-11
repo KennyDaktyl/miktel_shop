@@ -50,15 +50,16 @@ else:
     CSRF_COOKIE_DOMAIN = f".{DOMAIN}"
     CSRF_COOKIE_HTTPONLY = True
     CSRF_COOKIE_SECURE = True
-    SECURE_PROXY_SSL_HEADER = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
     STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
     STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
     ALLOWED_HOSTS = ["www.serwiswrybnej.pl", "51.75.64.242",]
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-# Application definition
 
+CSP_DEFAULT_SRC = ("'self'", "https://serwiswrybnej.pl")
+CSP_STYLE_SRC = ("'unsafe-inline'", "https:")
 
 # Application definition
 
