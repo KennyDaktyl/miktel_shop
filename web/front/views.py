@@ -1,5 +1,6 @@
 import random
 import os
+from csp.decorators import csp_update
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
@@ -14,7 +15,15 @@ from web.models.products import Products
 from .forms import ContactForm
 from .functions import send_contact_message, send_email_contact_message_by_django
 
-
+@method_decorator(
+    csp_update(
+        FRAME_SRC=["'self' https://www.freeprivacypolicy.com/", 
+                  "https://www.google.com/maps/", 'https://connect.facebook.net',
+                  'https://www.facebook.com', 'https://web.facebook.com/v13.0/plugins/',
+                  'https://www.googletagmanager.com/gtag/',]
+    ),
+    name="dispatch",
+)
 class FirstPage(View):
 
     def get(self, request):
@@ -40,7 +49,6 @@ class FirstPage(View):
         }
         return render(request, "front_page/first_page.html", ctx)
 
-from csp.decorators import csp_update
 @method_decorator(
     csp_update(
         FRAME_SRC=["'self' https://www.google.com/recaptcha/", 

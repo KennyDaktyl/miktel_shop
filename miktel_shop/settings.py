@@ -58,16 +58,18 @@ else:
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-CSP_INCLUDE_NONCE_IN=['script-src']
-CSP_DEFAULT_SRC = ["'self'", 'serwiswrybnej.pl', 'google.com', 'www.google.com',
-    'www.facebook.com', 'googleanalitics.com', 'www.googletagmanager.com', 
-    'cdn.jsdelivr.net', 'use.fontawesome.com', 'fonts.gstatic.com', 
-    'www.freeprivacypolicy.com', 'connect.facebook.net', 'code.jquery.com',
-    'cdn.jsdelivr.net', 'cdn.jsdelivr.net', 'ajax.googleapis.com', 'www.w3.org',
-    'connect.facebook.net', 'https://connect.facebook.net', 'https://ajax.googleapis.com',
+# CSP_INCLUDE_NONCE_IN=['script-src',]
+CSP_DEFAULT_SRC = ["'self'", 'https://google.com', 'https://www.google.com',
+    'https://www.facebook.com', 'https://googleanalitics.com', 'https://www.googletagmanager.com/gtag', 
+    'https://cdn.jsdelivr.net', 'https://use.fontawesome.com', 'https://fonts.gstatic.com', 
+    'https://www.freeprivacypolicy.com', 'https://connect.facebook.net', 'https://code.jquery.com',
+    'https://cdn.jsdelivr.net', 'https://cdn.jsdelivr.net', 'https://ajax.googleapis.com', 'https://www.w3.org',
+    'https://connect.facebook.net', 'https://connect.facebook.net', 'https://ajax.googleapis.com',
     'https://www.googletagmanager.com', 'https://cdn.jsdelivr.net', 'https://use.fontawesome.com',
-    'https://fonts.gstatic.com', 'https://www.googletagmanager.com/gtag/js', 'https://www.gstatic.com/recaptcha/']
-
+    'https://fonts.gstatic.com', 'https://www.googletagmanager.com/gtag/js', 'https://www.gstatic.com/recaptcha/',
+    'https://web.facebook.com', 'https://www.freeprivacypolicy.com/public/cookie-consent/', 
+    'https://www.freeprivacypolicy.com/public/cookie-consent/4.0.0/cookie-consent.js', 'https://www.facebook.com/tr/']
+CSP_IMG_SRC = ["'self'", 'https://www.w3.org/2000/svg']
 # Application definition
 
 INSTALLED_APPS = [
