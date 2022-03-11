@@ -1,1 +1,0 @@
-function fbshare(){FB.ui({method:'share',href:'""',picture:'',caption:'Produkt  | marki ',description:''},function(response){});};
