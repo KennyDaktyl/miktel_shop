@@ -1,5 +1,6 @@
 import random
 import os
+from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.views import View
@@ -39,11 +40,19 @@ class FirstPage(View):
         }
         return render(request, "front_page/first_page.html", ctx)
 
-
+from csp.decorators import csp_update
+@method_decorator(
+    csp_update(
+        FRAME_SRC=["'self' https://www.google.com/recaptcha/", 
+                  "https://www.google.com/maps/"]
+    ),
+    name="dispatch",
+)
 class ContactPage(View):
+    
     def get(self, request):
         form = ContactForm()
-        ctx = {"form": form}
+        ctx = {"form": form, "public_key": settings.RECAPTCHA_PUBLIC_KEY}
         return render(request, "front_page/contact_page.html", ctx)
 
     def post(self, request):
@@ -64,7 +73,7 @@ class ContactPage(View):
             return redirect("contact_page")
         else:
             messages.error(request, "Wypełnij wszystkie pola formularza.")
-            ctx = {"form": form}
+            ctx = {"form": form, "public_key": settings.RECAPTCHA_PUBLIC_KEY}
             return render(request, "front_page/contact_page.html", ctx)
 
 
