@@ -29,6 +29,7 @@ search_input.keyup(function (event) {
                 success: function (data) {
                     result = JSON.parse(JSON.stringify(data));
                     link.text('');
+                    console.log(result)
                     if (result.length > 0) {
                         link.css('display', 'flex');
                         div_link.css('display', 'flex');
