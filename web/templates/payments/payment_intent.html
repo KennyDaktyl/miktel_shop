@@ -4,8 +4,6 @@
 
 {% block head %}
 <meta name=”robots” content=”noindex”>
-<link rel="stylesheet" href="{% static "css/checkout.css" %}" />
-<meta name=”robots” content=”noindex”>
 <link rel="stylesheet" href="{% static " css/checkout.css" %}" />
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
@@ -16,7 +14,7 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
-  <li class="breadcrumb-item active" aria-current="page"><a href="">Strona startowa</a></li>
+  <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
   <li class="breadcrumb-item text-dark active" aria-current="page">Płatności</li>
 </nav>
 

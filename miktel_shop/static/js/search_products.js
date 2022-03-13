@@ -9,7 +9,7 @@ var div_link = $('#div_link');
 div_link.css('display', 'none');
 
 const domain = location.protocol + '//' + location.host
-const form_url = domain + "/sklep_online/szukaj_js";
+const form_url = domain + "/produkty/szukaj_js";
 search_input.keyup(function (event) {
 
     if ($(this).val().length > 1) {
@@ -29,6 +29,7 @@ search_input.keyup(function (event) {
                 success: function (data) {
                     result = JSON.parse(JSON.stringify(data));
                     link.text('');
+                    console.log(result)
                     if (result.length > 0) {
                         link.css('display', 'flex');
                         div_link.css('display', 'flex');
@@ -50,7 +51,6 @@ search_input.keyup(function (event) {
                             var name = result[i].name;
                             var price = result[i].price;
                             var qty = parseInt(result[i].qty);
-                            console.log(qty);
                             if (qty == 0) {
                                 qty = '<b class="text-danger">Brak</b>'
                             } else {
@@ -155,7 +155,6 @@ inputSearch.keyup(function (event) {
                 dataType: "json",
                 success: function (data) {
                     result = JSON.parse(JSON.stringify(data));
-                    console.log(result);
                     link_mobile.text('');
                     if (result.length > 0) {
                         link_mobile.css('display', 'flex');

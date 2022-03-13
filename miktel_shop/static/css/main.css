@@ -325,8 +325,8 @@ div.article {
 }
 
 .offer h2 {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     text-transform: uppercase;
 }
 
@@ -625,6 +625,10 @@ i.fa-shopping-basket {
 
 i.fa-shopping-basket:hover {
     color: white;
+}
+
+i.link_invoice {
+    font-size: 30px;
 }
 
 table {

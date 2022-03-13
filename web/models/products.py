@@ -1,7 +1,5 @@
 import sys
-from decimal import Decimal
 from io import BytesIO
-from typing import cast
 
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -42,23 +40,15 @@ class Store(BaseModel):
         null=True,
         blank=True,
     )
-    city = models.CharField(
-        verbose_name="Miasto", max_length=64, default="Kraków"
-    )
+    city = models.CharField(verbose_name="Miasto", max_length=64, default="Kraków")
     post_code = models.CharField(
         verbose_name="Kod pocztowy", null=True, blank=True, max_length=6
     )
-    info = models.CharField(
-        verbose_name="Info", max_length=256, null=True, blank=True
-    )
+    info = models.CharField(verbose_name="Info", max_length=256, null=True, blank=True)
 
-    is_active = models.BooleanField(
-        verbose_name="Czy jest aktywna", default=True
-    )
+    is_active = models.BooleanField(verbose_name="Czy jest aktywna", default=True)
 
-    slug = models.SlugField(
-        verbose_name="Slug", blank=True, null=True, max_length=128
-    )
+    slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=128)
     google_maps_link = models.TextField(
         verbose_name="Link z mapy google", null=True, blank=True
     )
@@ -122,15 +112,11 @@ class Category(BaseModel):
     )
     name = models.CharField(verbose_name="Nazwa kategorii", max_length=128)
     text = models.TextField(verbose_name="Opis kategorii")
-    slug = models.SlugField(
-        verbose_name="Slug", blank=True, null=True, max_length=128
-    )
+    slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=128)
     on_page = models.BooleanField(
         verbose_name="Czy na pierwszej stronie?", default=False
     )
-    is_active = models.BooleanField(
-        verbose_name="Czy jest dostępny", default=True
-    )
+    is_active = models.BooleanField(verbose_name="Czy jest dostępny", default=True)
 
     def counter(self, workplace):
         return (
@@ -182,18 +168,14 @@ class Category(BaseModel):
 class SubCategory(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa podkategorii", max_length=128)
-    desc = models.TextField(
-        verbose_name="Opis podkategorii", blank=True, null=True
-    )
+    desc = models.TextField(verbose_name="Opis podkategorii", blank=True, null=True)
     category = models.ForeignKey(
         "Category",
         verbose_name="Kategoria podkategorii",
         on_delete=models.CASCADE,
         db_index=True,
     )
-    slug = models.SlugField(
-        verbose_name="Slug", blank=True, null=True, max_length=128
-    )
+    slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=128)
     number = models.IntegerField(
         verbose_name="Numer kategorii", null=True, blank=True, default=0
     )
@@ -228,10 +210,10 @@ class SubCategory(BaseModel):
 
     def get_absolute_url(self):
         return reverse(
-            "sub_category_details",
+            "sub_category_products",
             kwargs={
-                "category": self.category.slug,
-                "sub_category": self.slug,
+                "cat": self.category.slug,
+                "sub_cat": self.slug,
                 "pk": self.id,
             },
         )
@@ -244,9 +226,7 @@ class SubCategory(BaseModel):
 
     @property
     def products_count(self):
-        return Products.objects.filter(
-            sub_category_type__sub_category=self
-        ).count()
+        return Products.objects.filter(sub_category_type__sub_category=self).count()
 
 
 class SubCategoryType(BaseModel):
@@ -260,9 +240,7 @@ class SubCategoryType(BaseModel):
         on_delete=models.CASCADE,
         db_index=True,
     )
-    slug = models.SlugField(
-        verbose_name="Slug", blank=True, null=True, max_length=128
-    )
+    slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=128)
     number = models.IntegerField(
         verbose_name="Numer wyświetlania", null=True, blank=True, default=0
     )
@@ -297,11 +275,11 @@ class SubCategoryType(BaseModel):
 
     def get_absolute_url(self):
         return reverse(
-            "sub_category_type_details",
+            "sub_category_type_products",
             kwargs={
-                "category": self.sub_category.category.slug,
-                "sub_category": self.sub_category.slug,
-                "slug": self.slug,
+                "cat": self.sub_category.category.slug,
+                "sub_cat": self.sub_category.slug,
+                "sub_cat_type": self.slug,
                 "pk": self.id,
             },
         )
@@ -353,9 +331,7 @@ class Size(BaseModel):
         verbose_name="Rozmiar produktu (wielkość, pojemność, waga)",
         max_length=64,
     )
-    is_active = models.BooleanField(
-        verbose_name="Czy jest aktualny", default=True
-    )
+    is_active = models.BooleanField(verbose_name="Czy jest aktualny", default=True)
 
     def products(self, workplace):
         return (
@@ -387,9 +363,7 @@ class Colors(BaseModel):
         verbose_name="Text dla koloru klasy",
         max_length=32,
     )
-    slug = models.SlugField(
-        verbose_name="Slug", blank=True, null=True, max_length=128
-    )
+    slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=128)
 
     class Meta:
         ordering = ("name",)
@@ -406,9 +380,7 @@ class Colors(BaseModel):
 class Vat(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.IntegerField(verbose_name="Stawka VAT")
-    is_active = models.BooleanField(
-        verbose_name="Czy jest dostępny", default=True
-    )
+    is_active = models.BooleanField(verbose_name="Czy jest dostępny", default=True)
 
     def __str__(self):
         return "{}%".format(self.name)
@@ -449,9 +421,7 @@ class Products(BaseModel):
     code = models.CharField(
         verbose_name="Kod kreskowy", blank=True, null=True, max_length=8
     )
-    qty = models.IntegerField(
-        default=1, verbose_name="Ilość produktu na stanie"
-    )
+    qty = models.IntegerField(default=1, verbose_name="Ilość produktu na stanie")
     size = models.ForeignKey(
         "Size",
         on_delete=models.CASCADE,
@@ -460,9 +430,7 @@ class Products(BaseModel):
         blank=True,
     )
     desc = models.TextField(verbose_name="Produkt info", blank=True, null=True)
-    slug = models.SlugField(
-        verbose_name="Slug", blank=True, null=True, max_length=128
-    )
+    slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=128)
     image = ResizedImageField(
         verbose_name="Zdjęcie główne",
         size=[1280, 960],
@@ -474,6 +442,8 @@ class Products(BaseModel):
     alt = models.CharField(
         verbose_name="Alternatywny text dla obrazka",
         max_length=125,
+        blank=True,
+        null=True,
     )
     title = models.CharField(
         verbose_name="Title dla obrazka", blank=True, null=True, max_length=70
@@ -518,16 +488,12 @@ class Products(BaseModel):
         verbose_name="Czy jest w rekomendowanych", default=False
     )
 
-    is_news = models.BooleanField(
-        verbose_name="Czy jest w nowościach", default=False
-    )
+    is_news = models.BooleanField(verbose_name="Czy jest w nowościach", default=False)
     is_promo = models.BooleanField(
         verbose_name="Czy jest w propozycjach", default=False
     )
 
-    is_active = models.BooleanField(
-        verbose_name="Czy jest dostępny", default=True
-    )
+    is_active = models.BooleanField(verbose_name="Czy jest dostępny", default=True)
 
     def other_colors(self):
         return (
@@ -543,9 +509,7 @@ class Products(BaseModel):
         return reverse(
             "product_details",
             kwargs={
-                "cat": self.sub_category_type.sub_category.category.slug,
                 "sub_cat": self.sub_category_type.sub_category.slug,
-                "sub_cat_type": self.sub_category_type.slug,
                 "product": self.slug,
                 "pk": self.id,
             },
@@ -560,9 +524,9 @@ class Products(BaseModel):
 
         else:
             self.price_promo = self.price
-        self.price_netto = float(self.price_promo) / float(
-            "1." + str(self.tax.name)
-        )
+        self.price_netto = float(self.price_promo) / float("1." + str(self.tax.name))
+        if not self.image:
+            self.image = "images/products/no_image.webp"
         super(Products, self).save()
 
     class Meta:
@@ -575,11 +539,9 @@ class Products(BaseModel):
     @property
     def seo_tag_description(self):
         if self.brand:
-            description = f"Produkt {self.sub_category_type} marki {self.brand.name} {self.name}"
+            description = f"Produkt {self.sub_category_type} marki {self.brand.name} {self.name}"  # noqa
         else:
-            description = (
-                f"Produkt {self.sub_category_type} o nazwie {self.name}"
-            )
+            description = f"Produkt {self.sub_category_type} o nazwie {self.name}"
         return description
 
 
@@ -613,9 +575,7 @@ class Images(BaseModel):
     )
     main = models.BooleanField(verbose_name="Zdjęcie główne", default=False)
     stamp = models.BooleanField(verbose_name="Zdjęcie wzornika?", default=False)
-    carousel = models.BooleanField(
-        verbose_name="Zdjęcie na karuzele?", default=False
-    )
+    carousel = models.BooleanField(verbose_name="Zdjęcie na karuzele?", default=False)
     description = models.TextField(
         verbose_name="Mały opis dla obrazka na karuzeli",
         blank=True,

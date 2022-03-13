@@ -43,10 +43,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
              <small class="text-danger col-12">{{ form.email.errors }}</small>
-            <label for="id_email" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_email" class="col-10 requiredField col-md-4 m-0 p-0 align-self-center">
               Email<span class="asteriskField ">*</span>
             </label>
-            <input type="email" name="email" class="emailinput col-10 col-md-8"
+            <input type="email" name="email" class="emailinput col-10 col-md-6"
               maxlength="{{ form.email.field.max_length }}" required="{{ form.email.field.required }}" id="id_email" value='{{ form.email.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-at col-12 text-center mx-auto m-0 p-0"></i>
@@ -54,10 +54,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.password.errors }}</small>
-            <label for="id_password" class="requiredField col-md-2 m-0 p-0 align-self-center">
-              Hasło<span class="asteriskField">*</span>
+            <label for="id_password" class="requiredField col-md-4 m-0 p-0 align-self-center">
+              Hasło (min. 6 znaków)<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password" class="textinput textInput col-10 col-md-8 table-danger show_password"
+            <input type="password" name="password" class="textinput textInput col-10 col-md-6 table-danger show_password"
               maxlength="{{ form.password.field.max_length }}" required="{{ form.password.field.required }}"
               id="id_password" value='{{ form.password.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center show_password">
@@ -67,10 +67,10 @@
 
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
              <small class="text-danger col-12">{{ form.password2.errors }}</small>
-            <label for="id_password2" class="requiredField col-md-2 m-0 p-0 align-self-center">
-              Powtórz hasło<span class="asteriskField">*</span>
+            <label for="id_password2" class="requiredField col-md-4 m-0 p-0 align-self-center">
+              Powtórz hasło (min. 6 znaków)<span class="asteriskField">*</span>
             </label>
-            <input type="password" name="password2" class="textinput textInput col-10 col-md-8 align-self-start table-danger"
+            <input type="password" name="password2" class="textinput textInput col-10 col-md-6 align-self-start table-danger"
               maxlength="{{ form.password2.field.max_length}}" required="{{ form.password2.field.required }}" 
               id="id_password2"  value='{{ form.password2.value|default_if_none:"" }}'>
             <span class="show_password input-group-text col-2 text-center align-self-stretch ">
@@ -79,10 +79,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
              <small class="text-danger col-12">{{ form.business_name.errors }}</small>
-            <label for="id_business_name" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_business_name" class="col-10 col-md-6requiredField col-md-4 m-0 p-0 align-self-center">
               Nazwa firmy<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="business_name" class="textinput textInput col-10 col-md-8"
+            <input type="text" name="business_name" class="textinput textInput col-10 col-md-6"
               maxlength="{{ form.business_name.field.max_length }}" required="{{ form.business_name.field.required }}"
               id="id_business_name"  value='{{ form.business_name.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
@@ -91,10 +91,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.business_name_l.errors }}</small>
-            <label for="id_business_name_l" class="col-md-2 m-0 p-0 align-self-center">
+            <label for="id_business_name_l" class="col-md-4 m-0 p-0 align-self-center">
               Nazwa c.d. 
             </label>
-            <input type="text" name="business_name_l" class="textinput textInput col-10 col-md-8"
+            <input type="text" name="business_name_l" class="textinput textInput col-10 col-md-6"
               maxlength="{{ form.business_name_l.field.max_length }}" id="id_business_name_l" value='{{ form.business_name_l.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
@@ -102,10 +102,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.nip_number.errors }}</small>
-            <label for="id_nip_number" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_nip_number" class="col-10 col-md-6requiredField col-md-4 m-0 p-0 align-self-center">
               NIP<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="nip_number" class="textinput textInput col-10 col-md-8"
+            <input type="text" name="nip_number" class="textinput textInput col-10 col-md-6"
               maxlength="{{ form.nip_number.field.max_length }}" required="{{ form.nip_number.field.required }}"
               id="id_nip_number" value='{{ form.nip_number.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
@@ -114,10 +114,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.phone_number.errors }}</small>
-            <label for="id_phone_number" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_phone_number" class="col-10 col-md-6requiredField col-md-4 m-0 p-0 align-self-center">
               Telefon<span class="asteriskField ">*</span>
             </label>
-            <input type="text" name="phone_number" class="col-10 col-md-8"
+            <input type="text" name="phone_number" class="col-10 col-md-6"
               maxlength="{{ form.phone_number.field.max_length }}" required="{{ form.phone_number.field.required }}"
               id="id_phone_number" value='{{ form.phone_number.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
@@ -131,10 +131,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.street.errors }}</small>
-            <label for="id_street" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_street" class="col-10 col-md-6requiredField col-md-4 m-0 p-0 align-self-center">
               Ulica<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="street" class="textinput textInput col-10 col-md-8"
+            <input type="text" name="street" class="textinput textInput col-10 col-md-6"
               maxlength="{{ form.street.field.max_length }}" required="{{ form.street.field.required }}" value='{{ form.street.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-road col-12 text-center mx-auto m-0 p-0"></i>
@@ -142,10 +142,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.house.errors }}</small>
-            <label for="id_house" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_house" class="col-10 col-md-6requiredField col-md-4 m-0 p-0 align-self-center">
               Nr domu<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="house" class="textinput textInput col-10 col-md-8"
+            <input type="text" name="house" class="textinput textInput col-10 col-md-6"
               maxlength="{{ form.house.field.max_length }}" required="{{ form.house.field.required }}" id="id_house" value='{{ form.house.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-home col-12 text-center mx-auto m-0 p-0"></i>
@@ -153,10 +153,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.door.errors }}</small>
-            <label for="id_door" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_door" class="col-10 col-md-6requiredField col-md-4 m-0 p-0 align-self-center">
               Nr lokalu
             </label>
-            <input type="text" name="door" class="textinput textInput col-10 col-md-8"
+            <input type="text" name="door" class="textinput textInput col-10 col-md-6"
               maxlength="{{ form.door.field.max_length }}" id="id_door" value='{{ form.door.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-home col-12 text-center mx-auto m-0 p-0"></i>
@@ -164,10 +164,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.zip_code.errors }}</small>
-            <label for="id_zip_code" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_zip_code" class="col-10 col-md-6requiredField col-md-4 m-0 p-0 align-self-center">
               Kod pocztowy<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="zip_code" class="textinput textInput col-10 col-md-8"
+            <input type="text" name="zip_code" class="textinput textInput col-10 col-md-6"
               maxlength="{{ form.zip_code.field.max_length }}" required="{{ form.zip_code.field.required }}"
               id="id_zip_code" value='{{ form.zip_code.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
@@ -176,10 +176,10 @@
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.city.errors }}</small>
-            <label for="id_city" class="requiredField col-md-2 m-0 p-0 align-self-center">
+            <label for="id_city" class="col-10 col-md-6requiredField col-md-4 m-0 p-0 align-self-center">
               Miasto<span class="asteriskField">*</span>
             </label>
-            <input type="text" name="city" class="textinput textInput col-10 col-md-8"
+            <input type="text" name="city" class="textinput textInput col-10 col-md-6"
               maxlength="{{ form.city.field.max_length }}" required="{{ form.city.field.required }}" id="id_city" value='{{ form.city.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-city col-12 text-center mx-auto m-0 p-0"></i>
@@ -204,7 +204,7 @@
             <p id="button" class="col-md-5 text-center mx-auto h-100"><input
                 class="btn btn-outline-success mx-auto text-center col-12" type="submit" value="Utwórz konto"></p>
           </div>
-
+          <small class="col-12 text-center text-danger">*Email aktywacyjny często wpada do Spam lub Ofery</small>
     </form>
   </main>
 </div>

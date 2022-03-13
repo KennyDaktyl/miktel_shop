@@ -1,12 +1,12 @@
+import os
 from django.contrib import messages
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.views import View
 from django.views.generic import ListView
+from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
 from rest_framework import generics, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
-
 from web.models import Category, Products, SubCategory, SubCategoryType
 
 from .forms import AddMainPhotoForm, SelectDetailsProductForm
@@ -56,9 +56,9 @@ class SubCategoryTypeProducts(ListView):
         self.sub_category_type = get_object_or_404(
             SubCategoryType, pk=self.kwargs["pk"]
         )
-        return Products.objects.filter(
-            sub_category_type=self.sub_category_type
-        ).filter(is_active=True)
+        return Products.objects.filter(sub_category_type=self.sub_category_type).filter(
+            is_active=True
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,9 +82,8 @@ class ProductDetails(DetailView):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_staff:
             context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
-            context["details_form"] = SelectDetailsProductForm(
-                instance=self.object
-            )
+            context["details_form"] = SelectDetailsProductForm(instance=self.object)
+        context["app_id"] = os.environ.get("APP_ID")
         return context
 
     def post(self, request, *args, **kwargs):
@@ -92,40 +91,62 @@ class ProductDetails(DetailView):
         photo_m_form = AddMainPhotoForm(
             request.POST, request.FILES, instance=self.object
         )
-        details_form = SelectDetailsProductForm(
-            request.POST, instance=self.object
-        )
+        details_form = SelectDetailsProductForm(request.POST, instance=self.object)
         context = super(ProductDetails, self).get_context_data(**kwargs)
         if request.POST.get("photo_main"):
             if photo_m_form.is_valid():
                 photo_m_form.save()
                 context["photo_m_form"] = photo_m_form
-                context["details_form"] = SelectDetailsProductForm(
-                    instance=self.object
-                )
+                context["details_form"] = SelectDetailsProductForm(instance=self.object)
                 messages.success(self.request, self.success_message_add)
                 return self.render_to_response(context=context)
             else:
                 context["photo_m_form"] = photo_m_form
-                context["details_form"] = SelectDetailsProductForm(
-                    instance=self.object
-                )
+                context["details_form"] = SelectDetailsProductForm(instance=self.object)
                 messages.success(self.request, self.success_message_error)
                 return self.render_to_response(context=context)
         if request.POST.get("add_details"):
             if details_form.is_valid():
                 details_form.save()
-                context["photo_m_form"] = AddMainPhotoForm(
-                    instance=self.object)
+                context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
                 context["details_form"] = details_form
                 messages.success(self.request, self.success_message_add)
                 return self.render_to_response(context=context)
             else:
-                context["photo_m_form"] = AddMainPhotoForm(
-                    instance=self.object)
+                context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
                 context["details_form"] = details_form
                 messages.success(self.request, self.success_message_error)
                 return self.render_to_response(context=context)
+
+
+class ProductRedirectView(RedirectView):
+    permanent = False
+    query_string = True
+    pattern_name = "product_details"
+
+    def get(self, *args, **kwargs):
+        product = get_object_or_404(Products,slug=kwargs["product"], pk=kwargs["pk"])
+        return redirect(product.get_absolute_url())
+
+class SubCategoryRedirectView(RedirectView):
+    permanent = False
+    query_string = True
+
+    def get(self, *args, **kwargs):
+        sub_category = get_object_or_404(SubCategory, slug=kwargs["sub_cat"], pk=kwargs["pk"])
+        print(sub_category.get_absolute_url())
+        return redirect(sub_category.get_absolute_url())
+
+
+class SubCategoryTypeRedirectView(RedirectView):
+    permanent = False
+    query_string = True
+
+    def get(self, *args, **kwargs):
+        sub_category_type = get_object_or_404(
+            SubCategoryType, slug=kwargs["sub_cat_type"], pk=kwargs["pk"])
+        print(sub_category_type.get_absolute_url())
+        return redirect(sub_category_type.get_absolute_url())
 
 
 class ApiProductsListSet(viewsets.ModelViewSet):
@@ -136,28 +157,14 @@ class ApiProductsListSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         search = self.request.query_params.get("search")
-        products = Products.objects.all()
-        # q_object = reduce(and_, (Q(sub_category_type__sub_category__category__name__contains=search)
-        #                          | Q(sub_category_type__sub_category__name__contains=search)
-        #                          | Q(sub_category_type__name__contains=search)
-        #                          | Q(brand__name__contains=search)
-        #                          | Q(name__contains=search)
-        #                          for search in search))
-        # products = products.filter(q_object)
-        # for prod in products:
-        #     print(prod)
         products = Products.objects.filter(name__icontains=search)
         return products[0:20]
 
     def post(self, request, *args, **kwargs):
         search = request.POST["search"]
         products = Products.objects.filter(name__icontains=search)
-        # products = Products.objects.all()
-        # serializer = ProductSerializer(products, many=True)
-        serializer = self.get_serializer(products, many=True)
-        ctx = {"products": serializer.data}
+        ctx = {"object_list": products}
         return render(request, self.template_name, ctx)
-        return HttpResponse(serializer.data)
 
 
 class ApiProductsListSetJS(generics.ListAPIView):
@@ -166,24 +173,6 @@ class ApiProductsListSetJS(generics.ListAPIView):
 
     def get_queryset(self):
         search = self.request.query_params.get("search")
-        # search_tab = search.split(" ")
-        # products = Products.objects.all()
-
-        # q_object = reduce(
-        #         or_, (Q(name__contains=search) for search in search_tab))
-        # products = products.filter(q_object)
-        # products = Products.objects.filter(
-        #     Q(name__icontains=search) for search in search_tab)
-        # print(search)
-        # print(search_tab)
-        # q_object = reduce(and_, (Q(sub_category_type__name__contains=search) for search in search_tab))
-        # products = products.filter(q_object)
-        # q_object = reduce(
-        #     and_, (Q(name__contains=search) for search in search_tab))
-        # products = products.filter(q_object)
-        # print(products)
-        # for prod in products:
-        #     print(prod)
         products = Products.objects.filter(name__icontains=search)
         return products[0:20]
 
@@ -192,5 +181,8 @@ shop_main_view = ShopMainView.as_view()
 sub_category_products = SubCategoryProducts.as_view()
 sub_category_type = SubCategoryTypeProducts.as_view()
 product_details = ProductDetails.as_view()
+redirect_product = ProductRedirectView.as_view()
+redirect_sub_category = SubCategoryRedirectView.as_view()
+redirect_sub_category_type = SubCategoryTypeRedirectView.as_view()
 search_products = ApiProductsListSet.as_view({"get": "post"})
 search_products_js = ApiProductsListSetJS.as_view()

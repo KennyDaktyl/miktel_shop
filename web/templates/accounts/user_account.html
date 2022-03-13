@@ -45,41 +45,145 @@
             {% endif %}
         </a>
 
-        {% if profile %}
+        {% if profile  %}
         <div class="col-12 row mx-auto text-center mt-3">
             <div class="col-12">
-            <button class="btn btn-outline-success mx-auto">
-                {% if profile.company %}
+                {% if profile.company or change_account %}
+              <button class="btn btn-outline-success mx-auto">
                 <p>Konto firmowe</p>
-                {% else %}
-                <p>Konto prywatne</p>
+             </button>
+              {% else %}
+              <a href="{% url 'user_profile' %}?change_account=1"><button class="btn btn-outline-success mx-auto">Zmień na konto firmowe</button></a> 
                 {% endif %}
-            </button>
             </div>
             <div class="col-12 mt-3">
                 <h1 class="mx-auto">Login:</h1>
                 <h2 class="mx-auto">{{user.email}}</h2>
             </div>
-            {% if profile.company %}
-            <div class="col-12 mt-3">
-                <h1 class="mx-auto">Płatnik:</h1>
-                <h2 class="mx-auto">{{profile.company_name}}</h2>
-                {% if profile.company_name_l %}
-                <h2 class="mx-auto">{{profile.company_name_l}}</h2>
-                {% endif %}
-                <h2 class="mx-auto">{{profile.nip}}</h2>
-                <h1 class="mx-auto">Telefon:</h1>                
-                {% if profile.phone_number %}
-                <h2 class="mx-auto">{{profile.phone_number}}</h2>
-                {% else %}
-                <h2 class="mx-auto">Brak numeru telefonu</h2>
-                {% endif %}
-            </div>
+            {% if profile.company or change_account %}
+            <form method="post" name="bussines_form" class="uniForm col-md-10 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms border">
+              {% csrf_token %}
+              <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
+                <div class="col-md-12 m-0 p-0 mx-auto text-center row">
+                  <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                    <div class="text-left headline m-1 mb-2">
+                      <h1 class="ml-2 mt-2">DANE FIRMY:</h1>
+                    </div>
+                  </div>
+                  <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                    <small class="text-danger col-12">{{ bussines_form.email.errors }}</small>
+                    <label for="id_email" class="requiredField col-md-2 m-0 p-0 align-self-center">
+                      Email<span class="asteriskField ">*</span>
+                    </label>
+                    <input type="email" name="email" class="emailinput col-10 col-md-8"
+                      maxlength="{{ bussines_form.email.field.max_length }}" required="{{ bussines_form.email.field.required }}" id="id_email"
+                      value='{{ bussines_form.email.value|default_if_none:"" }}'>
+                    <span class="input-group-text col-2 text-center">
+                      <i class="fas fa-at col-12 text-center mx-auto m-0 p-0"></i>
+                    </span>
+                  </div>
+                  <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                    <small class="text-danger col-12">{{ bussines_form.company_name.errors }}</small>
+                    <label for="id_company_name" class="requiredField col-md-2 m-0 p-0 align-self-center">
+                      Nazwa firmy<span class="asteriskField">*</span>
+                    </label>
+                    <input type="text" name="company_name" class="textinput textInput col-10 col-md-8"
+                      maxlength="{{ bussines_form.company_name.field.max_length }}" required="{{ bussines_form.company_name.field.required }}"
+                      id="id_company_name" value='{{ bussines_form.company_name.value|default_if_none:"" }}'>
+                    <span class="input-group-text col-2 text-center">
+                      <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
+                    </span>
+                  </div>
+                  <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                    <small class="text-danger col-12">{{ bussines_form.company_name_l.errors }}</small>
+                    <label for="id_company_name_l" class="col-md-2 m-0 p-0 align-self-center">
+                      Nazwa c.d.
+                    </label>
+                    <input type="text" name="company_name_l" class="textinput textInput col-10 col-md-8"
+                      maxlength="{{ bussines_form.company_name_l.field.max_length }}" id="id_company_name_l"
+                      value='{{ bussines_form.company_name_l.value|default_if_none:"" }}'>
+                    <span class="input-group-text col-2 text-center">
+                      <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
+                    </span>
+                  </div>
+                  <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                    <small class="text-danger col-12">{{ bussines_form.nip_number.errors }}</small>
+                    <label for="id_nip_number" class="requiredField col-md-2 m-0 p-0 align-self-center">
+                      NIP<span class="asteriskField">*</span>
+                    </label>
+                    <input type="text" name="nip_number" class="textinput textInput col-10 col-md-8"
+                      maxlength="{{ bussines_form.nip_number.field.max_length }}" required="{{ bussines_form.nip_number.field.required }}"
+                      id="id_nip_number" value='{{ bussines_form.nip_number.value|default_if_none:"" }}'>
+                    <span class="input-group-text col-2 text-center">
+                      <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
+                    </span>
+                  </div>
+                  <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                    <small class="text-danger col-12">{{ bussines_form.phone_number.errors }}</small>
+                    <label for="id_phone_number" class="requiredField col-md-2 m-0 p-0 align-self-center">
+                      Telefon<span class="asteriskField ">*</span>
+                    </label>
+                    <input type="text" name="phone_number" class="col-10 col-md-8"
+                      maxlength="{{ bussines_form.phone_number.field.max_length }}" required="{{ bussines_form.phone_number.field.required }}"
+                      id="id_phone_number" value='{{ bussines_form.phone_number.value|default_if_none:"" }}'>
+                    <span class="input-group-text col-2 text-center">
+                      <i class="fas fa-phone col-12 text-center mx-auto m-0 p-0"></i>
+                    </span>
+                  </div>
+                  </div>
+                  <div class="col-12 mx-auto text-center mt-3">
+                    <p id="button" class="col-md-5 text-center mx-auto h-100"><input
+                        class="btn btn-outline-success mx-auto text-center col-12" name="bussines_form" type="submit" value="Zapisz dane"></p>
+                  </div>
+            </form>
+            {% else %}
+            <form method="post" name="standart_form" class="uniForm col-md-8 m-0 p-0 mt-2 mb-2 mx-auto text-center blueForms">
+              {% csrf_token %}
+              <div class="col-12 mx-auto row m-0 p-0 mt-2 mb-2">
+                <div class="col-md-12 mx-auto text-center row m-0 p-0">
+                  <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                    <div class="text-left headline m-1 mb-2">
+                      <h1 class="ml-2 mt-2">DANE OSOBOWE:</h1>
+                    </div>
+                  </div>
+                  <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                    <small class="text-danger col-12">{{ standart_form.email.errors }}</small>
+                    <label for="id_email" class="requiredField col-md-2 m-0 p-0 align-self-center">
+                      Email<span class="asteriskField ">*</span>
+                    </label>
+                    <input type="email" name="email" class="emailinput col-10 col-md-8"
+                      maxlength="{{ standart_form.email.field.max_length }}" required="{{ standart_form.email.field.required }}" id="id_email"
+                      value='{{ standart_form.email.value|default_if_none:"" }}'>
+                    <span class="input-group-text col-2 text-center">
+                      <i class="fas fa-at col-12 text-center mx-auto m-0 p-0"></i>
+                    </span>
+                  </div>
+                  <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+                    <small class="text-danger col-12">{{ standart_form.phone_number.errors }}</small>
+                    <label for="id_phone_number" class="requiredField col-md-2 m-0 p-0 align-self-center">
+                      Telefon<span class="asteriskField ">*</span>
+                    </label>
+                    <input type="text" name="phone_number" class="col-10 col-md-8"
+                      maxlength="{{ standart_form.phone_number.field.max_length }}"
+                      id="id_phone_number"
+                      value='{{ standart_form.phone_number.value|default_if_none:"" }}'>
+                    <span class="input-group-text col-2 text-center">
+                      <i class="fas fa-phone col-12 text-center mx-auto m-0 p-0"></i>
+                    </span>
+                  </div>
+                  {{ standart_form.phone_number.field.required }}
+                  <div class="col-12 mx-auto text-center mt-3">
+                    <p id="button" class="col-md-5 text-center mx-auto h-100"><input
+                        class="btn btn-outline-success mx-auto text-center col-12" name="standart_form" type="submit" value="Zapisz dane"></p>
+                  </div>
+            </form>
             {% endif %}
         </div>
         {% endif %}
+        
 
         {% if orders %}
+
         <div class="table-responsive col-12 mt-3">
         <table class="table ">
             <thead class="thead-dark">
@@ -88,6 +192,7 @@
                 <th scope="col">Dokument</th>
                 <th scope="col">Data</th>
                 <th scope="col">Status</th>
+                <th scope="col">Płatność</th>
                 <th scope="col">Numer zamówienia</th>
                 <th scope="col">Numer dokumentu</th>
                 <th scope="col">Kwota netto</th>
@@ -100,14 +205,15 @@
                 {% for order in orders %}
               <tr class="">
                 <th class="align-middle" scope="row">{{ forloop.counter }}</th>
-                <td class="align-middle">{% if invoice %} Faktura {% else %} Paragon {% endif %}</td>
-                <td class="align-middle" >{{ order.date }}</td>
+                <td class="align-middle">{% if order.invoice %} Faktura {% else %} Paragon {% endif %}</td>
+                <td class="align-middle" >{{ order.created_time }}</td>
                 <td class="align-middle" >{{ order.get_status_display }}</td>
+                <td class="align-middle">{{ order.get_pay_status_display }}</td>
                 <td class="align-middle" >{{ order.number }}</td>
-                <td class="align-middle" >{% if invoice %} {{ order.invoice_number}} {% else %} n/d {% endif %}</td>
+                <td class="align-middle" >{% if order.invoice %} {{ order.invoice.number }} {% else %} paragon {% endif %}</td>
                 <td class="align-middle" >{{ order.get_total_price_netto }}</td>
                 <td class="align-middle" >{{ order.total_price }}</td>
-                <td class="align-middle" >{% if not invoice %} <a href="{% url 'create_invoice' pk=order.id %}"><i class="text-success fas fa-file-invoice"></i></a>{% else %} n/d {% endif %}</td>
+                <td class="align-middle" >{% if order.invoice %} <a href="{{ MEDIA_URL }}{{order.invoice.pdf }}" download="faktura-{{order.invoice.number}}.pdf"><i class="text-success fas fa-file-invoice"></i></a>{% else %} n/d {% endif %}</td>
                 <td class="align-middle" ><button class="btn btn-outline-warning"><i class="fas fa-info-circle"></i></button></td>
               </tr>
               {% endfor %}

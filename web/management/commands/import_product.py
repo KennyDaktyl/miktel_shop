@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 import numpy as np
 import pandas as pd
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 
 from web.models.products import (
     Category,

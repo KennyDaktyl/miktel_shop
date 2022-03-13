@@ -1,13 +1,10 @@
-from django.conf import settings
-from django.conf.urls.static import static
 from django.urls import path
 
-from .views import *
+from .views import add_product, cart_details, remove_product, edit_product
 
-# CartDetails,
 urlpatterns = [
     path("dodaj_produkt/", add_product, name="add_product"),
-    path("zmien_ilosc/", EditQtyProduct.as_view(), name="change_qty"),
-    path("usun_produkt/", RemoveProduct.as_view(), name="del_product"),
-    path("podsumowanie/", CartDetails.as_view(), name="cart_details"),
+    path("zmien_ilosc/", edit_product, name="change_qty"),
+    path("usun_produkt/", remove_product, name="del_product"),
+    path("podsumowanie/", cart_details, name="cart_details"),
 ]

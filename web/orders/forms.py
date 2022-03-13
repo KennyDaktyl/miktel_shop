@@ -1,9 +1,6 @@
 from captcha.fields import ReCaptchaField
 from crispy_forms.helper import FormHelper
 from django import forms
-from django.core.validators import MaxValueValidator
-from django.db.models.query import QuerySet
-
 from web.models.orders import DeliveryMethod, PayMethod
 
 
@@ -11,9 +8,7 @@ class ContactForm(forms.Form):
     helper = FormHelper()
     email = forms.EmailField(
         label="Podaj swój email kontaktowy",
-        widget=forms.EmailInput(
-            attrs={"placeholder": "kowalski.janusz@gmail.com"}
-        ),
+        widget=forms.EmailInput(attrs={"placeholder": "kowalski.janusz@gmail.com"}),
         required=True,
     )
     subject = forms.CharField(
@@ -127,11 +122,27 @@ CHOICES_2 = [("M", "Male"), ("F", "Female")]
 
 
 class OrderDetailsForm(forms.Form):
-    bill_select = forms.CharField(
-        label="Dokument handlowy",
-        widget=forms.Select(choices=CHOICES),
-        required=True,
-    )
+    def __init__(self, *args, **kwargs):
+        self.client = kwargs.pop("client")
+        super(OrderDetailsForm, self).__init__(*args, **kwargs)
+        if self.client:
+            if self.client.profile.company:
+                CHOICES = (
+                    ("Paragon", "1"),
+                    ("Faktura", "2"),
+                )
+                self.fields["bill_select"] = forms.CharField(
+                    label="Dokument handlowy",
+                    widget=forms.Select(choices=CHOICES),
+                    required=True,
+                )
+            else:
+                CHOICES = (("Paragon", "1"),)
+                self.fields["bill_select"] = forms.CharField(
+                    label="Dokument handlowy",
+                    widget=forms.Select(choices=CHOICES),
+                    required=True,
+                )
 
     delivery_method = forms.ModelChoiceField(
         label="Sposób dostawy",

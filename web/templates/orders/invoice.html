@@ -1,9 +1,16 @@
+{% load templatetag %}
 <html lang="pl">
  <head>
   <style>
     @font-face {
     font-family: FreeSans;
     src: url("/usr/share/fonts/truetype/freefont/FreeSerif.ttf");
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
     
     body {
@@ -20,7 +27,7 @@
     table {
        border: 1px solid;
        margin: 0 auto;
-       width: 70%;
+       width: 100%;
      }
 
      td, th {
@@ -53,9 +60,19 @@
       src: url("/usr/share/fonts/truetype/freefont/FreeSans.ttf");
       margin: 3px;
       padding: 0;
+      font-size: 12px;
      }
      table {
        width: 100%;
+     }
+     th {
+       font-size: 12px;
+       font-weight: bold;
+       box-sizing: border-box;
+     }
+     td {
+       font-size: 12px;
+       padding: 5px 7px;
      }
 </style>  
 <meta charset="UTF-8">
@@ -71,7 +88,17 @@
         <p style="width: 100%">
           Michał Pielak Miktel<br>
           32-061 Rybna, ul. Wspólna 2<br>
-          Nip: 678 280 52 34<br>
+          NIP: 678 280 52 34<br>
+          Numer konta: 21 1020 2906 0000 1702 0373 8333<br>
+        </p>
+        <p style="width: 100%;font-weight: 900; margin-top: 30px;">
+          Nabywca:
+        </p>
+        <p style="width: 100%;">
+          {{ order.client.profile.company_name}}<br>
+          {% if order.client.profile.company_name_l %} {{ order.client.profile.company_name_l}} <br>{% endif %}
+          {{ order.client.address.post_code}} {{ order.client.address.city}}, {{ order.client.address.street}} {{ order.client.address.house }} {% if order.client.address.door %} / {{ order.client.address.door }} {% endif %}<br>
+          NIP: {{ order.client.profile.nip_number}}<br>
         </p>
       </div>
       <div class="box-50-r">
@@ -85,7 +112,7 @@
           Data wystawienia:
         </p>
         <p style="width: 100%;">
-          {{ invoice.created_time }}
+          {{ order.invoice.created_time }}
         </p>
         <p style="width: 100%;font-weight: 900;">
           Data sprzedaży:
@@ -93,17 +120,18 @@
         <p style="width: 100%;">
           {{ order.created_time }}
         </p>
+        
       </div>
    </div>
-   <h1>Faktura VAT {{ invoice.number }}</h1>
-   <table>
+   <h4 style="width: 100%; text-align: center; margin-top: 15px;">Faktura VAT {{ order.invoice.number }}</h4>
+   <table class="main" style="margin-top: 15px;">
      <thead>
        <tr>
          <th class="">L.P</th>
          <th>Nazwa towaru lub usługi</th>
          <th>Jm.</th>
          <th>Ilość</th>
-         <th>Cena netto.</th>
+         <th>Cena netto</th>
          <th>Wartość netto</th>
          <th>Stawka VAT</th>
          <th>Kwota Vat</th>
@@ -119,8 +147,8 @@
            <td>szt.</td>
            <td>{{ value.quantity }}</td>
            <td>{{ value.price_netto|floatformat:2  }}</td>
-           <td>{{ value.t_netto|floatformat:2  }}</td>
-           <td>{{ value.vat|floatformat:2  }}</td>
+           <td>{{ value.t_netto|floatformat:2 }}</td>
+           <td>23%</td>
            <td>{{ value.total_vat|floatformat:2  }}</td>
            <td>{{ value.price|floatformat:2  }}</td>
             <td>{{ value.t_brutto|floatformat:2  }}</td>
@@ -128,5 +156,73 @@
       {% endfor %}
      </tbody>
    </table>
+   
+   <table style="margin-top:15px">
+      <thead>
+        <tr>
+          <th colspan="7" style="border: 0px">Według stawki VAT</th>
+          <th style="border: 0px; padding: 5px 7px;">Kwota Vat</th>
+          <th style="border: 0px; padding: 5px 7px;">Warość netto</th>
+          <th style="border: 0px; padding: 5px 7px;">Warość brutto</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr style="border: 0px">
+       <td colspan="7" style="border: 0px">Podstawowy podatek VAT 23%</td>
+       <td style="border: 0px">{{ order.get_invoice_total_vat|floatformat:2 }}</td>
+       <td style="border: 0px">{{ order.get_invoice_total_price_netto|floatformat:2 }}</td>
+       <td style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }}</td>
+     </tr>
+    </tbody>
+    </table>
+    
+    <table style="margin-top:15px">
+      <thead>
+        <tr>
+          <th colspan="8" style="border: 0px; text-align: left;">Sposób płatności</th>
+          {% if order.pay_status != 3 %}
+          <th style="border: 0px; padding: 5px 7px;">Kwota do zapłaty:</th>
+          {% else %}
+          <th style="border: 0px; padding: 5px 7px;">Zapłacono</th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tbody>
+       <tr style="border: 0px">
+         <td colspan="8" style="border: 0px;  text-align: left">{{ order.pay_method }}</td>
+          <td style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }} PLN</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div style="display: flex; flex-wrap: wrap; flex-direction: row; width: 100%; margin-top: 20px;">
+      <div style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Status płatności</div>
+      {% if order.pay_status != 3 %}
+        <p style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Kwota do zapłaty:</p>
+          {% if order.pay_method.pay_method == 3 %}
+          <p style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Termin płatności: 14 dni -
+            <b>{{order.created_time|plus_days:14}}</b>
+          </p>
+          {% endif %}
+      {% else %}
+        <p style="margin: 0px; padding: 0px; width: 100%; text-align: left;">Zapłacono przelewem</p>
+      {% endif %}
+      <p style="border: 0px">{{ order.get_invoice_total_price|floatformat:2 }} PLN</p>
+    </div>
+
+    <section style="display: flex; flex-wrap: wrap; flex-direction: row; width: 100%; margin-top: 20px;">
+        <div style="display: flex; flex-wrap: wrap; flex-direction: row; width: 100%;">
+          <div style="margin: 0px; padding: 0px; width: 50%; background-color: gray; text-align: center;">Odebrał</div>
+          <div style="margin: 0px; padding: 0px; width: 50%; background-color: gray; text-align: center;">Wystawił</div>
+        </div>
+        <div style="display: flex; flex-wrap: nowrap; flex-direction: row; width: 100%;">
+          <div style="border: 1px solid;height: 80px; margin: 0px; padding: 0px; width: 50%; box-sizing: border-box;"></div>
+          <div style="border: 1px solid;height: 80px; margin: 0px; padding: 0px; width: 50%; box-sizing: border-box;"></div>
+        </div>
+        <div style="display: flex; flex-wrap: nowrap; flex-direction: row; width: 100%;">
+          <p style="border: 1px solid; margin: 0px; padding: 0px; width: 50%; box-sizing: border-box; text-align: center; font-size: 9px;">Podpis osoby upoważnionej do odbioru faktury VAT</p>
+          <p style="border: 1px solid; margin: 0px; padding: 0px; width: 50%; box-sizing: border-box; text-align: center; font-size: 9px;">Podpis osoby upoważnionej do wystawienia faktury VAT</p>
+        </div>
+    </section>
  </body>
 </html>

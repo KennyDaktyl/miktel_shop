@@ -12,6 +12,12 @@ class ArticlesAdmin(admin.ModelAdmin):
     search_fields = ("title",)
 
 
+@admin.register(ActivateToken)
+class ActivateTokenAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in ActivateToken._meta.fields]
+    search_fields = ("user",)
+
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Profile._meta.fields]

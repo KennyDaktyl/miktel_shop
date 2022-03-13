@@ -1,4 +1,5 @@
 from web.models import Images
+from uuid import uuid4
 
 
 def logo(request):

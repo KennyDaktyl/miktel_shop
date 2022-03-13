@@ -1,22 +1,30 @@
 import random
-from email.mime import image
+import os
 
+# from csp.decorators import csp_update
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import send_mail
 from django.shortcuts import redirect, render
-from django.template import RequestContext
 from django.views import View
-from PIL import Image
-
-from web.models import Images, articles
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+from web.models import Images
 from web.models.articles import Articles
 from web.models.products import Products
 
-from .forms import *
-from .functions import *
 
+from .forms import ContactForm
+from .functions import send_contact_message, send_email_contact_message_by_django
 
+# @method_decorator(
+#     csp_update(
+#         FRAME_SRC=["'self' https://www.freeprivacypolicy.com",
+#                   "https://www.google.com", 'https://connect.facebook.net',
+#                   'https://www.facebook.com', 'https://web.facebook.com',
+#                   'https://www.googletagmanager.com','https://www.freeprivacypolicy.com']
+#     ),
+#     name="dispatch",
+# )
 class FirstPage(View):
     def get(self, request):
         img_carousel = Images.objects.filter(carousel=True)
@@ -37,37 +45,43 @@ class FirstPage(View):
             "recommended_products": random_recommended_products,
             "promo_products": promo_products,
             "articles": articles,
+            "app_id": os.environ.get("APP_ID"),
         }
         return render(request, "front_page/first_page.html", ctx)
 
 
+# @method_decorator(
+#     csp_update(
+#         FRAME_SRC=["'self' https://www.google.com/recaptcha/",
+#                   "https://www.google.com/maps/"]
+#     ),
+#     name="dispatch",
+# )
 class ContactPage(View):
     def get(self, request):
         form = ContactForm()
-        ctx = {"form": form}
+        ctx = {"form": form, "public_key": settings.RECAPTCHA_PUBLIC_KEY}
         return render(request, "front_page/contact_page.html", ctx)
 
     def post(self, request):
         form = ContactForm(request.POST)
 
         if form.is_valid():
-            name = form.cleaned_data["name"]
             email = form.cleaned_data["email"]
             subject = form.cleaned_data["subject"]
             message = form.cleaned_data["message"]
-            captcha = form.cleaned_data["captcha"]
             message += "\n" + "Email kontaktowy - " + str(email)
-            msg = send_contact_message(
+            send_contact_message(
                 subject,
                 message,
             )
-            print(msg)
+            # send_email_contact_message_by_django(subject, message)
             messages.success(request, "Wysyłanie email zakończnono poprawnie.")
 
             return redirect("contact_page")
         else:
             messages.error(request, "Wypełnij wszystkie pola formularza.")
-            ctx = {"form": form}
+            ctx = {"form": form, "public_key": settings.RECAPTCHA_PUBLIC_KEY}
             return render(request, "front_page/contact_page.html", ctx)
 
 
@@ -85,12 +99,12 @@ class TermsAndRulesPage(View):
 
 def error_404(request, exception):
     context = {}
-    return render(request, "front_page/404.html", context)
+    return render(request, "front_page/404.html", context, status=404)
 
 
 def error_500(request):
     context = {}
-    return render(request, "front_page/500.html", context)
+    return render(request, "front_page/500.html", context, status=500)
 
 
 first_page = FirstPage.as_view()

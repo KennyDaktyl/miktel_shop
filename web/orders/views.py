@@ -1,43 +1,24 @@
-from operator import inv
-from django_renderpdf.views import PDFView
-from io import BytesIO
-from unittest.mock import patch
-from xml.etree.ElementInclude import include
-from django.core.files import File
-from django.template.loader import get_template
-import tempfile
-import os
-from django.template.loader import render_to_string
-from weasyprint import HTML
-from django.core.files.storage import FileSystemStorage
-import json
 from datetime import datetime
-from decimal import Decimal
 
 import stripe
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
 from django.views import View
-
 from web.cart.cart import Cart
-from web.constans import DELIVERY_TYPE
-from web.models import (
-    Address,
-    Category,
-    DeliveryMethod,
-    Orders,
-    Invoices,
-    PayMethod,
-    Profile,
-    Store,
-)
+from web.models import ActivateToken, DeliveryMethod, Orders, PayMethod, Store
 
-from .forms import OrderBigForm, OrderDetailsForm
-from .functions import new_number, render_to_pdf, create_pdf_invoice
+from .forms import OrderDetailsForm
+from .functions import (
+    create_pdf_invoice,
+    new_number,
+    order_inpost_box,
+    send_email_order_completed,
+    send_email_order_completed_by_django,
+)
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -45,26 +26,23 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 @method_decorator(login_required, name="dispatch")
 class OrderDetails(View):
     def get(self, request):
-        form = OrderDetailsForm()
+        form = OrderDetailsForm(client=request.user)
+        if request.user.profile.company:
+            form = OrderDetailsForm(client=request.user, initial={"bill_select": "2"})
         ctx = {"form": form}
         return render(request, "orders/order_details.html", ctx)
 
     def post(self, request):
-        form = OrderDetailsForm(request.POST)
+        form = OrderDetailsForm(request.POST, client=request.user)
         cart = Cart(request)
         inpost_box_id = None
         if request.is_ajax():
             if "inpost_box_id" in request.POST:
                 inpost_box_id = request.POST.get("inpost_box_id")
                 request.session["inpost_box_id"] = inpost_box_id
-                print(inpost_box_id)
-                print("sdsds")
 
         if form.is_valid():
-            bill_select = form.cleaned_data["bill_select"]
-            pay_method = PayMethod.objects.get(
-                name=form.cleaned_data["payment_method"]
-            )
+            pay_method = PayMethod.objects.get(name=form.cleaned_data["payment_method"])
             delivery_method = DeliveryMethod.objects.get(
                 name=form.cleaned_data["delivery_method"]
             )
@@ -79,29 +57,28 @@ class OrderDetails(View):
             )
             order.store = store
             order.client = request.user
+            order.pay_status = 2
             order.phone_number = request.user.profile.phone_number
-            order.delivery_method = DeliveryMethod.objects.get(
-                id=int(request.session["delivery_method"])
+            order.delivery_method = delivery_method
+            order.pay_method = pay_method
+            if delivery_method.inpost_box:
+                order.pay_method = PayMethod.objects.get(pay_method=4)
+            order.invoice_true = (
+                True if form.cleaned_data["bill_select"] == "2" else False
             )
-            order.pay_method = PayMethod.objects.get(
-                id=int(request.session["pay_method"])
-            )
-            # order.inpost_box = inpost_box_id
-            order.total_price = float(order.delivery_method.price) + float(
+            order.total_price = float(delivery_method.price) + float(
                 cart.get_total_price()
             )
             order.save()
-
             ctx = {"order": order}
             if delivery_method.inpost_box:
                 return render(request, "orders/inpost_box.html", ctx)
 
-            if order.pay_method.pay_method == 4:
+            if pay_method.pay_method == 4:
                 response = redirect("checkout", order=order.id)
                 return response
-            else:
-                response = redirect("order_completed", order=order.id)
-                return response
+            response = redirect("order_completed", order=order.id)
+            return response
         else:
             messages.error(request, "Wystąpił błąd")
             ctx = {"form": form}
@@ -116,70 +93,68 @@ class InpostBoxSearchView(View):
 
     def post(self, request, order):
         order = Orders.objects.get(pk=order)
-        if order.pay_method.pay_method == 4:
+        if order.pay_method.pay_method == "4":
             return redirect("checkout", order=order.id)
-        else:
-            return redirect("order_completed", order=order.id)
+        return redirect("order_completed", order=order.id)
 
 
+@method_decorator(login_required, name="dispatch")
 class OrderCompleted(View):
     def get(self, request, order):
+        host = request.scheme + "://" + request.get_host()
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
-        order.main_status = 2
         order.status = 2
-        order.products_item = cart.get_products()
-        order.save()
+
+        if order.pay_method.pay_method == 4:
+            payment_intent_status = stripe.PaymentIntent.retrieve(order.payment_intent)
+            order.payment_success = (
+                True if payment_intent_status["status"] == "succeeded" else False
+            )
+            if order.payment_success:
+                order.pay_status = 3
+            order.save()
+
+        if not order.products_item:
+            order.products_item = cart.get_products()
+        delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
+        order_inpost_box(request, order, delivery_method)
+        if order.invoice_true and not order.invoice:
+            file_name = create_pdf_invoice(order)
+            send_email_order_completed(order, host, file_name=file_name)
+            # send_email_order_completed_by_django(
+            #     order, host, file_name=file_name)
+            messages.error(
+                request, "Wysłano email z Fakturą Vat. (*Sprawdź Spam lub ofery)"
+            )
+        else:
+            send_email_order_completed(order, host)
+            messages.error(
+                request,
+                "Wysłano email z informacją o zamówieniu. (*Sprawdź Spam lub ofery)",
+            )
         cart.clear()
+        order.save()
         ctx = {"order": order}
-        create_pdf_invoice(order)
+        if order.pay_method.pay_method == 4:
+            if order.payment_success:
+                return render(request, "payments/checkout_success.html", ctx)
+            return render(request, "payments/checkout_failed.html", ctx)
         return render(request, "orders/order_completed.html", ctx)
 
 
-class CreateInvoice(PDFView):
-    template_name = 'orders/invoice.html'
-    allow_force_html = True
-    prompt_download = True
-    download_name = "faktura.pdf"
-
-    def get_context_data(self, *args, **kwargs):
-        """Pass some extra context to the template."""
-        context = super().get_context_data(*args, **kwargs)
-        order = Orders.objects.get(pk=kwargs['pk'])
-        invoice_number = (order.number).replace("/", "-")
-        filename = f"faktura_{invoice_number}_WWW.pdf"
-        invoice, created = Invoices.objects.get_or_create(
-            pdf=filename)
-        invoice_number = (order.number).replace("/", "-")
-        if created:
-            os.remove(os.path.join(
-                settings.MEDIA_ROOT + "pdf/" + str(invoice.pdf)))
-        order.pdf = invoice
-        order.save()
-        context['order'] = order
-        context['invoice'] = invoice
-        print(self.get_download_name())
-        # invoice.pdf.save(filename, File(BytesIO(pdf.content)))
-        return context
-
-    #     filename = f"faktura_{invoice_number}_WWW.pdf"
-    #     invoice, created = Invoices.objects.get_or_create(
-    #         pdf=filename)
-    #     if created:
-    #         os.remove(os.path.join(
-    #             settings.MEDIA_ROOT + "pdf/" + str(invoice.pdf)))
-    #     invoice.pdf.save(filename, File(BytesIO(pdf.content)))
-    #     order.pdf = invoice
-    #     order.save()
-    #     print(order.products_item)
-    #     invoice.number = f"{invoice_number}_WWW"
-    #     pdf = render_to_pdf('orders/invoice.html',
-    #                         {'order': order, 'invoice': invoice})
-    #     invoice.pdf.save(filename, File(BytesIO(pdf.content)))
-    #     response = HttpResponse(invoice.pdf, content_type='application/pdf')
-    #     response['Content-Disposition'] = f'filename={filename}'
-    #     return response
+class RedirectFromOrderEmail(View):
+    def get(self, request, token):
+        try:
+            user = ActivateToken.objects.get(activation_token=token).user
+            login(request, user)
+            return redirect("user_orders")
+        except ActivateToken.DoesNotExist:
+            messages.error(request, "Błędny token")
+            return redirect("front_page")
 
 
+order_details = OrderDetails.as_view()
+inpost_box = InpostBoxSearchView.as_view()
 order_completed = OrderCompleted.as_view()
-create_invoice = CreateInvoice.as_view()
+redirect_from_email = RedirectFromOrderEmail.as_view()

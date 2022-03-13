@@ -117,10 +117,8 @@ $(document).ready(function () {
             if ($(this).hasClass('show'))
                 {
                     $('body').addClass('frozen');
-                    console.log("ma");
                 } else {
                     $('body').removeClass('frozen');
-                    console.log("nie ma");
                 }
         });
     });

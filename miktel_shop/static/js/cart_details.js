@@ -40,7 +40,6 @@ $(document).ready(function () {
             }).done(function (result) {
                 var result_js = $.parseJSON(result);
                
-                console.log(result)
                 var result_t_netto = result_js['t_netto'];
                 result_t_netto = result_t_netto.toFixed(2);
                 $('#t_netto' + prod_id).text(result_t_netto + ' PLN');
@@ -48,7 +47,6 @@ $(document).ready(function () {
                 var result_t_brutto = result_js['t_brutto'];
                 result_t_brutto = result_t_brutto.toFixed(2);
                 $('#t_brutto' + prod_id).text(result_t_brutto + ' PLN');
-                console.log(result_t_brutto)
                 var result_total = result_js['total'];
                 result_total = result_total.toFixed(2);
                 
@@ -112,7 +110,6 @@ $(document).ready(function () {
                 $('#len_table').text(result_js['len']);
                 in_stock = result_js['in_stock'];
                 $('#in_stock_info' + prod_id).text(in_stock + 'szt.');
-                console.log(in_stock, $('#in_stock_info' + prod_id).val(in_stock + 'szt.'));
                 $('#tr' + prod_id).hide();
                 
                 if (result_len == 0) {

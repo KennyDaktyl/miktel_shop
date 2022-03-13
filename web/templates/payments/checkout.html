@@ -4,10 +4,18 @@
 
 {% block head %}
 <meta name=”robots” content=”noindex”>
-<link rel="stylesheet" href="{% static "css/checkout.css" %}" />
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+
+{% load compress %}
+{% compress css %}
+<link rel="stylesheet" href="{% static "css/checkout.css" %}" />
+{% endcompress %}
+
+{% load compress %}
+{% compress js %}
 <script src="{% static "js/client.js" %}" defer></script>
+{% endcompress %}
 
 {% endblock %}
 
@@ -15,7 +23,7 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
-  <li class="breadcrumb-item active" aria-current="page"><a href="">Strona startowa</a></li>
+  <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
   <li class="breadcrumb-item text-dark active" aria-current="page">Płatności</li>
 </nav>
 <input type="hidden" id="order_id" value="{{ order.id }}">
@@ -24,6 +32,7 @@
     <form id="payment-form" class="mx-auto col-12 col-md-5 row mb-2">
       <p class="col-12">Kwota do zapłaty: <strong>{{ order.total_price }}</strong>PLN</p>
         <input id="p_i_sec" type="hidden" value="{{PAYMENT_INTENT_CLIENT_SECRET}}">
+        <input id="public_key" type="hidden" value="{{PUBLIC_KEY}}">
         <div class="form-row col-12 mx-auto">
           <label for="accountholder-name">
             Imie i Nazwisko

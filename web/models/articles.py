@@ -1,4 +1,3 @@
-from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
@@ -6,7 +5,6 @@ from django.utils.text import slugify
 from django_resized import ResizedImageField
 
 from .base import BaseModel
-from .products import Category
 
 
 def file_size(value):
@@ -21,9 +19,7 @@ class Articles(BaseModel):
         "category", on_delete=models.CASCADE, verbose_name="Kategoria artykułu"
     )
     title = models.CharField(verbose_name="Tytyuł artykułu", max_length=256)
-    slug = models.SlugField(
-        verbose_name="Slug", blank=True, null=True, max_length=256
-    )
+    slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=256)
     body = models.TextField(verbose_name="Treść artukułu")
     image = ResizedImageField(
         verbose_name="Zdjęcie główne",

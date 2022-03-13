@@ -2,16 +2,11 @@ import json
 
 from django.conf import settings
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.views import View
-from django.views.generic.detail import DetailView
-
 from web.constans import DELIVERY_TYPE
-from web.models import Brand, Category, PayMethod, ProductCopy, Products
-
+from web.models import Category, PayMethod, Products
 from .cart import Cart
-
-# Create your views here.
 
 
 class AddProductView(View):
@@ -77,6 +72,7 @@ class CartDetails(View):
         pay_methods = PayMethod.objects.filter(is_active=True)
         delivery_type = DELIVERY_TYPE
         cart = Cart(request)
+        print(cart)
         categorys = Category.objects.filter(is_active=True)
         ctx = {
             "cart_ctx": cart,
@@ -88,3 +84,6 @@ class CartDetails(View):
 
 
 add_product = AddProductView.as_view()
+cart_details = CartDetails.as_view()
+remove_product = RemoveProduct.as_view()
+edit_product = EditQtyProduct.as_view()

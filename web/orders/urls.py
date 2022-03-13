@@ -1,14 +1,18 @@
-from django.conf.urls.static import static
 from django.urls import path
 
-from .views import *
+from .views import (
+    inpost_box,
+    order_completed,
+    order_details,
+    redirect_from_email,
+)
 
 # CartDetails,
 urlpatterns = [
-    path("podsumowanie/", OrderDetails.as_view(), name="order_details"),
+    path("podsumowanie/", order_details, name="order_details"),
     path(
         "podsumowanie/wybierz_paczkomat/<int:order>",
-        InpostBoxSearchView.as_view(),
+        inpost_box,
         name="inpost_box",
     ),
     path(
@@ -17,8 +21,8 @@ urlpatterns = [
         name="order_completed",
     ),
     path(
-        "create_invoice/<int:pk>",
-        create_invoice,
-        name="create_invoice",
+        "redirect_from_email/<token>",
+        redirect_from_email,
+        name="redirect_from_email",
     ),
 ]
