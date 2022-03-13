@@ -45,11 +45,11 @@
         {% endthumbnail %}
         <div class="d-none d-lg-block wrapHeader col-12 m-0 p-0">
         <div class="col-10 mx-auto text-center row d-flex align-items-center">
-            <div class="col-9">
+            <div class="col-6 col-sm-7 col-md-8 col-xl-9">
             </div>
-            <div class="col-3 row d-flex align-items-center mx-auto d-flex justify-content-center">
+            <div class="col-6 col-sm-5 col-md-4 col-xl-3 row d-flex align-items-center mx-auto d-flex justify-content-center">
             {% if user.is_authenticated %}
-            <a class="link col-6 mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none" href="{% url "user_account" %}">
+            <a class="link col-6 row mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none" href="{% url "user_account" %}">
                 <span class="text-center">Moje konto</span>
                 <i class="ml-2 fas fas fa-user text-success text-center"></i>
             </a>
@@ -95,7 +95,7 @@
         </div>
     </header>
     <nav id="nav_main" class="d-lg-none nav col-12 m-0 p-0 d-flex align-items-center bg-white">
-        <ul id="nav_main_ul" class="col-12 col-md-9 mx-auto m-0 p-0 row">
+        <ul id="nav_main_ul" class="col-12 mx-auto m-0 p-0 row">
             <i id="menu_burger" class="col-3 fas fa-bars text-center m-0 p-0"></i>
             <div class="col-lg-12 m-0 p-0" id="navbarTogglerMenu">
                 <ul id="nav_menu" class="col-12 row m-0 p-0 overflow-auto">
@@ -111,7 +111,9 @@
                     aria-label="Toggle navigation">
                         <span class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{ category.name }}</span>
                         {% if category.image %}
-                        <img src="{{ MEDIA_URL }}{{ category.image }}" class="col-3 img-fluid img-thumbnail" alt="Logo firmy Colop. Producent pieczątek" title="Logo firmy Colop. Producent pieczątek">
+                        <div class="col-3">
+                            <img src="{{ MEDIA_URL }}{{ category.image }}" class="logo_in_menu img-fluid img-thumbnail" alt="Logo firmy Colop. Producent pieczątek" title="Logo firmy Colop. Producent pieczątek">
+                        </div>
                         {% else %}
                         <span class="col-3"></span>
                         {% endif %}
