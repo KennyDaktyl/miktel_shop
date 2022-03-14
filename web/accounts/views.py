@@ -67,9 +67,7 @@ class RegisterUserView(View):
                 messages.error(
                     request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)"
                 )
-                response = redirect("front_page")
-                response["Location"] += "?cache=" + str(uuid4())
-                return response
+                return redirect("front_page")
         else:
             messages.error(request, "Wystąpił błąd")
             ctx = {"form": form}
@@ -131,9 +129,7 @@ class CompanyRegistrationView(View):
                 messages.error(
                     request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)"
                 )
-                response = redirect("front_page")
-                response["Location"] += "?cache=" + str(uuid4())
-                return response
+                return redirect("front_page")
         else:
             messages.error(request, "Wystąpił błąd")
             ctx = {"form": form}
@@ -149,9 +145,7 @@ class ActivateAccount(View):
         login(request, user)
         send_activate_info_message(user)
         # send_activate_info_email_by_django(user)
-        response = redirect("front_page")
-        response["Location"] += "?cache=" + str(uuid4())
-        return response
+        return redirect("front_page")
 
 
 @method_decorator(login_required, name="dispatch")
@@ -329,9 +323,7 @@ class LoginView(View):
             if user is not None:
                 login(request, user)
                 messages.error(request, "Zalogowano poprawnie.")
-                response = redirect("front_page")
-                response["Location"] += "?cache=" + str(uuid4())
-                return response
+                return redirect("front_page")
             else:
                 messages.error(request, "Błędne hasło lub login")
                 ctx = {"form": form}

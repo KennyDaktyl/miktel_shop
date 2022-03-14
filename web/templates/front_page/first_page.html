@@ -20,6 +20,8 @@
 {% endblock %}
 
 {% block content %}
+
+{% cache 500 front_page %}
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v13.0&appId=1963046893902808&autoLogAppEvents=1" nonce="L94qKVdZ"></script>
 
@@ -54,7 +56,7 @@
 
   <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2 row">
     <h1 class="col-11 ml-3 pl-1">Oferta serwisu</h1>
-    
+
     {% for product in recommended_products %}
     <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
       <a href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
@@ -199,6 +201,7 @@
       ><blockquote cite="https://www.facebook.com/profile.php?id=100032867754031" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=100032867754031">Serwis w Rybnej</a></blockquote></div>
     </div>
   </div>
+{% endcache %}
 
 {% endblock %}
 
