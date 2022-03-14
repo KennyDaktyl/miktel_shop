@@ -33,7 +33,7 @@
     <div class="carousel-inner">
       {% for image in images_carousel %}
       <div id=carousel{{ forloop.counter0 }} class="carousel-item" data-interval="10000">
-        <img  width="100%" height="520" src="{{ MEDIA_URL }}{{ image.image }}" class="d-block w-100 img_carousel" alt="{{ image.alt}}" title="{{ image.title }}">
+        <img loading="lazy" width="100%" height="520" src="{{ MEDIA_URL }}{{ image.image }}" class="d-block w-100 img_carousel" alt="{{ image.alt}}" title="{{ image.title }}">
         <div class="carousel-caption d-none d-md-block">
           <h2>{{ image.title }}</h2>
           <p>{{ image.description }}</p>
@@ -195,7 +195,7 @@
   </div>
    <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2 row overflow-hidden">
       <h2 class="col-11 ml-3 pl-1">Social media</h2>
-      <div class="col-10 m-0 p-0 fb-page mx-auto" data-href="https://www.facebook.com/profile.php?id=100032867754031" data-tabs="timeline" data-width="400" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-lazy="true"
+      <div class="col-10 m-0 p-0 fb-page mx-auto text-center" data-href="https://www.facebook.com/profile.php?id=100032867754031" data-tabs="timeline" data-width="400" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true" data-lazy="true"
       ><blockquote cite="https://www.facebook.com/profile.php?id=100032867754031" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/profile.php?id=100032867754031">Serwis w Rybnej</a></blockquote></div>
     </div>
   </div>

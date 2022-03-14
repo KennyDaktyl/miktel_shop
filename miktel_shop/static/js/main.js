@@ -4,6 +4,7 @@ $(document).ready(function () {
     }
 
     var img_corousel_first = $('#carousel0').addClass('active');
+    img_corousel_first.attr('loading', '');
     var indicator_corousel_first = $('#indicator0').addClass('active');
 
     var menuToggle = $('ul.menuToggle');
