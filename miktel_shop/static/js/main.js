@@ -56,7 +56,7 @@ $(document).ready(function () {
 
     $(window).on('scroll', function() {
         var st = $(this).scrollTop();
-       
+        console.log(st);
         if (st > 0) {
             header_top.addClass('fixed_menu');
             nav_main.addClass('fixed_menu'); 
