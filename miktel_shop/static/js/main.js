@@ -59,13 +59,15 @@ $(document).ready(function () {
         if (st > 0) {
             header_top.addClass('fixed_menu');
             nav_main.addClass('fixed_menu');
-            console.log(nav_main.css('top'));
+            
         } 
 
         if (st < 50) {
             header_top.removeClass('fixed_menu');
             nav_main.removeClass('fixed_menu'); 
         } 
+        console.log(nav_main.css('top'));
+        console.log(header_top.css('top'));
     });
     
 
