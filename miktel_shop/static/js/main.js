@@ -66,8 +66,6 @@ $(document).ready(function () {
             header_top.removeClass('fixed_menu');
             nav_main.removeClass('fixed_menu'); 
         } 
-        console.log(nav_main.css('top'));
-        console.log(header_top.css('top'));
     });
     
 

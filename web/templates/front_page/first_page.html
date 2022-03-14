@@ -10,8 +10,7 @@
 <meta property="fb:app_id" content="{{ app_id }}" />
 <meta property="og:url" content="{{ get_domain }}{{ object.get_absolute_url }}" />
 <meta property="og:type" content="page" />
-<meta property="og:title"
-  content="Serwis w Rybnej. Strona firmowa." />
+<meta property="og:title" content="Serwis w Rybnej. Strona firmowa." />
 <meta property="og:description" content="Serwis telefonów komórkowych, wyrób pieczątek, dorabianie kluczy." />
 <meta property="og:image" content="{{ MEDIA_URL }}images/workplace/serwiswrybnejplakat.webp" />
 
@@ -52,7 +51,7 @@
   </div>
 
   <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2 row">
-    <h1 class="col-12 ml-3 pl-1">Oferta serwisu</h1>
+    <h1 class="col-11 ml-3 pl-1">Oferta serwisu</h1>
     
     {% for product in recommended_products %}
     <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
@@ -192,18 +191,12 @@
     </div>
     {% endfor %}
   </div>
-    <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2 row overflow-hidden">
+   <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2 row overflow-hidden">
       <h2 class="col-11 ml-3 pl-1">Social media</h2>
-      <!-- <div class="fb-page col-12 mx-auto text-center" data-href="https://www.facebook.com/profile.php?id=100032867754031" data-tabs="timeline"
-        data-width="350" data-height="500" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false"
-        data-show-facepile="true">
-        <blockquote cite="https://www.facebook.com/profile.php?id=100032867754031" class="fb-xfbml-parse-ignore"><a
-            href="https://www.facebook.com/profile.php?id=100032867754031">Serwis w Rybnej</a></blockquote>
-      </div> -->
     </div>
   </div>
-  <div id="fb-root"></div>
-  {% endblock %}
+
+{% endblock %}
 
 {% block script %}
 
