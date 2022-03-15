@@ -5,8 +5,8 @@
 
 {% block head %}
 <link rel="canonical" href="https://serwiswrybnej.pl"/>
-<meta name="description" content="{{ description }}">
-<title>{{ sub_cat.name }}</title>
+<meta name="description" content="{{ sub_category_type.meta_description }}">
+<title>{{ sub_cat.title_description }}</title>
 {% endblock %}
 
 {% block content %}
@@ -78,7 +78,7 @@
         <p class="col-12 mx-auto text-left">Brak produktów w tej kategorii</p>
         {% endfor %}
     </div>
-    
+    {% if page_obj.has_previous %}
     <div class="col-12 input-group mb-3 mt-3 mx-auto text-center pagination">
         <div class=""></div>
         <div aria-label="..." class="row col-12 m-0 p-0 justify-content-center mx-auto text-center">
@@ -111,6 +111,7 @@
         </span>
         </div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
 

@@ -195,7 +195,12 @@ class SubCategory(BaseModel):
     title = models.CharField(
         verbose_name="Title dla obrazka", blank=True, null=True, max_length=70
     )
-
+    meta_description = models.CharField(
+        verbose_name="Meta description dla kategorii", blank=True, null=True, max_length=160
+    )
+    meta_title = models.CharField(
+        verbose_name="Meta title dla kategorii", blank=True, null=True, max_length=60
+    )
     class Meta:
         ordering = (
             "category",
