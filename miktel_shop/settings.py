@@ -82,6 +82,39 @@ CORS_ALLOWED_ORIGINS = [
     "https://www.gstatic.com",
     "https://web.facebook.com",
 ]
+CORS_ALLOW_HEADERS = [
+'accept',
+'accept-encoding',
+'authorization',
+'content-type',
+'dnt',
+'origin',
+'user-agent',
+'x-csrftoken',
+'x-requested-with',
+]
+
+CSP_DEFAULT_SRC =  [
+    "'self'",
+    "https://google.com",
+    "https://www.google.com",
+    "https://www.facebook.com",
+    "https://googleanalitics.com",
+    "https://www.googletagmanager.com",
+    "https://cdn.jsdelivr.net",
+    "https://use.fontawesome.com",
+    "https://fonts.gstatic.com",
+    "https://www.freeprivacypolicy.com",
+    "https://connect.facebook.net",
+    "https://code.jquery.com",
+    "https://cdn.jsdelivr.net",
+    "https://ajax.googleapis.com",
+    "https://www.w3.org",
+    "https://connect.facebook.net",
+    "https://ajax.googleapis.com",
+    "https://www.gstatic.com",
+    "https://web.facebook.com",
+]
 # CSP_IMG_SRC = ["'self'", 'https://www.w3.org/2000/svg']
 # # Application definition
 
@@ -115,7 +148,7 @@ SILENCED_SYSTEM_CHECKS = ["captcha.recaptcha_test_key_error"]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    # "csp.middleware.CSPMiddleware",
+    "csp.middleware.CSPMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
