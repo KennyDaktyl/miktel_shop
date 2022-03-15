@@ -168,7 +168,6 @@ class Category(BaseModel):
 class SubCategory(BaseModel):
     id = models.AutoField(primary_key=True)
     name = models.CharField(verbose_name="Nazwa podkategorii", max_length=128)
-    desc = models.TextField(verbose_name="Opis podkategorii", blank=True, null=True)
     category = models.ForeignKey(
         "Category",
         verbose_name="Kategoria podkategorii",
@@ -201,6 +200,7 @@ class SubCategory(BaseModel):
     meta_title = models.CharField(
         verbose_name="Meta title dla kategorii", blank=True, null=True, max_length=60
     )
+    desc = models.TextField(verbose_name="Opis podkategorii", blank=True, null=True)
     class Meta:
         ordering = (
             "category",

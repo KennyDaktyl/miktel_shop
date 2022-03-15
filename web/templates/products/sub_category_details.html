@@ -5,33 +5,31 @@
 
 {% block head %}
 <link rel="canonical" href="https://serwiswrybnej.pl"/>
-<meta name="description" content="{{ sub_category_type.meta_description }}">
-<title>{{ sub_cat.title_description }}</title>
+<meta name="description" content="{{ sub_category.meta_description }}">
+<title>{{ sub_category.meta_title }}</title>
 {% endblock %}
 
 {% block content %}
-    <input type="hidden" id='cat' value="{{ sub_category_type.sub_category.category.id }}">
-    <input type="hidden" id='sub_cat' value="{{ sub_category_type.sub_category.id }}">
-    <input type="hidden" id='sub_cat_type' value="{{ sub_category_type.id }}">
+    <input type="hidden" id='cat' value="{{ sub_category.category.id }}">
+    <input type="hidden" id='sub_cat' value="{{ sub_category.id }}">
+    <input type="hidden" id='sub_cat_type' value="{{ sub_category.sub_category_type.id }}">
 
     <div class="col-12 mx-auto m-0 p-0" style="background-color: black;">
         {% load thumbnail %}
-        {% thumbnail sub_cat.image "1280x400" crop='center' format="WEBP"  as im %}
-        <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0 img_carousel" alt="{{ sub_cat.alt}}" title="{{ sub_cat.title }}">
+        {% thumbnail sub_category.image "1280x400" crop='center' format="WEBP"  as im %}
+        <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0 img_carousel" alt="{{ sub_category.alt}}" title="{{ sub_category.title }}">
         {% endthumbnail %}
         <div class="carousel-caption d-none d-md-block">
-          <h2>{{ sub_cat.title }}</h2>
-          <p>{{ sub_cat.description }}</p>
+          <h2>{{ sub_category.title }}</h2>
+          <p>{{ sub_category.description }}</p>
         </div>
     </div>
     
     <div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 offer mt-2 row">
        
     <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
-        <h1 class="col-12 mx-auto text-left">{{ sub_cat.name }}</h1>
-
         <div class="col-12 mt-5 max-auto">
-            {{ sub_cat.desc|safe|escape }}
+            {{ sub_category.desc|safe|escape }}
         </div>
         {% for product in object_list %}
         <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">

@@ -43,7 +43,7 @@ class SubCategoryProducts(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["sub_cat"] = self.sub_cat
+        context["sub_category"] = self.sub_cat
         return context
 
 

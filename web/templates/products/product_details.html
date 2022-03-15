@@ -22,9 +22,9 @@
 
 {% block content_shop %}
 <div class="wrap col-12 m-0 p-0 ">
-    <input type="hidden" id='cat' value="{{ sub_category_type.sub_category.category.id }}">
-    <input type="hidden" id='sub_cat' value="{{ sub_category_type.sub_category.id }}">
-    <input type="hidden" id='sub_cat_type' value="{{ sub_category_type.id }}">
+    <input type="hidden" id='cat' value="{{ object.sub_category_type.sub_category.category.id }}">
+    <input type="hidden" id='sub_cat' value="{{ object.sub_category_type.sub_category.id }}">
+    <input type="hidden" id='sub_cat_type' value="{{ object.sub_category_type.id }}">
     
     <div class="col-12 mx-auto ml-0 mr-0 p-0 mt-2 row product_box d-flex align-items-start">
         <div class="col-md-6 mx-auto text-center row ">
@@ -188,32 +188,32 @@
         </div>
     </div>
 </div>
-
-
 {% if user.is_superuser %}
-<h3>Zdjęcie główne</h3>
-<div class="alert alert-success" role="alert">
-    <form method="post" name="photo_main" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ photo_m_form.as_p }}
-        <button type="submit" name="photo_main" value="True">Ustaw zdjęcię</button>
-    </form>
-</div>
-<h3>Zdjęcie na galerie</h3>
-<div class="alert alert-success"  role="alert">
-    <form method="post" name="photo_gallery" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ photo_m_form.as_p }}
-        <button type="submit" name="photo_gallery" value="True">Ustaw zdjęcię dla galerii</button>
-    </form>
-</div>
-<h3>Dodaj szczegóły</h3>
-<div class="alert alert-success"  role="alert">
-    <form method="post" name="add_details" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ details_form.as_p }}
-        <button type="submit" name="add_details" value="True">Ustaw zdjęcię dla galerii</button>
-    </form>
+<div class="col-12 m-0 p-0 mx-auto row">
+    <h3>Zdjęcie główne</h3>
+    <div class="alert alert-success" role="alert">
+        <form method="post" name="photo_main" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ photo_m_form.as_p }}
+            <button type="submit" name="photo_main" value="True">Ustaw zdjęcię</button>
+        </form>
+    </div>
+    <h3>Zdjęcie na galerie</h3>
+    <div class="alert alert-success"  role="alert">
+        <form method="post" name="photo_gallery" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ photo_m_form.as_p }}
+            <button type="submit" name="photo_gallery" value="True">Ustaw zdjęcię główne</button>
+        </form>
+    </div>
+    <h3>Dodaj szczegóły</h3>
+    <div class="alert alert-success"  role="alert">
+        <form method="post" name="add_details" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ details_form.as_p }}
+            <button type="submit" name="add_details" value="True">Ustaw szczegóły</button>
+        </form>
+    </div>
 </div>
 {% endif %}
 {% endblock %}
