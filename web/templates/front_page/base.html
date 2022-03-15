@@ -116,7 +116,7 @@
                         <span class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{ category.name }}</span>
                         {% if category.image %}
                         <div class="col-3 p-0 m-0">
-                            <img src="{{ MEDIA_URL }}{{ category.image }}" class="logo_in_menu img-fluid img-thumbnail" alt="Logo firmy Colop. Producent pieczątek" title="Logo firmy Colop. Producent pieczątek">
+                            <img loading="lazy" src="{{ MEDIA_URL }}{{ category.image }}" height="38px" width="100%" class="logo_in_menu img-fluid img-thumbnail" alt="Logo firmy Colop. Producent pieczątek" title="Logo firmy Colop. Producent pieczątek">
                         </div>
                         {% else %}
                         <span class="col-3"></span>
