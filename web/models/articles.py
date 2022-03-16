@@ -29,7 +29,21 @@ class Articles(BaseModel):
         null=True,
         blank=True,
     )
-
+    image_alt = models.CharField(
+        verbose_name="Alternatywny text dla obrazka",
+        max_length=125,
+        blank=True,
+        null=True,
+    )
+    image_title = models.CharField(
+        verbose_name="Title dla obrazka", blank=True, null=True, max_length=70
+    )
+    meta_description = models.CharField(
+        verbose_name="Meta description dla artykułu", blank=True, null=True, max_length=160
+    )
+    meta_title = models.CharField(
+        verbose_name="Meta title dla artykułu", blank=True, null=True, max_length=60
+    )
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Articles, self).save()
