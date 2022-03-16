@@ -129,7 +129,7 @@
         {% thumbnail article.image "200x150" crop='center' format="WEBP" as im %}
         <source srcset="{{ im }}" type="image/webp" />
         <img loading="lazy" width="200" height="150" class="img-fluid mx-auto col-12 m-0 p-0" src="{{ MEDIA_URL }}{{ im }}"
-          alt="" title="">
+          alt="{{ article.image_alt }}" title="{{ image_title }}">
         {% endthumbnail %}
       </div>
       <p class="producerPrice col-10 mx-auto text-center text-danger">{{ article.created_time }}</p>
