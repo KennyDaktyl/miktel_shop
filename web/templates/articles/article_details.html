@@ -5,9 +5,9 @@
 
 {% block head %}
 <meta property="fb:app_id" content="{{ app_id }}" />
-<meta property=”og:title” content=”{{ object.title}}” />
-<meta property=”og:url” content=”{{ get_domain }}{{ object.get_absolute_url }}” />
+<meta property="og:url" content="{{ get_domain }}{{ object.get_absolute_url }}"/>
 <meta property="og:type" content="article" />
+<meta property="og:title" content="{{ object.title }}" />
 <meta property="og:image" content="{{ MEDIA_URL }}{{ object.image }}" />
 <meta property=”og:description” content="{{ object.meta_description }}" />
 
