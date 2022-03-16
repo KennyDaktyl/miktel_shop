@@ -5,16 +5,16 @@
 
 {% block head %}
 <meta property="fb:app_id" content="{{ app_id }}" />
-<meta property="og:url" content="{{ get_domain }}{{ object.get_absolute_url }}/" />
+<meta property="og:url" content="{{ get_domain }}{{ sub_category.get_absolute_url }}/" />
 <meta property="og:type" content="product" />
 <meta property="product:category" content="{{ sub_category }}">
 <meta property="og:title" content="{{ sub_category.meta_title }}" />
-<meta property="og:description" content="{{ sub_category.meta_description }}" />
+<meta property="og:description" content="{% if sub_category.meta_description %}{{ sub_category.meta_description }}{% else %}Produkty w kategorii {{ sub_category.name }}{% endif %}}" />
 <meta property="og:image" content="{{ MEDIA_URL }}{{ sub_category.image }}" />
 
-<link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
-<meta name="description" content="{{ sub_category.meta_description }}">
-<title>{{ sub_category.meta_title }}</title>
+<link rel="canonical" href="{{ get_domain }}{{ sub_category.get_absolute_url }}"/>
+<meta name="description" content="{% if sub_category.meta_description %}{{ sub_category.meta_description }}{% else %}Produkty w kategorii {{ sub_category.name }}{% endif %}}">
+<title>{% if sub_category.meta_title %}{{ sub_category.meta_title }}{% else %}Produkty w kategorii {{ sub_category.name }}{% endif %}}</title>
 {% endblock %}
 
 {% block content %}

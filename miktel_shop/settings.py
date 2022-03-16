@@ -188,6 +188,7 @@ TEMPLATES = [
                 "web.cart.my_context_processor.cart",
                 "web.front.my_context_processor.logo",
                 "web.front.my_context_processor.get_domain",
+                "web.front.my_context_processor.get_app_id",
                 "web.front.my_context_processor.base_context_processor",
                 "web.products.my_context_processor.menu_category",
             ],

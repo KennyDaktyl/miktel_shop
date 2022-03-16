@@ -19,8 +19,8 @@
 
 <link href="/static/lightbox/dist/css/lightbox.css" rel="stylesheet" />
 <link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
-<meta name="description" content="{% if object.meta_description %}{{ meta_description }}{% else %}Produkt z kategorii {{ object.sub_category_type.sub_category}} o nazwie {{ object.name }} dostępny w ofercie serwiswrybnej.pl {% endif %}">
-<title>{% if object.meta_title %}{{ meta_title }}{% else %}{{ object.name }} dostępny w ofercie serwiswrybnej.pl{% endif %}</title>
+<meta name="description" content="{% if object.meta_description %}{{ object.meta_description }}{% else %}Produkt z kategorii {{ object.sub_category_type.sub_category}} o nazwie {{ object.name }} dostępny w ofercie serwiswrybnej.pl {% endif %}">
+<title>{% if object.meta_title %}{{ object.meta_title }}{% else %}{{ object.name }} dostępny w ofercie serwiswrybnej.pl{% endif %}</title>
 {% endblock %}
 
 {% block content_shop %}
@@ -28,7 +28,6 @@
     <input type="hidden" id='cat' value="{{ object.sub_category_type.sub_category.category.id }}">
     <input type="hidden" id='sub_cat' value="{{ object.sub_category_type.sub_category.id }}">
     <input type="hidden" id='sub_cat_type' value="{{ object.sub_category_type.id }}">
-    
     <div class="col-12 mx-auto ml-0 mr-0 p-0 mt-2 row product_box d-flex align-items-start">
         <div class="col-md-6 mx-auto text-center row ">
             {% load thumbnail %}

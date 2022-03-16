@@ -11,8 +11,8 @@
 <meta property=”og:description” content="{{ object.meta_description }}" />
 
 <link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
-<meta name="description" content="{{ object.meta_description }}">
-<title>{{ object.meta_title }}</title>
+<meta name="description" content="{% if object.meta_description %}{{ object.meta_description }}{% else %}Artykuł na blogu o tylule {{ object.title }}{% endif %}">
+<title>{% if object.meta_title %}{{ object.meta_title }}{% else %}Artykuł | {{ object.title }}{% endif %}</title>
 {% endblock %}
 
 

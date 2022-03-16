@@ -84,7 +84,6 @@ class ProductDetails(DetailView):
             context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
             context["photo_g_form"] = AddGalleryPhotoForm(initial={"product": self.object})
             context["details_form"] = SelectDetailsProductForm(instance=self.object)
-        context["app_id"] = os.environ.get("APP_ID")
         return context
 
     def post(self, request, *args, **kwargs):

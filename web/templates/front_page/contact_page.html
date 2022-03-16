@@ -4,7 +4,14 @@
 {% load thumbnail %}
 
 {% block head %}
-<link rel="canonical" href="https://serwiswrybnej.pl/kontakt"/>
+<meta property="fb:app_id" content="{{ app_id }}" />
+<meta property="og:url" content="{{ get_domain }}/kontakt" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Kontakt z serwisem w Rybnej. Dane adresowe." />
+<meta property="og:description" content="Dane adresowe serwisu w Rybnej k. Krakowa. Naprawa telefonów komórkowych, wyrób pieczątek, dorabianie kluczy." />
+<meta property="og:image" content="{{ MEDIA_URL }}logo/serwis+w+rybnej+logo.webp" />
+
+<link rel="canonical" href="{{ get_domain }}/kontakt"/>
 <meta name="description" content="Siedziba serwisu znajduje się w Rybnej k. krakow w gminie Czernichów. Usługi wykonywane są w prywatnym domu na ul. Wspólnej 2. Czynne od poniedziałku do piątku w godzinach 9-18 oraz w sobotę od 9 do 13.">
 <title>Kontakt | Serwis w Rybnej</title>
 {% endblock %}
