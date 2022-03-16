@@ -6,6 +6,13 @@ $(document).ready(function () {
     var img_corousel_first = $('#carousel0').addClass('active');
     img_corousel_first.attr('loading', '');
     var indicator_corousel_first = $('#indicator0').addClass('active');
+    var img_carousel_lazy = $('img.img_carousel');
+    img_carousel_lazy.each(function (e) {
+        console.log($(this));
+        if ($(this).attr('id') != "img_carousel0") {
+            $(this).attr('loading', 'lazy');
+        }
+    })
 
     var menuToggle = $('ul.menuToggle');
     menuToggle.each(function (e) {
