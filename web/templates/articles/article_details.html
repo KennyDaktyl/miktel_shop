@@ -4,9 +4,15 @@
 {% load thumbnail %}
 
 {% block head %}
+<meta property=”og:title” content=”{{ object.title}}” />
+<meta property=”og:url” content=”{{ get_domain }}{{ object.get_absolute_url }}” />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="{{ MEDIA_URL }}{{ object.image }}" />
+<meta property=”og:description” content="{{ object.meta_description }}" />
+
 <link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
-<meta name="description" content="Artykuł o tytule {{ object.title }}">
-<title>Blog | {{ object.title }}</title>
+<meta name="description" content="{{ object.meta_description }}">
+<title>{{ object.meta_title }}</title>
 {% endblock %}
 
 

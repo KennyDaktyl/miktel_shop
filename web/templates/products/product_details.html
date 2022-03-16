@@ -9,6 +9,9 @@
 <meta property="fb:app_id" content="{{ app_id }}" />
 <meta property="og:url" content="{{ get_domain }}{{ object.get_absolute_url }}"/>
 <meta property="og:type" content="product" />
+<meta property="product:category" content="{{ object.sub_category_type.sub_category}}">
+<meta property="product:price:amount" content="{{ object.price_promo }}">
+
 <meta property="og:title" content="Produkt {{ object.name }} | z kategorii {{ object.sub_category_type.sub_category.category.name }}" />
 <meta property="og:description" content="{{ object.desc }}" />
 <meta property="og:image" content="{{ MEDIA_URL }}{{ object.image }}" />
@@ -71,7 +74,7 @@
                     <div class="boxPromo smallBox bg-danger m-2">{{ object.discount }}%</div>
                 {% endif %}
                 <div class="col-12 row m-0 p-0 mt-3">
-                    <p class="producerPrice text-center text-danger m-0 pr-2 ">{{ object.price_promo}} zł</p>
+                    <p class="producerPrice text-center text-danger m-0 pr-2 ">{{ object.price_promo }} zł</p>
                         {% if object.price_promo != object.price %}
                     <p class="text-center m-0 p-0 "><del>{{ object.price}} zł</del></p>
                         {% endif %}
