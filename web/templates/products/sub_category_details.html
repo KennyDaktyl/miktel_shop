@@ -67,7 +67,8 @@
         <div class="col-12 m-2 mx-auto text-center">
             {% load thumbnail %}
             {% thumbnail product.image "200x200" crop='center' format="WEBP"  as im %}
-            <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="{{product.seo_tag_description}}">
+            <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="{% if product.alt %}{{ product.alt }}{% else %} Brak obrazka dla produktu {{ product.name }}"
+            title="{% if product.title %}{{ product.title }}{% else %}Brak obrazka dla produktu {{product.name}}{% endif %}">
             {% endthumbnail %}
         </div>
             <p class="productName col-12 mx-auto text-center">{{product.name}}</p>
