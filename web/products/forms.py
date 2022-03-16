@@ -1,5 +1,6 @@
 from django import forms
 from web.models import Products
+from web.models.products import Images
 
 
 class MainPhotoProductForm(forms.Form):
@@ -32,6 +33,26 @@ class AddMainPhotoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(AddMainPhotoForm, self).__init__(*args, **kwargs)
+        self.fields["title"].required = False
+        self.fields["alt"].required = False
+
+
+class AddGalleryPhotoForm(forms.ModelForm):
+
+    alt = forms.CharField(required=False)
+
+    class Meta:
+        model = Images
+        fields = ("product", "image", "alt", "title")
+        labels = {
+            "image": ("Dodaj zdjęcie"),
+            "title": ("Dodaj title zdjęcia"),
+            "alt": ("Dodaj tekst alternatywny"),
+        }
+        required = {"alt": False}
+
+    def __init__(self, *args, **kwargs):
+        super(AddGalleryPhotoForm, self).__init__(*args, **kwargs)
         self.fields["title"].required = False
         self.fields["alt"].required = False
 

@@ -9,7 +9,7 @@ from rest_framework import generics, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
 from web.models import Category, Products, SubCategory, SubCategoryType
 
-from .forms import AddMainPhotoForm, SelectDetailsProductForm
+from .forms import AddGalleryPhotoForm, AddMainPhotoForm, SelectDetailsProductForm
 from .serializers import ProductSerializer
 
 
@@ -82,6 +82,7 @@ class ProductDetails(DetailView):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_staff:
             context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
+            context["photo_g_form"] = AddGalleryPhotoForm(initial={"product": self.object})
             context["details_form"] = SelectDetailsProductForm(instance=self.object)
         context["app_id"] = os.environ.get("APP_ID")
         return context
@@ -91,29 +92,61 @@ class ProductDetails(DetailView):
         photo_m_form = AddMainPhotoForm(
             request.POST, request.FILES, instance=self.object
         )
+        photo_g_form = AddGalleryPhotoForm(
+            request.POST, request.FILES, initial={"product": self.object}
+        )
         details_form = SelectDetailsProductForm(request.POST, instance=self.object)
         context = super(ProductDetails, self).get_context_data(**kwargs)
         if request.POST.get("photo_main"):
+            print("1")
             if photo_m_form.is_valid():
                 photo_m_form.save()
                 context["photo_m_form"] = photo_m_form
+                context["photo_g_form"] = AddGalleryPhotoForm(
+                    initial={"product": self.object})
                 context["details_form"] = SelectDetailsProductForm(instance=self.object)
                 messages.success(self.request, self.success_message_add)
                 return self.render_to_response(context=context)
             else:
                 context["photo_m_form"] = photo_m_form
+                context["photo_g_form"] = AddGalleryPhotoForm(
+                    initial={"product": self.object})
                 context["details_form"] = SelectDetailsProductForm(instance=self.object)
+                messages.success(self.request, self.success_message_error)
+                return self.render_to_response(context=context)
+        if request.POST.get("photo_gallery"):
+            print("2")
+            if photo_g_form.is_valid():
+                photo_g_form.save()
+                context["photo_m_form"] = AddMainPhotoForm(
+                    instance=self.object)
+                context["photo_g_form"] = AddGalleryPhotoForm(
+                    initial={"product": self.object})
+                context["details_form"] = SelectDetailsProductForm(
+                    instance=self.object)
+                messages.success(self.request, self.success_message_add)
+                return self.render_to_response(context=context)
+            else:
+                context["photo_m_form"] = AddMainPhotoForm(
+                    instance=self.object)
+                context["photo_g_form"] = photo_g_form
+                context["details_form"] = SelectDetailsProductForm(
+                    instance=self.object)
                 messages.success(self.request, self.success_message_error)
                 return self.render_to_response(context=context)
         if request.POST.get("add_details"):
             if details_form.is_valid():
                 details_form.save()
                 context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
+                context["photo_g_form"] = AddGalleryPhotoForm(
+                    initial={"product": self.object})
                 context["details_form"] = details_form
                 messages.success(self.request, self.success_message_add)
                 return self.render_to_response(context=context)
             else:
                 context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
+                context["photo_g_form"] = AddGalleryPhotoForm(
+                    initial={"product": self.object})
                 context["details_form"] = details_form
                 messages.success(self.request, self.success_message_error)
                 return self.render_to_response(context=context)
