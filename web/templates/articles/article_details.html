@@ -4,6 +4,7 @@
 {% load thumbnail %}
 
 {% block head %}
+<meta property="fb:app_id" content="{{ app_id }}" />
 <meta property=”og:title” content=”{{ object.title}}” />
 <meta property=”og:url” content=”{{ get_domain }}{{ object.get_absolute_url }}” />
 <meta property="og:type" content="article" />
