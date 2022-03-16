@@ -98,7 +98,6 @@ class ProductDetails(DetailView):
         details_form = SelectDetailsProductForm(request.POST, instance=self.object)
         context = super(ProductDetails, self).get_context_data(**kwargs)
         if request.POST.get("photo_main"):
-            print("1")
             if photo_m_form.is_valid():
                 photo_m_form.save()
                 context["photo_m_form"] = photo_m_form
@@ -115,7 +114,6 @@ class ProductDetails(DetailView):
                 messages.success(self.request, self.success_message_error)
                 return self.render_to_response(context=context)
         if request.POST.get("photo_gallery"):
-            print("2")
             if photo_g_form.is_valid():
                 photo_g_form.save()
                 context["photo_m_form"] = AddMainPhotoForm(
@@ -158,7 +156,7 @@ class ProductRedirectView(RedirectView):
     pattern_name = "product_details"
 
     def get(self, *args, **kwargs):
-        product = get_object_or_404(Products,slug=kwargs["product"], pk=kwargs["pk"])
+        product = get_object_or_404(Products, pk=kwargs["pk"])
         return redirect(product.get_absolute_url())
 
 class SubCategoryRedirectView(RedirectView):
