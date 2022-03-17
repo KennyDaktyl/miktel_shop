@@ -198,6 +198,7 @@ class ApiProductsListSetJS(generics.ListAPIView):
     def get_queryset(self):
         search = self.request.query_params.get("search")
         products = Products.objects.filter(name__icontains=search)
+        print(products)
         return products[0:20]
 
 
