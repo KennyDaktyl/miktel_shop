@@ -390,6 +390,9 @@ class Vat(BaseModel):
     def __str__(self):
         return "{}%".format(self.name)
 
+    class Meta:
+        ordering = ("name",)
+        verbose_name_plural = "Podatek Vat"
 
 class Products(BaseModel):
     id = models.AutoField(primary_key=True)
@@ -490,12 +493,12 @@ class Products(BaseModel):
         verbose_name="Stawka VAT",
     )
     is_recommended = models.BooleanField(
-        verbose_name="Czy jest w rekomendowanych", default=False
+        verbose_name="Czy jest w rekomendowanych", default=False, db_index=True,
     )
 
     is_news = models.BooleanField(verbose_name="Czy jest w nowościach", default=False)
     is_promo = models.BooleanField(
-        verbose_name="Czy jest w propozycjach", default=False
+        verbose_name="Czy jest w propozycjach", default=False, db_index=True,
     )
 
     is_active = models.BooleanField(verbose_name="Czy jest dostępny", default=True)

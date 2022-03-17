@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from web.models import Products
-from web.models.products import Category, SubCategory, SubCategoryType, Image
+from web.models.products import Category, SubCategory, SubCategoryType, Images, Vat
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -31,24 +31,31 @@ class SubCategoryTypeSerializer(serializers.ModelSerializer):
         ordering = ("name",)
 
 
-class ImageSerializer(serializers.ModelSerializer):
+class ImagesSerializer(serializers.ModelSerializer):
+    
     class Meta:
-        model = Image
+        model = Images
         depth = 1
-        fields = (
-            "image",
-            "id",
-        )
+        fields = ["id", "image"]
         ordering = ("image",)
+
+
+class VatSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Vat
+        depth = 1
+        fields = ("id", "name")
 
 
 class ProductSerializer(serializers.ModelSerializer):
     product_url = serializers.URLField(source="get_absolute_url", read_only=True)
     sub_category_type = SubCategoryTypeSerializer(read_only=True)
+    tax = VatSerializer()
 
     class Meta:
         model = Products
-        depth = 3
+        depth = 2
         fields = (
             "name",
             "sub_category_type",
