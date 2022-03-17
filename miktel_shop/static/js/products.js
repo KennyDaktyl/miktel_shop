@@ -145,3 +145,28 @@ $(document).ready(function () {
         };
     }); 
 });
+
+
+// products_div.forEach(function (el) {
+//     el.addEventListener("mouseover", function (e) {
+//         // el.children.ClassList.add('show');
+//         var showOption = el.querySelectorAll(":scope > showOption");
+//         console.log(showOption);
+//     });
+
+//     el.addEventListener("mouseout", function (e) {
+//         el.children.ClassList.remove('show');
+//     });
+// });
+
+// var url_address = '/koszyk/dodaj_produkt/'
+// var add_product = document.getElementById('add_product');
+// var prod_id = document.getElementById('prod_id').value;
+// var qty = document.getElementById('qty');
+// var total_price = document.getElementById('total_price');
+// var total_price_modal = document.getElementById('total_price_modal');
+// var len = document.getElementById('len');
+// var len_mobile = document.getElementById('len_mobile');
+// var add_product = document.getElementById('add_product');
+// var len_modal = document.getElementById('len_modal');
+// var ifMobile = false;

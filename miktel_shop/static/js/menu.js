@@ -58,7 +58,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var nav_main_xl = document.getElementById('nav_main_xl');
 
     intPositionNav = parseInt(nav_main.style.top.replace("px", ""));
-
     window.addEventListener('scroll', function (e) {
         y_scroll_pos = window.pageYOffset;
         if (y_scroll_pos > 0) {
@@ -82,9 +81,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         y_scroll_pos = window.pageYOffset;
         nav_position_xl = nav_main_xl.offsetTop;
         intPositionNavXl = parseInt(nav_main_xl.style.top.replace("px", ""));
-        console.log(intPositionNavXl);
-        console.log(nav_position_xl_const);
-        console.log(y_scroll_pos);
         if (intPositionNavXl < 50) {
             nav_main_xl.style.top = "0px";
         } else {
