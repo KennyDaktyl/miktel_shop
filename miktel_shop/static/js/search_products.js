@@ -6,7 +6,7 @@ var search_input = $('#search');
 
 var link = $('#link');
 var div_link = $('#div_link');
-div_link.css('display', 'none');
+// div_link.css('display', 'none');
 
 const domain = location.protocol + '//' + location.host
 const form_url = domain + "/produkty/szukaj_js";
@@ -32,6 +32,7 @@ search_input.keyup(function (event) {
                     console.log(result)
                     if (result.length > 0) {
                         link.css('display', 'flex');
+                        div_link.removeClass('d-none');
                         div_link.css('display', 'flex');
                         for (var i = 0; i < result.length; i++) {
                             var lp = i + 1;
