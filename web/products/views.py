@@ -63,12 +63,6 @@ class SubCategoryTypeProducts(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["sub_category_type"] = self.sub_category_type
-        context["title"] = (
-            self.sub_category_type.sub_category.name
-            + " | "
-            + self.sub_category_type.name
-        )
-        context["description"] = self.sub_category_type
         return context
 
 

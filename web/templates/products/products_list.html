@@ -10,7 +10,7 @@
 <meta property="og:url" content="{{ get_domain }}{{ sub_category_type.get_absolute_url }}" />
 <meta property="og:type" content="product" />
 <meta property="product:category" content="{{ sub_category_type.name }}">
-<meta property="og:title" content="{{ sub_category.meta_title }}" />
+<meta property="og:title" content="{{ sub_category_type.meta_title }}" />
 <meta property="og:description" content="{{ sub_category_type.meta_description }}" />
 <meta property="og:image" content="{{ MEDIA_URL }}{{ sub_category_type.image }}" />
 
@@ -23,7 +23,7 @@
     <input type="hidden" id='cat' value="{{ sub_category_type.sub_category.category.id }}">
     <input type="hidden" id='sub_cat' value="{{ sub_category_type.sub_category.id }}">
     <input type="hidden" id='sub_cat_type' value="{{ sub_category_type.id }}">
-
+    
     <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
         {% if sub_cat %}
         <h1 class="col-12 mx-auto text-left">Produkty z kategorii: {{ sub_cat.name }}</h1>
