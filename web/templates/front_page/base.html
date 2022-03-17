@@ -76,7 +76,7 @@
                         {% csrf_token %}
                         <div id="position" class="row">
                             <input id="search" class="form-control mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
-                            <div id="div_link" class="bg-white search_link border row">
+                            <div id="div_link" class="bg-white search_link border row d-none">
                                 <p  class="col-12">Wyszukiwarka produktów:</p>
                                 <ul class="align-items-center row col-12 mx-auto" id="link">
                                 </ul>
@@ -294,7 +294,7 @@
     <a class="col-12 mx-auto text-center text-white" href="{% url 'privacy_policy' %}">Polityka prywatności</a>
 </main>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
