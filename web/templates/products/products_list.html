@@ -7,8 +7,10 @@
 
 {% block head_shop %}
 <meta property="fb:app_id" content="{{ app_id }}" />
-<meta property="og:url" content="{{ get_domain }}{{ sub_category_type.get_absolute_url }}" />
 <meta property="og:type" content="product" />
+
+{% if sub_cat %}
+<meta property="og:url" content="{{ get_domain }}{{ sub_category_type.get_absolute_url }}" />
 <meta property="product:category" content="{{ sub_category_type.name }}">
 <meta property="og:title" content="{{ sub_category_type.meta_title }}" />
 <meta property="og:description" content="{{ sub_category_type.meta_description }}" />
@@ -17,6 +19,14 @@
 <link rel="canonical" href="{{ get_domain }}{{ sub_category_type.get_absolute_url }}"/>
 <meta name="description" content="{{ sub_category_type.meta_description }}">
 <title>{{ sub_category_type.meta_title }}</title>
+{% else %}
+<meta property="og:url" content="{{ get_domain }}/produkty" />
+<meta property="og:title" content="Produkty w ofercie sklepu internetowego serwiswrybnej.pl"/>
+<meta property="og:description" content="Lista produktów w sklepie internetowym seriwswrybnej.pl" />
+
+<link rel="canonical" href="{{ get_domain }}/produkty"/>
+<meta name="description" content="Lista produktów w sklepie internetowym seriwswrybnej.pl">
+<title>Sklep internetowy | serwiswrybnej.pl</title>
 {% endblock %}
 
 {% block content_shop %}

@@ -4,7 +4,14 @@
 {% load thumbnail %}
 
 {% block head %}
-<link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
+<meta property="fb:app_id" content="{{ app_id }}" />
+<meta property="og:url" content="{{ get_domain }}/blog"/>
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Artykuły związane z ofertą dostępną w serwisie w Rybnej i nie tylko." />
+<meta property="og:image" content="{{ MEDIA_URL }}{{ object.image }}" />
+<meta property=”og:description” content="Lista artykułów związana z tematem prowadzonych usług i oferty produktów w serwisie w Rybnej." />
+
+<link rel="canonical" href="{{ get_domain }}/blog"/>
 <meta name="description" content="Blog. Artykuły z branży serwisu telefonów komórkowych, dorabiania kluczy samochodowych oraz wyrabiania pieczątek.">
 <title>Blog | Lista artykułów z branży serwisu telefonów komórkowych.</title>
 {% endblock %}
