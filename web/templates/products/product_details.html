@@ -12,14 +12,14 @@
 <meta property="product:category" content="{{ object.sub_category_type.sub_category}}">
 <meta property="product:price:amount" content="{{ object.price_promo }}">
 <meta property="og:title" content="Produkt {{ object.name }} | z kategorii {{ object.sub_category_type.sub_category.category.name }}" />
-<meta property="og:description" content="{% if object.meta_description %}{{ object.meta_description }}{% else %} Produkt z kategorii {{ object.sub_category_type.sub_category}} o nazwie {{ object.name }} dostępny w ofercie serwiswrybnej.pl {% endif %}" />
+<meta property="og:description" content="{{ object.meta_description }}" />
 <meta property="og:image" content="{{ MEDIA_URL }}{{ object.image }}" />
 
 
 <link href="/static/lightbox/dist/css/lightbox.css" rel="stylesheet" />
 <link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
-<meta name="description" content="{% if object.meta_description %}{{ object.meta_description }}{% else %}Produkt z kategorii {{ object.sub_category_type.sub_category}} o nazwie {{ object.name }} dostępny w ofercie serwiswrybnej.pl {% endif %}">
-<title>{% if object.meta_title %}{{ object.meta_title }}{% else %}{{ object.name }} dostępny w ofercie serwiswrybnej.pl{% endif %}</title>
+<meta name="description" content="{{ object.meta_description }}">
+<title>{{ object.meta_title }}</title>
 {% endblock %}
 
 {% block content_shop %}
@@ -35,7 +35,7 @@
                 class="mx-auto text-center p-0 m-0 mt-2 col-12" title="Link do dużego zdcjęcia {{ object.name }}">
                 {% thumbnail  object.image "800x600" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{object.seo_tag_description}}" 
+                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{object.alt}}" 
                     title="{{ object.title }}">
                 {% endthumbnail %}
             </a>

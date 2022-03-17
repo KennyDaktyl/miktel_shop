@@ -211,6 +211,10 @@ class SubCategory(BaseModel):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        if not self.meta_description:
+            self.meta_description = f"W ofercie serwisu w Rybnej posiadamy {products_count} produkty/ów z kategorii {self.sub_category_type.sub_category.name} są one dostępne w sklepie internetowym serwiswrybnej.pl"[0:160]
+        if not self.meta_title:
+            self.meta_title = f"Produkty z kategorii {self.sub_category_type.sub_category.name}."[0:70]
         super(SubCategory, self).save()
 
     def get_absolute_url(self):
@@ -439,6 +443,12 @@ class Products(BaseModel):
     )
     desc = models.TextField(verbose_name="Produkt info", blank=True, null=True)
     slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=128)
+    meta_description = models.CharField(
+        verbose_name="Meta description dla produktu", blank=True, null=True, max_length=160
+    )
+    meta_title = models.CharField(
+        verbose_name="Meta title dla produktu", blank=True, null=True, max_length=60
+    )
     image = ResizedImageField(
         verbose_name="Zdjęcie główne",
         size=[1280, 960],
@@ -533,8 +543,18 @@ class Products(BaseModel):
         else:
             self.price_promo = self.price
         self.price_netto = float(self.price_promo) / float("1." + str(self.tax.name))
+        if not self.meta_description:
+            self.meta_description = f"W ofercie produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name} dostępny w sklepie internetowym serwiswrybnej.pl"[0:160]
+        if not self.meta_title:
+            self.meta_title = f"Produkt {self.name} | {self.sub_category_type.sub_category.name}"[0:60]
         if not self.image:
             self.image = "images/products/no_image.webp"
+            self.alt = f"Brak obrazka dla produktu {self.name}" [0:125]
+            self.title = f"Brak obrazka dla produktu {self.name}"[0:70]
+        if not self.title:
+            self.title = f"Produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name}"[0:70]
+        if not self.alt:
+            self.alt = f"Produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name}"[0:125]
         super(Products, self).save()
 
     class Meta:

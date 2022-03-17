@@ -13,8 +13,8 @@
 <meta property="og:image" content="{{ MEDIA_URL }}{{ sub_category.image }}" />
 
 <link rel="canonical" href="{{ get_domain }}{{ sub_category.get_absolute_url }}"/>
-<meta name="description" content="{% if sub_category.meta_description %}{{ sub_category.meta_description }}{% else %}Produkty w kategorii {{ sub_category.name }}{% endif %}}">
-<title>{% if sub_category.meta_title %}{{ sub_category.meta_title }}{% else %}Produkty w kategorii {{ sub_category.name }}{% endif %}}</title>
+<meta name="description" content="{{ sub_category.meta_description }}">
+<title>{{ sub_category.meta_title }}</title>
 {% endblock %}
 
 {% block content %}
@@ -67,7 +67,7 @@
         <div class="col-12 m-2 mx-auto text-center">
             {% load thumbnail %}
             {% thumbnail product.image "200x200" crop='center' format="WEBP"  as im %}
-            <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="{% if product.alt %}{{ product.alt }}{% else %} Brak obrazka dla produktu {{ product.name }}{% endif %}" title="{% if product.title %}{{ product.title }}{% else %}Brak obrazka dla produktu {{product.name}}{% endif %}">
+            <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="{{ product.alt }}" title="{{ product.title }}">
             {% endthumbnail %}
         </div>
             <p class="productName col-12 mx-auto text-center">{{product.name}}</p>
