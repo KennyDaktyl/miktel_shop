@@ -287,9 +287,9 @@ class SubCategoryType(BaseModel):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         if not self.meta_description:
-            self.meta_description = f"W ofercie serwisu w Rybnej posiadamy {self.products_count} produkty/ów z kategorii {self.sub_category_type.sub_category.name} są one dostępne w sklepie internetowym serwiswrybnej.pl"[0:160]
+            self.meta_description = f"W ofercie serwisu w Rybnej posiadamy {self.products_count} produkty/ów z kategorii {self.name} są one dostępne w sklepie internetowym serwiswrybnej.pl"[0:160]
         if not self.meta_title:
-            self.meta_title = f"Produkty z kategorii {self.sub_category_type.sub_category.name}."[0:70]
+            self.meta_title = f"Produkty z kategorii {self.name}."[0:70]
         super(SubCategoryType, self).save()
 
     def get_absolute_url(self):
