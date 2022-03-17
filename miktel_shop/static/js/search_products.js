@@ -6,6 +6,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var div_link = document.getElementById('div_link');
     const domain = location.protocol + '//' + location.host
     const form_url = domain + "/produkty/szukaj_js";
+    var clearText = document.getElementById('clearText');
+    var body = document.querySelector('body');
 
     function newAElement(lp, product_url) {
         var newA = document.createElement("a");
@@ -18,22 +20,23 @@ window.addEventListener('DOMContentLoaded', (event) => {
     return newA;  
     };
 
-    function newPElement(sub_cat_type, name, price, qty){
+    function newPElement(name, price, qty){
         var newP = document.createElement("p");
-        newP.innerHTML = sub_cat_type + ", <strong class='text-primary'>" + name + "</strong>, " + price + " zł, " + qty;
-        newP.classList.add("text-center", "text-dark", "m-0", "p-0");
+        newP.innerHTML = "<strong class='text-primary'>" + name + "</strong>, " + price + " zł, " + qty;
+        newP.classList.add("text-center", "text-dark", "m-0", "p-0", "col-10");
     return newP;
     };
 
     function newImageElement(image) {
         var newI = document.createElement("img");
         newI.setAttribute('src', image);
-        newI.classList.add("image-fluid", "mini", "mr-2");
-        newI.style.height = 'auto';
+        newI.classList.add("image-fluid", "mini", "m-0", "p-0", "col-2");
+        newI.style.height = '35px';
+        newI.style.width = 'auto';
     return newI;
     }
 
-    function getData(search){
+    function getData(search, link, div_link){
         fetch(form_url + "?search=" + search, {
             method: 'GET',
             headers: {
@@ -53,7 +56,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     var product_url = domain + json[i].product_url;
                     var newA = newAElement(lp, product_url);
                     
-                    var sub_cat_type = json[i].sub_category_type['name'];
+                    // var sub_cat_type = json[i].sub_category_type['name'];
                     var name = json[i].name;
                     var price = json[i].price;
                     var qty = parseInt(json[i].qty);
@@ -63,7 +66,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
                     } else {
                         qty = '<b class="text-success">Dostępny</b>'
                     };
-                    var newP = newPElement(sub_cat_type, name, price, qty);
+                    var newP = newPElement(name, price, qty);
                     var newImage = newImageElement(image);
                     newA.appendChild(newImage);
                     newA.appendChild(newP);
@@ -81,91 +84,55 @@ window.addEventListener('DOMContentLoaded', (event) => {
         }
      });
     }
-
-    function blurElement() {
-        if (e.which === 40) {
-                    search_input.blur();
-                    $('a.new_a').each(function (el) {
-                        $(this).css("background", "white")
-                    });
-                    if (j < $('a.new_a').length) {
-                        j += 1;
-                    };
-                    var first_a = $('#' + j);
-                    first_a.css("background", "wheat")
-                };
-    };
-
-    var j = 1;
     search_input.addEventListener("keyup", function(e){
         if(search_input.value.length > 1) {
             var search = search_input.value;
-            getData(search);
+            getData(search, link, div_link);
             
         } else {
             link.style.display = 'none';
             div_link.style.display ='none';
         };
-        // if (e.key === "ArrowDown") {
-        //     var aLink = document.querySelectorAll('a.new_a');
-        //     aLink.forEach(function(el) {
-        //         el.style.background = "white";
-        //         });
-        //     if (j < aLink.length) {
-        //         var firstALink = document.getElementById(j);
-        //         firstALink.style.background = "wheat";
-        //         }
-        //     }
-        // if (e.key === "ArrowUp") {
-        //     search_input.blur();
-        //     var aLink = document.querySelectorAll('a.new_a');
-        //     aLink.forEach(function(el) {
-        //         el.style.background = "white";
-        //         });
-        //     if (j > 1) {
-        //         j -= 1;
-        //     };
-        //     var firstALink = document.getElementById(j);
-        //     firstALink.style.background = "wheat";
-        // };
-        // if (e.key === "Enter") {
-        //     search_input.blur();
-        //     var overALink = document.getElementById(j);
-        //     overALink.click();
-        // };
-    })
+     })
+
+    var link_mobile = document.getElementById('link_mobile');
+    var div_link_mobile = document.getElementById('div_link_mobile');
+    div_link_mobile.style.display = 'none';
+    var search_input_mobile = document.getElementById('inputSearch');
+    search_input_mobile.addEventListener("keyup", function (e) {
+        if (search_input_mobile.value.length > 1) {
+            var search = search_input_mobile.value;
+            getData(search, link_mobile, div_link_mobile);
+            clearText.classList.add('show');
+        } else {
+            link_mobile.style.display = 'none';
+            div_link_mobile.style.display = 'none';
+            clearText.classList.remove('show');
+        };
+    });
+
+    var SearchFormIcon = document.getElementById('SearchFormIcon');
+
+    SearchFormIcon.addEventListener("click", function (e) {
+        inputSearch.focus();
+    });
+    clearText.addEventListener('click', function (e) {
+        search_input_mobile.value = '';
+        clearText.classList.remove('show');
+    });
+    var closeSearchInput = document.getElementById('closeSearchInput');
+    closeSearchInput.addEventListener("click", function (e) {
+        SearchForm.classList.remove('show');
+        search_input_mobile.value = '';
+        main_nav_icon.forEach(function (el) {
+            el.classList.remove('red');
+            el.classList.remove('show');
+        });
+        body.ClassList.remove('frozen');
+    });
 }); 
 
 
-
-// $(document).keyup(function (e) {
-
-//    
-
-
-//     if (e.which === 38) {
-//         search_input.blur();
-//         $('a.new_a').each(function (el) {
-//             $(this).css("background", "white")
-//         });
-//         if (j > 1) {
-//             j -= 1;
-//         };
-//         var first_a = $('#' + j);
-//         first_a.css("background", "wheat");
-//     };
-
-//     if (e.which === 13) {
-//         search_input.blur();
-//         $('#' + j).click();
-//     };
-// });
-
-// var link_mobile = $('#link_mobile');
-// var div_link_mobile = $('#div_link_mobile');
-// div_link_mobile.css('display', 'none');
-
-// var inputSearch = $('#inputSearch');
 // inputSearch.keyup(function (event) {
 
 //     if ($(this).val().length > 1) {

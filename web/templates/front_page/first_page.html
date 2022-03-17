@@ -203,6 +203,9 @@
 
 {% endblock %}
 
+{% load compress %}
 {% block script %}
-
+{% compress js %}
+<script defer src="/static/js/carousel.js" type="text/javascript"></script>
+{% endcompress %}
 {% endblock %}
