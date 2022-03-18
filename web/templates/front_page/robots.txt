@@ -8,3 +8,5 @@ Dissalow: /polityka-prywatnosci
 Dissalow: /koszyk/
 Dissalow: /zamowienia/
 Dissalow: /payment/
+
+Sitemap: https://serwiswrybnej.pl/sitemap.xml
