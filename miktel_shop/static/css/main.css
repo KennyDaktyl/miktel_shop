@@ -695,7 +695,10 @@ th.th_price {
     }
 
     #wrapIconInfo {
-        min-height: 400px;
+        min-height: 500px;
+    }
+    div.wrapIconInfoBox {
+        min-height: 275px;
     }
 
     #mainLogo {
@@ -744,12 +747,11 @@ th.th_price {
     #iconInfo p {
         font-size: 25px;
         font-weight: 600;
+        min-height: 115px;
         text-transform: uppercase;
     }
 
-    #iconInfo strong {
-        font-size: 18px;
-        font-weight: 500;
+    div.redBox {
         background: red;
         padding: 10px 15px;
         -moz-border-radius-topleft: 20px;
@@ -760,6 +762,12 @@ th.th_price {
         -webkit-border-radius: 20px;
         -moz-border-radius: 20px;
         border-radius: 20px;
+    }
+
+    #iconInfo strong {
+        font-size: 15px;
+        font-weight: 500;
+        vertical-align: middle;
     }
 
     table {

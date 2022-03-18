@@ -38,6 +38,20 @@
     <div class="col-12 mx-auto col-sm-11 m-0 p-0 mb-3 mx-auto row">
         {{ object.body|safe }}
     </div>
+    {% for image in object.images %}
+            {% load thumbnail %}
+            {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
+            <a href="{{ MEDIA_URL }}{{ im }}" data-lightbox="{{ image.article.id }}" data-title="{{ image.article.name}}"
+                class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{image.object.name}}">
+                {% thumbnail  image.image "150" crop='center' format="WEBP"  as im %}
+                <source srcset="{{ im }}" type="image/webp" />
+                <img class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{ im }}" alt="{{image.alt}}" title="{{image.title}}">
+                {% endthumbnail %}
+            </a> 
+            {% endthumbnail %}
+            {% empty %}
+            <small class="ml-auto pr-1 col-12 text-center">Brak zdjęć w galerii</small>
+            {% endfor %}
 </div>
 {% endblock %}
 

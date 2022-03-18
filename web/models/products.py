@@ -611,6 +611,14 @@ class Images(BaseModel):
         verbose_name="Zdjęcie produktu",
         related_name="product_gallery",
     )
+    article = models.ForeignKey(
+        "Articles",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        verbose_name="Zdjęcie dla artykułu",
+        related_name="articles_gallery",
+    )
     main = models.BooleanField(verbose_name="Zdjęcie główne", default=False)
     stamp = models.BooleanField(verbose_name="Zdjęcie wzornika?", default=False)
     carousel = models.BooleanField(verbose_name="Zdjęcie na karuzele?", default=False)

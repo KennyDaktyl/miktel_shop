@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from django_resized import ResizedImageField
 
 from .base import BaseModel
+from web.models.products import Images
 
 
 def file_size(value):
@@ -61,6 +62,9 @@ class Articles(BaseModel):
     class Meta:
         ordering = ("-created_time",)
         verbose_name_plural = "Artykuły"
+    
+    def images(self):
+        return Images.objects.filter(article_id=self)
 
     def __str__(self):
         return self.category.name + ", " + self.title
