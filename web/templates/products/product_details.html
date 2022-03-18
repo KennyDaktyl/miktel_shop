@@ -221,6 +221,7 @@
 
 
 {% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="/static/lightbox/dist/js/lightbox.js"></script>
 <script>
     lightbox.option({
@@ -237,7 +238,6 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 {% load compress %}
 {% compress js %}
