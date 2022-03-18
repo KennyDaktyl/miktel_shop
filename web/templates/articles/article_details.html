@@ -11,6 +11,7 @@
 <meta property="og:image" content="{{ MEDIA_URL }}{{ object.image }}" />
 <meta property=”og:description” content="{{ object.meta_description }}" />
 
+<link href="/static/lightbox/dist/css/lightbox.css" rel="stylesheet" />
 <link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}"/>
 <meta name="description" content="{% if object.meta_description %}{{ object.meta_description }}{% else %}Artykuł na blogu o tylule {{ object.title }}{% endif %}">
 <title>{% if object.meta_title %}{{ object.meta_title }}{% else %}Artykuł | {{ object.title }}{% endif %}</title>
@@ -56,6 +57,24 @@
 {% endblock %}
 
 {% block script %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/static/lightbox/dist/js/lightbox.js"></script>
+<script>
+    lightbox.option({
+        'albumLabel': "Zdjęcie %1 z %2"
+    })
+</script>
+<script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+</script>
+
 <script type="application/ld+json">
     {
       "@context": "https://schema.org/",

@@ -93,16 +93,5 @@ window.addEventListener('DOMContentLoaded', (event) => {
             nav_main_xl.style.top = nav_position_xl_const - y_scroll_pos + "px";
         };
     });
-    var wrapIconInfo = document.getElementById('wrapIconInfo');
-    var heightwrapIconInfo = wrapIconInfo.offsetHeight;
-
-    var inIconInfo = document.getElementById('inIconInfo');
-    inIconInfo.style.height = heightwrapIconInfo + "px";
     
-    var iconInfo = document.getElementById('iconInfo');
-    iconInfo.style.height = heightwrapIconInfo + "px";
-    
-    console.log("A" + wrapIconInfo.offsetHeight);
-    console.log("B" + inIconInfo.style.height);
-    console.log("C" + iconInfo.style.height);
 });
