@@ -17,4 +17,4 @@ from .products import Size  # noqa
 from .products import Store  # noqa
 from .products import SubCategoryType  # noqa
 from .products import SubCategory  # noqa
-from .products import Images  # noqa
+from .images import Images  # noqa

@@ -10,6 +10,7 @@ from django_resized import ResizedImageField
 from PIL import Image
 
 from .base import BaseModel
+from .images import Images
 
 
 def file_size(value):
@@ -461,7 +462,7 @@ class Products(BaseModel):
     )
     image = ResizedImageField(
         verbose_name="Zdjęcie główne",
-        size=[1280, 960],
+        size=[800, 600],
         upload_to="images/products/",
         validators=[file_size],
         null=True,
@@ -581,76 +582,3 @@ class Products(BaseModel):
         else:
             description = f"Produkt {self.sub_category_type} o nazwie {self.name}"
         return description
-
-
-class Images(BaseModel):
-    id = models.AutoField(primary_key=True)
-    image = models.ImageField(upload_to="images/", validators=[file_size])
-    alt = models.CharField(
-        verbose_name="Alternatywny text dla obrazka",
-        max_length=125,
-        blank=True,
-        null=True,
-    )
-    title = models.CharField(
-        verbose_name="Title dla obrazka", blank=True, null=True, max_length=70
-    )
-    category = models.ForeignKey(
-        "Category",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        verbose_name="Zdjęcia kategorii",
-        related_name="category_gallery",
-    )
-    product = models.ForeignKey(
-        "Products",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        verbose_name="Zdjęcie produktu",
-        related_name="product_gallery",
-    )
-    article = models.ForeignKey(
-        "Articles",
-        on_delete=models.CASCADE,
-        blank=True,
-        null=True,
-        verbose_name="Zdjęcie dla artykułu",
-        related_name="articles_gallery",
-    )
-    main = models.BooleanField(verbose_name="Zdjęcie główne", default=False)
-    stamp = models.BooleanField(verbose_name="Zdjęcie wzornika?", default=False)
-    carousel = models.BooleanField(verbose_name="Zdjęcie na karuzele?", default=False)
-    description = models.TextField(
-        verbose_name="Mały opis dla obrazka na karuzeli",
-        blank=True,
-        null=True,
-        max_length=264,
-    )
-    logo = models.BooleanField(verbose_name="Logo główne", default=False)
-
-    class Meta:
-        ordering = (
-            "-id",
-            "image",
-        )
-        verbose_name_plural = "Galeria"
-
-    def save(self):
-        im = Image.open(self.image)
-        output = BytesIO()
-        im.save(output, format="WEBP", quality=100)
-        output.seek(0)
-        self.image = InMemoryUploadedFile(
-            output,
-            "ImageField",
-            "%s.webp" % self.image.name.split(".")[0],
-            "image/webp",
-            sys.getsizeof(output),
-            None,
-        )
-        super(Images, self).save()
-
-    def __str__(self):
-        return str(self.id)

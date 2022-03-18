@@ -5,8 +5,7 @@ from django.utils.text import slugify
 from django_resized import ResizedImageField
 
 from .base import BaseModel
-from web.models.products import Images
-
+from .images import Images
 
 def file_size(value):
     limit = 6 * 1024 * 1024
