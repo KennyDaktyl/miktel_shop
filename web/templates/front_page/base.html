@@ -214,14 +214,12 @@
                     {% for category in categorys %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            {{ category.name}}
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ category.name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% for sub_cat in category.sub_category %}
                             <a class="dropdown-item"
-                                href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}">{{
-                                sub_cat.name }}</a>
+                                href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}">{{ sub_cat.name }}</a>
                             {% endfor %}
                         </div>
                     </li>
