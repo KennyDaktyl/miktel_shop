@@ -56,18 +56,18 @@
                         class="col-6 col-sm-5 col-md-4 col-xl-3 row d-flex align-items-center mx-auto d-flex justify-content-center">
                         {% if user.is_authenticated %}
                         <a class="link col-6 row mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none"
-                            href="{% url " user_account" %}">
+                            href="{% url "user_account" %}">
                             <span class="text-center">Moje konto</span>
                             <i class="ml-2 fas fas fa-user text-success text-center"></i>
                         </a>
                         <a class="link col-6 mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none"
-                            href="{% url " logout" %}">
+                            href="{% url "logout" %}">
                             <span class="text-center">Wyloguj</span>
                             <i class="ml-2 fas fa-sign-in-alt text-success text-center"></i>
                         </a>
                         {% else %}
                         <a class="link col-12 mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none"
-                            href="{% url " login" %}">
+                            href="{% url "login" %}">
                             <span class="text-center">Zaloguj</span>
                             <i class="ml-2 fas fa-sign-in-alt text-success text-center"></i>
                         </a>
@@ -127,14 +127,13 @@
                             type="button" data-toggle="collapse" data-target="#navbarToggler{{ category.id}}"
                             aria-controls="navbarToggler{{ category.id}}" aria-expanded="false"
                             aria-label="Toggle navigation">
-                            <span class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{
-                                category.name }}</span>
+                            <span class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{ category.name }}</span>
                             {% if category.image %}
                             <div class="col-3 p-0 m-0">
                                 <img loading="lazy" src="{{ MEDIA_URL }}{{ category.image }}" height="38px" width="100%"
                                     class="logo_in_menu img-fluid img-thumbnail"
-                                    alt="Logo firmy Colop. Producent pieczątek"
-                                    title="Logo firmy Colop. Producent pieczątek">
+                                    alt="Colop. Producent pieczątek"
+                                    title="Colop. Producent pieczątek">
                             </div>
                             {% else %}
                             <span class="col-3"></span>
@@ -183,11 +182,11 @@
                 </form>
 
                 {% if user.is_authenticated %}
-                <a href="{% url " user_account" %}" class="col-3 m-0 p-0 text-center">
+                <a href="{% url "user_account" %}" class="col-3 m-0 p-0 text-center">
                     <i class="col-12 main_nav_icon text-success fas fa-user text-center m-0 p-0"></i>
                 </a>
                 {% else %}
-                <a href="{% url " login" %}" class="col-3 m-0 p-0 text-center">
+                <a href="{% url "login" %}" class="col-3 m-0 p-0 text-center">
                     <i class="col-12 main_nav_icon text-danger fas fa-user text-center m-0 p-0"></i>
                 </a>
                 {% endif %}
