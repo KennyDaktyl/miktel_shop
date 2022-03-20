@@ -11,7 +11,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
         main_nav_icon.forEach(function (el) {
             el.classList.remove('red');
             el.classList.remove('show');
-            el.nextElementSibling.classList.remove('show');
         });
         if (navbarTogglerMenu.classList.contains('show')) {
             body.classList.add('frozen');
