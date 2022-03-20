@@ -7,7 +7,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     const domain = location.protocol + '//' + location.host
     const form_url = domain + "/produkty/szukaj_js";
     var clearText = document.getElementById('clearText');
-    var body = document.querySelector('body');
 
     function newAElement(lp, product_url) {
         var newA = document.createElement("a");
@@ -99,6 +98,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var div_link_mobile = document.getElementById('div_link_mobile');
     div_link_mobile.style.display = 'none';
     var search_input_mobile = document.getElementById('inputSearch');
+    
     search_input_mobile.addEventListener("keyup", function (e) {
         if (search_input_mobile.value.length > 1) {
             var search = search_input_mobile.value;
@@ -112,13 +112,15 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 
     var SearchFormIcon = document.getElementById('SearchFormIcon');
-
+    var SearchForm = document.getElementById('SearchForm');
+    var main_nav_icon = document.querySelectorAll('i.main_nav_icon');
     SearchFormIcon.addEventListener("click", function (e) {
         inputSearch.focus();
     });
     clearText.addEventListener('click', function (e) {
         search_input_mobile.value = '';
         clearText.classList.remove('show');
+        link.innerHTML = '';
     });
     var closeSearchInput = document.getElementById('closeSearchInput');
     closeSearchInput.addEventListener("click", function (e) {
@@ -128,95 +130,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             el.classList.remove('red');
             el.classList.remove('show');
         });
-        body.ClassList.remove('frozen');
+        link.innerHTML = '';
+        document.querySelector('body').classList.remove('frozen');
     });
 }); 
-
-
-// inputSearch.keyup(function (event) {
-
-//     if ($(this).val().length > 1) {
-//         var search = $(this).val();
-
-//         function GetSearchResult() {
-//             result = "";
-//             $.ajax({
-//                 url: form_url,
-//                 async: true,
-//                 type: "GET",
-//                 data: {
-//                     search: search,
-//                     csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
-//                 },
-//                 dataType: "json",
-//                 success: function (data) {
-//                     result = JSON.parse(JSON.stringify(data));
-//                     link_mobile.text('');
-//                     if (result.length > 0) {
-//                         link_mobile.css('display', 'flex');
-//                         div_link_mobile.css('display', 'flex');
-//                         for (var i = 0; i < result.length; i++) {
-//                             var lp = i + 1;
-//                             var product_url = domain + result[i].product_url;
-//                             var new_a = $('<a/>', {
-//                                 class: 'new_a mx-auto text-left text-dark border-bottom row d-flex align-items-center row col-12 m-0 p-0',
-//                                 value: lp,
-//                                 tabindex: lp,
-//                                 id: lp,
-//                                 href: product_url,
-//                             });
-
-//                             // var cat = result[i].sub_category_type.sub_category.category['name'];
-//                             var sub_cat = result[i].sub_category_type['name'];
-//                             var qty = parseInt(result[i].qty);
-//                             if (qty == 0) {
-//                                 qty = '<b class="text-danger">Brak</b>'
-//                             } else {
-//                                 qty = '<b class="text-success">Dostępny</b>'
-//                             }
-//                             // var sub_cat_type = result[i].sub_category_type['name'];
-//                             // var brand = result[i].brand['name'];
-//                             var name = result[i].name;
-//                             var price = result[i].price;
-                            
-//                             var new_p = $('<p/>', {
-//                                 html: sub_cat + ", " + "<strong class='text-primary'>" + name + "</strong>, " + price + " zł " + qty,
-//                                 class: 'text-left text-dark m-0 p-0 pr-2 col-10',
-                                
-
-//                             });
-                            
-//                             var image = result[i].image;
-//                             var new_img = $('<img/>', {
-//                                 src: image,
-//                                 class: 'image-fluid mini pr-2 col-2 m-0',
-//                                 style: 'height: auto'
-
-//                             });
-//                             new_a.click(function () {
-//                                 var url = $(this).attr('href');
-//                                 $(location).attr('href',url);
-//                             });
-//                             new_img.prependTo(new_a);
-//                             new_p.appendTo(new_a);
-//                             new_a.css('min_height', '30px');
-//                             new_a.appendTo(link_mobile);
-//                         }
-//                     } else {
-//                         link_mobile.text('');
-//                         link_mobile.css('display', 'none');
-//                         div_link_mobile.css('display', 'none');
-//                     }
-//                 }
-//             });
-//             return result;
-//         }
-
-//         result = GetSearchResult();
-//     } else {
-//         link_mobile.text('');
-//         link_mobile.css('display', 'none');
-//         div_link_mobile.css('display', 'none');
-//     }
-// });
-// });

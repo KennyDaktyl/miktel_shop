@@ -35,9 +35,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if (el.classList.contains('show'))
                 {
                 body.classList.add('frozen');
-                } else {
+            } else {
                 body.classList.remove('frozen');
-                }
+            }
         });
     });
     
