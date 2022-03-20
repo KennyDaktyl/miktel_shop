@@ -29,7 +29,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
             });
             el.classList.add('red');
             el.classList.add('show');
-            el.nextElementSibling.classList.add('show');
             menu_burger.classList.remove('red');
             navbarTogglerMenu.classList.remove('show');
             if (el.classList.contains('show'))
