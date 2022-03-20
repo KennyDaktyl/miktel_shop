@@ -94,4 +94,4 @@ class Images(BaseModel):
         super(Images, self).save()
 
     def __str__(self):
-        return str(self.id)
+        return str(self.image)

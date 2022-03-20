@@ -16,18 +16,11 @@ from web.models.products import Products
 from .forms import ContactForm
 from .functions import send_contact_message, send_email_contact_message_by_django
 
-# @method_decorator(
-#     csp_update(
-#         FRAME_SRC=["'self' https://www.freeprivacypolicy.com",
-#                   "https://www.google.com", 'https://connect.facebook.net',
-#                   'https://www.facebook.com', 'https://web.facebook.com',
-#                   'https://www.googletagmanager.com','https://www.freeprivacypolicy.com']
-#     ),
-#     name="dispatch",
-# )
+
 class FirstPage(View):
     def get(self, request):
-        img_carousel = Images.objects.filter(carousel=True)
+        img_carousel_first = Images.objects.filter(carousel=True).first()
+        img_carousel = Images.objects.filter(carousel=True)[1:]
 
         qs = Products.objects.filter(is_recommended=True).exclude(
             image="images/products/no_image.webp"
@@ -41,12 +34,14 @@ class FirstPage(View):
         )[:8]
         articles = Articles.objects.all()
         ctx = {
+            "image_carousel_first": img_carousel_first,
             "images_carousel": img_carousel,
             "recommended_products": random_recommended_products,
             "promo_products": promo_products,
             "articles": articles,
             "app_id": os.environ.get("APP_ID"),
         }
+        print(img_carousel_first.image)
         return render(request, "front_page/first_page.html", ctx)
 
 
