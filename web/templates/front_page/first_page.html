@@ -36,17 +36,23 @@
     </ol>
     <div class="carousel-inner">
       <div id="carousel0" class="carousel-item" data-interval="10000">
+        {% thumbnail image_carousel_first.image "1280x520" crop='center' format="WEBP" as im %}
+        <source srcset="{{ im }}" type="image/webp" />
         <img id="img_carousel0" width="100vw" height="520"
-          src="{{ MEDIA_URL }}{{ image_carousel_first.image }}" class="d-block w-100 img_carousel" alt="{{ image_carousel_first.alt }}"
-          title="{{ imgage_carousel_first.title }}">
-        <div class="carousel-caption d-none d-md-block">
-          <h2>{{ imgage_carousel_first.title }}</h2>
-          <p>{{ imgage_carousel_first.description }}</p>
+          src="{{ MEDIA_URL }}{{ im }}" class="d-block w-100 img_carousel" alt="{{ im.alt }}"
+          title="{{ im.title }}">
+        {% endthumbnail %}
+          <div class="carousel-caption d-none d-md-block">
+          <h2>{{ image_carousel_first.title }}</h2>
+          <p>{{ image_carousel_first.description }}</p>
         </div>
       </div>
       {% for image in images_carousel %}
+      {% thumbnail image.image "1280x520" crop='center' format="WEBP" as im %}
+      <source srcset="{{ im }}" type="image/webp" />
       <div id=carousel{{ forloop.counter1 }} class="carousel-item" data-interval="10000">
-        <img loading="lazy" id=img_carousel{{ forloop.counter1 }} width="100%" height="520" src="{{ MEDIA_URL }}{{ image.image }}" class="d-block w-100 img_carousel" alt="{{ image.alt}}" title="{{ image.title }}">
+        <img loading="lazy" id=img_carousel{{ forloop.counter1 }} width="100%" height="520" src="{{ MEDIA_URL }}{{ im }}" class="d-block w-100 img_carousel" alt="{{ image.alt}}" title="{{ image.title }}">
+      {% endthumbnail %}
         <div class="carousel-caption d-none d-md-block">
           <h2>{{ image.title }}</h2>
           <p>{{ image.description }}</p>
@@ -66,7 +72,6 @@
 
   <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2 row">
     <h1 class="col-11 ml-3 pl-1">Oferta serwisu</h1>
-
     {% for product in recommended_products %}
     <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
       <a href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
