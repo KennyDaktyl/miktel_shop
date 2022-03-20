@@ -35,7 +35,7 @@
     <div class="carousel-inner">
       {% for image in images_carousel %}
       <div id=carousel{{ forloop.counter0 }} class="carousel-item" data-interval="10000">
-        <img loading="lazy" id=img_carousel{{ forloop.counter0 }} width="100%" height="520" src="{{ MEDIA_URL }}{{ image.image }}" class="d-block w-100 img_carousel" alt="{{ image.alt}}" title="{{ image.title }}">
+        <img loading="lazy" id=img_carousel{{ forloop.counter0 }} width="100vw" height="520" src="{{ MEDIA_URL }}{{ image.image }}" class="d-block w-100 img_carousel" alt="{{ image.alt}}" title="{{ image.title }}">
         <div class="carousel-caption d-none d-md-block">
           <h2>{{ image.title }}</h2>
           <p>{{ image.description }}</p>
