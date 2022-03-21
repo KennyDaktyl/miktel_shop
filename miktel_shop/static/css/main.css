@@ -458,8 +458,11 @@ div.product:hover {
 
 div.article {
     margin-bottom: 50px;
-
 }
+
+article.article_content {
+    min-height: 280px;
+} 
 
 div.imgWrap {
     background-color: blueviolet;
