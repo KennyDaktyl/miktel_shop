@@ -122,7 +122,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     clearText.addEventListener('click', function (e) {
         search_input_mobile.value = '';
         clearText.classList.remove('show');
-        link.innerHTML = '';
+        link_mobile.innerHTML = '';
     });
     var closeSearchInput = document.getElementById('closeSearchInput');
     closeSearchInput.addEventListener("click", function (e) {
@@ -132,7 +132,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             el.classList.remove('red');
             el.classList.remove('show');
         });
-        link.innerHTML = '';
+        link_mobile.innerHTML = '';
         document.querySelector('body').classList.remove('frozen');
     });
 }); 
