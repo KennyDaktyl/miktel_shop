@@ -35,7 +35,7 @@
                 class="mx-auto text-center p-0 m-0 mt-2 col-12" title="Link do dużego zdcjęcia {{ object.name }}">
                 {% thumbnail  object.image "800x600" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{object.alt}}" 
+                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{ object.alt }}" 
                     title="{{ object.title }}">
                 {% endthumbnail %}
             </a>
