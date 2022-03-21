@@ -100,7 +100,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var search_input_mobile = document.getElementById('inputSearch');
     
     search_input_mobile.addEventListener("keyup", function (e) {
-        console.log('OK');
         if (search_input_mobile.value.length > 1) {
             var search = search_input_mobile.value;
             getData(search, link_mobile, div_link_mobile);
