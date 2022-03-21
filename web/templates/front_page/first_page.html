@@ -39,8 +39,8 @@
         {% thumbnail image_carousel_first.image "1280x520" crop='center' format="WEBP" as im %}
         <source srcset="{{ im }}" type="image/webp" />
         <img id="img_carousel0" width="100vw" height="520"
-          src="{{ MEDIA_URL }}{{ im }}" class="d-block w-100 img_carousel" alt="{{ im.alt }}"
-          title="{{ im.title }}">
+          src="{{ MEDIA_URL }}{{ im }}" class="d-block w-100 img_carousel" alt="{{ image_carousel_first.alt }}"
+          title="{{ image_carousel_first.title }}">
         {% endthumbnail %}
           <div class="carousel-caption d-none d-md-block">
           <h2>{{ image_carousel_first.title }}</h2>
@@ -51,7 +51,7 @@
       {% thumbnail image.image "1280x520" crop='center' format="WEBP" as im %}
       <source srcset="{{ im }}" type="image/webp" />
       <div id=carousel{{ forloop.counter1 }} class="carousel-item" data-interval="10000">
-        <img loading="lazy" id=img_carousel{{ forloop.counter1 }} width="100%" height="520" src="{{ MEDIA_URL }}{{ im }}" class="d-block w-100 img_carousel" alt="{{ image.alt}}" title="{{ image.title }}">
+        <img loading="lazy" id=img_carousel{{ forloop.counter1 }} width="100%" height="520" src="{{ MEDIA_URL }}{{ im }}" class="d-block w-100 img_carousel" alt="{{ image.alt }}" title="{{ image.title }}">
       {% endthumbnail %}
         <div class="carousel-caption d-none d-md-block">
           <h2>{{ image.title }}</h2>
