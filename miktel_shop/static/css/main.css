@@ -461,7 +461,8 @@ div.article {
 }
 
 article.article_content {
-    min-height: 280px;
+    height: 280px;
+    overflow: hidden;
 } 
 
 div.imgWrap {
