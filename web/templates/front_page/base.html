@@ -1,5 +1,6 @@
 {% load static %}
 {% load templatetag %}
+{% load cache %}
 
 
 <!DOCTYPE html>
@@ -251,6 +252,7 @@
             {% block content %}
             {% endblock %}
         </div>
+        {% cache 500 front_page %}
 
         <div class="container-fluid footer mx-auto col-12 mt-3">
             <div class="row justify-content-center top-part">
@@ -323,6 +325,7 @@
                 <a class="col-12 mx-auto text-center text-white" href="{% url 'privacy_policy' %}">Polityka
                     prywatności</a>
     </main>
+{% endcache %}
 
     {% load compress %}
     {% compress js %}
