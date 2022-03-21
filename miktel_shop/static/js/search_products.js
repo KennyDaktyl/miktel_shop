@@ -123,6 +123,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
         search_input_mobile.value = '';
         clearText.classList.remove('show');
         link_mobile.innerHTML = '';
+        div_link_mobile.style.display = 'none';
+
     });
     var closeSearchInput = document.getElementById('closeSearchInput');
     closeSearchInput.addEventListener("click", function (e) {
@@ -133,6 +135,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             el.classList.remove('show');
         });
         link_mobile.innerHTML = '';
+        div_link_mobile.style.display = 'none';
         document.querySelector('body').classList.remove('frozen');
     });
 }); 
