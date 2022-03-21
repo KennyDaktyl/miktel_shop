@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     function newImageElement(image) {
         var newI = document.createElement("img");
         newI.setAttribute('src', image);
-        newI.classList.add("image-fluid", "mini", "m-0", "p-0", "col-2");
+        newI.classList.add("image-fluid", "mini", "m-0", "p-0", "mx-auto");
         newI.style.height = '35px';
         newI.style.width = 'auto';
     return newI;
@@ -100,6 +100,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var search_input_mobile = document.getElementById('inputSearch');
     
     search_input_mobile.addEventListener("keyup", function (e) {
+        console.log('OK');
         if (search_input_mobile.value.length > 1) {
             var search = search_input_mobile.value;
             getData(search, link_mobile, div_link_mobile);
@@ -115,6 +116,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     var SearchForm = document.getElementById('SearchForm');
     var main_nav_icon = document.querySelectorAll('i.main_nav_icon');
     SearchFormIcon.addEventListener("click", function (e) {
+        SearchForm.classList.add('show');
+
         inputSearch.focus();
     });
     clearText.addEventListener('click', function (e) {
