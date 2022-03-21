@@ -155,7 +155,7 @@
       <p class="producerPrice col-10 mx-auto text-center text-danger">{{ article.created_time }}</p>
       <span class="col-12 text-center">{{ article.category.name }}</span>
       <a href="{{ BASE_URL }}{{article.get_absolute_url }}" class="new_title col-11 mx-auto text-justify text-center">{{ article.title }}</a>
-      <article class="col-11 mx-auto text-justify m-0 p-0 mt-2 mb-2 article_content">{{ article.body|slice:":290"|safe }}...</article>
+      <article class="col-11 mx-auto text-justify m-0 p-0 mt-2 mb-2 article_content">{{ article.body|slice:":370"|safe }}...</article>
       <a class="readArticle col-12 mx-auto text-center text-danger mt-2 align-self-end" href="{{ BASE_URL }}{{article.get_absolute_url }}">Przejdź do artykułu.</a>
     </div>
     {% endfor %}
