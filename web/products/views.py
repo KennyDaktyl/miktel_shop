@@ -169,7 +169,6 @@ class SubCategoryTypeRedirectView(RedirectView):
     def get(self, *args, **kwargs):
         sub_category_type = get_object_or_404(
             SubCategoryType, slug=kwargs["sub_cat_type"], pk=kwargs["pk"])
-        print(sub_category_type.get_absolute_url())
         return redirect(sub_category_type.get_absolute_url())
 
 

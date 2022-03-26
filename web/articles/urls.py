@@ -1,12 +1,23 @@
 from django.urls import path
+from .views import article_details, articles_list, \
+    redirect_article, redirect_articles_list
 
-from . import views
 
 urlpatterns = [
     path(
-        "artykuly/<slug:category>/<slug:title>/<int:pk>",
-        views.article_details,
+        "<slug:category>/<slug:title>/<int:pk>",
+        article_details,
         name="article_details",
     ),
-    path("artykuly", views.articles_list, name="articles_list"),
+    path("", articles_list, name="articles_list"),
+    path(
+        "artykuly",
+        redirect_articles_list,
+        name="redirect_articles_list",
+    ),
+    path(
+        "artykuly/<slug:category>/<slug:title>/<int:pk>",
+        redirect_article,
+        name="redirect_article",
+    ),
 ]
