@@ -144,7 +144,7 @@
   <div id="newsInfo" class="col-12 col-md-9 ml-0 mt-3 mr-0 p-0 mx-auto row offer mt-2 news d-flex align-items-start">
     <h2 class="col-11 ml-3 pl-1">Blog</h2>
     {% for article in articles %}
-    <div class="col-12 text-center col-sm-6 col-md-3 p-0 ml-0 mr-0 article row">
+    <div class="col-12 text-center col-sm-6 col-md-4 p-0 ml-0 mr-0 article row">
       <div class="col-12 col-sm-11 m-0 p-0 mx-auto imgWrap">
         {% thumbnail article.image "200x150" crop='center' format="WEBP" as im %}
         <source srcset="{{ im }}" type="image/webp" />
@@ -152,7 +152,7 @@
           alt="{{ article.image_alt }}" title="{{ image_title }}">
         {% endthumbnail %}
       </div>
-      <p class="producerPrice col-10 mx-auto text-center text-danger">{{ article.created_time }}</p>
+      <small class="producerPrice col-10 mx-auto text-center text-danger">{{ article.created_time|date:"M d, Y"  }}</small>
       <span class="col-12 text-center">{{ article.category.name }}</span>
       <a href="{{ BASE_URL }}{{article.get_absolute_url }}" class="new_title col-11 mx-auto text-justify text-center">{{ article.title }}</a>
       <article class="col-11 mx-auto text-justify m-0 p-0 mt-2 mb-2 article_content">{{ article.body|slice:":370"|safe }}...</article>
