@@ -8,7 +8,10 @@ from .base import BaseModel
 class ActivateToken(BaseModel):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     activation_token = models.CharField(max_length=64, unique=True)
-
+    
+    class Meta:
+        ordering = ("-id",)
+        verbose_name_plural = "Token aktywacyjny"
 
 class Profile(BaseModel):
     id = models.AutoField(primary_key=True)

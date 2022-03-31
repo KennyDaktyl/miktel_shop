@@ -1,13 +1,33 @@
 import os
+from uuid import uuid4
 from django.conf import settings
 from django.contrib import admin
 from django.template.loader import render_to_string
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
+
 from weasyprint import HTML
 
 from web.models import *
 
-# Register your models here.
+@admin.action(description='Utwórz profil')
+def make_active(modeladmin, request, queryset):
+    for user in queryset:
+        token = ActivateToken.objects.create(
+                    user=user,
+                    activation_token=str(int(str(uuid4()).split("-")[0], 16)),
+                )
+        user.is_active = True
+        user.email = user.username
+        user.save()
 
+class CustomUserAdmin(UserAdmin):
+    list_display = [f.name for f in User._meta.fields]
+    search_fields = ("username",)
+    actions = [make_active]
+
+admin.site.unregister(User)
+admin.site.register(User, CustomUserAdmin)
 
 @admin.register(Articles)
 class ArticlesAdmin(admin.ModelAdmin):
@@ -97,6 +117,7 @@ class ProductsAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Products._meta.fields]
     list_filter = (
         "store_id",
+        "is_top",
         "is_recommended",
         "is_news",
         "is_promo",

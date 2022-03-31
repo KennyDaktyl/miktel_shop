@@ -28,7 +28,8 @@ class FirstPage(View):
         possible_ids = list(qs.values_list("id", flat=True))
         possible_ids = random.sample(possible_ids, 8)
         random_recommended_products = qs.filter(pk__in=possible_ids)
-
+        is_top = Products.objects.filter(is_top=True)
+        print(is_top)
         promo_products = Products.objects.filter(is_promo=True).order_by(
             "created_time"
         )[:8]
@@ -36,6 +37,7 @@ class FirstPage(View):
         ctx = {
             "image_carousel_first": img_carousel_first,
             "images_carousel": img_carousel,
+            "top_products": is_top,
             "recommended_products": random_recommended_products,
             "promo_products": promo_products,
             "articles": articles,

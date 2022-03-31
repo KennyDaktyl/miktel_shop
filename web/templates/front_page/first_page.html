@@ -20,7 +20,6 @@
 {% endblock %}
 
 {% block content %}
-
 {% cache 500 front_page %}
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v13.0&appId=1963046893902808&autoLogAppEvents=1" nonce="L94qKVdZ"></script>
@@ -70,8 +69,70 @@
     </a>
   </div>
 
+  {% if top_products %}
+  <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer row">
+    <h2 class="col-11 ml-3 pl-1">Polecane produkty</h2>
+    {% for product in top_products %}
+    <div class="col-12 m-0 p-0 mx-auto mt-3 mb-3 row border shadow-lg bg-white rounded d-flex align-items-start row">
+      <div class="col-lg-4 m-2 mx-auto mt-3 row">
+        <div class="col-6 col-lg-12 m-2 mx-auto mt-3">
+        {% thumbnail  product.image "200x200" crop='center' format="WEBP"  as im %}
+          <source srcset="{{ im }}" type="image/webp" />
+          <img loading="lazy" width="200" height="200" class="img-fluid mx-auto col-12" src="{{ MEDIA_URL }}{{ im }}" alt="{{ product.alt }}" title="{{ product.title }}">
+          {% endthumbnail %}
+        </div>
+        <div class="col-6 col-lg-12 row m-2 mx-auto mt-3">
+        {% for image in product.images %}
+          <div class="col-6 m-2 mx-auto m-0 p-0 mt-3">
+            {% thumbnail  image.image "200x200" crop='center' format="WEBP"  as im %}
+            <source srcset="{{ im }}" type="image/webp" />
+            <img loading="lazy" width="200" height="200" class="img-fluid mx-auto col-12 m-0 p-0" src="{{ MEDIA_URL }}{{ im }}" alt="{{ image.alt }}" title="{{ image.title }}">
+            {% endthumbnail %}
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+      <div class="col-lg-8 m-2 mx-auto text-center d-flex align-items-start row">
+        <div class="col-12 mx-auto text-center row">
+          {% if product.is_news %}
+          <div class="boxNovelty smallBox m-2 align-self-start">NEW</div>
+          {% else %}
+          <div class="smallBox m-2 align-self-start"></div>
+          {% endif %}
+          {% if product.discount > 0 %}
+          <div class="boxPromo smallBox bg-danger m-2 align-self-start">{{ product.discount }}%</div>
+          {% else %}
+          <div class="smallBox m-2 align-self-start"></div>
+          {% endif %}
+        </div>
+        <p class="productName col-12 mx-auto text-center m-0 p-0 text-dark align-self-start">{{ product.name }}</p>
+        <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center product">
+          <div class="col-6 mx-auto text-center">
+              <small class="text-dark mx-auto text-center col-12 align-self-end">{{ product.sub_category_type.sub_category.name }}</small>
+              <p class="producerName col-12 mx-auto text-center m-0 p-0 align-self-end">{{ product.brand.name }}</p>
+          </div>
+          <div class="col-lg-6 mx-auto text-center">
+          <div class="col-12 mx-auto row d-flex justify-content-center">
+            <p class="producerPrice mx-auto text-right text-danger m-0 p-0 col-6">{{ product.price_promo}} zł</p>
+            {% if product.price_promo != product.price %}
+            <p class="mx-auto text-left m-0 p-0 col-6"><del class="text-left col-12">{{ product.price}} zł</del></p>
+            {% endif %}
+            <small class="col-12 mx-auto text-center text-primary  m-0 p-0 align-self-end">Netto: {{product.price_netto}} + VAT 23%</small>
+          </div>
+        </div>
+        </div>
+        <div class="col-12 mx-auto mt-3 mb-2">
+          <p class="col-12 text-left">{{ product.desc|safe }}</p>
+        </div>
+        <a class="readArticle col-12 mx-auto text-center text-danger mt-auto align-self-end" href="{{ BASE_URL }}{{product.get_absolute_url }}">Przejdź do strony produktu.</a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
   <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2 row">
-    <h1 class="col-11 ml-3 pl-1">Oferta serwisu</h1>
+    <h2 class="col-11 ml-3 pl-1">Oferta serwisu</h2>
     {% for product in recommended_products %}
     <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
       <a href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
