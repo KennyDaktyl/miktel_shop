@@ -35,7 +35,7 @@
                 class="mx-auto text-center p-0 m-0 mt-2 col-12" title="Link do dużego zdcjęcia {{ object.name }}">
                 {% thumbnail  object.image "800x600" crop='center' format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{ object.alt }}" 
+                <img width="800" height="600" class="img-fluid mx-auto m-1" src="{{ MEDIA_URL }}{{ im }}" alt="{{ object.alt }}" 
                     title="{{ object.title }}">
                 {% endthumbnail %}
             </a>
@@ -52,8 +52,6 @@
                 {% endthumbnail %}
             </a> 
             {% endthumbnail %}
-            {% empty %}
-            <small class="ml-auto pr-1 col-12 text-center">Brak zdjęć w galerii</small>
             {% endfor %}
         </div>
         <div class="col-md-6 mx-auto text-center row d-flex align-items-start">
@@ -245,24 +243,23 @@
 {% endcompress %}
 <script type="application/ld+json">
     {
-      "@context": "https://schema.org/",
-      "@type": "object",
-      "name": "{{ object.name }}",
-      "image": ["{{ get_domain }}{{ MEDIA_URL }}{{object.image}}", {% for image in object.images %} "{{ get_domain }}{{ MEDIA_URL }}{{image.image}}",{%endfor%}],
-      "description": "{{ object.description }}",
-      "brand": {
-        "@type": "Brand",
-        "name": "{{ object.brand.name }}"
-                },
-      "offers": {
-        "@type": "Offer",
-        "url": "{{ get_domain }}{{ object.get_absolute_url }}",
-        "priceCurrency": "PLN",
-        "price": "{{ object.price_promo }}",
-        "itemCondition": "https://schema.org/NewCondition",
-        {% if object.qty > 0 %}"availability": "https://schema.org/InStock"{% else %}"availability": "https://schema.org/OutOfStock"{% endif %}
-                }
-    }
+        "@context": "https://schema.org/",
+        "@type": "object",
+        "name": "{{ object.name }}",
+        "image": "{{ get_domain }}{{ MEDIA_URL }}{{object.image}}",
+        "description": "{{ object.description }}",
+        "brand": {
+          "@type": "Brand",
+          "name": "{{ object.brand.name }}"
+                  },
+        "offers": {
+          "@type": "Offer",
+          "url": "{{ get_domain }}{{ object.get_absolute_url }}",
+          "priceCurrency": "PLN",
+          "price": "{{ object.price_promo }}",
+          "itemCondition": "https://schema.org/NewCondition",
+          "availability": {% if object.qty > 0 %}"https://schema.org/InStock"{% else %}"https://schema.org/OutOfStock"{% endif %}}
+      }
     </script>
 {% endblock %}
 
