@@ -145,10 +145,17 @@ def create_invoice(modeladmin, request, queryset):
             os.remove(os.path.join(settings.MEDIA_ROOT + str(invoice.pdf)))
         except OSError:
             pass
+        if invoice.override_number:
+            file_name = "pdf/faktura-" + invoice.override_number + ".pdf"
+            invoice.pdf = file_name
+            invoice.save()
         context = {"order": invoice.order, "invoice": invoice}
         html_string = render_to_string("orders/invoice.html", context)
         html = HTML(string=html_string)
-        html.write_pdf(target=settings.MEDIA_ROOT + str(invoice.pdf))
+        if invoice.override_number:
+            html.write_pdf(target=settings.MEDIA_ROOT + file_name)
+        else:
+            html.write_pdf(target=settings.MEDIA_ROOT + str(invoice.pdf))
 
 @admin.register(Invoices)
 class InvoicesAdmin(admin.ModelAdmin):
