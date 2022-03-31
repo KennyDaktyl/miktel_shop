@@ -359,6 +359,14 @@ div.product:hover {
     font-weight: 600;
 }
 
+p.productName {
+    height: 81px;
+}
+
+p.producerName {
+    height: 16px;
+}
+
 .productName {
     font-size: 18px;
     font-weight: 700;
