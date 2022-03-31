@@ -73,7 +73,6 @@ class CartDetails(View):
         pay_methods = PayMethod.objects.filter(is_active=True)
         delivery_type = DELIVERY_TYPE
         cart = Cart(request)
-        print(cart)
         categorys = Category.objects.filter(is_active=True)
         ctx = {
             "cart_ctx": cart,
