@@ -138,6 +138,7 @@ class DeliveryMethod(BaseModel):
 class Orders(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.CharField(verbose_name="Numer zamówienia", max_length=64)
+
     pay_status = models.IntegerField(
         verbose_name="Status płatności", choices=PAY_ORDER_STATUS, default=1
     )
@@ -294,6 +295,8 @@ class ProductCopy(BaseModel):
 class Invoices(BaseModel):
     order = models.ForeignKey("Orders", on_delete=models.CASCADE, null=True, blank=True)
     number = models.CharField(max_length=64)
+    override_number = models.CharField(verbose_name="Nadpisany numer faktury", max_length=64, null=True, blank=True)
+    override_date = models.DateField(verbose_name="Nadpisana data faktury", null=True, blank=True)
     pdf = models.FileField(null=True, blank=True)
 
     class Meta:

@@ -1,4 +1,8 @@
+import os
+from django.conf import settings
 from django.contrib import admin
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 from web.models import *
 
@@ -93,8 +97,11 @@ class ProductsAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Products._meta.fields]
     list_filter = (
         "store_id",
-        "sub_category_type",
-        "size",
+        "is_recommended",
+        "is_news",
+        "is_promo",
+        "sub_category_type"
+
     )
     search_fields = ("name",)
 
@@ -131,8 +138,21 @@ class ImagesAdmin(admin.ModelAdmin):
     # search_fields = ('post', )
 
 
+@admin.action(description='Utwórz fakturę')
+def create_invoice(modeladmin, request, queryset):
+    for invoice in queryset:
+        try:
+            os.remove(os.path.join(settings.MEDIA_ROOT + str(invoice.pdf)))
+        except OSError:
+            pass
+        context = {"order": invoice.order, "invoice": invoice}
+        html_string = render_to_string("orders/invoice.html", context)
+        html = HTML(string=html_string)
+        html.write_pdf(target=settings.MEDIA_ROOT + str(invoice.pdf))
+
 @admin.register(Invoices)
 class InvoicesAdmin(admin.ModelAdmin):
     list_display = [f.name for f in Invoices._meta.fields]
     # list_filter = ('post', )
     # search_fields = ('post', )
+    actions = [create_invoice,]

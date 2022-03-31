@@ -112,18 +112,18 @@
           Data wystawienia:
         </p>
         <p style="width: 100%;">
-          {{ order.invoice.created_time }}
+          {% if not invoice.override_date %}{{ order.invoice.created_time }}{% else %}{{ invoice.override_date }}{% endif %}
         </p>
         <p style="width: 100%;font-weight: 900;">
           Data sprzedaży:
         </p>
         <p style="width: 100%;">
-          {{ order.created_time }}
+          {% if not invoice.override_date %} {{ order.created_time }}{% else %}{{ invoice.override_date }}{% endif %}
         </p>
         
       </div>
    </div>
-   <h4 style="width: 100%; text-align: center; margin-top: 15px;">Faktura VAT {{ order.invoice.number }}</h4>
+   <h4 style="width: 100%; text-align: center; margin-top: 15px;">Faktura VAT {% if not invoice.override_number %}{{ order.invoice.number }}{% else %}{{ invoice.override_number }}{% endif %}</h4>
    <table class="main" style="margin-top: 15px;">
      <thead>
        <tr>
@@ -179,7 +179,7 @@
     <table style="margin-top:15px">
       <thead>
         <tr>
-          <th colspan="8" style="border: 0px; text-align: left;">Sposób płatności</th>
+          <th colspan="8" style="border: 0px; text-align: left; padding: 5px 7px;">Sposób płatności</th>
           {% if order.pay_status != 3 %}
           <th style="border: 0px; padding: 5px 7px;">Kwota do zapłaty:</th>
           {% else %}
