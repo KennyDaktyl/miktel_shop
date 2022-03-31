@@ -28,7 +28,7 @@
     <input type="hidden" id='sub_cat' value="{{ object.sub_category_type.sub_category.id }}">
     <input type="hidden" id='sub_cat_type' value="{{ object.sub_category_type.id }}">
     <div class="col-12 mx-auto ml-0 mr-0 p-0 mt-2 row product_box d-flex align-items-start">
-        <div class="col-md-6 mx-auto text-center row ">
+        <div class="col-lg-6 mx-auto text-center row ">
             {% load thumbnail %}
             {% thumbnail object.image "1280" crop='center' format="WEBP"  as im %}
             <a href="{{ MEDIA_URL }}{{ im }}" data-lightbox="{{ object.id }}" data-title="{{ object.name }}"
@@ -54,7 +54,7 @@
             {% endthumbnail %}
             {% endfor %}
         </div>
-        <div class="col-md-6 mx-auto text-center row d-flex align-items-start">
+        <div class="col-lg-6 mx-auto text-center row d-flex align-items-start">
             
             <div class="col-12 text-right">
                 <div class="fb-share-button" data-href="{{ get_domain }}{{ object.get_absolute_url }}" data-layout="button_count">
@@ -78,30 +78,33 @@
                 <small class="col-12 mx-auto text-left text-primary  m-0 p-0">Netto: {{object.price_netto}} + VAT 23%</small>
             </blockquote>
             <div class="col-12 row text-left mx-auto">
-                <span class="font-weight-bold pr-2">Producent:</span> <small class="m-0 p-0 pl-3 text-dark text-center">{{ object.brand.name }}</small>
+                <span class="col-4 text-left m-0 p-0 font-weight-bold">Producent:</span> 
+                <small class="col-8 text-left m-0 p-0 text-dark">{{ object.brand.name }}</small>
             </div>
             <div class="col-12 row text-left mx-auto d-flex align-items-center">
-                <span class="font-weight-bold pr-2">Kategoria:</span><small class="m-0 p-0 pl-3 text-dark text-center">{{ object.sub_category_type.sub_category.category.name }}</small>
+                <span class="col-4 text-left m-0 p-0 font-weight-bold">Kategoria:</span>
+                <small class="col-8 text-left m-0 p-0 text-dark">{{ object.sub_category_type.sub_category.category.name }}</small>
             </div>
             <div class="col-12 row text-left mx-auto d-flex align-items-center">
-                <span class="font-weight-bold pr-2">Podkategoria:</span><small class="m-0 p-0 pl-3 text-dark text-center text-dark text-center">{{ object.sub_category_type.sub_category.name }}</small>    
+                <span class="col-4 text-left m-0 p-0 font-weight-bold">Podkategoria:</span>
+                <small class="col-8 text-left m-0 p-0 text-dark">{{ object.sub_category_type.sub_category.name }}</small>    
             </div>
             <div class="col-12 row text-left mx-auto d-flex align-items-center">
-                <span class="font-weight-bold pr-2">Typ produktu:</span><small class="m-0 p-0 pl-3 text-dark text-center text-dark text-center">{{ object.sub_category_type.name }}</small>    
+                <span class="col-4 text-left m-0 p-0 font-weight-bold">Typ produktu:</span>
+                <small class="col-8 text-left m-0 p-0 text-dark">{{ object.sub_category_type.name }}</small>    
             </div>
             <div class="col-12 row text-left mx-auto">
-                <span class="font-weight-bold pr-2">Ilość:</span> 
+                <span class="col-4 text-left m-0 p-0 font-weight-bold">Ilość:</span> 
                 {% if object.qty > 0 %}
                 <span class="text-success">dostępny</span>
-                <div class="col-12 ml-0 pl-0 row text-left mx-auto">
-                    <span class="font-weight-bold pr-2">Wysyłka:</span> <span class="">2-3 dni</span>
-                </div>
-                {% else %}
-                <span class="text-danger">brak</span>
-                {% endif %}
             </div>
             <div class="col-12 row text-left mx-auto">
-                <span class="font-weight-bold pr-2">Magazyn:</span> <span class=""> {{ object.store.city }}</span>
+                <span class="col-4 text-left m-0 p-0 font-weight-bold">Wysyłka:</span>
+                <span class="col-8 text-left m-0 p-0 text-dark">2-3 dni</span>{% else %}<span class="col-8 text-left m-0 p-0 text-danger">brak</span>{% endif %}
+            </div>
+            <div class="col-12 row text-left mx-auto">
+                <span class="col-4 text-left m-0 p-0 font-weight-bold">Magazyn:</span>
+                <span class="col-8 text-left m-0 p-0 text-dark"> {{ object.store.city }}</span>
             </div>
             <form action="" class="row col-12 mx-auto m-1 text-left d-flex align-items-center">
                 {% csrf_token %}
