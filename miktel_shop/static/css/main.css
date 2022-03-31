@@ -331,6 +331,23 @@ div.article {
     text-transform: uppercase;
 }
 
+.offer h3 {
+    font-size: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.offer h4 {
+    font-size: 17px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.offer h5 {
+    font-size: 17px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
 
 .product {
     margin-top: 65px;
