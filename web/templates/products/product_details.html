@@ -93,6 +93,12 @@
                 <span class="col-4 text-left m-0 p-0 font-weight-bold">Typ produktu:</span>
                 <small class="col-8 text-left m-0 p-0 text-dark">{{ object.sub_category_type.name }}</small>    
             </div>
+            {% if object.size %}
+            <div class="col-12 row text-left mx-auto d-flex align-items-center">
+                <span class="col-4 text-left m-0 p-0 font-weight-bold">Rozmiar:</span>
+                <small class="col-8 text-left m-0 p-0 text-dark">{{ object.size.name }}</small>    
+            </div>
+            {% endif %}
             <div class="col-12 row text-left mx-auto">
                 <span class="col-4 text-left m-0 p-0 font-weight-bold">Ilość:</span> 
                 {% if object.qty > 0 %}
