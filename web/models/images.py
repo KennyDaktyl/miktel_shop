@@ -46,6 +46,7 @@ class Images(BaseModel):
     )
     product = models.ForeignKey(
         "Products",
+        db_index=True,
         on_delete=models.CASCADE,
         blank=True,
         null=True,
