@@ -50,7 +50,7 @@ class Images(BaseModel):
         on_delete=models.CASCADE,
         blank=True,
         null=True,
-        verbose_name="Zdjęcie produktu",
+        verbose_name="Zdjęcie na galerie",
         related_name="product_gallery",
     )
     article = models.ForeignKey(
