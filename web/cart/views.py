@@ -9,10 +9,13 @@ from web.constans import DELIVERY_TYPE
 from web.models import Category, PayMethod, Products
 from .cart import Cart
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 
 class AddProductView(View):
     def post(self, request):
-        if request.is_ajax():
+        if is_ajax(request):
             prod_id = request.POST.get("prod_id")
             product = Products.objects.get(pk=int(prod_id))
             qty = request.POST.get("qty")
@@ -29,7 +32,7 @@ class AddProductView(View):
 
 class EditQtyProduct(View):
     def post(self, request):
-        if request.is_ajax():
+        if is_ajax(request):
             prod_id = request.POST.get("prod_id")
             product = Products.objects.get(pk=int(prod_id))
             qty = int(request.POST.get("qty"))
@@ -51,7 +54,7 @@ class EditQtyProduct(View):
 
 class RemoveProduct(View):
     def post(self, request):
-        if request.is_ajax():
+        if is_ajax(request):
             prod_id = request.POST.get("prod_id")
             qty = request.POST.get("qty")
             product = Products.objects.get(pk=int(prod_id))

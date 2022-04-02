@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
-from django.conf.urls import include, url
+from django.conf.urls import include
 from django.urls import path
 from django.views.generic import TemplateView
 from web.front.views import error_404, error_500
@@ -34,8 +34,8 @@ urlpatterns = [
         {"sitemaps": sitemaps},
         name="django.contrib.sitemaps.views.sitemap",
     ),
-    url(
-        r"^robots\.txt$",
+    path(
+        "robots.txt",
         TemplateView.as_view(
             template_name="front_page/robots.txt", content_type="text/plain"
         ),

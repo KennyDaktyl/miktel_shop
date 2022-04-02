@@ -22,6 +22,9 @@ from .functions import (
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 
 @method_decorator(login_required, name="dispatch")
 class OrderDetails(View):
@@ -36,7 +39,7 @@ class OrderDetails(View):
         form = OrderDetailsForm(request.POST, client=request.user)
         cart = Cart(request)
         inpost_box_id = None
-        if request.is_ajax():
+        if is_ajax(request):
             if "inpost_box_id" in request.POST:
                 inpost_box_id = request.POST.get("inpost_box_id")
                 request.session["inpost_box_id"] = inpost_box_id
