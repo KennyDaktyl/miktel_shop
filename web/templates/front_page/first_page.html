@@ -130,7 +130,7 @@
         </div>
         </div>
         <div class="col-12 mx-auto mt-3 m-0 p-0 mb-2 ">
-          <p itemprop="description" class="col-12 text-justify m-0 p-0">{{ product.desc|safe }}</p>
+          <p itemprop="description" content="{{ product.desc|safe }}" class="col-12 text-justify m-0 p-0">{{ product.desc|safe }}</p>
         </div>
         <a itemprop="url" class="readArticle col-12 mx-auto text-center text-danger mt-auto align-self-end" href="{{ BASE_URL }}{{product.get_absolute_url }}">Przejdź do strony produktu.</a>
       </div>
