@@ -73,12 +73,12 @@
   <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer row">
     <h2 class="col-11 ml-3 pl-1">Polecane produkty</h2>
     {% for product in top_products %}
-    <div class="col-12 m-0 p-0 mx-auto mt-3 mb-3 row border shadow-lg bg-white rounded d-flex align-items-start row">
+    <div itemscope itemtype="http://schema.org/Product"  class="col-12 m-0 p-0 mx-auto mt-3 mb-3 row border shadow-lg bg-white rounded d-flex align-items-start row">
       <div class="col-lg-4 m-2 mx-auto mt-3 row">
         <div class="col-6 col-lg-12 m-2 mx-auto mt-3">
         {% thumbnail  product.image "200x200" crop='center' format="WEBP"  as im %}
           <source srcset="{{ im }}" type="image/webp" />
-          <img loading="lazy" width="200" height="200" class="img-fluid mx-auto col-12" src="{{ MEDIA_URL }}{{ im }}" alt="{{ product.alt }}" title="{{ product.title }}">
+          <img itemprop="image" loading="lazy" width="200" height="200" class="img-fluid mx-auto col-12" src="{{ MEDIA_URL }}{{ im }}" alt="{{ product.alt }}" title="{{ product.title }}">
           {% endthumbnail %}
         </div>
         <div class="col-6 col-lg-12 row m-2 mx-auto mt-3">
@@ -105,28 +105,28 @@
           <div class="smallBox m-2 align-self-start"></div>
           {% endif %}
         </div>
-        <p class="productName col-12 mx-auto text-center m-0 p-0 text-dark align-self-start text-uppercase">{{ product.name }}</p>
+        <p itemprop="name" class="productName col-12 mx-auto text-center m-0 p-0 text-dark align-self-start text-uppercase">{{ product.name }}</p>
         <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center product">
           <div class="col-6 mx-auto text-center">
               <small class="text-dark mx-auto text-center col-12 align-self-end">{{ product.sub_category_type.sub_category.name }}</small>
-              <p class="producerName col-12 mx-auto text-center m-0 p-0 align-self-end">{{ product.brand.name }}</p>
+              <p itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="producerName col-12 mx-auto text-center m-0 p-0 align-self-end"><span itemprop="name" class="m-0 p-0">{{ product.brand.name }}</span></p>
           </div>
           <div class="col-lg-6 mx-auto text-center">
-          <div class="col-12 mx-auto row d-flex justify-content-center">
+          <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="col-12 mx-auto row d-flex justify-content-center">
             {% if product.price_promo != product.price %}
-            <p class="producerPrice mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
+            <p itemprop="price" class="producerPrice mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
             <p class="mx-auto text-center m-0 p-0 align-self-end"><del>{{ product.price}} zł</del></p>
             {% else %}
-            <p class="producerPrice col-12 mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
+            <p itemprop="price" class="producerPrice col-12 mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0 align-self-end">Netto: {{product.price_netto}} + VAT 23%</small>
           </div>
         </div>
         </div>
         <div class="col-12 mx-auto mt-3 m-0 p-0 mb-2 ">
-          <p class="col-12 text-justify m-0 p-0">{{ product.desc|safe }}</p>
+          <p itemprop="description" class="col-12 text-justify m-0 p-0">{{ product.desc|safe }}</p>
         </div>
-        <a class="readArticle col-12 mx-auto text-center text-danger mt-auto align-self-end" href="{{ BASE_URL }}{{product.get_absolute_url }}">Przejdź do strony produktu.</a>
+        <a itemprop="url" class="readArticle col-12 mx-auto text-center text-danger mt-auto align-self-end" href="{{ BASE_URL }}{{product.get_absolute_url }}">Przejdź do strony produktu.</a>
       </div>
     </div>
     {% endfor %}
@@ -136,8 +136,8 @@
   <div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2 row">
     <h2 class="col-11 ml-3 pl-1">Oferta serwisu</h2>
     {% for product in recommended_products %}
-    <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
-      <a href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
+    <div itemscope itemtype="http://schema.org/Product" class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
+      <a itemprop="url" href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
         <div class="col-12 mx-auto text-center row">
           <div class="col-12 mx-auto text-center row">
             {% if product.is_news %}
@@ -155,17 +155,17 @@
         <div class="col-12 m-2 mx-auto ">
           {% thumbnail  product.image "200x200" crop='center' format="WEBP"  as im %}
             <source srcset="{{ im }}" type="image/webp" />
-            <img loading="lazy" width="200" height="200" class="img-fluid mx-auto col-12" src="{{ MEDIA_URL }}{{ im }}" alt="{{ product.alt }}" title="{{ product.title }}">
+            <img itemprop="image" loading="lazy" width="200" height="200" class="img-fluid mx-auto col-12" src="{{ MEDIA_URL }}{{ im }}" alt="{{ product.alt }}" title="{{ product.title }}">
             {% endthumbnail %}
         </div>
         <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center product">
           <small class="text-dark mx-auto text-center col-12 align-self-end">{{ product.sub_category_type.sub_category.name }}</small>
-          <p class="productName col-12 mx-auto text-center m-0 p-0 text-dark align-self-end">{{ product.name }}</p>
-          <p class="producerName col-12 mx-auto text-center m-0 p-0 align-self-end">{{ product.brand.name }}</p>
-          <blockquote class="col-12 mx-auto row d-flex align-items-center align-self-end">
-            <p class="producerPrice mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
+          <p itemprop="name" class="productName col-12 mx-auto text-center m-0 p-0 text-dark align-self-end">{{ product.name }}</p>
+          <p itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="producerName col-12 mx-auto text-center m-0 p-0 align-self-end">{{ product.brand.name }}</p>
+          <blockquote itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="col-12 mx-auto row d-flex align-items-center align-self-end">
+            <p itemprop="price" class="producerPrice mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
             {% if product.price_promo != product.price %}
-            <p class="mx-auto text-center m-0 p-0 align-self-end"><del>{{ product.price}} zł</del></p>
+            <p itemprop="price" class="mx-auto text-center m-0 p-0 align-self-end"><del>{{ product.price}} zł</del></p>
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0 align-self-end">Netto: {{product.price_netto}} + VAT 23%</small>
           </blockquote>
@@ -207,18 +207,18 @@
   <div id="newsInfo" class="col-12 col-md-9 ml-0 mt-3 mr-0 p-0 mx-auto row offer mt-2 news d-flex align-items-start">
     <h2 class="col-11 ml-3 pl-1">Blog</h2>
     {% for article in articles %}
-    <div class="col-12 col-sm-6 col-md-4 col-xl-3 p-0 ml-0 mr-0 article row text-center">
+    <div itemscope itemtype="http://schema.org/Article"  class="col-12 col-sm-6 col-md-4 col-xl-3 p-0 ml-0 mr-0 article row text-center">
       <div class="col-12 col-sm-11 m-0 p-0 mx-auto imgWrap">
         {% thumbnail article.image "200x150" crop='center' format="WEBP" as im %}
         <source srcset="{{ im }}" type="image/webp" />
-        <img loading="lazy" width="200" height="150" class="img-fluid mx-auto col-12 m-0 p-0" src="{{ MEDIA_URL }}{{ im }}"
+        <img itemprop="image" loading="lazy" width="200" height="150" class="img-fluid mx-auto col-12 m-0 p-0" src="{{ MEDIA_URL }}{{ im }}"
           alt="{{ article.image_alt }}" title="{{ image_title }}">
         {% endthumbnail %}
       </div>
-      <small class="producerPrice col-10 mx-auto text-center text-danger">{{ article.created_time|date:"M d, Y"  }}</small>
-      <span class="col-12 text-center">{{ article.category.name }}</span>
-      <a href="{{ BASE_URL }}{{article.get_absolute_url }}" class="new_title col-11 mx-auto text-justify text-center">{{ article.title }}</a>
-      <article class="col-11 mx-auto text-justify m-0 p-0 mt-2 mb-2 article_content">{{ article.body|slice:":370"|safe }}...</article>
+      <small itemprop="datePublished" content='{{ article.created_time|date:"M d, Y" }}' class="producerPrice col-10 mx-auto text-center text-danger">{{ article.created_time|date:"M d, Y"  }}</small>
+      <span itemprop="articleSection" class="col-12 text-center">{{ article.category.name }}</span>
+      <a itemprop="url" href="{{ BASE_URL }}{{article.get_absolute_url }}" class="new_title col-11 mx-auto text-justify text-center"><p itemprop="name" class="col-12 mx-auto m-0 p-0 text-center">{{ article.title }}</p></a>
+      <article itemprop="articleBody" class="col-11 mx-auto text-justify m-0 p-0 mt-2 mb-2 article_content">{{ article.body|slice:":370"|safe }}...</article>
       <a class="readArticle col-12 mx-auto text-center text-danger mt-2 align-self-end" href="{{ BASE_URL }}{{article.get_absolute_url }}">Przejdź do artykułu.</a>
     </div>
     {% endfor %}
@@ -239,8 +239,8 @@
     <h2 class="col-11 ml-3 pl-1">Promocje</h2>
 
     {% for product in promo_products %}
-    <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
-      <a href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
+    <div itemscope itemtype="http://schema.org/Product" class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
+      <a itemprop="url" href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
         <div class="col-12 mx-auto text-center row">
           <div class="col-12 mx-auto text-center row">
             {% if product.is_news %}
@@ -258,17 +258,17 @@
         <div class="col-12 m-2 mx-auto ">
           {% thumbnail  product.image "200x200" crop='center' format="WEBP"  as im %}
             <source srcset="{{ im }}" type="image/webp" />
-            <img loading="lazy" width="200" height="200" class="img-fluid mx-auto col-12" src="{{ MEDIA_URL }}{{ im }}" alt="{{ product.alt }}" title="{{ product.title }}">
+            <img itemprop="image" loading="lazy" width="200" height="200" class="img-fluid mx-auto col-12" src="{{ MEDIA_URL }}{{ im }}" alt="{{ product.alt }}" title="{{ product.title }}">
             {% endthumbnail %}
         </div>
         <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center product">
           <small class="text-dark mx-auto text-center col-12">{{ product.sub_category_type.sub_category.name }}</small>
-          <p class="productName col-12 mx-auto text-center m-0 p-0 text-dark">{{ product.name }}</p>
-          <p class="producerName col-12 mx-auto text-center m-0 p-0">{{ product.brand.name }}</p>
-          <blockquote class="col-12 mx-auto row d-flex align-items-center">
-            <p class="producerPrice mx-auto text-center text-danger  m-0 p-0">{{ product.price_promo}} zł</p>
+          <p itemprop="name" class="productName col-12 mx-auto text-center m-0 p-0 text-dark">{{ product.name }}</p>
+          <p itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="producerName col-12 mx-auto text-center m-0 p-0">{{ product.brand.name }}</p>
+          <blockquote itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="col-12 mx-auto row d-flex align-items-center">
+            <p itemprop="price" class="producerPrice mx-auto text-center text-danger  m-0 p-0">{{ product.price_promo}} zł</p>
             {% if product.price_promo != product.price %}
-            <p class="mx-auto text-center m-0 p-0"><del>{{ product.price}} zł</del></p>
+            <p itemprop="price" class="mx-auto text-center m-0 p-0"><del>{{ product.price}} zł</del></p>
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0">Netto: {{product.price_netto}} + VAT 23%</small>
             </blockquote>
