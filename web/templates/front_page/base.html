@@ -105,11 +105,13 @@
           itemtype="https://schema.org/ListItem" class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
                             <a itemprop="item" class="col-10 nav-link text-left mx-auto" href="{% url 'front_page' %}"
                                 title="Sklep On-line"><span itemprop="name">Home</span></a><span class="col-2"></span>
+                                <meta itemprop="position" content="1" />
                         </li>
                         <li itemprop="itemListElement" itemscope
           itemtype="https://schema.org/ListItem" class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
                             <a itemprop="item" class="col-10 nav-link text-left text-danger mx-auto" href="{% url 'shop_main_view' %}"
                                 title="Sklep On-line"><span itemprop="name">Sklep On-line</span></a><span class="col-2"></span>
+                                <meta itemprop="position" content="2" />
                         </li>
                         {% for category in categorys %}
                         <ul id="cat{{ category.id}}"
@@ -118,6 +120,7 @@
                             aria-controls="navbarToggler{{ category.id}}" aria-expanded="false"
                             aria-label="Toggle navigation">
                             <span itemprop="name" class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{ category.name }}</span>
+                            <meta itemprop="position" content="1{{ forloop.counter|plus_value:2 }}" />
                             {% if category.image %}
                             <div class="col-3 p-0 m-0">
                                 <img loading="lazy" src="{{ MEDIA_URL }}{{ category.image }}" height="38px" width="100%"
@@ -137,6 +140,7 @@
                                     <a itemprop="item" class="col-10 nav-link text-left mx-auto"
                                         href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}"
                                         title=""><span itemprop="name">{{ sub_cat.name}}</span></a>
+                                        <meta itemprop="position" content="2{{ forloop.counter|plus_value:2 }}" />
                                 </li>
                                 {% endfor %}
                             </div>
@@ -146,17 +150,20 @@
           itemtype="https://schema.org/ListItem" class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
                             <a itemprop="item" class="col-10 nav-link text-left mx-auto" href="{% url 'articles_list' %}"
                                 title="Artukuły bloga"><span itemprop="name">Blog</span></a><span class="col-2"></span>
+                                <meta itemprop="position" content="888" />
                         </li>
                         <li itemprop="itemListElement" itemscope
           itemtype="https://schema.org/ListItem" class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
                             <a itemprop="item" class="col-10 nav-link text-left mx-auto" href="{% url 'terms' %}"
                                 title="Regulamin"><span itemprop="name">Regulamin</span></a><span class="col-2"></span>
+                                <meta itemprop="position" content="889" />
                         </li>
                         <li itemprop="itemListElement" itemscope
           itemtype="https://schema.org/ListItem" class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
                             <a itemprop="item" class="col-10 nav-link text-left mx-auto" href="{% url 'contact_page' %}"
                                 title="Kontak z restauracją"><span itemprop="name">Kontakt</span></a>
                             <span class="col-2"></span>
+                            <meta itemprop="position" content="890" />
                         </li>
                     </ul>
                 </div>
@@ -198,21 +205,25 @@
           itemtype="https://schema.org/ListItem" class="nav-item active">
                         <a itemprop="item" class="nav-link" href="{% url 'front_page' %}"><span itemprop="name">Home</span><span
                                 class="sr-only">(current)</span></a>
+                                <meta itemprop="position" content="1" />
                     </li>
                     <li itemprop="itemListElement" itemscope
           itemtype="https://schema.org/ListItem" class="nav-item">
                         <a itemprop="item" class="nav-link text-danger" href="{% url 'shop_main_view' %}"><span itemprop="name">Sklep On-line</span></a>
+                        <meta itemprop="position" content="2" />
                     </li>
                     {% for category in categorys %}
                     <li itemprop="itemListElement" itemscope
           itemtype="https://schema.org/ListItem" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span itemprop="name">{{ category.name }}</span>
+                            <meta itemprop="position" content="1{{ forloop.counter|plus_value:2 }}" />
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% for sub_cat in category.sub_category %}
                             <a itemprop="item" class="dropdown-item"
                                 href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}"><span itemprop="name">{{ sub_cat.name }}</span></a>
+                                <meta itemprop="position" content="3{{ forloop.counter|plus_value:2 }}" />
                             {% endfor %}
                         </div>
                     </li>
@@ -220,15 +231,18 @@
                     <li itemprop="itemListElement" itemscope
           itemtype="https://schema.org/ListItem" class="nav-item">
                         <a itemprop="item" class="nav-link" href="{% url 'articles_list' %}"><span itemprop="name">Blog</span></a>
+                        <meta itemprop="position" content="888" />
                     </li>
                     <li itemprop="itemListElement" itemscope
           itemtype="https://schema.org/ListItem" class="nav-item">
                         <a itemprop="item" class="nav-link" href="{% url 'terms' %}" title="Regulamin"><span itemprop="name">Regulamin</span></a><span
                             class="col-2"></span>
+                            <meta itemprop="position" content="889" />
                     </li>
                     <li itemprop="itemListElement" itemscope
           itemtype="https://schema.org/ListItem" class="nav-item">
                         <a itemprop="item" class="nav-link" href="{% url 'contact_page' %}"><span itemprop="name">Kontakt</span></a>
+                        <meta itemprop="position" content="890" />
                     </li>
                 </ul>
             </div>

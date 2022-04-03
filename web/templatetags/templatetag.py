@@ -20,3 +20,8 @@ def plus_days(value, days):
 def replace_decimal_point(value):
     value = str(value)
     return value.replace(",",".")
+
+
+@register.filter
+def plus_value(value, number):
+    return value + number
