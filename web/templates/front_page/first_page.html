@@ -169,6 +169,7 @@
           <small class="text-dark mx-auto text-center col-12 align-self-end">{{ product.sub_category_type.sub_category.name }}</small>
           <p itemprop="name" class="productName col-12 mx-auto text-center m-0 p-0 text-dark align-self-end">{{ product.name }}</p>
           <p itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="producerName col-12 mx-auto text-center m-0 p-0 align-self-end">{{ product.brand.name }}</p>
+          <span itemprop="description" content="{{ product.desc|safe }}"></span>
           <blockquote itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="col-12 mx-auto row d-flex align-items-center align-self-end">
             <p class="producerPrice mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
             <meta itemprop="price" content="{{ product.price_promo|replace_decimal_point }}" />
@@ -279,6 +280,7 @@
           <small class="text-dark mx-auto text-center col-12">{{ product.sub_category_type.sub_category.name }}</small>
           <p itemprop="name" class="productName col-12 mx-auto text-center m-0 p-0 text-dark">{{ product.name }}</p>
           <p itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="producerName col-12 mx-auto text-center m-0 p-0">{{ product.brand.name }}</p>
+          <span itemprop="description" content="{{ product.desc|safe }}"></span>
           <blockquote itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="col-12 mx-auto row d-flex align-items-center">
             <p class="producerPrice mx-auto text-center text-danger  m-0 p-0">{{ product.price_promo}} zł</p>
             <meta itemprop="price" content="{{ product.price_promo|replace_decimal_point }}" />
