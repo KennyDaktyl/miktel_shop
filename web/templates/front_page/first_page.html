@@ -114,10 +114,14 @@
           <div class="col-lg-6 mx-auto text-center">
           <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="col-12 mx-auto row d-flex justify-content-center">
             {% if product.price_promo != product.price %}
-            <p itemprop="price" class="producerPrice mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
+            <p class="producerPrice mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
             <p class="mx-auto text-center m-0 p-0 align-self-end"><del>{{ product.price}} zł</del></p>
+            <meta itemprop="price" content="{{ product.price_promo }}" />
+            <meta itemprop="priceCurrency" content="PLN" />
             {% else %}
             <p itemprop="price" class="producerPrice col-12 mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
+            <meta itemprop="price" content="{{ product.price_promo }}" />
+            <meta itemprop="priceCurrency" content="PLN" />
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0 align-self-end">Netto: {{product.price_netto}} + VAT 23%</small>
           </div>
@@ -164,8 +168,12 @@
           <p itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="producerName col-12 mx-auto text-center m-0 p-0 align-self-end">{{ product.brand.name }}</p>
           <blockquote itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="col-12 mx-auto row d-flex align-items-center align-self-end">
             <p itemprop="price" class="producerPrice mx-auto text-center text-danger m-0 p-0 align-self-end">{{ product.price_promo}} zł</p>
+            <meta itemprop="price" content="{{ product.price_promo }}" />
+            <meta itemprop="priceCurrency" content="PLN" />
             {% if product.price_promo != product.price %}
-            <p itemprop="price" class="mx-auto text-center m-0 p-0 align-self-end"><del>{{ product.price}} zł</del></p>
+            <p class="mx-auto text-center m-0 p-0 align-self-end"><del>{{ product.price}} zł</del></p>
+            <meta itemprop="price" content="{{ product.price_promo }}" />
+            <meta itemprop="priceCurrency" content="PLN" />
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0 align-self-end">Netto: {{product.price_netto}} + VAT 23%</small>
           </blockquote>
@@ -216,6 +224,7 @@
         {% endthumbnail %}
       </div>
       <small itemprop="datePublished" content='{{ article.created_time|date:"M d, Y" }}' class="producerPrice col-10 mx-auto text-center text-danger">{{ article.created_time|date:"M d, Y"  }}</small>
+      <span itemprop="author" itemscope itemtype="http://schema.org/Person" content="Michał Pielak"></span>
       <span itemprop="articleSection" class="col-12 text-center">{{ article.category.name }}</span>
       <a itemprop="url" href="{{ BASE_URL }}{{article.get_absolute_url }}" class="new_title col-11 mx-auto text-justify text-center"><p itemprop="name" class="col-12 mx-auto m-0 p-0 text-center">{{ article.title }}</p></a>
       <article itemprop="articleBody" class="col-11 mx-auto text-justify m-0 p-0 mt-2 mb-2 article_content">{{ article.body|slice:":370"|safe }}...</article>
@@ -267,8 +276,12 @@
           <p itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="producerName col-12 mx-auto text-center m-0 p-0">{{ product.brand.name }}</p>
           <blockquote itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="col-12 mx-auto row d-flex align-items-center">
             <p itemprop="price" class="producerPrice mx-auto text-center text-danger  m-0 p-0">{{ product.price_promo}} zł</p>
+            <meta itemprop="price" content="{{ product.price_promo }}" />
+            <meta itemprop="priceCurrency" content="PLN" />
             {% if product.price_promo != product.price %}
             <p itemprop="price" class="mx-auto text-center m-0 p-0"><del>{{ product.price}} zł</del></p>
+            <meta itemprop="price" content="{{ product.price_promo }}" />
+            <meta itemprop="priceCurrency" content="PLN" />
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0">Netto: {{product.price_netto}} + VAT 23%</small>
             </blockquote>
