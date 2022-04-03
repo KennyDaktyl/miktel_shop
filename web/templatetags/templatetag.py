@@ -15,3 +15,7 @@ def query_transform(context, **kwargs):
 @register.filter
 def plus_days(value, days):
     return (value + datetime.timedelta(days=days)).date()
+
+@register.filter
+def replace_decimal_point(value):
+    return value.replace(",",".")
