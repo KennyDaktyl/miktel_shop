@@ -144,32 +144,32 @@ class ProductDetails(DetailView):
 
 
 class ProductRedirectView(RedirectView):
-    permanent = False
+    permanent = True
     query_string = True
     pattern_name = "product_details"
 
     def get(self, *args, **kwargs):
         product = get_object_or_404(Products, pk=kwargs["pk"])
-        return redirect(product.get_absolute_url())
+        return redirect(product.get_absolute_url(), status=301)
 
 class SubCategoryRedirectView(RedirectView):
-    permanent = False
+    permanent = True
     query_string = True
 
     def get(self, *args, **kwargs):
         sub_category = get_object_or_404(SubCategory, slug=kwargs["sub_cat"], pk=kwargs["pk"])
         print(sub_category.get_absolute_url())
-        return redirect(sub_category.get_absolute_url())
+        return redirect(sub_category.get_absolute_url(), status=301)
 
 
 class SubCategoryTypeRedirectView(RedirectView):
-    permanent = False
+    permanent = True
     query_string = True
 
     def get(self, *args, **kwargs):
         sub_category_type = get_object_or_404(
             SubCategoryType, slug=kwargs["sub_cat_type"], pk=kwargs["pk"])
-        return redirect(sub_category_type.get_absolute_url())
+        return redirect(sub_category_type.get_absolute_url(), status=301)
 
 
 class ApiProductsListSet(viewsets.ModelViewSet):
