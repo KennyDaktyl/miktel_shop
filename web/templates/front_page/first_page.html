@@ -94,6 +94,8 @@
       </div>
       <div class="col-lg-8 m-2 mx-auto text-center d-flex align-items-start row">
         <div class="col-12 mx-auto text-center row">
+          {% if product.qty > 0 %}<span itemprop="availability" href="https://schema.org/InStock"></span>{% else %}<span
+            itemprop="availability" href="https://schema.org/OutOfStock"></span>{% endif %}
           {% if product.is_news %}
           <div class="boxNovelty smallBox m-2 align-self-start">NEW</div>
           {% else %}
@@ -163,6 +165,7 @@
             {% endthumbnail %}
         </div>
         <div class="col-12 m-0 p-0 mx-auto row d-flex align-items-center product">
+          {% if product.qty > 0 %}<span itemprop="availability" href="https://schema.org/InStock"></span>{% else %}<span itemprop="availability" href="https://schema.org/OutOfStock"></span>{% endif %}
           <small class="text-dark mx-auto text-center col-12 align-self-end">{{ product.sub_category_type.sub_category.name }}</small>
           <p itemprop="name" class="productName col-12 mx-auto text-center m-0 p-0 text-dark align-self-end">{{ product.name }}</p>
           <p itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="producerName col-12 mx-auto text-center m-0 p-0 align-self-end">{{ product.brand.name }}</p>
@@ -252,6 +255,8 @@
       <a itemprop="url" href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
         <div class="col-12 mx-auto text-center row">
           <div class="col-12 mx-auto text-center row">
+            {% if product.qty > 0 %}<span itemprop="availability" href="https://schema.org/InStock"></span>{% else %}<span
+              itemprop="availability" href="https://schema.org/OutOfStock"></span>{% endif %}
             {% if product.is_news %}
             <div class="boxNovelty smallBox m-2">NEW</div>
             {% else %}
