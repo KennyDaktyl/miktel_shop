@@ -18,4 +18,5 @@ def plus_days(value, days):
 
 @register.filter
 def replace_decimal_point(value):
+    value = str(value)
     return value.replace(",",".")
