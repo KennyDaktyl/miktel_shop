@@ -101,14 +101,12 @@
                 <i id="menu_burger" class="col-3 fas fa-bars text-center m-0 p-0"></i>
                 <div class="col-lg-12 m-0 p-0" id="navbarTogglerMenu">
                     <ul itemscope itemtype="https://schema.org/BreadcrumbList" id="nav_menu" class="col-12 row m-0 p-0 overflow-auto">
-                        <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
                             <a itemprop="item" class="col-10 nav-link text-left mx-auto" href="{% url 'front_page' %}"
                                 title="Sklep On-line"><span itemprop="name">Home</span></a><span class="col-2"></span>
                                 <meta itemprop="position" content="1" />
                         </li>
-                        <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
+                        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
                             <a itemprop="item" class="col-10 nav-link text-left text-danger mx-auto" href="{% url 'shop_main_view' %}"
                                 title="Sklep On-line"><span itemprop="name">Sklep On-line</span></a><span class="col-2"></span>
                                 <meta itemprop="position" content="2" />
@@ -118,7 +116,7 @@
                             class="menuToggle col-12 no-wrap nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row"
                             type="button" data-toggle="collapse" data-target="#navbarToggler{{ category.id}}"
                             aria-controls="navbarToggler{{ category.id}}" aria-expanded="false"
-                            aria-label="Toggle navigation">
+                            aria-label="Toggle navigation" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                             <span itemprop="name" class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{ category.name }}</span>
                             <meta itemprop="position" content="1{{ forloop.counter|plus_value:2 }}" />
                             {% if category.image %}
@@ -135,8 +133,7 @@
                             <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu"
                                 id="navbarToggler{{ category.id }}">
                                 {% for sub_cat in category.sub_category %}
-                                <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
+                                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
                                     <a itemprop="item" class="col-10 nav-link text-left mx-auto"
                                         href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}"
                                         title=""><span itemprop="name">{{ sub_cat.name}}</span></a>
@@ -201,8 +198,7 @@
         <nav id="nav_main_xl" class="col-12 mx-auto text-center d-none d-lg-block navbar navbar-expand-lg bg-light">
             <div class="col-12 m-0 p-0 mx-auto text-center collapse navbar-collapse" id="navbarSupportedContent">
                 <ul itemscope itemtype="https://schema.org/BreadcrumbList" class="navbar-nav mx-auto row m-0 p-0 text-center">
-                    <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="nav-item active">
+                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="nav-item active">
                         <a itemprop="item" class="nav-link" href="{% url 'front_page' %}"><span itemprop="name">Home</span><span
                                 class="sr-only">(current)</span></a>
                                 <meta itemprop="position" content="1" />
