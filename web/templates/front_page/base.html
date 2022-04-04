@@ -120,7 +120,6 @@
                             aria-controls="navbarToggler{{ category.id}}" aria-expanded="false"
                             aria-label="Toggle navigation">
                             <span itemprop="name" class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{ category.name }}</span>
-                            <meta itemprop="position" content="1{{ forloop.counter|plus_value:2 }}" />
                             {% if category.image %}
                             <div class="col-3 p-0 m-0">
                                 <img loading="lazy" src="{{ MEDIA_URL }}{{ category.image }}" height="38px" width="100%"
