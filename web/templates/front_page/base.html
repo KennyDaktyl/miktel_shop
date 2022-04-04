@@ -116,7 +116,7 @@
                             class="menuToggle col-12 no-wrap nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row"
                             type="button" data-toggle="collapse" data-target="#navbarToggler{{ category.id}}"
                             aria-controls="navbarToggler{{ category.id}}" aria-expanded="false"
-                            aria-label="Toggle navigation" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                            aria-label="Toggle navigation" itemprop="item">
                             <span itemprop="name" class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{ category.name }}</span>
                             <meta itemprop="position" content="1{{ forloop.counter|plus_value:2 }}" />
                             {% if category.image %}
@@ -209,9 +209,8 @@
                         <meta itemprop="position" content="2" />
                     </li>
                     {% for category in categorys %}
-                    <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <li class="nav-item dropdown">
+                        <a itemprop="item" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span itemprop="name">{{ category.name }}</span>
                             <meta itemprop="position" content="1{{ forloop.counter|plus_value:2 }}" />
                         </a>
