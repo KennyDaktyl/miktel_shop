@@ -23,8 +23,4 @@ def get_app_id(request):
     return ctx
 
 def base_context_processor(request):
-    # return {
-    #     'BASE_URL': "http://%s" % Site.objects.get_current().domain
-    # }
-    # or if you don't want to use 'sites' app
     return {"BASE_URL": request.build_absolute_uri("/").rstrip("/")}
