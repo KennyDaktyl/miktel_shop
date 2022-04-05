@@ -62,12 +62,12 @@ def mapping_category(cat_row):
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        category = Category.objects.get(name="Telefony")
-        sub_category = SubCategory.objects.get(name="Akcesoria GSM")
+        category = Category.objects.get(name="Dorabianie kluczy")
+        sub_category = SubCategory.objects.get(name="Klucze mieszkaniowe")
         product_type = SubCategoryType()
         print(category, sub_category)
 
-        file_path = "media/data/mag_pul.csv"
+        file_path = "media/data/mag_klucze.csv"
         data = pd.read_csv(file_path, index_col=0)
         df = data.replace({np.nan: None})
         store = Store.objects.get(name="Serwis w Rybnej")
@@ -75,20 +75,21 @@ class Command(BaseCommand):
         date = datetime.now() - timedelta(days=1)
         # prod_to_del = Products.objects.filter(created_time__gte=date).delete()
         for index, row in df.iterrows():
-            row_category = mapping_category(row["Asortyment"])
-            if row_category is not None:
-                sub_cat = SubCategoryType.objects.get(name=row_category)
+            # row_category = mapping_category(row["Asortyment"])
+            if row["Asortyment"] is not None:
+                sub_cat_type, created = SubCategoryType.objects.get_or_create(
+                    name=row["Asortyment"], sub_category=sub_category)
                 created, product = Products.objects.get_or_create(
                     name=row["Nazwa"],
-                    sub_category_type=sub_cat,
+                    sub_category_type=sub_cat_type,
                     code=row["Kod"],
-                    price_netto_purchase=row["Cena net."].replace(",", "."),
-                    qty=row["Ilość"].replace(",00", ""),
-                    price=row["Cena sprz"].replace(",", "."),
+                    price_netto_purchase=row["Cena net."],
+                    qty=row["Ilość"],
+                    price=row["Cena sprz"],
                     image="images/products/no_image.webp",
                     tax=tax,
                     store=store,
-                    discount=20,
+                    discount=0,
                     is_active=True,
                 )
                 print(

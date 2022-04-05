@@ -53,12 +53,12 @@ def mapping_category(cat_row):
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        category = Category.objects.get(name="Telefony")
-        sub_category = SubCategory.objects.get(name="Akcesoria GSM")
+        category = Category.objects.get(name="Dorabianie kluczy")
+        sub_category = SubCategory.objects.get(name="Klucze mieszkaniowe")
         product_type = SubCategoryType()
         print(category, sub_category)
 
-        file_path = "media/data/mag_pul.csv"
+        file_path = "media/data/mag_klucze.csv"
         data = pd.read_csv(file_path, index_col=0)
         df = data.replace({np.nan: None})
         for index, row in df.iterrows():
