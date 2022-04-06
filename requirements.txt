@@ -27,7 +27,9 @@ idna==3.3
 isort==5.10.1
 mccabe==0.6.1
 mypy-extensions==0.4.3
+numpy==1.22.3
 packaging==21.3
+pandas==1.4.2
 pathspec==0.9.0
 Pillow==9.1.0
 platformdirs==2.5.1
@@ -38,6 +40,7 @@ pydyf==0.1.2
 pyflakes==2.4.0
 pyparsing==3.0.7
 pyphen==0.12.0
+python-dateutil==2.8.2
 pytz==2022.1
 rcssmin==1.1.0
 redis==4.1.4

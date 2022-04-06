@@ -71,11 +71,7 @@
             {% endthumbnail %}
         </div>
             <p class="productName col-12 mx-auto text-center">{{product.name}}</p>
-            {% if product.brand %}
-            <p class="producerName col-12 mx-auto text-center">{{product.brand}}</p>
-            {% else %}
-            <p class="producerName col-12 mx-auto text-center"> </p>
-            {% endif %}
+            <p class="producerName col-12 mx-auto text-center">{% if product.brand %}{{product.brand}}{% endif %}</p>
             <blockquote class="col-12 mx-auto row d-flex align-items-center">
             <p class="producerPrice mx-auto text-center text-danger  m-0 p-0">{{ product.price_promo}} zł</p>
             {% if product.price_promo != product.price %}
@@ -88,7 +84,6 @@
         <p class="col-12 mx-auto text-left">Brak produktów w tej kategorii</p>
         {% endfor %}
     </div>
-    {% if page_obj.has_previous %}
     <div class="col-12 input-group mb-3 mt-3 mx-auto text-center pagination">
         <div class=""></div>
         <div aria-label="..." class="row col-12 m-0 p-0 justify-content-center mx-auto text-center">
@@ -121,7 +116,6 @@
         </span>
         </div>
     </div>
-    {% endif %}
 </div>
 {% endblock %}
 

@@ -47,7 +47,7 @@
                 <form id="form" action="{% url 'add_product' %}" method="POST" class="col-12 row m-0 p-0">
                     {% csrf_token %}
                     <input type="hidden" name="" id="prod_id" value="{{product.id}}">
-                    <input id="qty" name="qty" type="hidden" value="1">
+                 <input id="qty" name="qty" type="hidden" value="1">
                     <a href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-10 bg-dark text-white align-self-stretch col-6 mx-auto d-flex align-items-center text-decoration-none text-center" style="height: 40px;">
                         <i class="fas fa-info-circle text-white align-self-center mx-auto col-12 m-0 p-0"></i>
                     </a>
@@ -72,7 +72,8 @@
             {% endthumbnail %}
         </div>
             <p class="productName col-12 mx-auto text-center">{{product.name}}</p>
-            <p class="producerName col-12 mx-auto text-center">{{product.brand}}</p>
+            
+            <p class="producerName col-12 mx-auto text-center">{% if product.brand %}{{product.brand}}{% endif %}</p>
             <blockquote class="col-12 mx-auto row d-flex align-items-center">
             <p class="producerPrice mx-auto text-center text-danger  m-0 p-0">{{ product.price_promo}} zł</p>
             {% if product.price_promo != product.price %}
@@ -83,11 +84,8 @@
         </div>
         {% empty %}
         <p class="col-12 mx-auto text-left">Brak produktów w tej kategorii</p>
-       
-    
         {% endfor %}
     </div>
-    {% if page_obj.has_previous %}
     <div class="col-12 input-group mb-3 mt-3 mx-auto text-center pagination">
         <div class=""></div>
         <div aria-label="..." class="row col-12 m-0 p-0 justify-content-center mx-auto text-center">
@@ -119,7 +117,6 @@
         </ul>
         </span>
         </div>
-        {% endif %}
     </div>
     
 {% endblock %}
