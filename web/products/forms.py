@@ -64,6 +64,7 @@ class SelectDetailsProductForm(forms.ModelForm):
     class Meta:
         model = Products
         fields = (
+            "name",
             "brand",
             "size",
             "color",
