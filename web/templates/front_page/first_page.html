@@ -161,7 +161,6 @@
             {% else %}
             <div class="smallBox m-2"></div>
             {% endif %}
-            
           </div>
         </div>
         <div class="col-12 m-2 mx-auto ">
@@ -279,12 +278,6 @@
             {% else %}
             <div class="smallBox m-2"></div>
             {% endif %}
-            {% if product.qty > 0 %}
-          <div class="inStock m-2 align-self-center"><span class="p-1"><i class="fa-solid fa-circle-check"></i></span></div>
-          {% else %}
-          <div class="OutOfStock m-2 align-self-center"><span class="p-1"><i class="fa-solid fa-circle-check"></i></span></div>
-          {% endif %}
-          </div>
         </div>
         <div class="col-12 m-2 mx-auto ">
           {% thumbnail  product.image "200x200" crop='center' format="WEBP"  as im %}
@@ -306,6 +299,12 @@
             <meta itemprop="priceCurrency" content="PLN" />
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0">Netto: {{product.price_netto}} + VAT 23%</small>
+            {% if product.qty > 0 %}
+            <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
+            {% else %}
+            <div class="col-12 text-center m-1 mx-auto"><small class="text-danger">Dostępny</small></div>
+            {% endif %}
+          </div>
             </blockquote>
         </div>
     </a>
