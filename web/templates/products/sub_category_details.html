@@ -22,9 +22,6 @@
     <input type="hidden" id='sub_cat' value="{{ sub_category.id }}">
     <input type="hidden" id='sub_cat_type' value="{{ sub_category.sub_category_type.id }}">
 
-
-   
-
     <div class="col-12 mx-auto m-0 p-0" style="background-color: black;">
         {% load thumbnail %}
         {% thumbnail sub_category.image "1280x400" crop='center' format="WEBP"  as im %}
