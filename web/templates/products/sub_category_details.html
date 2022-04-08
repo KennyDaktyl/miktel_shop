@@ -78,7 +78,7 @@
             <img itemprop="image" src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="{{ product.alt }}" title="{{ product.title }}">
             {% endthumbnail %}
         </div>
-            <p class="productName col-12 mx-auto text-center">{{product.name}}</p>
+            <p class="productName col-12 mx-auto text-center text-uppercase">{{product.name}}</p>
             <span itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="col-12 m-0 p-0 mx-auto text-center">
                 <p itemprop="name" class="producerName col-12 mx-auto text-center">{% if product.brand %}{{product.brand}}{% endif %}</p>
             </span>
