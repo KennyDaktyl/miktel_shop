@@ -93,7 +93,7 @@
         </div>
       </div>
       <div class="col-lg-8 m-2 mx-auto text-center d-flex align-items-start row">
-        <div class="col-12 mx-auto text-center row">
+        <div class="col-12 mx-auto text-center row d-flex align-items-center">
           {% if product.qty > 0 %}<span itemprop="availability" href="https://schema.org/InStock"></span>{% else %}<span
             itemprop="availability" href="https://schema.org/OutOfStock"></span>{% endif %}
           {% if product.is_news %}
@@ -105,6 +105,11 @@
           <div class="boxPromo smallBox bg-danger m-2 align-self-start">{{ product.discount }}%</div>
           {% else %}
           <div class="smallBox m-2 align-self-start"></div>
+          {% endif %}
+          {% if product.qty > 0 %}
+          <div class="inStock m-2 align-self-center"><span class="p-1">w magazynie</span></div>
+          {% else %}
+          <div class="OutOfStock m-2 align-self-center"><span class="p-1">w magazynie</span></div>
           {% endif %}
         </div>
         <p itemprop="name" class="productName col-12 mx-auto text-center m-0 p-0 text-dark align-self-start text-uppercase">{{ product.name }}</p>
@@ -145,7 +150,7 @@
     <div itemscope itemtype="http://schema.org/Product" class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
       <a itemprop="url" href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
         <div class="col-12 mx-auto text-center row">
-          <div class="col-12 mx-auto text-center row">
+          <div class="col-12 mx-auto text-center row d-flex align-items-center">
             {% if product.is_news %}
             <div class="boxNovelty smallBox m-2">NEW</div>
             {% else %}
@@ -156,6 +161,7 @@
             {% else %}
             <div class="smallBox m-2"></div>
             {% endif %}
+            
           </div>
         </div>
         <div class="col-12 m-2 mx-auto ">
@@ -180,8 +186,14 @@
             <meta itemprop="priceCurrency" content="PLN" />
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0 align-self-end">Netto: {{product.price_netto}} + VAT 23%</small>
-          </blockquote>
+            {% if product.qty > 0 %}
+          <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
+          {% else %}
+          <div class="col-12 text-center m-1 mx-auto"><small class="text-danger">Dostępny</small></div>
+          {% endif %}
         </div>
+          </blockquote>
+          
     </a>
     </div>
     {% endfor %}
@@ -255,7 +267,7 @@
     <div itemscope itemtype="http://schema.org/Product" class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product">
       <a itemprop="url" href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-12 m-0 p-0 text-decoration-none product">
         <div class="col-12 mx-auto text-center row">
-          <div class="col-12 mx-auto text-center row">
+          <div class="col-12 mx-auto text-center row d-flex align-items-center">
             {% if product.qty > 0 %}<span itemprop="availability" href="https://schema.org/InStock"></span>{% else %}<span
               itemprop="availability" href="https://schema.org/OutOfStock"></span>{% endif %}
             {% if product.is_news %}
@@ -268,6 +280,11 @@
             {% else %}
             <div class="smallBox m-2"></div>
             {% endif %}
+            {% if product.qty > 0 %}
+          <div class="inStock m-2 align-self-center"><span class="p-1"><i class="fa-solid fa-circle-check"></i></span></div>
+          {% else %}
+          <div class="OutOfStock m-2 align-self-center"><span class="p-1"><i class="fa-solid fa-circle-check"></i></span></div>
+          {% endif %}
           </div>
         </div>
         <div class="col-12 m-2 mx-auto ">

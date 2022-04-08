@@ -38,7 +38,10 @@ body.frozen {
 }
 
 
-span {
+span:hover {
+    text-decoration: none;
+}
+a:hover {
     text-decoration: none;
 }
 
@@ -372,13 +375,38 @@ div.product:hover {
     background-color: blueviolet;
 }
 
+.inStock {
+    background-color: green;
+    height: 30px;
+    min-width: 30px;
+    line-height: 30px;
+    color: white;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.OutOfStock {
+    background-color: red;
+    min-height: 30px;
+    width: 30px;
+    line-height: 30px;
+    color: white;
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+i.stockInfo {
+    width: 30px;
+    height: 30px;
+}
+
 .smallBox {
     width: 40px;
     height: 40px;
     line-height: 40px;
     color: white;
     text-transform: uppercase;
-    font-size: 15px;
+    font-size: 10px;
     font-weight: 600;
 }
 
