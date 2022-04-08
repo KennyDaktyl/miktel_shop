@@ -564,8 +564,10 @@ class Products(BaseModel):
             self.meta_title = f"Produkt {self.name} | {self.sub_category_type.sub_category.name}"[0:60]
         if not self.image:
             self.image = "images/products/no_image.webp"
-            self.alt = f"Brak obrazka dla produktu {self.name}" [0:125]
-            self.title = f"Brak obrazka dla produktu {self.name}"[0:70]
+        if not self.alt:
+            self.alt = f"Zdjęcie produktu {self.name} z kategorii {self.sub_category_type.sub_category.name} typ {self.sub_category_type.name}"[0:125]
+        if not self.title:
+            self.title = f"Zdjęcie produktu {self.name} z kategorii {self.sub_category_type.sub_category.name}"[0:70]
         if not self.title:
             self.title = f"Produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name} typ {self.sub_category_type.name}"[0:70]
         if not self.alt:
