@@ -43,12 +43,12 @@
 
             {% for image in object.images %}
             {% load thumbnail %}
-            {% thumbnail image.image "1280" crop='center' format="WEBP"  as im %}
+            {% thumbnail image.image "800" crop='center' format="WEBP"  as im %}
             <a href="{{ MEDIA_URL }}{{ im }}" data-lightbox="{{ image.product.id }}" data-title="{{ image.product.name}}"
                 class="mx-auto text-center p-0 m-0 mt-2" title="Galeria zdjęć produktu {{image.object.name}}">
-                {% thumbnail  image.image "150" crop='center' format="WEBP"  as im %}
+                {% thumbnail  image.image "150x180"  format="WEBP"  as im %}
                 <source srcset="{{ im }}" type="image/webp" />
-                <img width="150" height="60" class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{ im }}" alt="{{image.alt}}" title="{{image.title}}">
+                <img width="150" height="180" class="img-fluid mx-auto m-1 border" src="{{ MEDIA_URL }}{{ im }}" alt="{{image.alt}}" title="{{image.title}}">
                 {% endthumbnail %}
             </a> 
             {% endthumbnail %}
