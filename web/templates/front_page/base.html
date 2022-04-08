@@ -42,17 +42,17 @@
                     <div class="col-6 col-sm-7 col-md-8 col-xl-9">
                     </div>
                     <div
-                        class="col-6 col-sm-5 col-md-4 col-xl-3 row d-flex align-items-center mx-auto d-flex justify-content-center">
+                        class="col-6 col-sm-5 col-md-4 col-xl-3 p-0 m-0 row d-flex align-items-center mx-auto d-flex justify-content-center">
                         {% if user.is_authenticated %}
-                        <a class="link col-6 row mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none"
+                        <a class="link col-6 row mx-auto text-center p-0 m-0 row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none"
                             href="{% url "user_account" %}">
                             <span class="text-center">Moje konto</span>
-                            <i class="ml-2 fas fas fa-user text-success text-center"></i>
+                            <i class="m-0 p-0 pl-2 fas fas fa-user text-success text-center"></i>
                         </a>
-                        <a class="link col-6 mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none"
+                        <a class="link col-6 mx-auto text-center p-0 m-0 row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none"
                             href="{% url "logout" %}">
                             <span class="text-center">Wyloguj</span>
-                            <i class="ml-2 fas fa-sign-in-alt text-success text-center"></i>
+                            <i class="m-o p-0 pl-2 fas fa-sign-in-alt text-success text-center"></i>
                         </a>
                         {% else %}
                         <a class="link col-12 mx-auto text-center row d-flex align-items-center text-white d-flex justify-content-center text-decoration-none"
@@ -82,8 +82,8 @@
                             </form>
                         </div>
                     </div>
-                    <div class="col-3 row mx-auto d-flex align-items-center d-flex justify-content-center">
-                        <a href="{% url 'cart_details' %}" class="col-12 m-0 p-0 row border text-decoration-none">
+                    <div class="col-3  row mx-auto d-flex align-items-center d-flex justify-content-center">
+                        <a href="{% url 'cart_details' %}" class="col-12 basket_box m-0 p-0 row border rounded text-decoration-none">
                             <div
                                 class="row col-12 m-0 p-0 text-center mx-auto d-flex align-items-center d-flex justify-content-center">
                                 <i class="text-white text-danger fas fa-shopping-basket m-1"></i>

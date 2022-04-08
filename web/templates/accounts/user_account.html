@@ -9,8 +9,13 @@
 
 {% block content %}
 <nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
-  <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
-  <li class="breadcrumb-item text-dark active" aria-current="page">Konto użytkownika</li>
+  <ol class="breadcrumb bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
+  <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1 active" aria-current="page" itemprop="itemListElement" itemscope
+  itemtype="https://schema.org/ListItem"><a href="{% url 'front_page' %}"><span itemprop="name">Strona startowa</span></a><meta itemprop="position" content="1" /></li>
+  <span class="p-1 m-1">/</span>
+  <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1 text-dark active" aria-current="page" itemprop="itemListElement" itemscope
+  itemtype="https://schema.org/ListItem"><span itemprop="name">Konto użytkownika</span><meta itemprop="position" content="2" /></li>
+</ol>
 </nav>
 
 <div class="min_div_page col-md-8 mx-auto text-center row d-flex align-items-start border mt-3 mb-3 p-2">

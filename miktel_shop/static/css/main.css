@@ -84,6 +84,10 @@ img.logo_in_menu {
     max-height: 30px;
 }
 
+a.basket_box:hover {
+    border: 1px solid red!important;
+}
+
 #BasketInfo {
     position: relative;
 }

@@ -27,6 +27,16 @@
     <input type="hidden" id='cat' value="{{ object.sub_category_type.sub_category.category.id }}">
     <input type="hidden" id='sub_cat' value="{{ object.sub_category_type.sub_category.id }}">
     <input type="hidden" id='sub_cat_type' value="{{ object.sub_category_type.id }}">
+
+    <nav class="col-12 mx-auto" aria-label="breadcrumb" >
+        <ol class="breadcrumb bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1" itemprop="itemListElement" itemscope
+          itemtype="https://schema.org/ListItem"><a class="" href="{{ object.sub_category_type.sub_category.get_absolute_url }}" itemprop="item"><span itemprop="name">{{ object.sub_category_type.sub_category.name }}</span></a><meta itemprop="position" content="1" /></li>
+          <span class="p-1 m-1">/</span>
+          <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1" itemprop="itemListElement" itemscope
+          itemtype="https://schema.org/ListItem"><a class="" href="{{ object.sub_category_type.get_absolute_url }}" itemprop="item"><span itemprop="name">{{ object.sub_category_type.name }}</span></a><meta itemprop="position" content="2" /></li>
+        </ol>
+      </nav>
     <div class="col-12 mx-auto ml-0 mr-0 p-0 mt-2 row product_box d-flex align-items-start">
         <div class="col-lg-6 mx-auto text-center row ">
             {% load thumbnail %}
