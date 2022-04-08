@@ -13,6 +13,7 @@ EMAIL_REGEX = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
 
 def is_digit(value):
     value = value.replace(" ", "")
+    value = value.replace("-", "")
     if value.isdigit() is False:
         raise ValidationError("Wpisuj tylko cyfry")
 
@@ -156,7 +157,7 @@ class BusinessForm(forms.ModelForm):
         label="NIP",
         required=True,
         min_length=10,
-        max_length=10,
+        max_length=16,
         validators=[is_digit],
     )
     phone_number = forms.CharField(

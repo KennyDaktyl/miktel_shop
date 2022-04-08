@@ -38,10 +38,10 @@
     <div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 offer mt-2 row">
         <div class="col-12 mt-5 max-auto">
             <h2 class="col-12 row">{{ sub_category.name }}</h2>
-        <nav id="breadcrumb" aria-label="breadcrumb" >
+        <nav class="" aria-label="breadcrumb" >
             <ol class="breadcrumb bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
                 {% for sub_cat_type in sub_category.sub_cat_type %} 
-              <li class="breadcrumb_element border border-breadcrumb rounded p-2 m-2" itemprop="itemListElement" itemscope
+              <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1" itemprop="itemListElement" itemscope
               itemtype="https://schema.org/ListItem"><a class="" href="{{ sub_cat_type.get_absolute_url }}" itemprop="item"><span itemprop="name">{{ sub_cat_type.name }}</span></a><meta itemprop="position" content="{{ forloop.counter }}" /></li>
                 {% endfor %}
             </ol>

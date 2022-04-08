@@ -33,7 +33,7 @@ body.frozen {
     transform: translate(-50%, 0);
 }
 
-nav {
+#nav_main {
     height: 50px;
 }
 
@@ -382,9 +382,6 @@ div.product:hover {
     font-weight: 600;
 }
 
-#breadcrumb {
-    height: auto;
-}
 
 .border-breadcrumb {
     border-color: blueviolet!important;
@@ -398,7 +395,11 @@ div.product:hover {
 
 li.breadcrumb_element:hover > a {
     color: #6610f2;
-} 
+}
+
+.breadcrumb_element span {
+    font-size: 10px;
+}
 
 #showOption a {
     background-color: blueviolet;
@@ -791,6 +792,9 @@ th.th_price {
         font-size: 15px;
     }
 
+    .breadcrumb_element span {
+        font-size: 12px;
+    }
 
     img.mini {
         width: 40px;
