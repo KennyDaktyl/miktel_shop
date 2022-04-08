@@ -82,9 +82,11 @@
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0">Netto: {{product.price_netto}} + VAT 23%</small>
             {% if product.qty > 0 %}
-            <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
+                <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
+                <link itemprop="availability" href="https://schema.org/InStock" />
             {% else %}
             <div class="col-12 text-center m-1 mx-auto"><small class="text-danger">Niedostępny</small></div>
+            <link itemprop="availability" href="https://schema.org/OutOfStock" />
             {% endif %}
             </blockquote>
         </div>

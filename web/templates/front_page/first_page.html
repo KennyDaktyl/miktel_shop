@@ -92,6 +92,7 @@
         {% endfor %}
         </div>
       </div>
+      
       <div class="col-lg-8 m-2 mx-auto text-center d-flex align-items-start row">
         <div class="col-12 mx-auto text-center row d-flex align-items-center">
           {% if product.qty > 0 %}<span itemprop="availability" href="https://schema.org/InStock"></span>{% else %}<span
@@ -185,10 +186,12 @@
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0 align-self-end">Netto: {{product.price_netto}} + VAT 23%</small>
             {% if product.qty > 0 %}
-          <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
-          {% else %}
-          <div class="col-12 text-center m-1 mx-auto"><small class="text-danger">Niedostępny</small></div>
-          {% endif %}
+                <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
+                <link itemprop="availability" href="https://schema.org/InStock" />
+            {% else %}
+            <div class="col-12 text-center m-1 mx-auto"><small class="text-danger">Niedostępny</small></div>
+            <link itemprop="availability" href="https://schema.org/OutOfStock" />
+            {% endif %}
         </div>
           </blockquote>
           
@@ -300,9 +303,11 @@
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0">Netto: {{product.price_netto}} + VAT 23%</small>
             {% if product.qty > 0 %}
-            <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
+                <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
+                <link itemprop="availability" href="https://schema.org/InStock" />
             {% else %}
             <div class="col-12 text-center m-1 mx-auto"><small class="text-danger">Niedostępny</small></div>
+            <link itemprop="availability" href="https://schema.org/OutOfStock" />
             {% endif %}
           </div>
             </blockquote>
