@@ -42,13 +42,13 @@
         <h1 class="col-12 mx-auto text-left">Lista produktów</h1>
         {% endif %}
         {% for product in object_list %}
-        <div class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">
+        <div itemscope itemtype="http://schema.org/Product" class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">
             <div id="showOption" class="col-12 row mx-auto d-flex align-items-center">
                 <form id="form" action="{% url 'add_product' %}" method="POST" class="col-12 row m-0 p-0">
                     {% csrf_token %}
                     <input type="hidden" name="" id="prod_id" value="{{product.id}}">
                  <input id="qty" name="qty" type="hidden" value="1">
-                    <a href="{% url 'product_details' sub_cat=product.sub_category_type.sub_category.slug product=product.slug pk=product.id %}" class="col-10 bg-dark text-white align-self-stretch col-6 mx-auto d-flex align-items-center text-decoration-none text-center" style="height: 40px;">
+                    <a itemprop="url" href="{{ product.get_absolute_url }}" class="col-10 bg-dark text-white align-self-stretch col-6 mx-auto d-flex align-items-center text-decoration-none text-center" style="height: 40px;">
                         <i class="fas fa-info-circle text-white align-self-center mx-auto col-12 m-0 p-0"></i>
                     </a>
                 </form>
@@ -68,14 +68,15 @@
         <div class="col-12 m-2 mx-auto text-center">
             {% load thumbnail %}
             {% thumbnail product.image "200x200" crop='center' format="WEBP"  as im %}
-            <img src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="{{ product.alt }}" title="{{ product.title }}">
+            <img itemprop="image" src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="{{ product.alt }}" title="{{ product.title }}">
             {% endthumbnail %}
         </div>
             <p class="productName col-12 mx-auto text-center">{{product.name}}</p>
-            
-            <p class="producerName col-12 mx-auto text-center">{% if product.brand %}{{product.brand}}{% endif %}</p>
+            <span itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="col-12 m-0 p-0 mx-auto text-center">
+                <p itemprop="name" class="producerName col-12 mx-auto text-center">{% if product.brand %}{{product.brand}}{% endif %}</p>
+            </span>
             <blockquote class="col-12 mx-auto row d-flex align-items-center">
-            <p class="producerPrice mx-auto text-center text-danger  m-0 p-0">{{ product.price_promo}} zł</p>
+            <p itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="producerPrice mx-auto text-center text-danger  m-0 p-0"><span itemprop="price">{{ product.price_promo}}</span> zł</p>
             {% if product.price_promo != product.price %}
             <p class="mx-auto text-center m-0 p-0"><del>{{ product.price}} zł</del></p>
             {% endif %}

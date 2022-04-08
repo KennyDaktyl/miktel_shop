@@ -382,9 +382,23 @@ div.product:hover {
     font-weight: 600;
 }
 
+#breadcrumb {
+    height: auto;
+}
+
 .border-breadcrumb {
     border-color: blueviolet!important;
 }
+
+
+.breadcrumb_element a {
+    color: black;
+    text-decoration: none;
+} 
+
+li.breadcrumb_element:hover > a {
+    color: #6610f2;
+} 
 
 p.productName {
     height: 81px;
