@@ -256,7 +256,7 @@
         "@type": "Product",
         "name": "{{ object.name }}",
         "image": "{{ get_domain }}{{ MEDIA_URL }}{{object.image}}",
-        "description": "{{ object.desc|safe }}",
+        "description": "{{ object.desc }}",
         "brand": {
           "@type": "Brand",
           "name": "{{ object.brand.name }}"
