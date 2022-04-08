@@ -22,6 +22,9 @@
     <input type="hidden" id='sub_cat' value="{{ sub_category.id }}">
     <input type="hidden" id='sub_cat_type' value="{{ sub_category.sub_category_type.id }}">
 
+
+   
+
     <div class="col-12 mx-auto m-0 p-0" style="background-color: black;">
         {% load thumbnail %}
         {% thumbnail sub_category.image "1280x400" crop='center' format="WEBP"  as im %}
@@ -32,9 +35,17 @@
           <p>{{ sub_category.description }}</p>
         </div>
     </div>
-    
     <div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 offer mt-2 row">
-       
+        <div class="col-12 mt-5 max-auto">
+            <h2 class="col-12 row">{{ sub_category.name }}</h2>
+        <nav aria-label="breadcrumb" style="height: auto;">
+            <ol class="breadcrumb bg-white row">
+                {% for sub_cat_type in sub_category.sub_cat_type %} 
+              <li class="border border-breadcrumb rounded p-2 m-2"><a class="text-dark " href="{{ sub_cat_type.get_absolute_url }}">{{ sub_cat_type.name }}</a></li>
+                {% endfor %}
+            </ol>
+          </nav>
+        </div>
     <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
         <div class="col-12 mt-5 max-auto">
             {{ sub_category.desc|safe|escape }}

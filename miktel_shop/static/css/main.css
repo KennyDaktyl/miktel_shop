@@ -382,6 +382,10 @@ div.product:hover {
     font-weight: 600;
 }
 
+.border-breadcrumb {
+    border-color: blueviolet!important;
+}
+
 p.productName {
     height: 81px;
 }
