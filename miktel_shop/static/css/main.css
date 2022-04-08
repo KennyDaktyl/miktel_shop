@@ -400,6 +400,18 @@ li.breadcrumb_element:hover > a {
     color: #6610f2;
 } 
 
+#showOption a {
+    background-color: blueviolet;
+    text-decoration: none;
+} 
+
+#showOption > i {
+    background-color: blueviolet;
+    text-decoration: none;
+    color: white;
+} 
+
+
 p.productName {
     height: 81px;
 }
