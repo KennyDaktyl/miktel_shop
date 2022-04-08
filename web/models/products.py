@@ -382,6 +382,7 @@ class Colors(BaseModel):
     class_text = models.CharField(
         verbose_name="Text dla koloru klasy",
         max_length=32,
+        blank=True, null=True
     )
     slug = models.SlugField(verbose_name="Slug", blank=True, null=True, max_length=128)
 
@@ -548,7 +549,7 @@ class Products(BaseModel):
         )
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name.replace("ł", "l"))
         if self.discount > 0:
             self.price_promo = float(self.price) - float(self.price) * (
                 self.discount / 100
@@ -558,7 +559,7 @@ class Products(BaseModel):
             self.price_promo = self.price
         self.price_netto = float(self.price_promo) / float("1." + str(self.tax.name))
         if not self.meta_description:
-            self.meta_description = f"W ofercie produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name} dostępny w sklepie internetowym serwiswrybnej.pl"[0:160]
+            self.meta_description = f"W ofercie produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name} typ {self.sub_category_type.name}."[0:160]
         if not self.meta_title:
             self.meta_title = f"Produkt {self.name} | {self.sub_category_type.sub_category.name}"[0:60]
         if not self.image:
@@ -566,9 +567,9 @@ class Products(BaseModel):
             self.alt = f"Brak obrazka dla produktu {self.name}" [0:125]
             self.title = f"Brak obrazka dla produktu {self.name}"[0:70]
         if not self.title:
-            self.title = f"Produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name}"[0:70]
+            self.title = f"Produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name} typ {self.sub_category_type.name}"[0:70]
         if not self.alt:
-            self.alt = f"Produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name}"[0:125]
+            self.alt = f"Produkt o nazwie {self.name} z kategorii {self.sub_category_type.sub_category.name} typ {self.sub_category_type.name}"[0:125]
         super(Products, self).save()
 
     class Meta:
