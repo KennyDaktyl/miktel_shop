@@ -81,6 +81,11 @@
             <p class="mx-auto text-center m-0 p-0"><del>{{ product.price}} zł</del></p>
             {% endif %}
             <small class="col-12 mx-auto text-center text-primary  m-0 p-0">Netto: {{product.price_netto}} + VAT 23%</small>
+            {% if product.qty > 0 %}
+            <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
+            {% else %}
+            <div class="col-12 text-center m-1 mx-auto"><small class="text-danger">Dostępny</small></div>
+            {% endif %}
             </blockquote>
         </div>
         {% empty %}
