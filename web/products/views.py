@@ -5,9 +5,10 @@ from django.views import View
 from django.views.generic import ListView
 from django.views.generic.base import RedirectView
 from django.views.generic.detail import DetailView
+from numpy import size
 from rest_framework import generics, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
-from web.models import Category, Products, SubCategory, SubCategoryType
+from web.models import Category, Products, SubCategory, SubCategoryType, Size
 
 from .forms import AddGalleryPhotoForm, AddMainPhotoForm, SelectDetailsProductForm
 from .serializers import ProductSerializer
@@ -63,6 +64,9 @@ class SubCategoryTypeProducts(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["sub_category_type"] = self.sub_category_type
+        sizes_pk = self.object_list.values_list(
+            'size', flat=True).distinct().order_by()
+        context["sizes"] = Size.objects.filter(pk__in=[sizes_pk])
         return context
 
 
@@ -76,8 +80,10 @@ class ProductDetails(DetailView):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_staff:
             context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
-            context["photo_g_form"] = AddGalleryPhotoForm(initial={"product": self.object})
-            context["details_form"] = SelectDetailsProductForm(instance=self.object)
+            context["photo_g_form"] = AddGalleryPhotoForm(
+                initial={"product": self.object})
+            context["details_form"] = SelectDetailsProductForm(
+                instance=self.object)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -88,7 +94,8 @@ class ProductDetails(DetailView):
         photo_g_form = AddGalleryPhotoForm(
             request.POST, request.FILES, initial={"product": self.object}
         )
-        details_form = SelectDetailsProductForm(request.POST, instance=self.object)
+        details_form = SelectDetailsProductForm(
+            request.POST, instance=self.object)
         context = super(ProductDetails, self).get_context_data(**kwargs)
         if request.POST.get("photo_main"):
             if photo_m_form.is_valid():
@@ -96,14 +103,16 @@ class ProductDetails(DetailView):
                 context["photo_m_form"] = photo_m_form
                 context["photo_g_form"] = AddGalleryPhotoForm(
                     initial={"product": self.object})
-                context["details_form"] = SelectDetailsProductForm(instance=self.object)
+                context["details_form"] = SelectDetailsProductForm(
+                    instance=self.object)
                 messages.success(self.request, self.success_message_add)
                 return self.render_to_response(context=context)
             else:
                 context["photo_m_form"] = photo_m_form
                 context["photo_g_form"] = AddGalleryPhotoForm(
                     initial={"product": self.object})
-                context["details_form"] = SelectDetailsProductForm(instance=self.object)
+                context["details_form"] = SelectDetailsProductForm(
+                    instance=self.object)
                 messages.success(self.request, self.success_message_error)
                 return self.render_to_response(context=context)
         if request.POST.get("photo_gallery"):
@@ -128,14 +137,16 @@ class ProductDetails(DetailView):
         if request.POST.get("add_details"):
             if details_form.is_valid():
                 details_form.save()
-                context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
+                context["photo_m_form"] = AddMainPhotoForm(
+                    instance=self.object)
                 context["photo_g_form"] = AddGalleryPhotoForm(
                     initial={"product": self.object})
                 context["details_form"] = details_form
                 messages.success(self.request, self.success_message_add)
                 return self.render_to_response(context=context)
             else:
-                context["photo_m_form"] = AddMainPhotoForm(instance=self.object)
+                context["photo_m_form"] = AddMainPhotoForm(
+                    instance=self.object)
                 context["photo_g_form"] = AddGalleryPhotoForm(
                     initial={"product": self.object})
                 context["details_form"] = details_form
@@ -152,12 +163,14 @@ class ProductRedirectView(RedirectView):
         product = get_object_or_404(Products, pk=kwargs["pk"])
         return redirect(product.get_absolute_url(), status=301)
 
+
 class SubCategoryRedirectView(RedirectView):
     permanent = True
     query_string = True
 
     def get(self, *args, **kwargs):
-        sub_category = get_object_or_404(SubCategory, slug=kwargs["sub_cat"], pk=kwargs["pk"])
+        sub_category = get_object_or_404(
+            SubCategory, slug=kwargs["sub_cat"], pk=kwargs["pk"])
         print(sub_category.get_absolute_url())
         return redirect(sub_category.get_absolute_url(), status=301)
 

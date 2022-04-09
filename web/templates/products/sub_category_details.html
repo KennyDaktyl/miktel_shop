@@ -43,6 +43,15 @@
                 {% endfor %}
             </ol>
           </nav>
+          <nav class="col-12 mx-auto" aria-label="breadcrumb" >
+            <ol class="breadcrumb bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
+                {% for size in sizes %} 
+              <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1" itemprop="itemListElement" itemscope
+              itemtype="https://schema.org/ListItem"><a class="" href="" itemprop="item"><span itemprop="name">{{ size }}</span></a><meta itemprop="position" content="{{ forloop.counter }}" /></li>
+                {% endfor %}
+            </ol>
+          </nav>
+         
         </div>
     <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
         <div class="col-12 mt-1 max-auto">
