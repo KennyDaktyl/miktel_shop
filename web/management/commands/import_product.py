@@ -11,6 +11,7 @@ from web.models.products import (
     SubCategory,
     SubCategoryType,
     Vat,
+    Size
 )
 
 
@@ -77,12 +78,14 @@ class Command(BaseCommand):
         for index, row in df.iterrows():
             # row_category = mapping_category(row["Asortyment"])
             if row["Asortyment"] is not None:
+                size, created = Size.objects.get_or_create(name=row["Size"])
                 sub_cat_type, created = SubCategoryType.objects.get_or_create(
                     name=row["Asortyment"], sub_category=sub_category)
                 created, product = Products.objects.get_or_create(
-                    name=row["Nazwa"],
+                    name="Klucz mieszkaniowy " + row["Nazwa"],
                     sub_category_type=sub_cat_type,
                     code=row["Kod"],
+                    size=size,
                     price_netto_purchase=row["Cena net."],
                     qty=row["Ilość"],
                     price=row["Cena sprz"],
