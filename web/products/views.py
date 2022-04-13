@@ -57,9 +57,12 @@ class SubCategoryTypeProducts(ListView):
         self.sub_category_type = get_object_or_404(
             SubCategoryType, pk=self.kwargs["pk"]
         )
-        return Products.objects.filter(sub_category_type=self.sub_category_type).filter(
+        products = Products.objects.filter(sub_category_type=self.sub_category_type).filter(
             is_active=True
         )
+        if self.request.GET.get('typ'):
+            return products.filter(size=int(self.request.GET.get('typ')))
+        return products
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

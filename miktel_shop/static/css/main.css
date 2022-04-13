@@ -425,8 +425,13 @@ i.stockInfo {
     text-decoration: none;
 } 
 
-li.breadcrumb_element:hover > a {
+.breadcrumb_element a:hover {
+    color: blueviolet;
+}
+
+.breadcrumb_element:hover > button {
     color: #6610f2;
+    cursor: pointer;
 }
 
 .breadcrumb_element span {
