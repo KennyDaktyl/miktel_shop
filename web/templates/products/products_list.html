@@ -48,6 +48,7 @@
               itemtype="https://schema.org/ListItem"><span itemprop="name">{{ sub_category_type.name }}</span><meta itemprop="position" content="2" /></a>
             </ol>
           </nav>
+          {% if sizes %}
           <nav class="col-12 mx-auto" aria-label="breadcrumb" >
             <ol class="breadcrumb bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
                 {% for size in sizes %}
@@ -58,6 +59,7 @@
                 {% endfor %}
             </ol>
           </nav>
+          {% endif %}
         <h1 class="col-12 mx-auto text-left">{{ sub_category_type.name }}</h1>
         {% endif %}
         
