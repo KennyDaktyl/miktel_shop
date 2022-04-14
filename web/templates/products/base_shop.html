@@ -17,12 +17,12 @@
                 {% for cat in categorys %}
                 <li class="active col-12 m-0 p-0 mt-3 pl-2" itemprop="itemListElement" itemscope
                 itemtype="https://schema.org/ListItem">
-                    <a id="Cat{{ cat.id }}" href="#SubMenu{{ cat.id }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle col-12 text-left ml-0 border-bottom CatMenu" itemprop="item">{{ cat.name }}<span class="text-danger"> ({{ cat.products_count }})</span></a><meta itemprop="position" content="{{ forloop.counter }}" />
+                    <a id="Cat{{ cat.id }}" href="#SubMenu{{ cat.id }}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle col-12 text-left ml-0 border-bottom CatMenu" itemprop="item"><span itemprop="name">{{ cat.name }}</span><span class="text-danger"> ({{ cat.products_count }})</span></a><meta itemprop="position" content="{{ forloop.counter }}" />
                     <ul class="col-12 collapse list-unstyled m-0 p-0 text-left bg-white SubCat" id="SubMenu{{ cat.id }}" itemscope itemtype="https://schema.org/BreadcrumbList">
                         {% for sub_cat in cat.sub_category %}
                         <li class="col-12 m-0 p-0" itemprop="itemListElement" itemscope
                         itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" id="SubCat{{ sub_cat.id }}" class="col-12 text-left ml-2 pl-2 dropdown-toggle SubMenu" data-toggle="collapse" aria-expanded="false" href="#TypeSubMenu{{ sub_cat.id }}">{{ sub_cat.name}}<span itemprop="name" class="text-danger"> ({{ sub_cat.products_count }})</span></a><meta itemprop="position" content="{{ forloop.counter }}" />
+                            <a itemprop="item" id="SubCat{{ sub_cat.id }}" class="col-12 text-left ml-2 pl-2 dropdown-toggle SubMenu" data-toggle="collapse" aria-expanded="false" href="#TypeSubMenu{{ sub_cat.id }}"><span itemprop="name">{{ sub_cat.name}}</span><span itemprop="name" class="text-danger"> ({{ sub_cat.products_count }})</span></a><meta itemprop="position" content="{{ forloop.counter }}" />
                             <ul class="col-12 list-unstyled m-0 p-0 text-left bg-white TypeSubCat collapse" id="TypeSubMenu{{ sub_cat.id }}">
                                 {% for type in sub_cat.sub_cat_type %}
                                 <li class="col-12 ml-0">
