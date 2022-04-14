@@ -72,7 +72,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="" id="prod_id{{item.product.id}}">
                             <input type="number" name="qty" id="qty{{item.product.id}}" value="{{item.quantity}}"
-                                min="1" max="{{item.product_id.qty}}" style="max-width: 50px;" class="text-center">
+                                min="1" max="{{item.product.qty}}" style="max-width: 50px;" class="text-center">
                             <button value="{{item.product.id}}" class="btn btn-secondary change_qty mx-auto"
                                 type="button" data-action="add">
                                 <i class="fas fa-exchange-alt"></i></button>

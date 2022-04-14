@@ -19,56 +19,70 @@ class Cart(object):
         """
         Dodanie produktu do koszyka lub edycja parametrów
         """
-        if str(product.id) in self.cart:
-            if update_quantity:
-                self.cart[str(product.id)]["quantity"] = int(quantity)
+        if int(quantity) > 0:
+            if str(product.id) in self.cart:
+                product_org = Products.objects.get(pk=product.id)
+                if update_quantity:
+                    self.cart[str(product.id)]["quantity"] = int(quantity)
+                    qty = int(self.cart[str(product.id)]["quantity"])
+                else:
+                    qty = int(self.cart[str(product.id)]["quantity"])
+                    if (qty + int(quantity)) > product_org.qty:
+                        qty = product_org.qty
+                    else:
+                        self.cart[str(product.id)]["quantity"] = qty + int(quantity)
+                if qty >= product_org.qty:
+                    self.cart[str(product.id)]["quantity"] = product_org.qty
                 qty = int(self.cart[str(product.id)]["quantity"])
+                self.cart[str(product.id)]["price"] = float(product.price_promo)
+                self.cart[str(product.id)]["price_netto"] = round(
+                    float(product.price_promo) / float("1." + "23"), 2
+                )
+                total_netto = round(
+                    ((float(self.cart[str(product.id)]["price_netto"])) * qty), 2
+                )
+                self.cart[str(product.id)]["t_netto"] = total_netto
+                total_brutto = round(((float(product.price_promo)) * qty), 2)
+                self.cart[str(product.id)]["t_brutto"] = total_brutto
+                self.cart[str(product.id)]["discount"] = float(product.discount)
+                self.cart[str(product.id)]["vat"] = product.tax.name
+                self.cart[str(product.id)]["total_vat"] = round(
+                    (total_brutto - total_netto), 2
+                )
+                self.cart[str(product.id)]["name"] = product.name
+                self.save()
+                print(qty)
             else:
+                self.cart[str(product.id)] = {
+                    "quantity": str(quantity),
+                    "price": str(product.price_promo),
+                    "discount": str(product),
+                }
+                product_org = Products.objects.get(pk=product.id)
                 qty = int(self.cart[str(product.id)]["quantity"])
-                self.cart[str(product.id)]["quantity"] = qty + int(quantity)
-            qty = int(self.cart[str(product.id)]["quantity"])
-            self.cart[str(product.id)]["price"] = float(product.price_promo)
-            self.cart[str(product.id)]["price_netto"] = round(
-                float(product.price_promo) / float("1." + "23"), 2
-            )
-            total_netto = round(
-                ((float(self.cart[str(product.id)]["price_netto"])) * qty), 2
-            )
-            self.cart[str(product.id)]["t_netto"] = total_netto
-            total_brutto = round(((float(product.price_promo)) * qty), 2)
-            self.cart[str(product.id)]["t_brutto"] = total_brutto
-            self.cart[str(product.id)]["discount"] = float(product.discount)
-            self.cart[str(product.id)]["vat"] = product.tax.name
-            self.cart[str(product.id)]["total_vat"] = round(
-                (total_brutto - total_netto), 2
-            )
-            self.cart[str(product.id)]["name"] = product.name
-            self.save()
-        else:
-            self.cart[str(product.id)] = {
-                "quantity": str(quantity),
-                "price": str(product.price_promo),
-                "discount": str(product),
-            }
-            self.cart[str(product.id)]["price"] = float(product.price_promo)
-            self.cart[str(product.id)]["price_netto"] = round(
-                float(product.price_promo) / float("1." + "23"), 2
-            )
-            total_netto = round(
-                ((float(self.cart[str(product.id)]["price_netto"])) * int(quantity)),
-                2,
-            )
-            self.cart[str(product.id)]["t_netto"] = total_netto
-            total_brutto = round(((float(product.price_promo)) * int(quantity)), 2)
-            self.cart[str(product.id)]["t_brutto"] = total_brutto
-            self.cart[str(product.id)]["discount"] = float(product.discount)
-            self.cart[str(product.id)]["quantity"] = int(quantity)
-            self.cart[str(product.id)]["vat"] = product.tax.name
-            self.cart[str(product.id)]["total_vat"] = round(
-                (total_brutto - total_netto), 2
-            )
-            self.cart[str(product.id)]["name"] = product.name
-            self.save()
+                if qty + int(quantity) >= product_org.qty:
+                    self.cart[str(product.id)]["quantity"] = product_org.qty
+                self.cart[str(product.id)]["price"] = float(product.price_promo)
+                self.cart[str(product.id)]["price_netto"] = round(
+                    float(product.price_promo) / float("1." + "23"), 2
+                )
+                total_netto = round(
+                    ((float(self.cart[str(product.id)]["price_netto"])) * int(quantity)),
+                    2,
+                )
+                self.cart[str(product.id)]["t_netto"] = total_netto
+                total_brutto = round(((float(product.price_promo)) * int(quantity)), 2)
+                self.cart[str(product.id)]["t_brutto"] = total_brutto
+                self.cart[str(product.id)]["discount"] = float(product.discount)
+                self.cart[str(product.id)]["quantity"] = int(quantity)
+                self.cart[str(product.id)]["vat"] = product.tax.name
+                self.cart[str(product.id)]["total_vat"] = round(
+                    (total_brutto - total_netto), 2
+                )
+                self.cart[str(product.id)]["name"] = product.name
+                self.save()
+                print(qty)
+
 
     def remove(self, product):
         """

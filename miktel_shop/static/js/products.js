@@ -40,9 +40,7 @@ $(document).ready(function () {
        qty_value = $(this).val(); 
     });
 
-    console.log('OK');
     add_product.on("click", function () {
-        console.log('OK-2');
         $.ajax({
             url: url_address,
             type: "POST",

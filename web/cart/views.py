@@ -41,12 +41,13 @@ class EditQtyProduct(View):
             cart.add(product=product, quantity=qty, update_quantity=True)
             cart_dict = request.session.get(settings.CART_SESSION_ID)
             dict_obj = {
+                "quantity": cart_dict[str(product.id)]["quantity"], 
                 "t_netto": cart_dict[str(product.id)]["t_netto"],
                 "t_brutto": cart_dict[str(product.id)]["t_brutto"],
                 "total_netto": float(cart.get_total_price_netto()),
                 "total": float(cart.get_total_price()),
                 "len": cart.len(),
-                "in_stock": product.qty - int(qty),
+                "in_stock": product.qty - int(cart_dict[str(product.id)]["quantity"]),
             }
             serialized = json.dumps(dict_obj)
             return HttpResponse(serialized)
