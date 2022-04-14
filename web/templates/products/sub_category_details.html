@@ -43,6 +43,7 @@
                 {% endfor %}
             </ol>
           </nav>
+          {% if sizes %}
           <nav class="col-12 mx-auto" aria-label="breadcrumb" >
             <ol class="breadcrumb bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
                 {% for size in sizes %} 
@@ -51,7 +52,7 @@
                 {% endfor %}
             </ol>
           </nav>
-         
+         {% endif %}
         </div>
     <div class="col-12 mx-auto ml-0 mr-0 p-0 row d-flex align-items-start offer">
         <div class="col-12 mt-1 max-auto">
