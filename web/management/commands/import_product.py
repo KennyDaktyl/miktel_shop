@@ -84,9 +84,9 @@ class Command(BaseCommand):
                 created, product = Products.objects.get_or_create(
                     name="Klucz mieszkaniowy " + row["Nazwa"],
                     sub_category_type=sub_cat_type,
-                    code=row["Kod"],
+                    # code=row["Kod"],
                     size=size,
-                    price_netto_purchase=row["Cena net."],
+                    # price_netto_purchase=row["Cena net."],
                     qty=row["Ilość"],
                     price=row["Cena sprz"],
                     image="images/products/no_image.webp",
