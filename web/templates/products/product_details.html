@@ -109,6 +109,12 @@
                 <small class="col-8 text-left m-0 p-0 text-dark">{{ object.size.name }}</small>    
             </div>
             {% endif %}
+            {% if object.color %}
+            <div class="col-12 row text-left mx-auto d-flex align-items-center">
+                <span class="col-4 text-left m-0 p-0 font-weight-bold">Kolor:</span>
+                <small class="col-8 text-left m-0 p-0 text-dark">{{ object.color.name }}</small>    
+            </div>
+            {% endif %}
             <div class="col-12 row text-left mx-auto">
                 <span class="col-4 text-left m-0 p-0 font-weight-bold">Ilość:</span> 
                 {% if object.qty > 0 %}
