@@ -65,8 +65,8 @@ def mapping_category(cat_row):
 class Command(BaseCommand):
     def handle(self, *args, **options):
 
-        category = Category.objects.get(name="Grawerowanie laserowe")
-        sub_category = SubCategory.objects.get(name="Laminaty")
+        category = Category.objects.get(name="Dorabianie kluczy")
+        sub_category = SubCategory.objects.get(name="Klucze mieszkaniowe")
         product_type = SubCategoryType()
         print(category, sub_category)
 
@@ -83,17 +83,17 @@ class Command(BaseCommand):
                 size, created = Size.objects.get_or_create(name=row["Size"])
                 sub_cat_type, created = SubCategoryType.objects.get_or_create(
                     name=row["Asortyment"], sub_category=sub_category)
-                color, created = Colors.objects.get_or_create(name=row["Kolor"])
-                brand = Brand.objects.get(name="Colop")
+                # color, created = Colors.objects.get_or_create(name=row["Kolor"])
+                brand = Brand.objects.get(name="Expres")
                 created, product = Products.objects.get_or_create(
-                    name="Laminat " + row["Nazwa"],
+                    name=row["Nazwa"],
                     sub_category_type=sub_cat_type,
                     # code=row["Kod"],
                     size=size,
                     # price_netto_purchase=row["Cena net."],
                     qty=row["Ilość"],
                     price=row["Cena sprz"],
-                    color=color,
+                    # color=color,
                     brand=brand,
                     image="images/products/no_image.webp",
                     tax=tax,
