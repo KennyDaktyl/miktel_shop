@@ -8,6 +8,7 @@ from .orders import DeliveryMethod  # noqa
 from .orders import Orders  # noqa
 from .orders import Invoices  # noqa
 from .orders import ProductCopy  # noqa
+from .orders import Citys
 from .products import Products  # noqa
 from .products import Brand  # noqa
 from .products import Vat  # noqa

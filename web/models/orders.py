@@ -310,3 +310,16 @@ class Invoices(BaseModel):
 @receiver(pre_delete, sender=Invoices)
 def mymodel_delete(sender, instance, **kwargs):
     instance.pdf.delete(False)
+
+
+class Citys(BaseModel):
+    name = models.CharField(
+        verbose_name="Nazwa miejscowości", max_length=256, null=True, blank=True
+    )
+    rybna_area = models.BooleanField(
+        verbose_name="Okolica Rybnej", default=False
+    )
+
+    class Meta:
+        ordering = ("name",)
+        verbose_name_plural = "Miasta"
