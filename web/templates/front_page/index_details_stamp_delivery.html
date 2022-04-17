@@ -11,17 +11,17 @@
 <meta property="og:description" content="" />
 <meta property="og:image" content="" />
 
-<link rel="canonical" href="" />
-<meta name="description" content="">
-<title>Wyrób pieczątek | Lista miast</title>
+<link rel="canonical" href="{{ get_domain }}{{ object.get_absolute_url }}" />
+<meta name="description" content="{{ object.description }}">
+<title>{{ object.title }}</title>
 {% endblock %}
 
 
 {% block content %}
-<div class="col-12 mx-auto text-center row">
-    <h2>{{ object.name }}</h2><span>, </span>
+<div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
+    <h2 class="col-12 mx-auto text-center">{{ object.name }}</h2>
     {% for city in object.citys_of_index %}
-        <p class="">{{ city.name }}</p>
+        <a href="{{ BASE_URL }}{{ city.get_absolute_url }}"><p class="">{{ city.name }}</p></a><span>, </span>
     {% endfor %}
 </div> 
 {% endblock %}

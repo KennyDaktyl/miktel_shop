@@ -12,7 +12,7 @@ from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from web.models import Images
 from web.models.articles import Articles
-from web.models.orders import IndexAlfa, Citys
+from web.models.orders import IndexAlfaStamp, Citys
 from web.models.products import Products
 
 
@@ -32,7 +32,6 @@ class FirstPage(View):
         possible_ids = random.sample(possible_ids, 8)
         random_recommended_products = qs.filter(pk__in=possible_ids)
         is_top = Products.objects.filter(is_top=True)
-        print(is_top)
         promo_products = Products.objects.filter(is_promo=True).order_by(
             "created_time"
         )[:8]
@@ -46,9 +45,7 @@ class FirstPage(View):
             "articles": articles,
             "app_id": os.environ.get("APP_ID"),
         }
-        print(img_carousel_first.image)
         return render(request, "front_page/first_page.html", ctx)
-
 
 # @method_decorator(
 #     csp_update(
@@ -100,13 +97,13 @@ class TermsAndRulesPage(View):
 class IndexCitysStamDelivery(ListView):
     template_name = "front_page/index_list_citys.html"
     # paginate_by = 20
-    model = IndexAlfa
+    model = IndexAlfaStamp
 
 
 class IndexCityDetailsStamDelivery(DetailView):
     template_name = "front_page/index_details_stamp_delivery.html"
     # paginate_by = 20
-    model = IndexAlfa
+    model = IndexAlfaStamp
 
 
 class CityDetailsStamDelivery(DetailView):

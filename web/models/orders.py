@@ -315,7 +315,7 @@ def mymodel_delete(sender, instance, **kwargs):
     instance.pdf.delete(False)
 
 
-class IndexAlfa(models.Model):
+class IndexAlfaStamp(models.Model):
     created_time = models.DateTimeField(default=timezone.now, db_index=True)
     name = models.CharField(
         verbose_name="Nazwa miejscowości", max_length=256, null=True, blank=True
@@ -332,6 +332,13 @@ class IndexAlfa(models.Model):
     city_five = models.ForeignKey(
         'Citys', related_name='city_five', on_delete=models.CASCADE, null=True, blank=True)
     
+    meta_description = models.CharField(
+        verbose_name="Meta description dla indexu", blank=True, null=True, max_length=160
+    )
+    meta_title = models.CharField(
+        verbose_name="Meta title dla indexu", blank=True, null=True, max_length=60
+    )
+
     class Meta:
         ordering = ("name",)
         verbose_name_plural = "Index alpfa"
@@ -359,7 +366,11 @@ class IndexAlfa(models.Model):
             self.city_five = citys[4]
         except:
             pass
-        super(IndexAlfa, self).save()
+        if not self.meta_description:
+            self.meta_description = f"Lista miast na literę {self.name} do których możliwa jest wysyłka wyrobionej pieczątki zakupionej w serwiswrybnej.pl."[0:160]
+        if not self.meta_title:
+            self.meta_title = f"Wysyłamy pieczątki do | lista miast na literę {self.name}"
+        super(IndexAlfaStamp, self).save()
 
     def get_absolute_url(self):
         return reverse(
@@ -391,6 +402,13 @@ class Citys(models.Model):
     )
     created_time = models.DateTimeField(default=timezone.now, db_index=True)
 
+    meta_description = models.CharField(
+        verbose_name="Meta description dla miasta", blank=True, null=True, max_length=160
+    )
+    meta_title = models.CharField(
+        verbose_name="Meta title dla miasta", blank=True, null=True, max_length=60
+    )
+    
     def get_absolute_url(self):
         return reverse(
             "city_details_stamp_delivery",
@@ -407,6 +425,11 @@ class Citys(models.Model):
     def save(self, *args, **kwargs):
         self.index_alfa = self.name[0]
         self.slug = slugify(self.name.replace("ł", "l"))
+        if not self.meta_description:
+            self.meta_description = f"Nie trać czasu i zamów wyrobienie pieczątki online, a wyślemy ją do {self.name} kurierem w ciągy 24 godzin."[
+                0:160]
+        if not self.meta_title:
+            self.meta_title = f"Zamów wyrobienie pieczątki | Wysyłka do {self.name}"
         super(Citys, self).save()
 
     def __str__(self):

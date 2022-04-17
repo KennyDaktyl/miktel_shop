@@ -12,16 +12,16 @@
     content="" />
 <meta property="og:image" content="" />
 
-<link rel="canonical" href="" />
-<meta name="description"
-    content="">
+<link rel="canonical" href="{{ get_domain }}/wyrob-pieczatek-wysylka-lista-miast" />
+<meta name="description" content="Lista miast do których wysyłamy zamówione pieczątki online w sklepie internetowym {{ get_domain }}">
 <title>Wyrób pieczątek | Lista miast</title>
 {% endblock %}
 
 
 {% block content %}
-<div class="col-12 mx-auto text-center row">
+<div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
     {% for index_alfa in object_list %}
+        {% if index_alfa.city_one %}
         <div class="col-2 mx-auto text-center row">
             <a href="{{ BASE_URL }}{{ index_alfa.get_absolute_url }}">
                 <h2 class="col-12 mx-auto text-left text-center">{{ index_alfa.name }}</h2>
@@ -43,6 +43,7 @@
                 </a>, </span>
             </div>
         </div>
+        {% endif %}
     {% endfor %}
 </div>
 {% endblock %}
