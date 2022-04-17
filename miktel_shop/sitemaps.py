@@ -1,9 +1,10 @@
+import imp
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from web.models import Products
 from web.models.products import SubCategory, SubCategoryType
 from web.models.articles import Articles
-
+from web.models.orders import IndexAlfaStamp, Citys
 
 class StaticViewSitemap(Sitemap):
     priority = 0.5
@@ -19,6 +20,7 @@ class StaticViewSitemap(Sitemap):
             "articles_list",
             "privacy_policy",
             "terms",
+            "index_citys_stamp_delivery"
         ]
 
     def location(self, item):
@@ -97,6 +99,42 @@ class ArticleDetailsSiteView(Sitemap):
             kwargs={
                 "category": items.category.slug,
                 "title": items.slug,
+                "pk": items.pk,
+            },
+        )
+
+
+class CitysIndexStampListView(Sitemap):
+    priority = 1.0
+    changefreq = "always"
+    protocol = "https"
+
+    def items(self):
+        return IndexAlfaStamp.objects.all()
+
+    def location(self, items):
+        return reverse(
+            "index_city_detail_stamp_delivery",
+            kwargs={
+                "slug": items.slug,
+                "pk": items.pk,
+            },
+        )
+
+
+class CityIndexStampDetailsView(Sitemap):
+    priority = 1.0
+    changefreq = "always"
+    protocol = "https"
+
+    def items(self):
+        return Citys.objects.all()
+
+    def location(self, items):
+        return reverse(
+            "city_details_stamp_delivery",
+            kwargs={
+                "slug": items.slug,
                 "pk": items.pk,
             },
         )

@@ -15,6 +15,8 @@ from .sitemaps import (
     SubCategoryDetailsSiteView,
     SubCategoryTypeDetailsSiteView,
     ArticleDetailsSiteView,
+    CitysIndexStampListView,
+    CityIndexStampDetailsView
 )
 
 sitemaps = {
@@ -25,6 +27,11 @@ sitemaps = {
     "article_details": ArticleDetailsSiteView,
 }
 
+sitemaps_citys_stamp = {
+    "citys_stamp_delivery": CitysIndexStampListView,
+    "city_stamp_delivery_details": CityIndexStampDetailsView
+}
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("admin/clearcache/", include("clearcache.urls")),
@@ -32,6 +39,12 @@ urlpatterns = [
         "sitemap.xml",
         sitemap,
         {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
+    path(
+        "sitemap_citys_stamp_delivery.xml",
+        sitemap,
+        {"sitemaps": sitemaps_citys_stamp},
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path(

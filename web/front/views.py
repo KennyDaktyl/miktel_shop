@@ -47,6 +47,7 @@ class FirstPage(View):
         }
         return render(request, "front_page/first_page.html", ctx)
 
+
 # @method_decorator(
 #     csp_update(
 #         FRAME_SRC=["'self' https://www.google.com/recaptcha/",

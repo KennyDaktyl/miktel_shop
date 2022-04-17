@@ -5,7 +5,7 @@ import pandas as pd
 from django.core.management.base import BaseCommand
 
 from web.models.orders import (
-    IndexAlfa
+    IndexAlfaStamp
 )
 
 
@@ -17,7 +17,7 @@ class Command(BaseCommand):
         df = data.replace({np.nan: None})
         for index, row in df.iterrows():
             # row_category = mapping_category(row["Asortyment"])
-            index_alfa, created = IndexAlfa.objects.get_or_create(
+            index_alfa, created = IndexAlfaStamp.objects.get_or_create(
                 name=row["Nazwa"])
             print(row["Nazwa"])
             print(created)
