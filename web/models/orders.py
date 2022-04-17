@@ -369,7 +369,7 @@ class IndexAlfaStamp(models.Model):
         if not self.meta_description:
             self.meta_description = f"Lista miast na literę {self.name} do których możliwa jest wysyłka wyrobionej pieczątki zakupionej w serwiswrybnej.pl."[0:160]
         if not self.meta_title:
-            self.meta_title = f"Wysyłamy pieczątki do | lista miast na literę {self.name}"
+            self.meta_title = f"Wysyłamy pieczątki do | lista miast na literę {self.name}"[0:60]
         super(IndexAlfaStamp, self).save()
 
     def get_absolute_url(self):
@@ -429,7 +429,7 @@ class Citys(models.Model):
             self.meta_description = f"Nie trać czasu i zamów wyrobienie pieczątki online, a wyślemy ją do {self.name} kurierem w ciągy 24 godzin."[
                 0:160]
         if not self.meta_title:
-            self.meta_title = f"Zamów wyrobienie pieczątki | Wysyłka do {self.name}"
+            self.meta_title = f"Zamów wyrobienie pieczątki | Wysyłka do {self.name}"[0:60]
         super(Citys, self).save()
 
     def __str__(self):
