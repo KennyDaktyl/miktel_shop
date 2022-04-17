@@ -6,6 +6,9 @@ from django.db.models import Sum
 from django.db.models.signals import pre_delete
 from django.dispatch.dispatcher import receiver
 from django_resized import ResizedImageField
+from django.utils import timezone
+from django.utils.text import slugify
+from django.urls import reverse
 from web.constans import ORDER_STATUS, PAY_METHOD, PAY_ORDER_STATUS
 
 from .base import BaseModel
@@ -312,14 +315,99 @@ def mymodel_delete(sender, instance, **kwargs):
     instance.pdf.delete(False)
 
 
-class Citys(BaseModel):
+class IndexAlfa(models.Model):
+    created_time = models.DateTimeField(default=timezone.now, db_index=True)
     name = models.CharField(
         verbose_name="Nazwa miejscowości", max_length=256, null=True, blank=True
     )
+    slug = models.SlugField(verbose_name="Slug",
+                            blank=True, null=True, max_length=128)
+    city_one = models.ForeignKey('Citys', related_name='city_one', on_delete=models.CASCADE, null=True, blank=True)    
+    city_two = models.ForeignKey(
+        'Citys', related_name='city_two', on_delete=models.CASCADE, null=True, blank=True)
+    city_three = models.ForeignKey(
+        'Citys', related_name='city_three', on_delete=models.CASCADE, null=True, blank=True)
+    city_four = models.ForeignKey(
+        'Citys', related_name='city_four', on_delete=models.CASCADE, null=True, blank=True)
+    city_five = models.ForeignKey(
+        'Citys', related_name='city_five', on_delete=models.CASCADE, null=True, blank=True)
+    
+    class Meta:
+        ordering = ("name",)
+        verbose_name_plural = "Index alpfa"
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name.replace("ł", "l"))
+        citys = Citys.objects.filter(index_alfa=self)[0:5]
+        try:
+            self.city_one = citys[0]
+        except:
+            pass
+        try:
+            self.city_two = citys[1]
+        except:
+            pass
+        try:
+            self.city_three = citys[2]
+        except:
+            pass
+        try:
+            self.city_four = citys[3]
+        except:
+            pass
+        try:
+            self.city_five = citys[4]
+        except:
+            pass
+        super(IndexAlfa, self).save()
+
+    def get_absolute_url(self):
+        return reverse(
+            "index_city_detail_stamp_delivery",
+            kwargs={
+                "slug": self.slug,
+                "pk": self.id,
+            },
+        )
+
+    def citys_of_index(self):
+        return Citys.objects.filter(index_alfa=self)
+
+    def __str__(self):
+        return str(self.name)
+
+
+class Citys(models.Model):
+    index_alfa = models.CharField(
+        verbose_name="Index alfa", max_length=256, null=True, blank=True
+    )
+    name = models.CharField(
+        verbose_name="Nazwa miejscowości", max_length=256, null=True, blank=True
+    )
+    slug = models.SlugField(verbose_name="Slug",
+                            blank=True, null=True, max_length=128)
     rybna_area = models.BooleanField(
         verbose_name="Okolica Rybnej", default=False
     )
+    created_time = models.DateTimeField(default=timezone.now, db_index=True)
+
+    def get_absolute_url(self):
+        return reverse(
+            "city_details_stamp_delivery",
+            kwargs={
+                "slug": self.slug,
+                "pk": self.id,
+            },
+        )
 
     class Meta:
         ordering = ("name",)
         verbose_name_plural = "Miasta"
+
+    def save(self, *args, **kwargs):
+        self.index_alfa = self.name[0]
+        self.slug = slugify(self.name.replace("ł", "l"))
+        super(Citys, self).save()
+
+    def __str__(self):
+        return str(self.name)

@@ -8,8 +8,11 @@ from django.shortcuts import redirect, render
 from django.views import View
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 from web.models import Images
 from web.models.articles import Articles
+from web.models.orders import IndexAlfa, Citys
 from web.models.products import Products
 
 
@@ -94,6 +97,24 @@ class TermsAndRulesPage(View):
         return render(request, "front_page/terms_rules.html", ctx)
 
 
+class IndexCitysStamDelivery(ListView):
+    template_name = "front_page/index_list_citys.html"
+    # paginate_by = 20
+    model = IndexAlfa
+
+
+class IndexCityDetailsStamDelivery(DetailView):
+    template_name = "front_page/index_details_stamp_delivery.html"
+    # paginate_by = 20
+    model = IndexAlfa
+
+
+class CityDetailsStamDelivery(DetailView):
+    template_name = "front_page/city_details_stamp_delivery.html"
+    # paginate_by = 20
+    model = Citys
+
+
 def error_404(request, exception):
     context = {}
     return render(request, "front_page/404.html", context, status=404)
@@ -108,3 +129,6 @@ first_page = FirstPage.as_view()
 contact_page = ContactPage.as_view()
 privacy_policy = PrivacyPolicyPage.as_view()
 terms_rules = TermsAndRulesPage.as_view()
+index_citys_stamp_delivery = IndexCitysStamDelivery.as_view()
+index_city_detail_stamp_delivery = IndexCityDetailsStamDelivery.as_view()
+city_details_stamp_delivery = CityDetailsStamDelivery.as_view()

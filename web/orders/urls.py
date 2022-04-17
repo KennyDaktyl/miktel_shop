@@ -25,4 +25,5 @@ urlpatterns = [
         redirect_from_email,
         name="redirect_from_email",
     ),
+    
 ]

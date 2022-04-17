@@ -1,0 +1,26 @@
+{% extends "front_page/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+
+{% block head %}
+<meta property="fb:app_id" content="{{ app_id }}" />
+<meta property="og:url" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="" />
+<meta property="og:description" content="" />
+<meta property="og:image" content="" />
+
+<link rel="canonical" href="" />
+<meta name="description" content="">
+<title>Wyrób pieczątek | Lista miast</title>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="col-12 mx-auto text-center row">
+    <h2>{{ object.name }}</h2><span>, </span>
+</div>
+{{ object }}
+{% endblock %}

@@ -9,6 +9,7 @@ from django.contrib.auth.admin import UserAdmin
 from weasyprint import HTML
 
 from web.models import *
+from web.models.orders import IndexAlfa
 
 @admin.action(description='Utwórz profil')
 def make_active(modeladmin, request, queryset):
@@ -208,6 +209,17 @@ class InvoicesAdmin(admin.ModelAdmin):
     # list_filter = ('post', )
     # search_fields = ('post', )
     actions = [create_invoice,]
+
+
+@admin.register(IndexAlfa)
+class IndexAlfaAdmin(admin.ModelAdmin):
+    # list_display = [f.name for f in Citys._meta.fields]
+    list_display = ('name', 'city_one', 'city_two',
+                    'city_three', 'city_four', 'city_five', )
+    list_display_links = ('name',)
+    exclude = ['pk']
+    search_fields = ('name', )
+
 
 @admin.register(Citys)
 class CitysAdmin(admin.ModelAdmin):
