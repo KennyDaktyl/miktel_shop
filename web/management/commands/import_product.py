@@ -17,50 +17,6 @@ from web.models.products import (
 )
 
 
-def mapping_category(cat_row):
-    cat = {
-        "5D": "Szkło hartowane 5D",
-        "ADAPTERY": "Adaptery",
-        "AUX": "AUX",
-        "TRANSMITERY": "Transmitery",
-        "ALKALICZNE": "Baterie alkaiczne",
-        "IPHONE": "Baterie Iphone",
-        "FAKE": "Baterie",
-        "ORIGINAL": "Baterie",
-        "ZAMIENNIKI": "Baterie",
-        "FOLIA": "Folie ochronne",
-        "Bezprzewodowe": "Głośniki bezprzewodowe",
-        "INNE": "Inne",
-        "HF": "Słuchawki HF",
-        "HF BLUETOOTH": "Bluetooth",
-        "INDUKCYJNE": "Ładowarki induk.",
-        "JELLY": "Jelly Case",
-        "ORYGINAŁ": "Case Oryginalne",
-        "JELLY SPECJAL": "Jelly Case Special",
-        "KABEL": "kable USB",
-        "KABURA": "Kabury",
-        "ORYGINAŁ KAB.": "Kabury Orygiał",
-        "KABURA SEPCJAL": "Kabury special",
-        "UNIWERSALNE": "Kabury uniwersalne",
-        "ZAMIENNIKIII": "Ładowarka samochodowa",
-        "ZAMIENNIK": "Ładowarka sieciowa",
-        "USB 2.0": "Kara pamięci USB 2.0",
-        "USB 3.0": "Kara pamięci USB 3.0",
-        "POWERBANKI": "Powerbanki",
-        "PREMIUMKI": "Ładowarka samochodowa",
-        "SELFIESTICK": "Kijek selfie",
-        "SPIGEN": "Futerały SPIGEN",
-        "SZKŁO": "Szkło hartowane",
-        "UV": "Folia UV",
-        "GRAWITACYJNE": "Uchwyty samochodowe",
-        "STANDARD": "Uchwyty samochodowe",
-        "SPORT": "Uchwyty samochodowe",
-        "MAGNETYCZNE": "Uchwyty samochodowe",
-        "PREMIUMM": "Ładowarka samochodowa",
-    }
-    if cat_row in cat.keys():
-        return cat[cat_row]
-
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
@@ -104,7 +60,7 @@ class Command(BaseCommand):
                 print(
                     row["Nazwa"],
                     row["Cena sprz"],
-                    row["Kod"],
-                    row["Ilość"],
-                    row["Cena sprz"],
+                    created
+                    # row["Kod"],
+                    # row["Ilość"],
                 )
