@@ -65,6 +65,7 @@ class SelectDetailsProductForm(forms.ModelForm):
         model = Products
         fields = (
             "name",
+            "sub_category_type",
             "brand",
             "size",
             "color",
@@ -75,4 +76,6 @@ class SelectDetailsProductForm(forms.ModelForm):
             "is_recommended",
             "is_news",
             "is_promo",
+            "meta_description",
+            "meta_title"
         )
