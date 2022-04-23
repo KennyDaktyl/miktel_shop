@@ -105,7 +105,8 @@ $(document).ready(function () {
         if ($(this).attr('id').replace('SubMenu', '') == cat.val()) {
             if (ifMobile) {
                 $(this).addClass('show');
-            } 
+            }
+            console.log($(this));
             var active_sub_cat = $('#SubCat' + sub_cat.val());
             active_sub_cat.css('color', 'red');
             $(this).siblings().css('background-color', 'red');
