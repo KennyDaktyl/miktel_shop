@@ -42,7 +42,7 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path(
-        "sitemap_citys_stamp_delivery.xml",
+        "sitemap_citys_stamp_delivery.xml/",
         sitemap,
         {"sitemaps": sitemaps_citys_stamp},
         name="django.contrib.sitemaps.views.sitemap",
