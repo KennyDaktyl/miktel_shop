@@ -54,10 +54,11 @@
           <nav class="col-12 mx-auto" aria-label="breadcrumb" >
             <ol class="breadcrumb bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
                 {% for size in sizes %}
-            <form action="" method="GET" class="row m-0 p-0 breadcrumb_element" itemprop="itemListElement" itemscope
-            itemtype="https://schema.org/ListItem">
-                <button type="submit" name="typ" value="{{size.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1" itemprop="item"><span itemprop="name">{{ size.name }}</span><meta itemprop="position" content="{{ forloop.counter }}" /></button>
-            </form>
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <form action="" method="GET" class="row m-0 p-0 breadcrumb_element" itemprop="item">
+                        <button type="submit" name="typ" value="{{size.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1" itemprop="item"><span itemprop="name">{{ size.name }}</span><meta itemprop="position" content="{{ forloop.counter }}" /></button>
+                    </form>
+                </li>
                 {% endfor %}
             </ol>
           </nav>
