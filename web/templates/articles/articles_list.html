@@ -19,13 +19,40 @@
 {% block title %}{% endblock %}
 
 {% block content %}
-<nav id="link_map" aria-label="breadcrumb" class="col-12 bg-white mx-auto d-md-none row">
-    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'front_page' %}">Strona startowa</a></li>
-    <li class="breadcrumb-item text-dark active" aria-current="page">Blog</li>
-</nav>
-
+<div class="col-12 col-md-9 mx-auto ml-0 mr-0 p-0 offer mt-2 row">
+    <h1 class="col-11 ml-3 pl-1 mt-5">Artykuły tematyczne</h1>
+    <nav class="col-12 mx-auto" aria-label="breadcrumb" >
+        <ol class="breadcrumb bg-white row d-flex align-items-start" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <li class="p-1 m-1 row " itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a class="col-12 breadcrumb_element border border-breadcrumb rounded mx-auto text-center" href="{% url 'articles_list' %}" itemprop="item">
+                    <span itemprop="name">Blog</span>
+                </a><meta itemprop="position" content="1" />
+            </li>
+            {% if categories %}
+            <div class="col-12 m-0 p-0 mt-5 row">
+                <span class="col-12">Filtrowanie</span>
+                {% for article in categories %}
+                <li class="m-1 p-1" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <form action="" method="GET" class="row m-0 p-0 breadcrumb_element" itemprop="item">
+                        <button type="submit" name="typ" value="{{article.pk}}" class="mx-auto breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1" itemprop="item"><span itemprop="name">{{ article.category }}</span><meta itemprop="position" content="{{ forloop.counter }}" /></button>
+                    </form>
+                    {% if article.image %} 
+                    {% load thumbnail %}
+                    {% thumbnail article.image "100" crop='center' format="WEBP"  as im %}
+                    <img src="{{ MEDIA_URL }}{{ im }}" class="mx-auto text-center" alt="{{ article.alt }}" title="{{ article.title }}">
+                    {% endthumbnail %}
+                {% endif %}
+                </li>
+                {% endfor %}
+            </div>
+            </ol>
+          </nav>
+         {% endif %}
+        </ol>
+    </nav>
+</div>
 <div id="newsInfo" class="col-11 col-md-9 ml-0 mr-0 p-0 mx-auto row offer mt-2 news">
-    <h1 class="col-11 ml-3 pl-1">Artykuły tematyczne</h1>
+   
     {% for article in object_list %}
     <div class="col-12 text-center p-0 ml-0 mr-0 mb-3 article row border-bottom">
         <div class="col-12 col-sm-3 m-0 p-0 mx-auto imgWrap mb-3 align-self-start">

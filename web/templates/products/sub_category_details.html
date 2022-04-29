@@ -37,14 +37,25 @@
             <h2 class="col-12 row">{{ sub_category.name }}</h2>
         {% if sub_category %}
         <nav class="col-12 mx-auto" aria-label="breadcrumb" >
-            <ol class="breadcrumb bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
+            <ol class="breadcrumb bg-white row d-flex align-items-start" itemscope itemtype="https://schema.org/BreadcrumbList">
                 {% for sub_cat_type in sub_category.sub_cat_type %} 
-              <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1" itemprop="itemListElement" itemscope
-              itemtype="https://schema.org/ListItem"><a class="" href="{{ sub_cat_type.get_absolute_url }}" itemprop="item"><span itemprop="name">{{ sub_cat_type.name }}</span></a><meta itemprop="position" content="{{ forloop.counter }}" /></li>
+                        <li class="p-1 m-1 row " itemprop="itemListElement" itemscope
+                        itemtype="https://schema.org/ListItem">
+                        <a class="col-12 breadcrumb_element border border-breadcrumb rounded mx-auto text-center" href="{{ sub_cat_type.get_absolute_url }}" itemprop="item">
+                            <span itemprop="name">{{ sub_cat_type.name }}</span>
+                        </a><meta itemprop="position" content="{{ forloop.counter }}" />
+                        {% if sub_cat_type.image %} 
+                            {% load thumbnail %}
+                            {% thumbnail sub_cat_type.image "100" crop='center' format="WEBP"  as im %}
+                            <img src="{{ MEDIA_URL }}{{ im }}" class="mx-auto text-center" alt="{{ sub_cat_type.alt }}" title="{{ sub_cat_type.title }}">
+                            {% endthumbnail %}
+                        {% endif %}
+                        </li>
                 {% endfor %}
           {% endif %}
           {% if sizes %}
             <div class="col-12 m-0 p-0 mt-5 row">
+            <span class="col-12">Filtrowanie</span>
                 {% for size in sizes %} 
               <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1" itemprop="itemListElement" itemscope
               itemtype="https://schema.org/ListItem">

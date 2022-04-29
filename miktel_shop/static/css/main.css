@@ -420,12 +420,12 @@ i.stockInfo {
 }
 
 
-.breadcrumb_element a {
+.breadcrumb_element span {
     color: black;
     text-decoration: none;
 } 
 
-.breadcrumb_element a:hover {
+.breadcrumb_element span:hover {
     color: blueviolet;
 }
 
