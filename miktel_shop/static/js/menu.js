@@ -91,5 +91,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
             nav_main_xl.style.top = nav_position_xl_const - y_scroll_pos + "px";
         };
     });
-    
+    document.addEventListener('keyup', pageDown);
+    function pageDown(e) {
+        if (e.keyCode === 34) {
+            header_top.classList.add('fixed_menu');
+            nav_main.classList.add('fixed_menu');
+            nav_main_xl.style.top = "0px";
+        }
+        if (e.keyCode === 33) {
+            header_top.classList.remove('fixed_menu');
+            nav_main.classList.remove('fixed_menu');
+        }
+    };
 });

@@ -40,15 +40,14 @@
         <h1 class="col-12 mx-auto text-left">Produkty z kategorii: {{ sub_cat.name }}</h1>
         {% else %}
         {% if sub_category_type %}
-        <h1 class="col-12 mx-auto text-left">{{ sub_category_type.name }}</h1>
+        
         <nav class="col-12 mx-auto " aria-label="breadcrumb" >
             <ol class="breadcrumb breadcrumb_element bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
               <a href="{{ sub_category_type.sub_category.get_absolute_url }}" itemprop="item" class=" border border-breadcrumb rounded p-1 m-1" itemprop="itemListElement" itemscope
               itemtype="https://schema.org/ListItem"><span itemprop="name">{{ sub_category_type.sub_category.name }}</span><meta itemprop="position" content="1" /></a>
               <span class="p-1 m-1">/</span>
-              <a href="{{ sub_category_type.get_absolute_url }}" itemprop="item" class=" border border-breadcrumb rounded p-1 m-1" itemprop="itemListElement" itemscope
-              itemtype="https://schema.org/ListItem"><span itemprop="name">{{ sub_category_type.name }}</span><meta itemprop="position" content="2" /></a>
           {% endif %}<br>
+        <h1 class="col-12 mx-auto text-left">{{ sub_category_type.name }}</h1>
           {% if sizes %}
                     <div class="col-12 m-0 p-0 mt-5 row">
                         <span class="col-12 text-left">Filtrowanie</span>
