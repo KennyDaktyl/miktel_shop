@@ -48,10 +48,10 @@
               <span class="p-1 m-1">/</span>
           {% endif %}<br>
         <h1 class="col-12 mx-auto m-0 p-0 mt-3 text-left">{{ sub_category_type.name }}</h1>
-          {% if sizes %}
-                    <div class="col-12 m-0 p-0 mt-5 row">
+            {% if sizes %}
+                <div class="col-12 m-0 p-0 mt-5 row">
                         <span class="col-12 text-left">Filtrowanie</span>
-                    {% for size in sizes %}
+                {% for size in sizes %}
                     <li class="" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
                         <form action="" method="GET" class="row m-0 p-0 breadcrumb_element" itemprop="item">
                             <button type="submit" name="typ" value="{{size.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1" itemprop="item"><span itemprop="name">{{ size.name }}</span><meta itemprop="position" content="{{ forloop.counter }}" /></button>
@@ -59,9 +59,23 @@
                     </li>
                     {% endfor %}
                 </div>
+               
+            {% endif %}
+
+            {% if brands %}
+                <div class="col-12 m-0 p-0 mt-5 row">
+                        <span class="col-12 text-left">Producent</span>
+                {% for brand in brands %}
+                    <li class="" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                        <form action="" method="GET" class="row m-0 p-0 breadcrumb_element" itemprop="item">
+                            <button type="submit" name="brand" value="{{brand.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1" itemprop="item"><span itemprop="name">{{ brand.name }}</span><meta itemprop="position" content="{{ forloop.counter }}" /></button>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </div>
                 </ol>
               </nav>
-              {% endif %}
+            {% endif %}
        
         {% endif %}
         

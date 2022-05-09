@@ -8,7 +8,7 @@ from django.views.generic.detail import DetailView
 from numpy import size
 from rest_framework import generics, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
-from web.models import Category, Products, SubCategory, SubCategoryType, Size
+from web.models import Category, Products, SubCategory, SubCategoryType, Size, Brand
 
 from .forms import AddGalleryPhotoForm, AddMainPhotoForm, SelectDetailsProductForm
 from .serializers import ProductSerializer
@@ -62,14 +62,19 @@ class SubCategoryTypeProducts(ListView):
         )
         if self.request.GET.get('typ'):
             return products.filter(size=int(self.request.GET.get('typ')))
+        if self.request.GET.get('brand'):
+            return products.filter(brand=int(self.request.GET.get('brand')))
         return products
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["sub_category_type"] = self.sub_category_type
-        sizes_pk = self.object_list.values_list(
+        size_ids = self.object_list.values_list(
             'size', flat=True).distinct().order_by()
-        context["sizes"] = Size.objects.filter(pk__in=[sizes_pk])
+        brand_ids = self.object_list.values_list(
+            'brand', flat=True).distinct().order_by()
+        context["sizes"] = Size.objects.filter(pk__in=[size_ids])
+        context["brands"] = Brand.objects.filter(pk__in=[brand_ids])
         return context
 
 
