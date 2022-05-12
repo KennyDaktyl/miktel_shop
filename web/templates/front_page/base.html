@@ -100,18 +100,14 @@
             <ul id="nav_main_ul" class="col-12 mx-auto m-0 p-0 row">
                 <i id="menu_burger" class="col-3 fas fa-bars text-center m-0 p-0"></i>
                 <div class="col-lg-12 m-0 p-0" id="navbarTogglerMenu">
-                    <ul itemscope itemtype="https://schema.org/BreadcrumbList" id="nav_menu" class="col-12 row m-0 p-0 overflow-auto">
-                        <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
-                            <a itemprop="item" class="col-10 nav-link text-left mx-auto" href="{% url 'front_page' %}"
-                                title="Sklep On-line"><span itemprop="name">Home</span></a><span class="col-2"></span>
-                                <meta itemprop="position" content="1" />
+                    <ul id="nav_menu" class="col-12 row m-0 p-0 overflow-auto">
+                        <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
+                            <a class="col-10 nav-link text-left mx-auto" href="{% url 'front_page' %}"
+                                title="Sklep On-line">Home</a>
                         </li>
-                        <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
-                            <a itemprop="item" class="col-10 nav-link text-left text-danger mx-auto" href="{% url 'shop_main_view' %}"
-                                title="Sklep On-line"><span itemprop="name">Sklep On-line</span></a><span class="col-2"></span>
-                                <meta itemprop="position" content="2" />
+                        <li class="col-lg-2 nav-item d-flex align-items-center mx-auto text-center m-0 p-0 row">
+                            <a class="col-10 nav-link text-left text-danger mx-auto" href="{% url 'shop_main_view' %}"
+                                title="Sklep On-line">Sklep On-line</a>
                         </li>
                         {% for category in categorys %}
                         <ul id="cat{{ category.id}}"
@@ -119,7 +115,7 @@
                             type="button" data-toggle="collapse" data-target="#navbarToggler{{ category.id}}"
                             aria-controls="navbarToggler{{ category.id}}" aria-expanded="false"
                             aria-label="Toggle navigation">
-                            <span itemprop="name" class="col-7 nav-link text-left mx-auto" href="" title="Pieczątki Colop">{{ category.name }}</span>
+                            <span title="">{{ category.name }}</span>
                             {% if category.image %}
                             <div class="col-3 p-0 m-0">
                                 <img loading="lazy" src="{{ MEDIA_URL }}{{ category.image }}" height="38px" width="100%"
@@ -134,35 +130,27 @@
                             <div class="col-12 m-0 p-0 collapse navbar-collapse collapse_menu"
                                 id="navbarToggler{{ category.id }}">
                                 {% for sub_cat in category.sub_category %}
-                                <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
-                                    <a itemprop="item" class="col-10 nav-link text-left mx-auto"
+                                <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
+                                    <a class="col-10 nav-link text-left mx-auto"
                                         href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}"
-                                        title=""><span itemprop="name">{{ sub_cat.name}}</span></a>
-                                        <meta itemprop="position" content="2{{ forloop.counter|plus_value:2 }}" />
+                                        title="">{{ sub_cat.name}}</a>
                                 </li>
                                 {% endfor %}
                             </div>
                         </ul>
                         {% endfor %}
-                        <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
-                            <a itemprop="item" class="col-10 nav-link text-left mx-auto" href="{% url 'articles_list' %}"
-                                title="Artukuły bloga"><span itemprop="name">Blog</span></a><span class="col-2"></span>
-                                <meta itemprop="position" content="888" />
+                        <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
+                            <a class="col-10 nav-link text-left mx-auto" href="{% url 'articles_list' %}"
+                                title="Artukuły bloga">Blog</a><span class="col-2"></span>
                         </li>
-                        <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
-                            <a itemprop="item" class="col-10 nav-link text-left mx-auto" href="{% url 'terms' %}"
-                                title="Regulamin"><span itemprop="name">Regulamin</span></a><span class="col-2"></span>
-                                <meta itemprop="position" content="889" />
+                        <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
+                            <a class="col-10 nav-link text-left mx-auto" href="{% url 'terms' %}"
+                                title="Regulamin">Regulamin</a><span class="col-2"></span>
                         </li>
-                        <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
-                            <a itemprop="item" class="col-10 nav-link text-left mx-auto" href="{% url 'contact_page' %}"
-                                title="Kontak z restauracją"><span itemprop="name">Kontakt</span></a>
+                        <li class="col-12 nav-item d-flex align-items-center mx-auto m-0 p-0 row">
+                            <a class="col-10 nav-link text-left mx-auto" href="{% url 'contact_page' %}"
+                                title="Kontak z serwisem">Kontakt</a>
                             <span class="col-2"></span>
-                            <meta itemprop="position" content="890" />
                         </li>
                     </ul>
                 </div>
@@ -199,49 +187,36 @@
         </nav>
         <nav id="nav_main_xl" class="col-12 mx-auto text-center d-none d-lg-block navbar navbar-expand-lg bg-light">
             <div class="col-12 m-0 p-0 mx-auto text-center collapse navbar-collapse" id="navbarSupportedContent">
-                <ul itemscope itemtype="https://schema.org/BreadcrumbList" class="navbar-nav mx-auto row m-0 p-0 text-center">
-                    <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="nav-item active">
-                        <a itemprop="item" class="nav-link" href="{% url 'front_page' %}"><span itemprop="name">Home</span><span
+                <ul class="navbar-nav mx-auto row m-0 p-0 text-center">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'front_page' %}"><span itemprop="name">Home</span><span
                                 class="sr-only">(current)</span></a>
-                                <meta itemprop="position" content="1" />
                     </li>
-                    <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="nav-item">
-                        <a itemprop="item" class="nav-link text-danger" href="{% url 'shop_main_view' %}"><span itemprop="name">Sklep On-line</span></a>
-                        <meta itemprop="position" content="2" />
+                    <li class="nav-item">
+                        <a class="nav-link text-danger" href="{% url 'shop_main_view' %}">Sklep On-line</a>
                     </li>
                     {% for category in categorys %}
-                    <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="nav-item dropdown">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span itemprop="name">{{ category.name }}</span>
-                            <meta itemprop="position" content="1{{ forloop.counter|plus_value:2 }}" />
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ category.name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             {% for sub_cat in category.sub_category %}
-                            <a itemprop="item" class="dropdown-item"
-                                href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}"><span itemprop="name">{{ sub_cat.name }}</span></a>
-                                <meta itemprop="position" content="3{{ forloop.counter|plus_value:2 }}" />
+                            <a class="dropdown-item"
+                                href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}">{{ sub_cat.name }}</a>
                             {% endfor %}
                         </div>
                     </li>
                     {% endfor %}
-                    <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="nav-item">
-                        <a itemprop="item" class="nav-link" href="{% url 'articles_list' %}"><span itemprop="name">Blog</span></a>
-                        <meta itemprop="position" content="888" />
+                    <li class="nav-item">
+                        <a itemprop="item" class="nav-link" href="{% url 'articles_list' %}">Blog</a>
                     </li>
-                    <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="nav-item">
-                        <a itemprop="item" class="nav-link" href="{% url 'terms' %}" title="Regulamin"><span itemprop="name">Regulamin</span></a><span
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'terms' %}" title="Regulamin">Regulamin</a><span
                             class="col-2"></span>
-                            <meta itemprop="position" content="889" />
                     </li>
-                    <li itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem" class="nav-item">
-                        <a itemprop="item" class="nav-link" href="{% url 'contact_page' %}"><span itemprop="name">Kontakt</span></a>
-                        <meta itemprop="position" content="890" />
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact_page' %}">Kontakt</a>
                     </li>
                 </ul>
             </div>
@@ -331,6 +306,64 @@
                 <a class="col-12 mx-auto text-center text-white" href="{% url 'privacy_policy' %}">Polityka
                     prywatności</a>
     </main>
+    <script type="application/ld+json">
+        {
+         "@context": "https://schema.org",
+         "@type": "BreadcrumbList",
+         "itemListElement":
+        [
+            {
+           "@type": "ListItem",
+           "position": 1,
+           "item":
+                {
+                "@id": "{% url 'front_page' %}",
+                "name": "Home"
+                }
+            },
+            {
+            "@type": "ListItem",
+            "position": 2,
+            "item":
+                {
+                "@id": "{% url 'shop_main_view' %}",
+                "name": "Sklep On-line"
+                }
+            },
+           {% for category in categorys %}
+               {% for sub_category in category.sub_category %}
+           {
+            "@type": "ListItem",
+            "position": {{ forloop.parentloop.counter|add:2 }},
+            "item":
+                {
+                "@id": "{{ get_domain }}{{ sub_category.get_absolute_url }}",
+                "name": "{{ sub_category.name }}"
+                }
+            },
+                {% endfor %}
+            {% endfor %}
+            {
+                "@type": "ListItem",
+                "position": 98,
+                "item":
+                    {
+                    "@id": "{% url 'terms' %}",
+                    "name": "Regulamin"
+                    }
+                },
+                 {
+                "@type": "ListItem",
+                "position": 99,
+                "item":
+                {
+                    "@id": "{% url 'contact_page' %}",
+                    "name": "Kontakt"
+                }
+            }
+         ]
+        }
+        </script>
     {% load compress %}
     {% compress js %}
     <script async src="/static/js/jquery.min.js"></script>
@@ -339,6 +372,8 @@
     <script defer src="/static/js/search_products.js" type="text/javascript"></script>
     {% endcompress %}
     {% block script %}
+    
     {% endblock %}
+
 </body>
 </html>

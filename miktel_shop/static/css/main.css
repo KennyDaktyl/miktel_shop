@@ -420,12 +420,12 @@ i.stockInfo {
 }
 
 
-.breadcrumb_element span {
+.breadcrumb_element a {
     color: black;
     text-decoration: none;
 } 
 
-.breadcrumb_element span:hover {
+.breadcrumb_element a:hover {
     color: blueviolet;
 }
 
@@ -434,7 +434,7 @@ i.stockInfo {
     cursor: pointer;
 }
 
-.breadcrumb_element span {
+.breadcrumb_element a {
     font-size: 10px;
 }
 

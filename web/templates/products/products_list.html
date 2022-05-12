@@ -39,22 +39,23 @@
         {% if sub_cat %}
         <h1 class="col-12 mx-auto text-left">Produkty z kategorii: {{ sub_cat.name }}</h1>
         {% else %}
-        {% if sub_category_type %}
+        
         
         <nav class="col-12 mx-auto " aria-label="breadcrumb" >
-            <ol class="breadcrumb breadcrumb_element bg-white row" itemscope itemtype="https://schema.org/BreadcrumbList">
-              <a href="{{ sub_category_type.sub_category.get_absolute_url }}" itemprop="item" class=" border border-breadcrumb rounded p-1 m-1" itemprop="itemListElement" itemscope
-              itemtype="https://schema.org/ListItem"><span itemprop="name">{{ sub_category_type.sub_category.name }}</span><meta itemprop="position" content="1" /></a>
-              <span class="p-1 m-1">/</span>
-          {% endif %}<br>
+            <ol class="breadcrumb breadcrumb_element bg-white row">
+                <a href="{% url 'front_page' %}"class=" border border-breadcrumb rounded p-1 m-1">Strona główna</a>
+            {% if sub_category_type %}
+                <a href="{% url 'shop_main_view' %}"class=" border border-breadcrumb rounded p-1 m-1">Sklep On-line</a>
+                <a href="{{ sub_category_type.sub_category.get_absolute_url }}"class=" border border-breadcrumb rounded p-1 m-1">{{ sub_category_type.sub_category.name }}</a>
+            {% endif %}<br>
         <h1 class="col-12 mx-auto m-0 p-0 mt-3 text-left">{{ sub_category_type.name }}</h1>
             {% if sizes %}
                 <div class="col-12 m-0 p-0 mt-5 row">
                         <span class="col-12 text-left">Filtrowanie</span>
                 {% for size in sizes %}
-                    <li class="" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <form action="" method="GET" class="row m-0 p-0 breadcrumb_element" itemprop="item">
-                            <button type="submit" name="typ" value="{{size.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1" itemprop="item"><span itemprop="name">{{ size.name }}</span><meta itemprop="position" content="{{ forloop.counter }}" /></button>
+                    <li class=""> 
+                        <form action="" method="GET" class="row m-0 p-0 breadcrumb_element">
+                            <button type="submit" name="typ" value="{{size.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1">{{ size.name }}</button>
                         </form>
                     </li>
                     {% endfor %}
@@ -169,6 +170,45 @@
 
 
 {% block script_shop %}
+<script type="application/ld+json">
+    {
+     "@context": "https://schema.org",
+     "@type": "BreadcrumbList",
+     "itemListElement":
+    [
+        {
+       "@type": "ListItem",
+       "position": 1,
+       "item":
+            {
+            "@id": "{{ get_domain }}{% url 'front_page' %}",
+            "name": "Strona główna"
+            }
+        }
+        {% if sub_category_type %}
+        ,
+        {
+        "@type": "ListItem",
+        "position": 2,
+        "item":
+            {
+            "@id": "{{ get_domain }}{% url 'shop_main_view' %}",
+            "name": "Sklep On-line"
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "item":
+                {
+                "@id": "{{ get_domain }}{{ sub_category_type.sub_category.get_absolute_url }}",
+                "name": "{{ sub_category_type.sub_category.name }}"
+                }
+        }
+        {% endif %}
+     ]
+    }
+    </script>
 {% endblock %}
 
 
