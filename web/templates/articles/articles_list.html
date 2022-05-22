@@ -32,7 +32,7 @@
             <div class="col-12 m-0 p-0 mt-5 row">
                 <span class="col-12">Filtrowanie</span>
                 {% for article in categories %}
-                <li class="m-1 p-1" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <li class="m-1 p-1">
                     <form action="" method="GET" class="row m-0 p-0 breadcrumb_element" itemprop="item">
                         <button type="submit" name="typ" value="{{article.pk}}" class="mx-auto breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1" itemprop="item"><span itemprop="name">{{ article.category }}</span><meta itemprop="position" content="{{ forloop.counter }}" /></button>
                     </form>
