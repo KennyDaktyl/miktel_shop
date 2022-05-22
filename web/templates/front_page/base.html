@@ -115,7 +115,7 @@
                             type="button" data-toggle="collapse" data-target="#navbarToggler{{ category.id}}"
                             aria-controls="navbarToggler{{ category.id}}" aria-expanded="false"
                             aria-label="Toggle navigation">
-                            <span title="">{{ category.name }}</span>
+                            <span class="col-7 nav-link text-left mx-auto" title="">{{ category.name }}</span>
                             {% if category.image %}
                             <div class="col-3 p-0 m-0">
                                 <img loading="lazy" src="{{ MEDIA_URL }}{{ category.image }}" height="38px" width="100%"
