@@ -837,6 +837,10 @@ th.th_price {
         font-size: 12px;
     }
 
+    a.sub_cat_type_title {
+        height: 40px;
+    }
+
     img.mini {
         width: 40px;
         height: 40px;

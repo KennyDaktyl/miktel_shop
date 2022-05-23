@@ -41,7 +41,7 @@
             <ol class="breadcrumb bg-white bg-white d-flex align-items-start col-12 m-0 p-0 mx-auto row">
                 {% for sub_cat_type in sub_category.sub_cat_type %} 
                         <li class="col-5 col-md-2 p-1 m-1 row breadcrumb_element border border-breadcrumb rounded text-center">
-                        <a class="col-12 mx-auto" href="{{ sub_cat_type.get_absolute_url }}">{{ sub_cat_type.name }}</a>
+                        <a class="col-12 mx-auto sub_cat_type_title" href="{{ sub_cat_type.get_absolute_url }}">{{ sub_cat_type.name }}</a>
                         {% if sub_cat_type.image %} 
                             {% load thumbnail %}
                             {% thumbnail sub_cat_type.image "100x150" crop='center' format="WEBP"  as im %}
