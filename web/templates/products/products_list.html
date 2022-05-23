@@ -55,7 +55,7 @@
                 {% for size in sizes %}
                     <li class=""> 
                         <form action="" method="GET" class="row m-0 p-0 breadcrumb_element">
-                            <button type="submit" name="typ" value="{{size.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1">{{ size.name }}</button>
+                            <button type="submit" name="typ" value="{{size.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1"><span>{{ size.name }}</span></button>
                         </form>
                     </li>
                     {% endfor %}
@@ -67,9 +67,9 @@
                 <div class="col-12 m-0 p-0 mt-5 row">
                         <span class="col-12 text-left">Producent</span>
                 {% for brand in brands %}
-                    <li class="" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                        <form action="" method="GET" class="row m-0 p-0 breadcrumb_element" itemprop="item">
-                            <button type="submit" name="brand" value="{{brand.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1" itemprop="item"><span itemprop="name">{{ brand.name }}</span><meta itemprop="position" content="{{ forloop.counter }}" /></button>
+                    <li class="">
+                        <form action="" method="GET" class="row m-0 p-0 breadcrumb_element">
+                            <button type="submit" name="brand" value="{{brand.pk}}" class="breadcrumb_element bg-white border border-breadcrumb rounded p-1 m-1"><span>{{ brand.name }}</span></button>
                         </form>
                     </li>
                     {% endfor %}

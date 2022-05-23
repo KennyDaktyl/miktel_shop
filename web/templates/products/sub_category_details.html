@@ -21,6 +21,7 @@
     <input type="hidden" id='cat' value="{{ sub_category.category.id }}">
     <input type="hidden" id='sub_cat' value="{{ sub_category.id }}">
     <input type="hidden" id='sub_cat_type' value="{{ sub_category.sub_category_type.id }}">
+    
 
     <div class="col-12 mx-auto m-0 p-0" style="background-color: black;">
         {% load thumbnail %}
@@ -44,7 +45,9 @@
                         {% if sub_cat_type.image %} 
                             {% load thumbnail %}
                             {% thumbnail sub_cat_type.image "100" crop='center' format="WEBP"  as im %}
-                            <img src="{{ MEDIA_URL }}{{ im }}" class="mx-auto text-center" alt="{{ sub_cat_type.alt }}" title="{{ sub_cat_type.title }}">
+                            <a class="col-12 mx-auto" href="{{ sub_cat_type.get_absolute_url }}">
+                                <img src="{{ MEDIA_URL }}{{ im }}" class="mx-auto text-center" alt="{{ sub_cat_type.alt }}" title="{{ sub_cat_type.title }}">
+                            </a>
                             {% endthumbnail %}
                         {% endif %}
                         </li>
@@ -191,5 +194,3 @@
     }
     </script>
 {% endblock %}
-
-
