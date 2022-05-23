@@ -44,7 +44,7 @@
                         <a class="col-12 mx-auto" href="{{ sub_cat_type.get_absolute_url }}">{{ sub_cat_type.name }}</a>
                         {% if sub_cat_type.image %} 
                             {% load thumbnail %}
-                            {% thumbnail sub_cat_type.image "100" crop='center' format="WEBP"  as im %}
+                            {% thumbnail sub_cat_type.image "100x150" crop='center' format="WEBP"  as im %}
                             <a class="col-12 mx-auto" href="{{ sub_cat_type.get_absolute_url }}">
                                 <img src="{{ MEDIA_URL }}{{ im }}" class="mx-auto text-center" alt="{{ sub_cat_type.alt }}" title="{{ sub_cat_type.title }}">
                             </a>
