@@ -829,6 +829,10 @@ th.th_price {
         font-size: 15px;
     }
 
+    .breadcrumb_element a {
+        font-size: 12px;
+    }
+
     .breadcrumb_element span {
         font-size: 12px;
     }
