@@ -22,7 +22,7 @@ if socket.gethostname() in [
     STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY_TEST")
     STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY_TEST")
     ALLOWED_HOSTS = [
-        "127.0.0.1",
+        "127.0.0.1", "localhost", 
         "e372-185-172-87-165.ngrok.io",
     ]
 else:

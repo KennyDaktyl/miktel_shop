@@ -112,6 +112,11 @@ class CityDetailsStamDelivery(DetailView):
     # paginate_by = 20
     model = Citys
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = Products.objects.filter(sub_category_type__sub_category__category=2)
+        return context
+
 
 def error_404(request, exception):
     context = {}

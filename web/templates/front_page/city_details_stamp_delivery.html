@@ -17,7 +17,65 @@
 {% endblock %}
 
 {% block content %}
-<div class="col-12 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
-    <h2>{{ object.name }}</h2><span>, </span>
+<div class="col-11 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
+    <div class="col-12 mx-auto m-0 p-0">
+        <h1 class="m-0 p-0">Zamów pieczątkę on-line</h1><p> z wysłką do paczkomatu Inpost dla miejscowości:</p>
+    </div>
+    <h2 class="col-12 m-0 p-0">{{ object.name }}</h2>
+    <p class="m-0 p-0 mt-3 col-12">Link do działu:</p><a href="https://serwiswrybnej.pl/produkty/kategoria/pieczatki/pieczatki-firmowe/5">Pieczątki firmowe</a>
+</div>
+<div class="col-12 mx-auto text-center m-0 p-0 mt-3 row">
+    {% for product in products %}
+        <div itemscope itemtype="http://schema.org/Product" class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">
+            <div id="showOption" class="col-12 row mx-auto d-flex align-items-center">
+                <form id="form" action="{% url 'add_product' %}" method="POST" class="col-12 row m-0 p-0">
+                    {% csrf_token %}
+                    <input type="hidden" name="" id="prod_id" value="{{product.id}}">
+                 <input id="qty" name="qty" type="hidden" value="1">
+                 <a itemprop="url" href="{{ product.get_absolute_url }}" class="col-10 text-white align-self-stretch col-6 mx-auto d-flex align-items-center text-decoration-none text-center" style="height: 40px;">
+                    <i class="fas fa-info-circle text-white align-self-center mx-auto col-12 m-0 p-0 "><span class="p-2 m-2">Details</span></i>
+                </a>
+                </form>
+            </div>
+            <div class="col-12 mx-auto text-center row">
+                {% if product.is_news %}
+                <div class="boxNovelty smallBox m-2">NEW</div>
+                {% else %}
+                <div class="smallBox m-2"></div>
+                {% endif %}
+                {% if product.discount > 0 %}
+                <div class="boxPromo smallBox bg-danger m-2">{{ product.discount }}%</div>
+                {% else %}
+                <div class="smallBox m-2"></div>
+                {% endif %}
+            </div>
+        <div class="col-12 m-2 mx-auto text-center">
+            {% load thumbnail %}
+            {% thumbnail product.image "200x200" crop='center' format="WEBP"  as im %}
+            <img itemprop="image" src="{{ MEDIA_URL }}{{ im }}" class="img-thumbnail mx-auto col-12 m-0 p-0" alt="{{ product.alt }}" title="{{ product.title }}">
+            {% endthumbnail %}
+        </div>
+            <p itemprop="name" class="productName col-12 mx-auto text-center text-uppercase">{{product.name}}</p>
+            <span itemprop="brand" itemscope itemtype="http://schema.org/Brand" class="col-12 m-0 p-0 mx-auto text-center">
+                <p itemprop="name" class="producerName col-12 mx-auto text-center">{% if product.brand %}{{product.brand}}{% endif %}</p>
+            </span>
+            <blockquote class="col-12 mx-auto row d-flex align-items-center">
+            <p itemprop="offers" itemscope itemtype="http://schema.org/Offer" class="producerPrice mx-auto text-center text-danger  m-0 p-0"><span itemprop="price">{{ product.price_promo}}</span> zł</p>
+            {% if product.price_promo != product.price %}
+            <p class="mx-auto text-center m-0 p-0"><del>{{ product.price}} zł</del></p>
+            {% endif %}
+            <small class="col-12 mx-auto text-center text-primary  m-0 p-0">Netto: {{product.price_netto}} + VAT 23%</small>
+            {% if product.qty > 0 %}
+                <div class="col-12 text-center m-1 mx-auto"><small class="text-success">Dostępny</small></div>
+                <link itemprop="availability" href="https://schema.org/InStock" />
+            {% else %}
+            <div class="col-12 text-center m-1 mx-auto"><small class="text-danger">Niedostępny</small></div>
+            <link itemprop="availability" href="https://schema.org/OutOfStock" />
+            {% endif %}
+            </blockquote>
+        </div>
+        {% empty %}
+        <p class="col-12 mx-auto text-left">Wybierz kategorię w menu</p>
+        {% endfor %}
 </div>
 {% endblock %}
