@@ -79,3 +79,15 @@
         {% endfor %}
 </div>
 {% endblock %}
+
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    {% load compress %}
+    {% compress js %}
+    <script src="/static/js/products.js" type="text/javascript"></script>
+    {% endcompress %}
+
+    {% block script_shop %}
+    {% endblock %}
+{% endblock %}
