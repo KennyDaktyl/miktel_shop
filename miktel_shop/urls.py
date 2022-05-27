@@ -2,6 +2,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
+from django.contrib.sitemaps import views
+from django.views.decorators.cache import cache_page
 from django.conf.urls import include
 from django.urls import path
 from django.views.generic import TemplateView
@@ -42,11 +44,14 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path(
-        "sitemap_citys_stamp_delivery.xml/",
-        sitemap,
-        {"sitemaps": sitemaps_citys_stamp},
-        name="django.contrib.sitemaps.views.sitemap",
+        "sitemap_citys_stamp_delivery.xml",
+        cache_page(86400)(views.index),
+        {"sitemaps": sitemaps_citys_stamp,
+         'name': 'django.contrib.sitemaps.views.index'},
     ),
+    path('sitemap_citys_stamp_delivery-<section>.xml',
+         cache_page(86400)(views.sitemap),
+         {'sitemaps': sitemaps_citys_stamp}, name='index_city_detail_stamp_delivery_section'),
     path(
         "robots.txt",
         TemplateView.as_view(
