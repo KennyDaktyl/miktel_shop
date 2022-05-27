@@ -96,10 +96,18 @@
         </p>
         <p style="width: 100%;">
           {{ order.client.profile.company_name}}<br>
-          {% if order.client.profile.company_name_l %} {{ order.client.profile.company_name_l}} <br>{% endif %}
+          
           {{ order.client.address.post_code}} {{ order.client.address.city}}, {{ order.client.address.street}} {{ order.client.address.house }} {% if order.client.address.door %} / {{ order.client.address.door }} {% endif %}<br>
           NIP: {{ order.client.profile.nip_number}}<br>
         </p>
+        {% if order.client.profile.company_name_l %}
+          <p style="width: 100%;font-weight: 900; margin-top: 30px;">
+            Płatnik/Odbiorca:
+          </p>
+          <p style="width: 100%;">
+          {{ order.client.profile.company_name_l}}
+          </p>
+        {% endif %}
       </div>
       <div class="box-50-r">
         <p style="width: 100%;font-weight: 900;">

@@ -94,17 +94,6 @@
             </span>
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
-            <small class="text-danger col-12">{{ form.business_name_l.errors }}</small>
-            <label for="id_business_name_l" class="col-md-4 m-0 p-0 align-self-center">
-              Nazwa c.d. 
-            </label>
-            <input type="text" name="business_name_l" class="textinput textInput col-10 col-md-6"
-              maxlength="{{ form.business_name_l.field.max_length }}" id="id_business_name_l" value='{{ form.business_name_l.value|default_if_none:"" }}'>
-            <span class="input-group-text col-2 text-center">
-              <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
-            </span>
-          </div>
-          <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
             <small class="text-danger col-12">{{ form.nip_number.errors }}</small>
             <label for="id_nip_number" class="col-10 col-md-6requiredField col-md-4 m-0 p-0 align-self-center">
               NIP<span class="asteriskField">*</span>
@@ -126,6 +115,18 @@
               id="id_phone_number" value='{{ form.phone_number.value|default_if_none:"" }}'>
             <span class="input-group-text col-2 text-center">
               <i class="fas fa-phone col-12 text-center mx-auto m-0 p-0"></i>
+            </span>
+          </div>
+          <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
+            <small class="text-danger col-12">{{ form.business_name_l.errors }}</small>
+            <label for="id_business_name_l" class="col-md-4 m-0 p-0 align-self-center">
+              Płatnik (opcjonalnie *)
+            </label>
+            <input type="text" name="business_name_l" class="textinput textInput col-10 col-md-6"
+              maxlength="{{ form.business_name_l.field.max_length }}" id="id_business_name_l"
+              value='{{ form.business_name_l.value|default_if_none:"" }}'>
+            <span class="input-group-text col-2 text-center">
+              <i class="fas fa-user col-12 text-center mx-auto m-0 p-0"></i>
             </span>
           </div>
           <div class="col-md-12 p-1 mx-auto text-center input-group row d-flex align-items-stretch">
