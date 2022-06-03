@@ -6,6 +6,7 @@ from web.models.products import SubCategory, SubCategoryType
 from web.models.articles import Articles
 from web.models.orders import IndexAlfaStamp, Citys
 
+
 class StaticViewSitemap(Sitemap):
     priority = 0.5
     changefreq = "daily"
@@ -126,6 +127,7 @@ class CityIndexStampDetailsView(Sitemap):
     priority = 1.0
     changefreq = "always"
     protocol = "https"
+    limit = 10000
 
     def items(self):
         return Citys.objects.all()

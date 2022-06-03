@@ -3,13 +3,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.sitemaps import views
+from django.contrib.sitemaps import views as sitemaps_views
 from django.views.decorators.cache import cache_page
 from django.conf.urls import include
 from django.urls import path
 from django.views.generic import TemplateView
 from web.front.views import error_404, error_500
 from web.products.views import redirect_product, redirect_sub_category, \
-redirect_sub_category_type
+    redirect_sub_category_type
 
 from .sitemaps import (
     StaticViewSitemap,
@@ -29,7 +30,7 @@ sitemaps = {
     "article_details": ArticleDetailsSiteView,
 }
 
-sitemaps_citys_stamp = {
+sitemaps_cities_shipping_stamp = {
     "citys_stamp_delivery": CitysIndexStampListView,
     "city_stamp_delivery_details": CityIndexStampDetailsView
 }
@@ -44,14 +45,20 @@ urlpatterns = [
         name="django.contrib.sitemaps.views.sitemap",
     ),
     path(
-        "sitemap_citys_stamp_delivery.xml",
+        "sitemaps_cities_shipping_stamp.xml",
         cache_page(86400)(views.index),
-        {"sitemaps": sitemaps_citys_stamp,
-         'name': 'django.contrib.sitemaps.views.index'},
+        {"sitemaps": sitemaps_cities_shipping_stamp,
+            'sitemap_url_name': 'sitemaps_cities_shipping_stamp'},
     ),
-    path('sitemap_citys_stamp_delivery-<section>.xml',
+    path('sitemaps_cities_shipping_stamp-<section>.xml',
          cache_page(86400)(views.sitemap),
-         {'sitemaps': sitemaps_citys_stamp}, name='index_city_detail_stamp_delivery_section'),
+         {'sitemaps': sitemaps_cities_shipping_stamp}, name='sitemaps_cities_shipping_stamp'),
+    path('sitemap.xml',
+         cache_page(86400)(sitemaps_views.index),
+         {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'}),
+    path('sitemap-<section>.xml',
+         cache_page(86400)(sitemaps_views.sitemap),
+         {'sitemaps': sitemaps}, name='sitemaps'),
     path(
         "robots.txt",
         TemplateView.as_view(
