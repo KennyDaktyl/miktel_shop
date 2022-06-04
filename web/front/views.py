@@ -137,6 +137,7 @@ class CityDetailsStamDelivery(DetailView):
         points = requests.get(
             url, headers={"Authorization": INPOST_KEY, "Content-Type": "application/json"}).json()
         context["inpost_boxes"] = points["items"]
+        context["points"] = points
         return context
 
 
