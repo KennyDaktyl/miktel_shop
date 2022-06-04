@@ -133,7 +133,8 @@ class CityDetailsStamDelivery(DetailView):
         context["letter"] = IndexAlfaStamp.objects.get(
             name=self.object.index_alfa)
         url = getattr(settings, "INPOST_URL") + \
-            f"?city={self.object.slug}"
+            f"/?city={self.object.slug}"
+        print(url)    
         points = requests.get(
             url, headers={"Authorization": INPOST_KEY, "Content-Type": "application/json"}).json()
         context["inpost_boxes"] = points["items"]
