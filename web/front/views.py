@@ -103,7 +103,7 @@ class IndexCitysStamDelivery(ListView):
 
 class IndexCityDetailsStamDelivery(ListView):
     template_name = "front_page/index_details_stamp_delivery.html"
-    paginate_by = 100
+    paginate_by = 300
     model = Citys
 
     def get_queryset(self):
