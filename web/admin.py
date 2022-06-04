@@ -220,7 +220,7 @@ class InvoicesAdmin(admin.ModelAdmin):
 @admin.register(IndexAlfaStamp)
 class IndexAlfaStampAdmin(admin.ModelAdmin):
     list_display = ("id", 
-        "name",
+        "name", "slug"
     )
     list_display_links = ("id",  "name",)
 
