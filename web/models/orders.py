@@ -403,7 +403,7 @@ class IndexAlfaStamp(models.Model):
 
 
 class Citys(models.Model):
-    index_alfa = models.CharField(
+    index_alfa = models.CharField(db_index=True,
         verbose_name="Index alfa", max_length=256, null=True, blank=True
     )
     name = models.CharField(
