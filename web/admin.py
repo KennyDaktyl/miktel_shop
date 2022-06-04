@@ -219,14 +219,8 @@ class InvoicesAdmin(admin.ModelAdmin):
 
 @admin.register(IndexAlfaStamp)
 class IndexAlfaStampAdmin(admin.ModelAdmin):
-    # list_display = [f.name for f in Citys._meta.fields]
     list_display = ("id", 
         "name",
-        "city_one",
-        "city_two",
-        "city_three",
-        "city_four",
-        "city_five",
     )
     list_display_links = ("id",  "name",)
 
@@ -235,7 +229,6 @@ class IndexAlfaStampAdmin(admin.ModelAdmin):
 
 @admin.register(Citys)
 class CitysAdmin(admin.ModelAdmin):
-    # list_display = [f.name for f in Citys._meta.fields]
     list_display = ("id", "name", "rybna_area")
     list_display_links = ("id",  "name",)
     list_filter = ("rybna_area",)

@@ -33,10 +33,15 @@
     <p class="m-0 p-0 mt-3 col-12">Link do działu:</p><a href="https://serwiswrybnej.pl/produkty/kategoria/pieczatki/pieczatki-firmowe/5">Pieczątki firmowe</a>
 </div>
 <div class="col-11 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
-
-<p>{{ inpost_boxes }}</p>
-<p>{{ points }}</p>
+{% for point in inpost_boxes.items %}
+    <div class="col-4 m-1 p-1 row d-flex align-items-start border border-warning">
+        <p class="col-12 text-center m-0 p-0 mt-2 font-weight-bold">{{ point.name }}</p>
+        <p class="col-12 text-center m-0 p-0">{{ point.location_description }}</p>
+        <p class="col-12 text-center m-0 p-0">{{ point.address_details.street }} {{ point.address_details.building_number }}</p>
+    </div>
+{% endfor %}
 </div>
+{{ inpost_boxes }}
 <div class="col-12 col-md-9 mx-auto text-center m-0 p-0 mt-3 row">
     {% for product in products %}
         <div itemscope itemtype="http://schema.org/Product" class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">

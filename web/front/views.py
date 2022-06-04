@@ -130,15 +130,14 @@ class CityDetailsStamDelivery(DetailView):
         context = super().get_context_data(**kwargs)
         context["products"] = Products.objects.filter(
             sub_category_type__sub_category__category=2)
+        print(self.object.index_alfa)
         context["letter"] = IndexAlfaStamp.objects.get(
             name=self.object.index_alfa)
         url = getattr(settings, "INPOST_URL") + \
-            f"/?city={self.object.slug}"
-        print(url)    
-        points = requests.get(
-            url, headers={"Authorization": INPOST_KEY, "Content-Type": "application/json"}).json()
-        context["inpost_boxes"] = points["items"]
-        context["points"] = points
+            f"?city={self.object.name}"
+        points = (requests.get(
+            url, headers={"Authorization": INPOST_KEY, "Content-Type": "application/json"})).json()
+        context["inpost_boxes"] = points
         return context
 
 

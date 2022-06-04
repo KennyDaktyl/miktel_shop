@@ -353,7 +353,7 @@ class IndexAlfaStamp(models.Model):
 
     class Meta:
         ordering = ("name",)
-        verbose_name_plural = "Index alpfa"
+        verbose_name_plural = "Index alfabetyczny"
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name.replace("ł", "l"))

@@ -25,7 +25,7 @@ if socket.gethostname() in [
         "127.0.0.1", "localhost",
         "e372-185-172-87-165.ngrok.io",
     ]
-    INPOST_URL = "https://sandbox-api-shipx-pl.easypack24.net/v1/points"
+    INPOST_URL = "https://api-pl-points.easypack24.net/v1/points/"
 else:
     DOMAIN = "serwiswrybnej.pl"
     DOMAIN_URL = "https://" + DOMAIN
