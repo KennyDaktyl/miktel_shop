@@ -22,9 +22,10 @@ if socket.gethostname() in [
     STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY_TEST")
     STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY_TEST")
     ALLOWED_HOSTS = [
-        "127.0.0.1", "localhost", 
+        "127.0.0.1", "localhost",
         "e372-185-172-87-165.ngrok.io",
     ]
+    INPOST_URL = "https://sandbox-api-shipx-pl.easypack24.net/v1/points"
 else:
     DOMAIN = "serwiswrybnej.pl"
     DOMAIN_URL = "https://" + DOMAIN
@@ -47,6 +48,7 @@ else:
         "serwiswrybnej.pl",
         "51.75.64.242",
     ]
+    INPOST_URL = "https://api-shipx-pl.easypack24.net/v1/points"
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
@@ -72,18 +74,18 @@ CORS_ALLOWED_ORIGINS = [
     "https://web.facebook.com",
 ]
 CORS_ALLOW_HEADERS = [
-'accept',
-'accept-encoding',
-'authorization',
-'content-type',
-'dnt',
-'origin',
-'user-agent',
-'x-csrftoken',
-'x-requested-with',
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
 
-CSP_DEFAULT_SRC =  [
+CSP_DEFAULT_SRC = [
     "'self'",
     "https://google.com",
     "https://www.google.com",

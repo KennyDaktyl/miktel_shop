@@ -1,3 +1,8 @@
+from django.conf import settings
+import requests
+from re import L
+from django.shortcuts import render
+from django.core.paginator import Paginator
 import random
 import os
 
@@ -18,6 +23,8 @@ from web.models.products import Products
 
 from .forms import ContactForm
 from .functions import send_contact_message, send_email_contact_message_by_django
+
+INPOST_KEY = os.environ.get("INPOST_KEY")
 
 
 class FirstPage(View):
@@ -48,13 +55,6 @@ class FirstPage(View):
         return render(request, "front_page/first_page.html", ctx)
 
 
-# @method_decorator(
-#     csp_update(
-#         FRAME_SRC=["'self' https://www.google.com/recaptcha/",
-#                   "https://www.google.com/maps/"]
-#     ),
-#     name="dispatch",
-# )
 class ContactPage(View):
     def get(self, request):
         form = ContactForm()
@@ -101,10 +101,24 @@ class IndexCitysStamDelivery(ListView):
     model = IndexAlfaStamp
 
 
-class IndexCityDetailsStamDelivery(DetailView):
+class IndexCityDetailsStamDelivery(ListView):
     template_name = "front_page/index_details_stamp_delivery.html"
-    # paginate_by = 20
-    model = IndexAlfaStamp
+    paginate_by = 100
+    model = Citys
+
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        letter = IndexAlfaStamp.objects.get(pk=pk)
+        new_context = Citys.objects.filter(
+            index_alfa=letter.name,
+        )
+        return new_context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        context["letter"] = IndexAlfaStamp.objects.get(pk=pk)
+        return context
 
 
 class CityDetailsStamDelivery(DetailView):
@@ -114,7 +128,15 @@ class CityDetailsStamDelivery(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["products"] = Products.objects.filter(sub_category_type__sub_category__category=2)
+        context["products"] = Products.objects.filter(
+            sub_category_type__sub_category__category=2)
+        context["letter"] = IndexAlfaStamp.objects.get(
+            name=self.object.index_alfa)
+        url = getattr(settings, "INPOST_URL") + \
+            f"?city={self.object.slug}"
+        points = requests.get(
+            url, headers={"Authorization": INPOST_KEY, "Content-Type": "application/json"}).json()
+        context["inpost_boxes"] = points["items"]
         return context
 
 

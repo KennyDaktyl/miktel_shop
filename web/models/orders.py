@@ -18,7 +18,8 @@ from .products import file_size
 class PayMethod(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
-    name = models.CharField(verbose_name="Nazwa metody płatności", max_length=64)
+    name = models.CharField(
+        verbose_name="Nazwa metody płatności", max_length=64)
     pay_method = models.IntegerField(
         verbose_name="Rodzaj płatności", choices=PAY_METHOD
     )
@@ -30,7 +31,8 @@ class PayMethod(BaseModel):
         null=True,
         blank=True,
     )
-    link = models.URLField(verbose_name="Link do regulaminu", null=True, blank=True)
+    link = models.URLField(
+        verbose_name="Link do regulaminu", null=True, blank=True)
     price = models.DecimalField(
         verbose_name="Cena zamówienia",
         default=0.00,
@@ -54,7 +56,8 @@ class PayMethod(BaseModel):
         pm_income_all_count = orders_in_this_pay_m.count()
         pm_income_closed_count = orders_realised.count()
         if orders_realised.aggregate(Sum("total_price"))["total_price__sum"]:
-            _sum = orders_realised.aggregate(Sum("total_price"))["total_price__sum"]
+            _sum = orders_realised.aggregate(Sum("total_price"))[
+                "total_price__sum"]
         else:
             _sum = 0.00
 
@@ -71,8 +74,10 @@ class PayMethod(BaseModel):
 class DeliveryMethod(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
-    id_code = models.CharField(verbose_name="Kod dla id iframe inposta", max_length=64)
-    name = models.CharField(verbose_name="Nazwa metody płatności", max_length=64)
+    id_code = models.CharField(
+        verbose_name="Kod dla id iframe inposta", max_length=64)
+    name = models.CharField(
+        verbose_name="Nazwa metody płatności", max_length=64)
     price = models.DecimalField(
         verbose_name="Cena za dostawę",
         default=0.00,
@@ -192,7 +197,8 @@ class Orders(BaseModel):
         verbose_name="Czas wywozu", blank=True, null=True
     )
     sms_send = models.BooleanField(verbose_name="Sms", default=False)
-    sms_time = models.TimeField(verbose_name="Czas smsa", blank=True, null=True)
+    sms_time = models.TimeField(
+        verbose_name="Czas smsa", blank=True, null=True)
     promo = models.BooleanField(verbose_name="Promocja", default=False)
     discount = models.IntegerField(verbose_name="Rabat", default=0)
     info = models.CharField(
@@ -204,7 +210,8 @@ class Orders(BaseModel):
         decimal_places=2,
         max_digits=7,
     )
-    products_item = models.JSONField(verbose_name="Produkty", null=True, blank=True)
+    products_item = models.JSONField(
+        verbose_name="Produkty", null=True, blank=True)
     invoice_true = models.BooleanField(
         verbose_name="Czy wybrano fakturę", default=False
     )
@@ -243,7 +250,8 @@ class Orders(BaseModel):
     @property
     def get_invoice_total_vat(self):
         return round(
-            float(self.get_invoice_total_price - self.get_invoice_total_price_netto),
+            float(self.get_invoice_total_price -
+                  self.get_invoice_total_price_netto),
             2,
         )
 
@@ -296,10 +304,13 @@ class ProductCopy(BaseModel):
 
 
 class Invoices(BaseModel):
-    order = models.ForeignKey("Orders", on_delete=models.CASCADE, null=True, blank=True)
+    order = models.ForeignKey(
+        "Orders", on_delete=models.CASCADE, null=True, blank=True)
     number = models.CharField(max_length=64)
-    override_number = models.CharField(verbose_name="Nadpisany numer faktury", max_length=64, null=True, blank=True)
-    override_date = models.DateField(verbose_name="Nadpisana data faktury", null=True, blank=True)
+    override_number = models.CharField(
+        verbose_name="Nadpisany numer faktury", max_length=64, null=True, blank=True)
+    override_date = models.DateField(
+        verbose_name="Nadpisana data faktury", null=True, blank=True)
     pdf = models.FileField(null=True, blank=True)
 
     class Meta:
@@ -322,7 +333,8 @@ class IndexAlfaStamp(models.Model):
     )
     slug = models.SlugField(verbose_name="Slug",
                             blank=True, null=True, max_length=128)
-    city_one = models.ForeignKey('Citys', related_name='city_one', on_delete=models.CASCADE, null=True, blank=True)    
+    city_one = models.ForeignKey(
+        'Citys', related_name='city_one', on_delete=models.CASCADE, null=True, blank=True)
     city_two = models.ForeignKey(
         'Citys', related_name='city_two', on_delete=models.CASCADE, null=True, blank=True)
     city_three = models.ForeignKey(
@@ -331,7 +343,7 @@ class IndexAlfaStamp(models.Model):
         'Citys', related_name='city_four', on_delete=models.CASCADE, null=True, blank=True)
     city_five = models.ForeignKey(
         'Citys', related_name='city_five', on_delete=models.CASCADE, null=True, blank=True)
-    
+
     meta_description = models.CharField(
         verbose_name="Meta description dla indexu", blank=True, null=True, max_length=160
     )
@@ -367,9 +379,11 @@ class IndexAlfaStamp(models.Model):
         except:
             pass
         if not self.meta_description:
-            self.meta_description = f"Lista miast na literę {self.name} do których możliwa jest wysyłka wyrobionej pieczątki zakupionej w serwiswrybnej.pl."[0:160]
+            self.meta_description = f"Lista miast na literę {self.name} do których możliwa jest wysyłka wyrobionej pieczątki zakupionej w serwiswrybnej.pl."[
+                0:160]
         if not self.meta_title:
-            self.meta_title = f"Wysyłamy pieczątki do | lista miast na literę {self.name}"[0:60]
+            self.meta_title = f"Wysyłamy pieczątki do | lista miast na literę {self.name}"[
+                0:60]
         super(IndexAlfaStamp, self).save()
 
     def get_absolute_url(self):
@@ -381,7 +395,8 @@ class IndexAlfaStamp(models.Model):
             },
         )
 
-    def citys_of_index(self):
+    @property
+    def cities_of_index(self):
         return Citys.objects.filter(index_alfa=self)
 
     def __str__(self):
@@ -408,7 +423,7 @@ class Citys(models.Model):
     meta_title = models.CharField(
         verbose_name="Meta title dla miasta", blank=True, null=True, max_length=60
     )
-    
+
     def get_absolute_url(self):
         return reverse(
             "city_details_stamp_delivery",
@@ -429,7 +444,8 @@ class Citys(models.Model):
             self.meta_description = f"Nie trać czasu i zamów wyrobienie pieczątki online, a wyślemy ją do {self.name} kurierem w ciągy 24 godzin."[
                 0:160]
         if not self.meta_title:
-            self.meta_title = f"Zamów wyrobienie pieczątki | Wysyłka do {self.name}"[0:60]
+            self.meta_title = f"Zamów wyrobienie pieczątki | Wysyłka do {self.name}"[
+                0:60]
         super(Citys, self).save()
 
     def __str__(self):

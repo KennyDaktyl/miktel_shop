@@ -18,11 +18,24 @@
 
 {% block content %}
 <div class="col-11 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
+    <nav class="col-12 mx-auto" aria-label="breadcrumb" >
+        <ol class="breadcrumb bg-white row">
+            <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a class="" href="{% url 'front_page' %}"><span>Strona główna</span></a></li>
+            <span class="p-1 m-1">/</span>
+            <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{% url 'index_citys_stamp_delivery' %}"><span>Indeks miast - wysyłka pieczątek on-line</span></a></li>
+            <span class="p-1 m-1">/</span>
+            <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{{ letter.get_absolute_url }}"><span>Lista miast na literę: {{ letter }}</span></a></li>
+        </ol>
+    </nav>
     <div class="col-12 mx-auto m-0 p-0">
-        <h1 class="m-0 p-0">Zamów pieczątkę on-line</h1><p> z wysłką do paczkomatu Inpost dla miejscowości:</p>
+        <h1 class="m-0 p-0">Wyrobienie pieczątki online w {{ object.name }}</h1>
     </div>
-    <h2 class="col-12 m-0 p-0">{{ object.name }}</h2>
     <p class="m-0 p-0 mt-3 col-12">Link do działu:</p><a href="https://serwiswrybnej.pl/produkty/kategoria/pieczatki/pieczatki-firmowe/5">Pieczątki firmowe</a>
+</div>
+<div class="col-11 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
+{% for point in poinst %}
+    <p>{{ point }}</p>
+{% endfor %}
 </div>
 <div class="col-12 col-md-9 mx-auto text-center m-0 p-0 mt-3 row">
     {% for product in products %}
@@ -90,4 +103,49 @@
 
     {% block script_shop %}
     {% endblock %}
+<script type="application/ld+json">
+    {
+     "@context": "https://schema.org",
+     "@type": "BreadcrumbList",
+     "itemListElement":
+    [
+        {
+       "@type": "ListItem",
+       "position": 1,
+       "item":
+            {
+            "@id": "{{ get_domain }}{% url 'front_page' %}",
+            "name": "Strona główna"
+            }
+        },
+        {
+        "@type": "ListItem",
+        "position": 2,
+        "item":
+            {
+            "@id": "{{ get_domain }}{% url 'index_citys_stamp_delivery' %}",
+            "name": "Sklep On-line"
+            }
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "item":
+                {
+                "@id": "{{ letter.get_absolute_url }}",
+                "name": "Indeks miast - wysyłka pieczątek on-line"
+                }
+            },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "item":
+                {
+                "@id": "{{ letter.get_absolute_url }}",
+                "name": "Lista miast na literę: {{ letter }}"
+            }
+        }
+     ]
+    }
+    </script>
 {% endblock %}
