@@ -11,7 +11,7 @@
 <meta property="og:description" content="Lista miast na literę: {{ letter }}" />
 <meta property="og:image" content="" />
 
-<link rel="canonical" href="{{ get_domain }}{% url 'index_city_detail_stamp_delivery' slug=letter.name pk=letter.pk %}" />
+<link rel="canonical" href="{{ get_domain }}{% url 'index_city_detail_stamp_delivery' slug=letter.slug pk=letter.pk %}" />
 <meta name="description" content="{{ object.meta_description }}">
 <title>Wysyłamy pieczątki do miast na literę: {{ letter }}</title>
 {% endblock %}
