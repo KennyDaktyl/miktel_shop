@@ -5,7 +5,7 @@
 
 {% block head %}
 <meta property="fb:app_id" content="{{ app_id }}" />
-<meta property="og:url" content="{% url 'index_city_detail_stamp_delivery' slug=letter.name pk=letter.pk %}/>
+<meta property="og:url" content="{% url 'index_city_detail_stamp_delivery' slug=letter.slug pk=letter.pk %}"/>
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Lista miast na literę: {{ letter }}" />
 <meta property="og:description" content="Lista miast na literę: {{ letter }}" />
