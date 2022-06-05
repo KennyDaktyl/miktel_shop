@@ -93,7 +93,7 @@
       "@context": "https://schema.org/",
       "@type": "Article",
       "name": "{{ object.title }}",
-      "image": ["{{ get_domain }}{{ MEDIA_URL }}{{ object.image }}",
+      "image": ["{{ get_domain }}{{ MEDIA_URL }}{{ object.image }}"{% if object.images %},{% endif %}
       {% for image in object.images %}"{{ get_domain }}{{ MEDIA_URL }}{{ image.image }}"{% if not forloop.last %},{% endif %}{% endfor %}
       ],
       "description": "{{ object.meta_description }}",
