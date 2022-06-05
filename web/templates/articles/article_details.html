@@ -94,7 +94,7 @@
       "@type": "Article",
       "name": "{{ object.title }}",
       "image": ["{{ get_domain }}{{ MEDIA_URL }}{{ object.image }}",
-      {% for image in object.images %}"{{ get_domain }}{{ MEDIA_URL }}{{ image.image }}",{% endfor %}
+      {% for image in object.images %}"{{ get_domain }}{{ MEDIA_URL }}{{ image.image }}"{% if not forloop.last %},{% endif %}{% endfor %}
       ],
       "description": "{{ object.body }}",
       "contentReferenceTime": {{ object.created_time }}
