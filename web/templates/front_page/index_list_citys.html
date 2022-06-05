@@ -34,7 +34,7 @@
         <div class="col-6 col-md-3 mx-auto text-center row d-flex align-items-start mt-3">
             {% if index_alfa.city_one %}
             <a href="{{ BASE_URL }}{{ index_alfa.get_absolute_url }}">
-                <h2 class="col-12 mx-auto text-left text-center ">{% index_alfa.name|polish_letter %}</h2>
+                <h2 class="col-12 mx-auto text-left text-center ">{{ index_alfa.name|polish_letter }}</h2>
             </a>
             {% else %}
             <p class="col-12 text-left m-0 p-0">...</p>
