@@ -130,7 +130,6 @@ class CityDetailsStamDelivery(DetailView):
         context = super().get_context_data(**kwargs)
         context["products"] = Products.objects.filter(
             sub_category_type__sub_category__category=2)
-        print(self.object.index_alfa)
         context["letter"] = IndexAlfaStamp.objects.get(
             pk=self.object.alphabetical_index.pk)
         url = getattr(settings, "INPOST_URL") + \
