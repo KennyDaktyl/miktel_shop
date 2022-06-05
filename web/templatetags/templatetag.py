@@ -37,9 +37,8 @@ def polish_letter(letter):
         "O_": "Ó",
         "S_": "Ś",
         "Z_": "Ź",
-        "Z__" "Ż"
+        "Z__": "Ż"
     }
     if polish.get(letter):
         return polish.get(letter)
     return letter
-    
