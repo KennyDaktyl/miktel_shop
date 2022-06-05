@@ -356,7 +356,7 @@ class IndexAlfaStamp(models.Model):
         verbose_name_plural = "Index alfabetyczny"
 
     def save(self, *args, **kwargs):
-        citys = Citys.objects.filter(index_alfa=self)[0:5]
+        citys = Citys.objects.filter(alphabetical_index=self)[0:5]
         try:
             self.city_one = citys[0]
         except:
@@ -403,9 +403,7 @@ class IndexAlfaStamp(models.Model):
 
 
 class Citys(models.Model):
-    index_alfa = models.CharField(db_index=True,
-        verbose_name="Index alfa", max_length=256, null=True, blank=True
-    )
+    alphabetical_index = models.ForeignKey("IndexAlfaStamp", verbose_name="alphabetical_index", on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(
         verbose_name="Nazwa miejscowości", max_length=256, null=True, blank=True
     )
