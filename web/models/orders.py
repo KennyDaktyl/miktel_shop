@@ -403,7 +403,7 @@ class IndexAlfaStamp(models.Model):
 
 
 class Citys(models.Model):
-    alphabetical_index = models.ForeignKey("IndexAlfaStamp", verbose_name="alphabetical_index", on_delete=models.CASCADE, null=True, blank=True)
+    alphabetical_index = models.ForeignKey("IndexAlfaStamp", verbose_name="alphabetical_index", on_delete=models.CASCADE, null=True, blank=True, db_index=True)
     name = models.CharField(
         verbose_name="Nazwa miejscowości", max_length=256, null=True, blank=True
     )
