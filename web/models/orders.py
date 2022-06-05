@@ -15,6 +15,22 @@ from .base import BaseModel
 from .products import file_size
 
 
+def __polish_letter(letter):
+    polish = {
+               "Ą": "A_",
+                "Ę": "E_",
+                "Ć": "C_",
+                "Ó": "O_",
+                "Ł": "L_",
+                "Ś": "S_",
+                "Ź": "Z_",
+                "Ż": "Z__"
+               }
+    if polish.get(letter):
+        return polish.get(letter)
+    return letter
+
+
 class PayMethod(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
@@ -445,21 +461,6 @@ class Citys(models.Model):
         if not self.meta_title:
             self.meta_title = f"Zamów wyrobienie pieczątki | Wysyłka do {self.name}"[
                 0:60]
-
-        def __polish_letter(letter):
-            polish = {
-            "Ą": "A_",
-            "Ę": "E_",
-            "Ć": "C_",
-            "Ó": "O_",
-            "Ł": "L_",
-            "Ś": "S_",
-            "Ź": "Z_",
-            "Ż": "Z__"
-            }
-            if polish.get(letter):
-                return polish.get(letter)
-            return letter
 
         super(Citys, self).save()
 
