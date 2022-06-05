@@ -356,6 +356,8 @@ class IndexAlfaStamp(models.Model):
         verbose_name_plural = "Index alfabetyczny"
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name.replace("Ł", "l"))
         citys = Citys.objects.filter(alphabetical_index=self)[0:5]
         try:
             self.city_one = citys[0]
