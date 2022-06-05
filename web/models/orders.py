@@ -15,22 +15,6 @@ from .base import BaseModel
 from .products import file_size
 
 
-def __polish_letter(letter):
-    polish = {
-               "Ą": "A_",
-                "Ę": "E_",
-                "Ć": "C_",
-                "Ó": "O_",
-                "Ł": "L_",
-                "Ś": "S_",
-                "Ź": "Z_",
-                "Ż": "Z__"
-               }
-    if polish.get(letter):
-        return polish.get(letter)
-    return letter
-
-
 class PayMethod(BaseModel):
     id = models.AutoField(primary_key=True)
     number = models.IntegerField(verbose_name="Numer wyświetlania")
@@ -453,6 +437,21 @@ class Citys(models.Model):
         verbose_name_plural = "Miasta"
 
     def save(self, *args, **kwargs):
+        def __polish_letter(letter):
+            polish = {
+                "Ą": "A_",
+                "Ę": "E_",
+                "Ć": "C_",
+                "Ó": "O_",
+                "Ł": "L_",
+                "Ś": "S_",
+                "Ź": "Z_",
+                "Ż": "Z__"
+            }
+            if polish.get(letter):
+                return polish.get(letter)
+            return letter
+
         self.alphabetical_index = IndexAlfaStamp.objects.get(name=__polish_letter(self.name[0]))
         self.slug = slugify(self.name.replace("Ł", "l"))
         if not self.meta_description:
