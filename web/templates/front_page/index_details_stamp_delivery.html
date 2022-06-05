@@ -2,18 +2,19 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load thumbnail %}
+{% load templatetag %}
 
 {% block head %}
 <meta property="fb:app_id" content="{{ app_id }}" />
 <meta property="og:url" content="{% url 'index_city_detail_stamp_delivery' slug=letter.slug pk=letter.pk %}"/>
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Lista miast na literę: {{ letter }}" />
-<meta property="og:description" content="Lista miast na literę: {{ letter }}" />
+<meta property="og:title" content="Lista miast na literę: {{ letter.name|polish_letter }}" />
+<meta property="og:description" content="Lista miast na literę: {{ letter.name|polish_letter }}" />
 <meta property="og:image" content="" />
 
 <link rel="canonical" href="{{ get_domain }}{% url 'index_city_detail_stamp_delivery' slug=letter.slug pk=letter.pk %}" />
 <meta name="description" content="{{ object.meta_description }}">
-<title>Wysyłamy pieczątki do miast na literę: {{ letter }}</title>
+<title>Wysyłamy pieczątki do miast na literę: {{ letter.name|polish_letter }}</title>
 {% endblock %}
 
 
@@ -26,7 +27,7 @@
             <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{% url 'index_citys_stamp_delivery' %}"><span>Indeks miast - wysyłka pieczątek on-line</span></a></li>
         </ol>
     </nav>
-    <h1 class="col-12 mx-auto text-center row">Wysyłamy pieczątki do miast na literę: {{ letter }}</h1>
+    <h1 class="col-12 mx-auto text-center row">Wysyłamy pieczątki do miast na literę: {{ letter.name|polish_letter }}</h1>
     {% for city in object_list %}
         <a class="col-xs-2 mx-left" href="{{ BASE_URL }}{{ city.get_absolute_url }}"><p class="col-12 mx-auto">{{ city.name }},&nbsp;</p></a>
     {% endfor %}

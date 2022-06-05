@@ -2,6 +2,7 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% load thumbnail %}
+{% load templatetag %}
 
 {% block head %}
 <meta property="fb:app_id" content="{{ app_id }}" />
@@ -24,7 +25,7 @@
             <span class="p-1 m-1">/</span>
             <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{% url 'index_citys_stamp_delivery' %}"><span>Indeks miast - wysyłka pieczątek on-line</span></a></li>
             <span class="p-1 m-1">/</span>
-            <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{{ letter.get_absolute_url }}"><span>Lista miast na literę: {{ letter }}</span></a></li>
+            <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{{ letter.get_absolute_url }}"><span>Lista miast na literę: {{ letter.name|polish_letter }}</span></a></li>
         </ol>
     </nav>
     <div class="col-12 mx-auto m-0 p-0">
@@ -155,7 +156,7 @@
             "item":
                 {
                 "@id": "{{ letter.get_absolute_url }}",
-                "name": "Lista miast na literę: {{ letter }}"
+                "name": "Lista miast na literę: {{ letter.name|polish_letter }}"
             }
         }
      ]
