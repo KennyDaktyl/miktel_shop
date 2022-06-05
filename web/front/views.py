@@ -110,7 +110,7 @@ class IndexCityDetailsStamDelivery(ListView):
         pk = self.kwargs['pk']
         letter = IndexAlfaStamp.objects.get(pk=pk)
         new_context = Citys.objects.filter(
-            index_alfa=letter.name,
+            alphabetical_index=letter,
         )
         return new_context
 
@@ -132,7 +132,7 @@ class CityDetailsStamDelivery(DetailView):
             sub_category_type__sub_category__category=2)
         print(self.object.index_alfa)
         context["letter"] = IndexAlfaStamp.objects.get(
-            name=self.object.index_alfa)
+            pk=self.object.alphabetical_index.pk)
         url = getattr(settings, "INPOST_URL") + \
             f"?city={self.object.name}"
         points = (requests.get(
