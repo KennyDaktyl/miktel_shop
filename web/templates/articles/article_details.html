@@ -96,7 +96,7 @@
       "image": ["{{ get_domain }}{{ MEDIA_URL }}{{ object.image }}",
       {% for image in object.images %}"{{ get_domain }}{{ MEDIA_URL }}{{ image.image }}"{% if not forloop.last %},{% endif %}{% endfor %}
       ],
-      "description": "{{ object.body }}",
+      "description": "object.meta_description",
       "contentReferenceTime": "{{ object.created_time }}"
     }
     </script>
