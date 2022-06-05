@@ -435,8 +435,8 @@ class Citys(models.Model):
         verbose_name_plural = "Miasta"
 
     def save(self, *args, **kwargs):
-        self.index_alfa = self.name[0]
-        self.slug = slugify(self.name.replace("ł", "l"))
+        self.alphabetical_index = IndexAlfaStamp.objects.get(name=self.name[0])
+        self.slug = slugify(self.name.replace("Ł", "l"))
         if not self.meta_description:
             self.meta_description = f"Nie trać czasu i zamów wyrobienie pieczątki online, a wyślemy ją do {self.name} kurierem w ciągy 24 godzin."[
                 0:160]
