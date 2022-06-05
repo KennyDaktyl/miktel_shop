@@ -437,7 +437,7 @@ class Citys(models.Model):
         verbose_name_plural = "Miasta"
 
     def save(self, *args, **kwargs):
-        self.alphabetical_index = IndexAlfaStamp.objects.get(name=self.name[0])
+        self.alphabetical_index = IndexAlfaStamp.objects.get(name=__polish_letter(self.name[0]))
         self.slug = slugify(self.name.replace("Ł", "l"))
         if not self.meta_description:
             self.meta_description = f"Nie trać czasu i zamów wyrobienie pieczątki online, a wyślemy ją do {self.name} kurierem w ciągy 24 godzin."[
@@ -445,6 +445,22 @@ class Citys(models.Model):
         if not self.meta_title:
             self.meta_title = f"Zamów wyrobienie pieczątki | Wysyłka do {self.name}"[
                 0:60]
+
+        def __polish_letter(letter):
+            polish = {
+            "Ą": "A_",
+            "Ę": "E_",
+            "Ć": "C_",
+            "Ó": "O_",
+            "Ł": "L_",
+            "Ś": "S_",
+            "Ź": "Z_",
+            "Ż": "Z__"
+            }
+            if polish.get(letter):
+                return polish.get(letter)
+            return letter
+
         super(Citys, self).save()
 
     def __str__(self):
