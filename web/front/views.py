@@ -137,6 +137,9 @@ class CityDetailsStamDelivery(DetailView):
         points = (requests.get(
             url, headers={"Authorization": INPOST_KEY, "Content-Type": "application/json"})).json()
         context["inpost_boxes"] = points
+        context["google_map"] = f"https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometers&origins=" + \
+            "rybna" + "&destinations=" + "czernichow" + \
+            "&key=" + str(os.environ["GOOGLE_MAPS"])
         return context
 
 
