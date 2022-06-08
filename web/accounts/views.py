@@ -55,11 +55,11 @@ class RegisterUserView(View):
                     user=new_user,
                     activation_token=str(int(str(uuid4()).split("-")[0], 16)),
                 )
-                send_simple_message(
-                    "Aktywacja konta", host, new_user, token.activation_token
-                )
-                # send_activate_email_by_django(
-                #     "Aktywacja konta", host, new_user, token.activation_token)
+                # send_simple_message(
+                #     "Aktywacja konta", host, new_user, token.activation_token
+                # )
+                send_activate_email_by_django(
+                    "Aktywacja konta", host, new_user, token.activation_token)
                 profile = Profile()
                 profile.user_id = new_user.id
                 profile.company = False
@@ -121,11 +121,11 @@ class CompanyRegistrationView(View):
                     user=new_user,
                     activation_token=str(int(str(uuid4()).split("-")[0], 16)),
                 )
-                send_simple_message(
-                    "Aktywacja konta", host, new_user, token.activation_token
-                )
-                # send_activate_email_by_django(
-                #     "Aktywacja konta", host, new_user, token.activation_token)
+                # send_simple_message(
+                #     "Aktywacja konta", host, new_user, token.activation_token
+                # )
+                send_activate_email_by_django(
+                    "Aktywacja konta", host, new_user, token.activation_token)
                 messages.error(
                     request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)"
                 )

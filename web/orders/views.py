@@ -124,14 +124,14 @@ class OrderCompleted(View):
         order_inpost_box(request, order, delivery_method)
         if order.invoice_true and not order.invoice:
             file_name = create_pdf_invoice(order)
-            send_email_order_completed(order, host, file_name=file_name)
-            # send_email_order_completed_by_django(
-            #     order, host, file_name=file_name)
+            send_email_order_completed_by_django(
+                order, host, file_name=file_name)
             messages.error(
                 request, "Wysłano email z Fakturą Vat. (*Sprawdź Spam lub ofery)"
             )
         else:
-            send_email_order_completed(order, host)
+            send_email_order_completed_by_django(
+                order, host)
             messages.error(
                 request,
                 "Wysłano email z informacją o zamówieniu. (*Sprawdź Spam lub ofery)",

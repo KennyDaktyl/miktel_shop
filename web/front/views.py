@@ -1,3 +1,4 @@
+import json
 from django.conf import settings
 import requests
 from re import L
@@ -69,11 +70,11 @@ class ContactPage(View):
             subject = form.cleaned_data["subject"]
             message = form.cleaned_data["message"]
             message += "\n" + "Email kontaktowy - " + str(email)
-            send_contact_message(
-                subject,
-                message,
-            )
-            # send_email_contact_message_by_django(subject, message)
+            # send_contact_message(
+            #     subject,
+            #     message,
+            # )
+            send_email_contact_message_by_django(subject, message)
             messages.success(request, "Wysyłanie email zakończnono poprawnie.")
 
             return redirect("contact_page")
@@ -128,18 +129,28 @@ class CityDetailsStamDelivery(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["products"] = Products.objects.filter(
-            sub_category_type__sub_category__category=2)
+        # context["products"] = Products.objects.filter(
+        #     sub_category_type__sub_category__category=2)
         context["letter"] = IndexAlfaStamp.objects.get(
             pk=self.object.alphabetical_index.pk)
-        url = getattr(settings, "INPOST_URL") + \
-            f"?city={self.object.name}"
-        points = (requests.get(
-            url, headers={"Authorization": INPOST_KEY, "Content-Type": "application/json"})).json()
-        context["inpost_boxes"] = points
-        context["google_map"] = f"https://maps.googleapis.com/maps/api/distancematrix/json?units=kilometers&origins=" + \
-            "rybna" + "&destinations=" + "czernichow" + \
-            "&key=" + str(os.environ["GOOGLE_MAPS"])
+        if not self.object.rybna_area:
+            url = getattr(settings, "INPOST_URL") + \
+                f"?city={self.object.name}"
+            points = (requests.get(
+                url, headers={"Authorization": INPOST_KEY, "Content-Type": "application/json"})).json()
+            context["inpost_boxes"] = points
+        else:
+            context["google_map"] = f"https://www.google.com/maps/embed/v1/place?key=" + \
+                str(os.environ["GOOGLE_MAPS"]) + "&q=serwiswrybnej"
+            url = f"https://maps.googleapis.com/maps/api/distancematrix/json?destinations={self.object.name}&origins=serwiswrybnej&units=kilometers&key=" + str(
+                os.environ["GOOGLE_MAPS"])
+            payload = {}
+            headers = {}
+            response = requests.request("GET", url, headers=headers, data=payload)
+            data = json.loads(response.text)
+            if data["rows"]:
+                context["duration"] = data["rows"][0]["elements"][0]["duration"]["text"]
+                context["distance"] = data["rows"][0]["elements"][0]["distance"]["text"]
         return context
 
 

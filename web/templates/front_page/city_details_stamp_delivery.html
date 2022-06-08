@@ -31,31 +31,42 @@
     <div class="col-12 mx-auto m-0 p-0">
         <h1 class="m-0 p-0">Wyrobienie pieczątki online w {{ object.name }}</h1>
     </div>
-    <p class="m-0 p-0 mt-3 col-12">Link do działu:</p><a href="https://serwiswrybnej.pl/produkty/kategoria/pieczatki/pieczatki-firmowe/5">Pieczątki firmowe</a>
+    <p class="m-0 p-0 mt-3 col-12">Link do działu:</p>
+    <a class="col-12" href="https://serwiswrybnej.pl/produkty/kategoria/pieczatki/pieczatki-firmowe/5">Pieczątki firmowe</a>
+    <a class="col-12" href="https://serwiswrybnej.pl/produkty/kategoria/pieczatki/pieczatki-imienne/4">Pieczątki imienne</a>
+    <a class="col-12" href="https://serwiswrybnej.pl/produkty/kategoria/pieczatki/pieczatki-z-logiem/6">Pieczątki z logiem</a>
 </div>
 <div class="col-11 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
 <div class="col-12 m-1 p-1 row d-flex align-items-start">
     <strong class="col-12 text-center m-0 p-0 mt-2 font-weight-bold">Wysyłka Inpost do paczkomatów w {{ object.name }}:</p>
     </strong>
 </div>
-<div class="col-12 p-0 mx-auto text-center">
-    <iframe width="100%" height="300px" frameborder="0" style="border:0" src="{{ google_map }}" allowfullscreen>
-    </iframe>
+{% if google_map %}
+    <div class="col-12 p-0 mx-auto text-center">
+        <div class="col-12 mx-auto row mt-3 mb-3">
+            <strong class="col-12 mx-auto text-left">Czas dojazdu do serwis w Rybnej: {{ duration }}</strong>
+            <strong class="col-12 mx-auto text-left">Odległość do serwis w Rybnej: {{ distance }}</strong>
+        </div>
+        <iframe width="100%" height="500px" frameborder="0" style="border:0" src="{{ google_map }}" allowfullscreen>
+        </iframe>
 </div>
-{% for point in inpost_boxes.items %}
+{% endif %}
+{% if inpost_boxes %}
+    {% for point in inpost_boxes.items %}
+        <div class="col-4 m-1 p-1 row d-flex align-items-start border border-warning">
+            <p class="col-12 text-center m-0 p-0 mt-2 font-weight-bold">{{ point.name }}</p>
+            <p class="col-12 text-center m-0 p-0">{{ point.location_description }}</p>
+            <p class="col-12 text-center m-0 p-0">{{ point.address_details.street }} {{ point.address_details.building_number }}</p>
+        </div>
+    {% empty %}
     <div class="col-4 m-1 p-1 row d-flex align-items-start border border-warning">
-        <p class="col-12 text-center m-0 p-0 mt-2 font-weight-bold">{{ point.name }}</p>
-        <p class="col-12 text-center m-0 p-0">{{ point.location_description }}</p>
-        <p class="col-12 text-center m-0 p-0">{{ point.address_details.street }} {{ point.address_details.building_number }}</p>
+        <p class="col-12 text-center m-0 p-0 mt-2 font-weight-bold">Brak paczkomatu inpost w Twojej miejscowości</p>
+        </p>
     </div>
-{% empty %}
-<div class="col-4 m-1 p-1 row d-flex align-items-start border border-warning">
-    <p class="col-12 text-center m-0 p-0 mt-2 font-weight-bold">Brak paczkomatu inpost w Twojej miejscowości</p>
-    </p>
-</div>
 {% endfor %}
+{% endif %}
 </div>
-<div class="col-12 col-md-9 mx-auto text-center m-0 p-0 mt-3 row">
+<!-- <div class="col-12 col-md-9 mx-auto text-center m-0 p-0 mt-3 row">
     {% for product in products %}
         <div itemscope itemtype="http://schema.org/Product" class="col-6 col-sm-4 col-xl-3 p-0 ml-0 mr-0 product ">
             <div id="showOption" class="col-12 row mx-auto d-flex align-items-center">
@@ -107,20 +118,12 @@
         </div>
         {% empty %}
         <p class="col-12 mx-auto text-left">Wybierz kategorię w menu</p>
-        {% endfor %}
-</div>
+        {% endfor %} -->
+<!-- </div> -->
 {% endblock %}
 
 {% block script %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    {% load compress %}
-    {% compress js %}
-    <script src="/static/js/products.js" type="text/javascript"></script>
-    {% endcompress %}
-
-    {% block script_shop %}
-    {% endblock %}
 <script type="application/ld+json">
     {
      "@context": "https://schema.org",
