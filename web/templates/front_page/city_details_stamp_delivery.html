@@ -37,10 +37,7 @@
     <a class="col-12" href="https://serwiswrybnej.pl/produkty/kategoria/pieczatki/pieczatki-z-logiem/6">Pieczątki z logiem</a>
 </div>
 <div class="col-11 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
-<div class="col-12 m-1 p-1 row d-flex align-items-start">
-    <strong class="col-12 text-center m-0 p-0 mt-2 font-weight-bold">Wysyłka Inpost do paczkomatów w {{ object.name }}:</p>
-    </strong>
-</div>
+
 {% if google_map %}
     <div class="col-12 p-0 mx-auto text-center">
         <div class="col-12 mx-auto row mt-3 mb-3">
@@ -51,7 +48,13 @@
         </iframe>
 </div>
 {% endif %}
+
 {% if inpost_boxes %}
+<div class="col-12 m-1 p-1 row d-flex align-items-start">
+    <strong class="col-12 text-center m-0 p-0 mt-2 font-weight-bold">Wysyłka Inpost do paczkomatów w {{ object.name }}:
+        </p>
+    </strong>
+</div>
     {% for point in inpost_boxes.items %}
         <div class="col-4 m-1 p-1 row d-flex align-items-start border border-warning">
             <p class="col-12 text-center m-0 p-0 mt-2 font-weight-bold">{{ point.name }}</p>
