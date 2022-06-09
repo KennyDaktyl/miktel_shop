@@ -1,10 +1,18 @@
 Sitemap: https://serwiswrybnej.pl/sitemap.xml
+Sitemap: https://serwiswrybnej.pl/sitemaps_cities_shipping_stamp-citys_stamp_delivery.xml
+Sitemap: https://serwiswrybnej.pl/sitemaps_cities_shipping_stamp-city_stamp_delivery_details.xml
+Sitemap: https://serwiswrybnej.pl/sitemaps_cities_shipping_stamp-city_stamp_delivery_details.xml?p=2
+Sitemap: https://serwiswrybnej.pl/sitemaps_cities_shipping_stamp-city_stamp_delivery_details.xml?p=3
+Sitemap: https://serwiswrybnej.pl/sitemaps_cities_shipping_stamp-city_stamp_delivery_details.xml?p=4
+Sitemap: https://serwiswrybnej.pl/sitemaps_cities_shipping_stamp-city_stamp_delivery_details.xml?p=5
+Sitemap: https://serwiswrybnej.pl/sitemaps_cities_shipping_stamp-city_stamp_delivery_details.xml?p=6
+
 
 User-agent: *
-Dissalow: /accounts/
-Dissalow: /admin/
-Dissalow: /regulamin
-Dissalow: /polityka-prywatnosci
-Dissalow: /koszyk/
-Dissalow: /zamowienia/
-Dissalow: /payment/
+Disalow: /accounts/
+Disalow: /admin/
+Disalow: /regulamin
+Disalow: /polityka-prywatnosci
+Disalow: /koszyk/
+Disalow: /zamowienia/
+Disalow: /payment/
