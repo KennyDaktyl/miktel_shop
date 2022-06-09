@@ -9,10 +9,10 @@ Sitemap: https://serwiswrybnej.pl/sitemaps_cities_shipping_stamp-city_stamp_deli
 
 
 User-agent: *
-Disalow: /accounts/
-Disalow: /admin/
-Disalow: /regulamin
-Disalow: /polityka-prywatnosci
-Disalow: /koszyk/
-Disalow: /zamowienia/
-Disalow: /payment/
+Disallow: /accounts/
+Disallow: /admin/
+Disallow: /regulamin
+Disallow: /polityka-prywatnosci
+Disallow: /koszyk/
+Disallow: /zamowienia/
+Disallow: /payment/
