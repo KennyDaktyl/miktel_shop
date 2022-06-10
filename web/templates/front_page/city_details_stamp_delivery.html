@@ -6,7 +6,7 @@
 
 {% block head %}
 <meta property="fb:app_id" content="{{ app_id }}" />
-<meta property="og:url" content="" />
+<meta property="og:url" content="{{ get_domain }}{{ object.get_absolute_url }}" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Wyrobienie pieczątki online w {{ object.name }}" />
 <meta property="og:description" content="Wyrobienie pieczątki online w {{ object.name }}" />

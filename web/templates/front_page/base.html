@@ -139,13 +139,20 @@
                                 </li>
                                 {% endfor %}
                                 {% if category.id == 1 %}
-                                    <a class="dropdown-item" href="{% url 'cities_gsm_service_rybna_area' %}" title="">Indeks miast - okolice Rybnej</a>
+                                <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
+                                    <a class="col-10 nav-link text-left mx-auto" href="{% url 'index_cities_gsm_service_rybna_area' %}" title="">Indeks miast - okolice Rybnej</a>
+                                </li>
                                 {% endif %}
                                 {% if category.id == 2 %}
                                 <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
                                     <a class="col-10 nav-link text-left mx-auto"
                                         href="{% url 'index_citys_stamp_delivery' %}"
                                         title="">Indeks miast - paczkomaty</a>
+                                </li>
+                                {% endif %}
+                                {% if category.id == 4 %}
+                                <li class="col nav-item d-flex align-items-center mx-auto m-0 p-0">
+                                    <a class="col-10 nav-link text-left mx-auto" href="{% url 'index_cities_keys_rybna_area' %}" title="">Indeks miast - okolice Rybnej</a>
                                 </li>
                                 {% endif %}
                             </div>
@@ -218,10 +225,13 @@
                                 href="{% url 'sub_category_products' cat=category.slug sub_cat=sub_cat.slug pk=sub_cat.pk %}">{{ sub_cat.name }}</a>
                             {% endfor %}
                             {% if category.id == 1 %}
-                                <a class="dropdown-item" href="{% url 'cities_gsm_service_rybna_area' %}" title="">Indeks miast - okolice Rybnej</a>
+                                <a class="dropdown-item" href="{% url 'index_cities_gsm_service_rybna_area' %}" title="">Indeks miast - okolice Rybnej</a>
                             {% endif %}
                             {% if category.id == 2 %}
                                 <a class="dropdown-item" href="{% url 'index_citys_stamp_delivery' %}" title="">Indeks miast - paczkomaty</a>
+                            {% endif %}
+                            {% if category.id == 4 %}
+                                    <a class="dropdown-item" href="{% url 'index_cities_keys_rybna_area' %}" title="">Indeks miast - okolice Rybnej</a>
                             {% endif %}
                         </div>
                     </li>

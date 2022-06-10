@@ -6,14 +6,15 @@
 
 {% block head %}
 <meta property="fb:app_id" content="{{ app_id }}" />
-<meta property="og:url" content="{{ get_domain }}{% url 'city_details_gsm_available' slug=object.slug pk=object.pk %}" />
+<meta property="og:url" content="{{ get_domain }}{% url 'city_details_keys_delivery' slug=object.slug pk=object.pk %}" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Wyrobienie pieczątki online w {{ object.name }}" />
-<meta property="og:description" content="Wyrobienie pieczątki online w {{ object.name }}" />
-<meta property="og:image" content="Naprawy telefonów komórkowych w pobliżu {{ object.name }}. Serwis w Rybnej jest {{ duration }} drogi od Ciebie." />
+<meta property="og:title" content="Dorabianie kluczy w pobliżu: {{ object.name }}" />
+<meta property="og:description" content="Dorabianie kluczy w pobliżu {{ object.name }}. Serwis w Rybnej jest {{ duration }} drogi od Ciebie." />
+<meta property="og:image" content="Dorabianie kluczy w pobliżu {{ object.name }}. Serwis w Rybnej jest {{ duration }} drogi od Ciebie." />
 
 <meta name="description" content="Naprawy telefonów komórkowych w pobliżu {{ object.name }}. Serwis w Rybnej jest {{ duration }} drogi od Ciebie.">
-<title>Narawy telefonów w okolicy: {{ object.name }}</title>
+<link rel="canonical" href="{{ get_domain }}{% url 'city_details_keys_delivery' slug=object.slug pk=object.pk %}" />
+<title>Dorabianie kluczy w okolicy: {{ object.name }}</title>
 {% endblock %}
 
 {% block content %}
@@ -22,14 +23,16 @@
             <ol class="breadcrumb bg-white row">
                 <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a class="" href="{% url 'front_page' %}"><span>Strona główna</span></a></li>
                 <span class="p-1 m-1">/</span>
-                <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{% url 'index_cities_gsm_service_rybna_area' %}"><span>Indeks miast - w pobliżu serwisu w Rybnej</span></a></li>
+                <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{% url 'index_cities_keys_rybna_area' %}"><span>Indeks miast - w pobliżu serwisu w Rybnej</span></a></li>
             </ol>
         </nav>
         <div class="col-12 mx-auto m-0 p-0">
-            <h1 class="m-0 p-0">Serwis w Rybnej jest w pobliżu {{ object.name }}</h1>
+            <h1 class="m-0 p-0">Dorabianie kluczy w pobliżu {{ object.name }}</h1>
         </div>
         <p class="m-0 p-0 mt-3 col-12">Link do działu:</p>
-        <a class="col-12" href="https://serwiswrybnej.pl/produkty/kategoria/telefony/serwis-gsm/3">Serwis telefonów</a>
+        <a class="col-12" href="https://serwiswrybnej.pl/produkty/kategoria/dorabianie-kluczy/klucze-numeryczne/9">Klucze numeryczne</a>
+        <a class="col-12" href="https://serwiswrybnej.pl/produkty/kategoria/dorabianie-kluczy/klucze-mieszkaniowe/10">Klucze mieszkaniowe</a>
+        <a class="col-12" href="https://serwiswrybnej.pl/produkty/kategoria/dorabianie-kluczy/klucze-samochodowe/12">Klucze samochodowe</a>
     </div>
     <div class="col-11 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
 
@@ -68,7 +71,7 @@
         "position": 2,
         "item":
             {
-            "@id": "{{ get_domain }}{% url 'index_cities_gsm_service_rybna_area' %}",
+            "@id": "{{ get_domain }}{% url 'index_cities_keys_rybna_area' %}",
             "name": "Indeks miast - w okolicy Serwisu w Rybnej"
             }
         }

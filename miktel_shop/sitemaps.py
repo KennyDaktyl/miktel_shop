@@ -160,7 +160,7 @@ class StaticCitiesIndexGSMViewSitemap(Sitemap):
 
     def items(self):
         return [
-            "cities_gsm_service_rybna_area"
+            "index_cities_gsm_service_rybna_area"
         ]
 
     def location(self, item):
@@ -181,6 +181,39 @@ class CitiesGSMServiceAvailableView(Sitemap):
     def location(self, items):
         return reverse(
             "city_details_gsm_available",
+            kwargs={
+                "slug": items.slug,
+                "pk": items.pk,
+            },
+        )
+
+class StaticCitiesIndexKeysViewSitemap(Sitemap):
+    priority = 0.5
+    changefreq = "daily"
+
+    def items(self):
+        return [
+            "index_cities_keys_rybna_area"
+        ]
+
+    def location(self, item):
+        return reverse(item)
+
+
+class CitiesKeysAvailableView(Sitemap):
+    priority = 1.0
+    changefreq = "always"
+    protocol = "https"
+    limit = 10000
+
+    def items(self):
+        return Citys.objects.filter(
+            rybna_area=True,
+        )
+
+    def location(self, items):
+        return reverse(
+            "city_details_keys_delivery",
             kwargs={
                 "slug": items.slug,
                 "pk": items.pk,

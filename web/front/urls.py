@@ -4,12 +4,14 @@ from .views import (
     first_page,
     contact_page,
     index_citys_stamp_delivery,
-    cities_gsm_service_rybna_area,
+    index_cities_gsm_service_rybna_area,
+    cities_keys_rybna_area,
     privacy_policy,
     terms_rules,
     index_city_detail_stamp_delivery,
     city_details_stamp_delivery,
-    city_details_gsm_available
+    city_details_gsm_available,
+    city_details_keys_delivery,
 )
 
 urlpatterns = [
@@ -24,8 +26,13 @@ urlpatterns = [
     ),
     path(
         "serwis-i-naprawa-telefonow-lista-miast-w-okolicy-rybnej",
-        cities_gsm_service_rybna_area,
-        name="cities_gsm_service_rybna_area",
+        index_cities_gsm_service_rybna_area,
+        name="index_cities_gsm_service_rybna_area",
+    ),
+    path(
+        "ekspresowe-dorabianie-kluczy-lista-miast-w-okolicy-rybnej",
+        cities_keys_rybna_area,
+        name="index_cities_keys_rybna_area",
     ),
     path(
         "wyrob-pieczatek-online-do-miast-na-<slug:slug>/<int:pk>",
@@ -41,5 +48,10 @@ urlpatterns = [
         "serwis-i-naprawy-telefonow-w-okolicy-<slug:slug>/<int:pk>",
         city_details_gsm_available,
         name="city_details_gsm_available",
+    ),
+    path(
+        "dorabianie-kluczy-mieszkaniowych-i-samochodowych-w-okolicy-<slug:slug>/<int:pk>",
+        city_details_keys_delivery,
+        name="city_details_keys_delivery",
     ),
 ]

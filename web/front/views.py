@@ -113,6 +113,17 @@ class IndexCitysGSMDelivery(ListView):
         return context
 
 
+class IndexCitysKeysDelivery(ListView):
+    template_name = "front_page/cities_keys_available.html"
+    model = Citys
+
+    def get_queryset(self):
+        context = self.model.objects.filter(
+            rybna_area=True,
+        )
+        return context
+
+
 class IndexCityDetailsStamDelivery(ListView):
     template_name = "front_page/index_details_stamp_delivery.html"
     paginate_by = 300
@@ -184,6 +195,28 @@ class CityDetailsGSMAvailable(DetailView):
         return context
 
 
+class CityDetailsKeysAvailable(DetailView):
+    template_name = "front_page/city_details_keys_delivery.html"
+    queryset = Citys.objects.filter(
+            rybna_area=True,
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["google_map"] = f"https://www.google.com/maps/embed/v1/place?key=" + \
+            str(os.environ["GOOGLE_MAPS"]) + "&q=serwiswrybnej"
+        url = f"https://maps.googleapis.com/maps/api/distancematrix/json?destinations={self.object.name}&origins=serwiswrybnej&units=kilometers&key=" + str(
+            os.environ["GOOGLE_MAPS"])
+        payload = {}
+        headers = {}
+        response = requests.request("GET", url, headers=headers, data=payload)
+        data = json.loads(response.text)
+        if data["rows"]:
+            context["duration"] = data["rows"][0]["elements"][0]["duration"]["text"]
+            context["distance"] = data["rows"][0]["elements"][0]["distance"]["text"]
+        return context
+
+
 def error_404(request, exception):
     context = {}
     return render(request, "front_page/404.html", context, status=404)
@@ -199,8 +232,11 @@ contact_page = ContactPage.as_view()
 privacy_policy = PrivacyPolicyPage.as_view()
 terms_rules = TermsAndRulesPage.as_view()
 index_citys_stamp_delivery = IndexCitysStamDelivery.as_view()
-cities_gsm_service_rybna_area = IndexCitysGSMDelivery.as_view()
+index_cities_gsm_service_rybna_area = IndexCitysGSMDelivery.as_view()
+cities_keys_rybna_area = IndexCitysKeysDelivery.as_view()
 
 index_city_detail_stamp_delivery = IndexCityDetailsStamDelivery.as_view()
+
 city_details_stamp_delivery = CityDetailsStamDelivery.as_view()
 city_details_gsm_available = CityDetailsGSMAvailable.as_view()
+city_details_keys_delivery = CityDetailsKeysAvailable.as_view()

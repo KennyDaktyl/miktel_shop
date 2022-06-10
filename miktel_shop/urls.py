@@ -23,7 +23,9 @@ from .sitemaps import (
     CitiesGSMServiceAvailableView,
     CitiesGSMServiceAvailableView,
     StaticCitiesIndexStampViewSitemap,
-    StaticCitiesIndexGSMViewSitemap
+    StaticCitiesIndexGSMViewSitemap,
+    CitiesKeysAvailableView,
+    StaticCitiesIndexKeysViewSitemap
 )
 
 sitemaps = {
@@ -45,6 +47,10 @@ sitemaps_cities_service_gsm_available = {
     "cities_service_gsm_available": CitiesGSMServiceAvailableView
 }
 
+sitemaps_cities_keys_available = {
+    "cities_index": StaticCitiesIndexKeysViewSitemap,
+    "cities_keys_available": CitiesKeysAvailableView
+}
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -73,6 +79,9 @@ urlpatterns = [
     path('sitemaps_cities_service_gsm_available.xml',
          sitemap,
          {'sitemaps': sitemaps_cities_service_gsm_available}, name='sitemaps_cities_service_gsm_available'),
+    path('sitemaps_cities_keys_available.xml',
+         sitemap,
+         {'sitemaps': sitemaps_cities_keys_available}, name='sitemaps_cities_keys_available'),
     path(
         "robots.txt",
         TemplateView.as_view(
