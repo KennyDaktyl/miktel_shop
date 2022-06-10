@@ -21,7 +21,6 @@ class StaticViewSitemap(Sitemap):
             "articles_list",
             "privacy_policy",
             "terms",
-            "index_citys_stamp_delivery"
         ]
 
     def location(self, item):
@@ -123,6 +122,19 @@ class CitysIndexStampListView(Sitemap):
         )
 
 
+class StaticCitiesIndexStampViewSitemap(Sitemap):
+    priority = 0.5
+    changefreq = "daily"
+
+    def items(self):
+        return [
+            "index_citys_stamp_delivery",
+        ]
+
+    def location(self, item):
+        return reverse(item)
+
+
 class CityIndexStampDetailsView(Sitemap):
     priority = 1.0
     changefreq = "always"
@@ -135,6 +147,40 @@ class CityIndexStampDetailsView(Sitemap):
     def location(self, items):
         return reverse(
             "city_details_stamp_delivery",
+            kwargs={
+                "slug": items.slug,
+                "pk": items.pk,
+            },
+        )
+
+
+class StaticCitiesIndexGSMViewSitemap(Sitemap):
+    priority = 0.5
+    changefreq = "daily"
+
+    def items(self):
+        return [
+            "cities_gsm_service_rybna_area"
+        ]
+
+    def location(self, item):
+        return reverse(item)
+
+
+class CitiesGSMServiceAvailableView(Sitemap):
+    priority = 1.0
+    changefreq = "always"
+    protocol = "https"
+    limit = 10000
+
+    def items(self):
+        return Citys.objects.filter(
+            rybna_area=True,
+        )
+
+    def location(self, items):
+        return reverse(
+            "city_details_gsm_available",
             kwargs={
                 "slug": items.slug,
                 "pk": items.pk,

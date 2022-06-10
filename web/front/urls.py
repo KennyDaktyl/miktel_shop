@@ -4,10 +4,12 @@ from .views import (
     first_page,
     contact_page,
     index_citys_stamp_delivery,
+    cities_gsm_service_rybna_area,
     privacy_policy,
     terms_rules,
     index_city_detail_stamp_delivery,
     city_details_stamp_delivery,
+    city_details_gsm_available
 )
 
 urlpatterns = [
@@ -21,6 +23,11 @@ urlpatterns = [
         name="index_citys_stamp_delivery",
     ),
     path(
+        "serwis-i-naprawa-telefonow-lista-miast-w-okolicy-rybnej",
+        cities_gsm_service_rybna_area,
+        name="cities_gsm_service_rybna_area",
+    ),
+    path(
         "wyrob-pieczatek-online-do-miast-na-<slug:slug>/<int:pk>",
         index_city_detail_stamp_delivery,
         name="index_city_detail_stamp_delivery",
@@ -29,5 +36,10 @@ urlpatterns = [
         "wyrob-pieczatek-online-w-<slug:slug>/<int:pk>",
         city_details_stamp_delivery,
         name="city_details_stamp_delivery",
+    ),
+    path(
+        "serwis-i-naprawy-telefonow-w-okolicy-<slug:slug>/<int:pk>",
+        city_details_gsm_available,
+        name="city_details_gsm_available",
     ),
 ]

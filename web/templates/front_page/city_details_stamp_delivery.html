@@ -143,20 +143,11 @@
             }
         },
         {
-        "@type": "ListItem",
-        "position": 2,
-        "item":
-            {
-            "@id": "{{ get_domain }}{% url 'index_citys_stamp_delivery' %}",
-            "name": "Sklep On-line"
-            }
-        },
-        {
             "@type": "ListItem",
             "position": 2,
             "item":
                 {
-                "@id": "{{ letter.get_absolute_url }}",
+                "@id": "{{ get_domain }}{% url 'index_citys_stamp_delivery' %}",
                 "name": "Indeks miast - wysyłka pieczątek on-line"
                 }
             },
@@ -165,7 +156,7 @@
             "position": 3,
             "item":
                 {
-                "@id": "{{ letter.get_absolute_url }}",
+                "@id": "{{ get_domain }}{{ letter.get_absolute_url }}",
                 "name": "Lista miast na literę: {{ letter.name|polish_letter }}"
             }
         }

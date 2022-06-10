@@ -1,0 +1,78 @@
+{% extends "front_page/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+{% load templatetag %}
+
+{% block head %}
+<meta property="fb:app_id" content="{{ app_id }}" />
+<meta property="og:url" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Wyrobienie pieczątki online w {{ object.name }}" />
+<meta property="og:description" content="Wyrobienie pieczątki online w {{ object.name }}" />
+<meta property="og:image" content="Naprawy telefonów komórkowych w pobliżu {{ object.name }}. Serwis w Rybnej jest {{ duration }} drogi od Ciebie." />
+
+<meta name="description" content="Naprawy telefonów komórkowych w pobliżu {{ object.name }}. Serwis w Rybnej jest {{ duration }} drogi od Ciebie.">
+<title>Narawy telefonów w okolicy: {{ object.name }}</title>
+{% endblock %}
+
+{% block content %}
+    <div class="col-11 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
+        <nav class="col-12 mx-auto" aria-label="breadcrumb" >
+            <ol class="breadcrumb bg-white row">
+                <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a class="" href="{% url 'front_page' %}"><span>Strona główna</span></a></li>
+                <span class="p-1 m-1">/</span>
+                <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{% url 'cities_gsm_service_rybna_area' %}"><span>Indeks miast - w pobliżu serwisu w Rybnej</span></a></li>
+            </ol>
+        </nav>
+        <div class="col-12 mx-auto m-0 p-0">
+            <h1 class="m-0 p-0">Serwis w Rybnej jest w pobliżu {{ object.name }}</h1>
+        </div>
+        <p class="m-0 p-0 mt-3 col-12">Link do działu:</p>
+        <a class="col-12" href="https://serwiswrybnej.pl/produkty/kategoria/telefony/serwis-gsm/3">Serwis telefonów</a>
+    </div>
+    <div class="col-11 col-md-9 mx-auto mt-3 ml-0 mr-0 p-0 mt-2 row">
+
+    {% if google_map %}
+        <div class="col-12 p-0 mx-auto text-center">
+            <div class="col-12 mx-auto row mt-3 mb-3">
+                <strong class="col-12 mx-auto text-left">Czas dojazdu do serwis w Rybnej: {{ duration }}</strong>
+                <strong class="col-12 mx-auto text-left">Odległość do serwis w Rybnej: {{ distance }}</strong>
+            </div>
+            <iframe width="100%" height="500px" frameborder="0" style="border:0" src="{{ google_map }}" allowfullscreen>
+            </iframe>
+        </div>
+    {% endif %}
+
+{% endblock %}
+
+{% block script %}
+
+<script type="application/ld+json">
+    {
+     "@context": "https://schema.org",
+     "@type": "BreadcrumbList",
+     "itemListElement":
+    [
+        {
+       "@type": "ListItem",
+       "position": 1,
+       "item":
+            {
+            "@id": "{{ get_domain }}{% url 'front_page' %}",
+            "name": "Strona główna"
+            }
+        },
+        {
+        "@type": "ListItem",
+        "position": 2,
+        "item":
+            {
+            "@id": "{{ get_domain }}{% url 'cities_gsm_service_rybna_area' %}",
+            "name": "Indeks miast - w okolicy Serwisu w Rybnej"
+            }
+        }
+     ]
+    }
+    </script>
+{% endblock %}

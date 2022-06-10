@@ -19,7 +19,11 @@ from .sitemaps import (
     SubCategoryTypeDetailsSiteView,
     ArticleDetailsSiteView,
     CitysIndexStampListView,
-    CityIndexStampDetailsView
+    CityIndexStampDetailsView,
+    CitiesGSMServiceAvailableView,
+    CitiesGSMServiceAvailableView,
+    StaticCitiesIndexStampViewSitemap,
+    StaticCitiesIndexGSMViewSitemap
 )
 
 sitemaps = {
@@ -31,9 +35,16 @@ sitemaps = {
 }
 
 sitemaps_cities_shipping_stamp = {
+    "cities_index": StaticCitiesIndexStampViewSitemap,
     "citys_stamp_delivery": CitysIndexStampListView,
     "city_stamp_delivery_details": CityIndexStampDetailsView
 }
+
+sitemaps_cities_service_gsm_available = {
+    "cities_index": StaticCitiesIndexGSMViewSitemap,
+    "cities_service_gsm_available": CitiesGSMServiceAvailableView
+}
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -59,6 +70,9 @@ urlpatterns = [
     path('sitemap-<section>.xml',
          cache_page(86400)(sitemaps_views.sitemap),
          {'sitemaps': sitemaps}, name='sitemaps'),
+    path('sitemaps_cities_service_gsm_available.xml',
+         sitemap,
+         {'sitemaps': sitemaps_cities_service_gsm_available}, name='sitemaps_cities_service_gsm_available'),
     path(
         "robots.txt",
         TemplateView.as_view(

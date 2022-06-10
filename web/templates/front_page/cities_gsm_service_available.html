@@ -1,0 +1,98 @@
+{% extends "front_page/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load thumbnail %}
+{% load templatetag %}
+
+{% block head %}
+<meta property="fb:app_id" content="{{ app_id }}" />
+<meta property="og:url" content="{{ get_domain }}{% url 'cities_gsm_service_rybna_area' %}"/>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Indeks miast - w okolicy Serwisu w Rybnej" />
+<meta property="og:description" content="Indeks miast w okolicy serwisu w Rybnej. Naprawy telefonów w pobliżu Twojeg miejscowości." />
+<meta property="og:image" content="" />
+
+<link rel="canonical" href="{{ get_domain }}{% url 'cities_gsm_service_rybna_area' %}" />
+<meta name="description" content="Indeks miast w okolicy serwisu w Rybnej. Naprawy telefonów w pobliżu Twojeg miejscowości.">
+<title>Indeks miast - w okolicy Serwisu w Rybnej</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="col-12 col-md-9 mx-auto mt-5 ml-0 mr-0 p-0 mt-2 row">
+    <nav class="col-12 mx-auto" aria-label="breadcrumb" >
+        <ol class="breadcrumb bg-white row">
+            <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a class="" href="{% url 'front_page' %}"><span>Strona główna</span></a></li>
+            <span class="p-1 m-1">/</span>
+            <li class="breadcrumb_element border border-breadcrumb rounded p-1 m-1"><a href="{% url 'index_citys_stamp_delivery' %}"><span>Indeks miast - w okolicy Serwisu w Rybnej</span></a></li>
+        </ol>
+    </nav>
+    <h1 class="col-12 mx-auto text-center row">Lista miast w okolicy Serwisu w Rybnej</h1>
+    {% for city in object_list %}
+        <a class="col-xs-2 mx-left" href="{% url 'city_details_gsm_available' slug=city.slug pk=city.pk %}"><p class="col-12 mx-auto">{{ city.name }},&nbsp;</p></a>
+    {% endfor %}
+</div>
+
+ <div class="col-12 input-group mb-3 mt-3 mx-auto text-center pagination">
+        <div class=""></div>
+        <div aria-label="..." class="row col-12 m-0 p-0 justify-content-center mx-auto text-center">
+        <span class="step-links">
+        <ul class="pagination row text-dark pagination pagination-lg flex-wrap text-wrap mx-auto text-center">
+
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link text-dark" href="?page=1">&laquo; Początek</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link text-dark" href="?page={{ page_obj.previous_page_number }}">prev.</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item text-light active">
+                <span class="page-link text-white">
+                Strona {{ page_obj.number }} z {{ page_obj.paginator.num_pages }}.
+                </span>
+            </li>
+            {% if page_obj.has_next %}
+            <li class="page-item text-dark">
+                <a class="page-link text-dark" href="?page={{ page_obj.next_page_number }}">next.</a>
+            </li>
+            <li class="page-item text-dark">
+                <a class="page-link text-dark" href="?page={{ page_obj.paginator.num_pages }}">Koniec &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+        </span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script type="application/ld+json">
+    {
+     "@context": "https://schema.org",
+     "@type": "BreadcrumbList",
+     "itemListElement":
+    [
+        {
+       "@type": "ListItem",
+       "position": 1,
+       "item":
+            {
+            "@id": "{{ get_domain }}{% url 'front_page' %}",
+            "name": "Strona główna"
+            }
+        },
+        {
+        "@type": "ListItem",
+        "position": 2,
+        "item":
+            {
+            "@id": "{{ get_domain }}{% url 'index_citys_stamp_delivery' %}",
+            "name": "Indeks miast - wysyłka pieczątek on-lineIndeks miast - wysyłka pieczątek on-line"
+            }
+        }
+     ]
+    }
+    </script>
+{% endblock %}
