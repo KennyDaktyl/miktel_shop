@@ -31,6 +31,10 @@
 {% endif %}
 {% endblock %}
 
+
+{% block h1 %}
+<h1 class="col-12 mx-auto m-0 p-0 mt-3 text-left">{{ sub_category_type.name }}</h1>
+{% endblock %}
 {% block content_shop %}
     <input type="hidden" id='cat' value="{{ sub_category_type.sub_category.category.id }}">
     <input type="hidden" id='sub_cat' value="{{ sub_category_type.sub_category.id }}">
@@ -48,7 +52,7 @@
                 <a href="{% url 'shop_main_view' %}"class=" border border-breadcrumb rounded p-1 m-1">Sklep On-line</a>
                 <a href="{{ sub_category_type.sub_category.get_absolute_url }}"class=" border border-breadcrumb rounded p-1 m-1">{{ sub_category_type.sub_category.name }}</a>
             {% endif %}<br>
-        <h1 class="col-12 mx-auto m-0 p-0 mt-3 text-left">{{ sub_category_type.name }}</h1>
+        
             {% if sizes %}
                 <div class="col-12 m-0 p-0 mt-5 row">
                         <span class="col-12 text-left">Filtrowanie</span>
