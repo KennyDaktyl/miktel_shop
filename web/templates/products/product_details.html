@@ -22,6 +22,9 @@
 <title>{{ object.meta_title }}</title>
 {% endblock %}
 
+{% block h1 %}
+<h1 class="col-12 mx-auto mt-3 text-left">{{object.name}}</h1>
+{% endblock %}
 {% block content_shop %}
 <div class="wrap col-12 m-0 p-0 ">
     <input type="hidden" id='cat' value="{{ object.sub_category_type.sub_category.category.id }}">
@@ -71,7 +74,7 @@
                 </div>
             </div>
             
-            <h1 class="productName col-12 mx-auto text-center align-self-start">{{object.name}}</h1>
+            <p class="productName col-12 mx-auto text-center align-self-start">{{object.name}}</p>
             <blockquote class="col-12 mx-auto row d-flex align-items-center ">
                 {% if object.is_news %}
                     <div class="boxNovelty smallBox ">NEW</div>
