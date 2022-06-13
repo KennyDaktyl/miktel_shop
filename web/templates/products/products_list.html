@@ -41,10 +41,8 @@
     <input type="hidden" id='sub_cat_type' value="{{ sub_category_type.id }}">
     <div class="col-12 mx-auto ml-0 mr-0 p-0 mt-3 row d-flex align-items-start offer">
         {% if sub_cat %}
-        <h1 class="col-12 mx-auto text-left">Produkty z kategorii: {{ sub_cat.name }}</h1>
+        <h1 class="col-12 mx-auto text-left">Produkty z kategorii: {{ sub_category_type.sub_category.name }}</h1>
         {% else %}
-        
-        
         <nav class="col-12 mx-auto " aria-label="breadcrumb" >
             <ol class="breadcrumb breadcrumb_element bg-white row">
                 <a href="{% url 'front_page' %}"class=" border border-breadcrumb rounded p-1 m-1">Strona główna</a>
