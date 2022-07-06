@@ -58,12 +58,14 @@ class RegisterUserView(View):
                 # send_simple_message(
                 #     "Aktywacja konta", host, new_user, token.activation_token
                 # )
-                send_activate_email_by_django(
-                    "Aktywacja konta", host, new_user, token.activation_token)
+                
                 profile = Profile()
                 profile.user_id = new_user.id
                 profile.company = False
                 profile.save()
+                send_activate_email_by_django(
+                    "Aktywacja konta", host, new_user, token.activation_token)
+                send_activate_info_email_by_django(new_user)
                 messages.error(
                     request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)"
                 )
@@ -126,6 +128,7 @@ class CompanyRegistrationView(View):
                 # )
                 send_activate_email_by_django(
                     "Aktywacja konta", host, new_user, token.activation_token)
+                send_activate_info_email_by_django(new_user)
                 messages.error(
                     request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)"
                 )

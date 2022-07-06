@@ -165,7 +165,7 @@ def send_email_order_completed_by_django(order, host, file_name=False):
     subject, from_email, to = (
         f"Zamówienie w serwisie w Rybnej nr: {order.number} zakończono pomyślnie.",
         settings.EMAIL_HOST_USER,
-        order.client.email,
+        [order.client.email,"miktelgsm@miktelgsm.pl"]
     )
     token = ActivateToken.objects.get(user=order.client).activation_token
     html_content = render_to_string(
@@ -177,7 +177,7 @@ def send_email_order_completed_by_django(order, host, file_name=False):
         },
     )
     html_content = html_content
-    msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
+    msg = EmailMultiAlternatives(subject, html_content, from_email, to)
     msg.attach_alternative(html_content, "text/html")
     if file_name:
         msg.attach("faktura-" + order.invoice.number + ".pdf", order.invoice.pdf.read())
