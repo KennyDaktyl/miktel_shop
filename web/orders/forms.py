@@ -143,12 +143,14 @@ class OrderDetailsForm(forms.Form):
                     widget=forms.Select(choices=CHOICES),
                     required=True,
                 )
-
+    phone_number = forms.CharField(label="Numer telefonu", required=True)
     delivery_method = forms.ModelChoiceField(
         label="Sposób dostawy",
         queryset=DeliveryMethod.objects.all(),
         required=True,
     )
+
+    
 
     payment_method = forms.ModelChoiceField(
         label="Sposób płatności",

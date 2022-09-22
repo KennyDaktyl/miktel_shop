@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 
 import stripe
@@ -10,6 +11,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from web.cart.cart import Cart
 from web.models import ActivateToken, DeliveryMethod, Orders, PayMethod, Store
+from web.models import Profile
 
 from .forms import OrderDetailsForm
 from .functions import (
@@ -18,6 +20,7 @@ from .functions import (
     order_inpost_box,
     send_email_order_completed,
     send_email_order_completed_by_django,
+    send_email_order_owner_completed_by_django
 )
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -32,7 +35,11 @@ class OrderDetails(View):
         form = OrderDetailsForm(client=request.user)
         if request.user.profile.company:
             form = OrderDetailsForm(client=request.user, initial={"bill_select": "2"})
-        ctx = {"form": form}
+        ctx = {
+            "form": form,
+            "user": request.user
+            }
+
         return render(request, "orders/order_details.html", ctx)
 
     def post(self, request):
@@ -46,6 +53,10 @@ class OrderDetails(View):
 
         if form.is_valid():
             pay_method = PayMethod.objects.get(name=form.cleaned_data["payment_method"])
+            phone_number = form.cleaned_data["phone_number"]
+            profile = Profile.objects.get(user=request.user)
+            profile.phone_number = phone_number
+            profile.save()
             delivery_method = DeliveryMethod.objects.get(
                 name=form.cleaned_data["delivery_method"]
             )
@@ -129,6 +140,7 @@ class OrderCompleted(View):
             messages.error(
                 request, "Wysłano email z Fakturą Vat. (*Sprawdź Spam lub ofery)"
             )
+            send_email_order_owner_completed_by_django(order, host, file_name=file_name)
         else:
             send_email_order_completed_by_django(
                 order, host)
@@ -136,6 +148,7 @@ class OrderCompleted(View):
                 request,
                 "Wysłano email z informacją o zamówieniu. (*Sprawdź Spam lub ofery)",
             )
+            send_email_order_owner_completed_by_django(order, host)
         cart.clear()
         order.save()
         ctx = {"order": order}

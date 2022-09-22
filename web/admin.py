@@ -56,9 +56,11 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ("company",)
     list_display_links = ("id",  "user",)
     search_fields = (
-        "last_name",
-        "username",
+        "user__username",
+        "user__last_name",
+        "user__username",
         "nip_number",
+        "phone_number"
     )
 
 
