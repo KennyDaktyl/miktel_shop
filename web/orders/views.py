@@ -129,6 +129,7 @@ class OrderCompleted(View):
                 order.pay_status = 3
             order.save()
 
+        print(cart.get_products())
         if not order.products_item:
             order.products_item = cart.get_products()
         delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)

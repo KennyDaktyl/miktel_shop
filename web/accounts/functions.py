@@ -22,7 +22,7 @@ def send_simple_message(subject, host, user, token):
         "subject": subject,
         "html": html_content,
     }
-    data["h:Reply-To"] = "Michał Pielak <pielak@miktelgsm.pl>"
+    data["h:Reply-To"] = f"Michał Pielak <{settings.EMAIL_USER}>"
     return requests.post(url, auth=auth, data=data)
 
 
@@ -39,12 +39,12 @@ def send_activate_info_message(user):
     data = {
         "from": "admin@serwiswrybnej.pl",
         "to": [
-            "pielak@miktelgsm.pl",
+            "michal.pielak81@gmail.com",
         ],
         "subject": subject,
         "html": html_content,
     }
-    data["h:Reply-To"] = "Michał Pielak <pielak@miktelgsm.pl>"
+    data["h:Reply-To"] = f"Michał Pielak <{settings.EMAIL_USER}>"
     return requests.post(url, auth=auth, data=data)
 
 

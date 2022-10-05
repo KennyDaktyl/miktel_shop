@@ -80,7 +80,7 @@ background-color: #f6f6f6;
                             {{ forloop.counter }}:
                             <div style="margin-top: 10px; margin-bottom: 10px; display: flex; flex-wrap: nowrap; width: 100%; justify-content: left; align-items: center;">
                                 {% for key, value in value.items %}
-                                    <p>{{ key }}: <b>{{ value}}</b>{% if not forloop.last %}&nbsp;,{% endif %}</p>
+                                    <p>{{ key }}: <b>{{ value }}</b>{% if not forloop.last %}&nbsp;,{% endif %}</p>
                                 {% endfor %}
                             </div>
                         {% endfor %}

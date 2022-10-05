@@ -142,11 +142,11 @@ def send_email_order_completed(order, host, file_name=False):
     subject = "Zamówienie nr: " + order.number
     data = {
         "from": "no-reply@serwiswrybnej.pl",
-        "to": [order.client.email, "pielak@miktelgsm.pl"],
+        "to": [order.client.email, "michal.pielak81@gmail.com"],
         "subject": subject,
         "html": html_content,
     }
-    data["h:Reply-To"] = "Michał Pielak <pielak@miktelgsm.pl>"
+    data["h:Reply-To"] = "Michał Pielak <michal.pielak81@gmail.com>"
     if file_name:
         invoice_file_path = os.path.join(settings.MEDIA_ROOT + file_name)
         files = [
@@ -188,7 +188,7 @@ def send_email_order_owner_completed_by_django(order, host, file_name=False):
     subject, from_email, to = (
         f"Zamówienie w serwisie w Rybnej nr: {order.number} zakończono pomyślnie.",
         settings.EMAIL_HOST_USER,
-        ["krakow@miktelgsm.pl"]
+        [settings.EMAIL_USER]
     )
     token = ActivateToken.objects.get(user=order.client).activation_token
     html_content = render_to_string(
