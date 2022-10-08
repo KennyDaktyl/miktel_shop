@@ -188,7 +188,7 @@ def send_email_order_owner_completed_by_django(order, host, file_name=False):
     subject, from_email, to = (
         f"Zamówienie w serwisie w Rybnej nr: {order.number} zakończono pomyślnie.",
         settings.EMAIL_HOST_USER,
-        [settings.EMAIL_USER]
+        [settings.EMAIL_HOST_USER]
     )
     token = ActivateToken.objects.get(user=order.client).activation_token
     html_content = render_to_string(

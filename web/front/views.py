@@ -74,9 +74,10 @@ class ContactPage(View):
             #     subject,
             #     message,
             # )
-            send_email_contact_message_by_django(subject, message)
-            messages.success(request, "Wysyłanie email zakończnono poprawnie.")
-
+            category_f = request.POST.get("category_f")
+            if not category_f:
+                send_email_contact_message_by_django(subject, message)
+                messages.success(request, "Wysyłanie email zakończnono poprawnie.")
             return redirect("contact_page")
         else:
             messages.error(request, "Wypełnij wszystkie pola formularza.")

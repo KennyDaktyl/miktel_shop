@@ -958,3 +958,9 @@ th.th_price {
 input.contact_button {
     background: #6610f2;
 }
+
+#category_fake {
+    width: 0;
+    height: 0;
+    display: none;
+}

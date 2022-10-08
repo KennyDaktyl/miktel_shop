@@ -60,6 +60,12 @@
                         maxlength="{{ form.subject.field.max_length }}" required="{{ form.subject.field.required }}" id="id_subject" value='{{ form.subject.value|default_if_none:"" }}' placeholder="{{ form.subject.field.widget.attrs.placeholder }}">
                     </div>
                 </div>
+                <div id="category_fake" class="col-md-12">
+                  <div class="" id="category_fake" >
+                    <label class="label">Kategoria</label>
+                    <input type="text" name="category_f" class="" maxlength="128" id="id_category">
+                  </div>
+                </div>
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="label" for="#">Wiadomość</label>
