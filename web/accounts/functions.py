@@ -22,7 +22,7 @@ def send_simple_message(subject, host, user, token):
         "subject": subject,
         "html": html_content,
     }
-    data["h:Reply-To"] = f"Michał Pielak <{settings.EMAIL_USER}>"
+    data["h:Reply-To"] = f"Michał Pielak <{settings.EMAIL_HOST_USER}>"
     return requests.post(url, auth=auth, data=data)
 
 
@@ -44,7 +44,7 @@ def send_activate_info_message(user):
         "subject": subject,
         "html": html_content,
     }
-    data["h:Reply-To"] = f"Michał Pielak <{settings.EMAIL_USER}>"
+    data["h:Reply-To"] = f"Michał Pielak <{settings.EMAIL_HOST_USER}>"
     return requests.post(url, auth=auth, data=data)
 
 
