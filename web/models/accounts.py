@@ -68,7 +68,6 @@ class Address(BaseModel):
 
     class Meta:
         ordering = (
-            "user",
             "-id",
         )
         verbose_name_plural = "Adresy"

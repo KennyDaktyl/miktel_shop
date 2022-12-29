@@ -71,7 +71,7 @@ class AddressAdmin(admin.ModelAdmin):
         # 'workplace',
         # 'worker_position',
     )
-    search_fields = ("user_id",)
+    search_fields = ("user__username", "user__email")
     list_display_links = ("id",  "user",)
 
 
