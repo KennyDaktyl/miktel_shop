@@ -36,9 +36,9 @@ class FirstPage(View):
         qs = Products.objects.filter(is_recommended=True).exclude(
             image="images/products/no_image.webp"
         )
-        possible_ids = list(qs.values_list("id", flat=True))
-        possible_ids = random.sample(possible_ids, 8)
-        random_recommended_products = qs.filter(pk__in=possible_ids)
+        # possible_ids = list(qs.values_list("id", flat=True))
+        # possible_ids = random.sample(possible_ids, 8)
+        # random_recommended_products = qs.filter(pk__in=possible_ids)
         is_top = Products.objects.filter(is_top=True)
         promo_products = Products.objects.filter(is_promo=True).order_by(
             "created_time"
@@ -48,7 +48,7 @@ class FirstPage(View):
             "image_carousel_first": img_carousel_first,
             "images_carousel": img_carousel,
             "top_products": is_top,
-            "recommended_products": random_recommended_products,
+            # "recommended_products": random_recommended_products,
             "promo_products": promo_products,
             "articles": articles,
             "app_id": os.environ.get("APP_ID"),

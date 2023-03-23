@@ -39,7 +39,7 @@ class RegisterUserView(View):
         form = UserForm(request.POST)
         if form.is_valid():
             try:
-                User.objects.get(username=form.cleaned_data["username"])
+                User.objects.get(email=form.cleaned_data["email"])
                 messages.error(request, "Email już istnieje w naszej bazie.")
                 ctx = {"form": form}
                 return render(request, "accounts/register_user.html", ctx)
