@@ -139,7 +139,6 @@ class CompanyRegistrationView(View):
             return render(request, "accounts/register_business.html", ctx)
 
 
-
 class ActivateAccount(View):
     def get(self, request, token):
         user = ActivateToken.objects.get(activation_token=token).user
