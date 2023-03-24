@@ -2,6 +2,7 @@ from captcha.fields import ReCaptchaField
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.utils.html import escape
+from django.core.exceptions import ValidationError
 
 
 class ContactForm(forms.Form):
@@ -29,7 +30,10 @@ class ContactForm(forms.Form):
 
     captcha = ReCaptchaField(required=True)
     
-    def clean_description(self):
+    def clean_message(self):
         data = self.cleaned_data['message']
-        return escape(data)
+        escaped_data = escape(data)
+        if escaped_data != data:
+            raise ValidationError("W polu wiadomości użyto niedozwolonych znaków.")
+        return escaped_data
     
