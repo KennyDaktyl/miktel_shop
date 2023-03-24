@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label class="label" for="#">Wiadomość</label>
                         <small class="text-danger col-12">{{ form.message.errors }}</small>
-                        <textarea type="text" name="message" class="form-control" maxlength="{{ form.message.field.max_length }}" required="{{ form.message.field.required }}" id="id_message" value='{{ form.message.value|default_if_none:"" }}'  cols="{{ form.message.field.widget.attrs.cols }}" rows="{{ form.message.field.widget.attrs.rows }}"></textarea>
+                        <textarea type="text" name="message" class="form-control" maxlength="{{ form.message.field.max_length }}" required="{{ form.message.field.required }}" id="id_message" value='{{ form.message.value|default_if_none:"" }}'  cols="{{ form.message.field.widget.attrs.cols }}" rows="{{ form.message.field.widget.attrs.rows }}">{{ form.message.value|default_if_none:"" }}</textarea>
                     </div>
                 </div>
                 <div class="g-recaptcha-outer mx-auto text-center col-md-12 m-2">
