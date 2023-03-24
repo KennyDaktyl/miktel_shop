@@ -55,7 +55,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label class="label" for="subject">Temat</label>
-                        <small class="text-danger col-12">{{ form.sunbject.errors }}</small>
+                        <small class="text-danger col-12">{{ form.subject.errors }}</small>
                         <input type="text" name="subject" class="form-control"
                         maxlength="{{ form.subject.field.max_length }}" required="{{ form.subject.field.required }}" id="id_subject" value='{{ form.subject.value|default_if_none:"" }}' placeholder="{{ form.subject.field.widget.attrs.placeholder }}">
                     </div>
