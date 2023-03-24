@@ -1,5 +1,6 @@
 import json
 from django.conf import settings
+from django.utils.html import escape
 import requests
 from re import L
 from django.shortcuts import render
@@ -67,8 +68,8 @@ class ContactPage(View):
 
         if form.is_valid():
             email = form.cleaned_data["email"]
-            subject = form.cleaned_data["subject"]
-            message = form.cleaned_data["message"]
+            subject = escape(form.cleaned_data["subject"])
+            message = escape(form.cleaned_data["message"])
             message += "\n" + "Email kontaktowy - " + str(email)
             # send_contact_message(
             #     subject,
