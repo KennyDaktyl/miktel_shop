@@ -37,3 +37,10 @@ class ContactForm(forms.Form):
             raise ValidationError("W polu wiadomości użyto niedozwolonych znaków.")
         return escaped_data
     
+    def clean_subject(self):
+        data = self.cleaned_data['subject']
+        escaped_data = escape(data)
+        if escaped_data != data:
+            raise ValidationError("W polu temat użyto niedozwolonych znaków.")
+        return escaped_data
+    
