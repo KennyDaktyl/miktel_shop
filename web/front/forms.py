@@ -1,6 +1,7 @@
 from captcha.fields import ReCaptchaField
 from crispy_forms.helper import FormHelper
 from django import forms
+from django.utils.html import escape
 
 
 class ContactForm(forms.Form):
@@ -27,3 +28,8 @@ class ContactForm(forms.Form):
     )
 
     captcha = ReCaptchaField(required=True)
+    
+    def clean_description(self):
+        data = self.cleaned_data['message']
+        return escape(data)
+    
