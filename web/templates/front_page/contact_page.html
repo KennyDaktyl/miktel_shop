@@ -1,285 +1,412 @@
-{% extends "front_page/base.html" %}
-{% load static %}
-{% load crispy_forms_tags %}
-{% load thumbnail %}
-
-{% block head %}
+{% extends "front_page/base.html" %} {% load static %} {% load crispy_forms_tags
+%} {% load thumbnail %} {% block head %}
 <meta property="fb:app_id" content="{{ app_id }}" />
 <meta property="og:url" content="{{ get_domain }}/kontakt" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Kontakt z serwisem w Rybnej. Dane adresowe." />
-<meta property="og:description" content="Dane adresowe serwisu w Rybnej k. Krakowa. Naprawa telefonów komórkowych, wyrób pieczątek, dorabianie kluczy." />
-<meta property="og:image" content="{{ MEDIA_URL }}logo/serwis+w+rybnej+logo.webp" />
+<meta
+  property="og:title"
+  content="Kontakt z serwisem w Rybnej. Dane adresowe."
+/>
+<meta
+  property="og:description"
+  content="Dane adresowe serwisu w Rybnej k. Krakowa. Naprawa telefonów komórkowych, wyrób pieczątek, dorabianie kluczy."
+/>
+<meta
+  property="og:image"
+  content="{{ MEDIA_URL }}logo/serwis+w+rybnej+logo.webp"
+/>
 
-<link rel="canonical" href="{{ get_domain }}/kontakt"/>
-<meta name="description" content="Siedziba serwisu znajduje się w Rybnej k. krakow w gminie Czernichów. Usługi wykonywane są w prywatnym domu na ul. Wspólnej 2. Czynne od poniedziałku do piątku w godzinach 9-18 oraz w sobotę od 9 do 13.">
+<link rel="canonical" href="{{ get_domain }}/kontakt" />
+<meta
+  name="description"
+  content="Siedziba serwisu znajduje się w Rybnej k. krakow w gminie Czernichów. Usługi wykonywane są w prywatnym domu na ul. Wspólnej 2. Czynne od poniedziałku do piątku w godzinach 9-18 oraz w sobotę od 9 do 13."
+/>
 <title>Kontakt | Serwis w Rybnej</title>
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 <section class="ftco-section">
-    <div class="container">
+  <div class="container">
     <div class="row justify-content-center">
-    <div class="col-md-6 text-center mb-5">
-    </div>
+      <div class="col-md-6 text-center mb-5"></div>
     </div>
     <div class="row justify-content-center">
-    <div class="col-md-12">
-    <div class="wrapper">
-    <div class="row no-gutters mb-5">
-    <div class="col-md-7">
-    <div class="contact-wrap w-100 pt-md-5 pt-4 pl-2">
-      <div class="col-12 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2">
-        <h1 class="mb-4">Kontakt z serwisem</h1>
-      </div>
-    <div id="form-message-warning" class="mb-4"></div>
-    <form method="POST" id="contactForm" name="contactForm" class="contactForm">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="label" for="name">Imię i nazwisko</label>
-                    <small class="text-danger col-12">{{ form.name.errors }}</small>
-                    <input type="text" name="name" class="form-control"
-                    maxlength="{{ form.name.field.max_length }}" required="{{ form.name.field.required }}" id="id_name" value='{{ form.name.value|default_if_none:"" }}' placeholder="{{ form.name.field.widget.attrs.placeholder }}">
+      <div class="col-md-12">
+        <div class="wrapper">
+          <div class="row no-gutters mb-5">
+            <div class="col-md-7">
+              <div class="contact-wrap w-100 pt-md-5 pt-4 pl-2">
+                <div class="col-12 mx-auto mt-3 ml-0 mr-0 p-0 offer mt-2">
+                  <h1 class="mb-4">Kontakt z serwisem</h1>
                 </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
+                <div id="form-message-warning" class="mb-4"></div>
+                <form
+                  method="POST"
+                  id="contactForm"
+                  name="contactForm"
+                  class="contactForm"
+                >
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" for="name">Imię i nazwisko</label>
+                        <small class="text-danger col-12"
+                          >{{ form.name.errors }}</small
+                        >
+                        <input
+                          type="text"
+                          name="name"
+                          class="form-control"
+                          maxlength="{{ form.name.field.max_length }}"
+                          required="{{ form.name.field.required }}"
+                          id="id_name"
+                          value='{{ form.name.value|default_if_none:"" }}'
+                          placeholder="{{ form.name.field.widget.attrs.placeholder }}"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
                         <label class="label" for="email">Email</label>
-                        <small class="text-danger col-12">{{ form.email.errors }}</small>
-                        <input type="email" name="email" class="form-control"
-              maxlength="{{ form.email.field.max_length }}" required="{{ form.email.field.required }}" id="id_email" value='{{ form.email.value|default_if_none:"" }}' placeholder="{{ form.email.field.widget.attrs.placeholder }}">
+                        <small class="text-danger col-12"
+                          >{{ form.email.errors }}</small
+                        >
+                        <input
+                          type="email"
+                          name="email"
+                          class="form-control"
+                          maxlength="{{ form.email.field.max_length }}"
+                          required="{{ form.email.field.required }}"
+                          id="id_email"
+                          value='{{ form.email.value|default_if_none:"" }}'
+                          placeholder="{{ form.email.field.widget.attrs.placeholder }}"
+                        />
+                      </div>
                     </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
+                    <div class="col-md-12">
+                      <div class="form-group">
                         <label class="label" for="subject">Temat</label>
-                        <small class="text-danger col-12">{{ form.subject.errors }}</small>
-                        <input type="text" name="subject" class="form-control"
-                        maxlength="{{ form.subject.field.max_length }}" required="{{ form.subject.field.required }}" id="id_subject" value='{{ form.subject.value|default_if_none:"" }}' placeholder="{{ form.subject.field.widget.attrs.placeholder }}">
+                        <small class="text-danger col-12"
+                          >{{ form.subject.errors }}</small
+                        >
+                        <input
+                          type="text"
+                          name="subject"
+                          class="form-control"
+                          maxlength="{{ form.subject.field.max_length }}"
+                          required="{{ form.subject.field.required }}"
+                          id="id_subject"
+                          value='{{ form.subject.value|default_if_none:"" }}'
+                          placeholder="{{ form.subject.field.widget.attrs.placeholder }}"
+                        />
+                      </div>
                     </div>
-                </div>
-                <div id="category_fake" class="col-md-12">
-                  <div class="" id="category_fake" >
-                    <label class="label">Kategoria</label>
-                    <input type="text" name="category_f" class="" maxlength="128" id="id_category">
-                  </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
+                    <div id="category_fake" class="col-md-12">
+                      <div class="" id="category_fake">
+                        <label class="label">Kategoria</label>
+                        <input
+                          type="text"
+                          name="category_f"
+                          class=""
+                          maxlength="128"
+                          id="id_category"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
                         <label class="label" for="#">Wiadomość</label>
-                        <small class="text-danger col-12">{{ form.message.errors }}</small>
-                        <textarea type="text" name="message" class="form-control" maxlength="{{ form.message.field.max_length }}" required="{{ form.message.field.required }}" id="id_message" value='{{ form.message.value|default_if_none:"" }}'  cols="{{ form.message.field.widget.attrs.cols }}" rows="{{ form.message.field.widget.attrs.rows }}">{{ form.message.value|default_if_none:"" }}</textarea>
+                        <small class="text-danger col-12"
+                          >{{ form.message.errors }}</small
+                        >
+                        <textarea
+                          type="text"
+                          name="message"
+                          class="form-control"
+                          maxlength="{{ form.message.field.max_length }}"
+                          required="{{ form.message.field.required }}"
+                          id="id_message"
+                          value='{{ form.message.value|default_if_none:"" }}'
+                          cols="{{ form.message.field.widget.attrs.cols }}"
+                          rows="{{ form.message.field.widget.attrs.rows }}"
+                        >
+{{ form.message.value|default_if_none:"" }}</textarea
+                        >
+                      </div>
                     </div>
-                </div>
-                <div class="g-recaptcha-outer mx-auto text-center col-md-12 m-2">
-                  <small class="text-danger col-12">{{ form.captcha.errors }}</small>
-                  <div class="g-recaptcha-inner mx-auto text-center">
-                    {{ form.captcha|as_crispy_field}}
+                    <div
+                      class="g-recaptcha-outer mx-auto text-center col-md-12 m-2"
+                    >
+                      <small class="text-danger col-12"
+                        >{{ form.captcha.errors }}</small
+                      >
+                      <div class="g-recaptcha-inner mx-auto text-center">
+                        {{ form.captcha|as_crispy_field}}
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <input
+                          type="submit"
+                          value="Wyślij wiadomość"
+                          class="btn btn-primary contact_button"
+                        />
+                        <div class="submitting"></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <input type="submit" value="Wyślij wiadomość" class="btn btn-primary contact_button">
-                    <div class="submitting"></div>
-                </div>
+                </form>
+              </div>
             </div>
-        </div>
-    </form>
-    </div>
-    </div>
-    
-    <div class="col-md-5  pt-md-5 mx-auto row">
-      <iframe class="mx-auto col-12" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2562.369305716131!2d19.63860911605902!3d50.041912779421054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4716f51c6542db81%3A0x691c15363f6a26b4!2sSerwis%20w%20Rybnej!5e0!3m2!1spl!2spl!4v1647162307567!5m2!1spl!2spl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>        
-    </div>
-    </div>
-    <div class="col-12 row mx-auto mb-4 row d-flex align-items-start">
-        <div class="col-12 col-md-6 row m-0 p-0 d-flex align-items-start">
-            <h3 class="col-12 pl-1 mb-2">Dane firmowe:</h3>
-            <span class="col-12 pl-2">Michał Pielak Miktel</span>
-            <span class="col-12 pl-2">ul. Wspólna 2, Rybna 32-061</span>
-            <span class="col-12 pl-2">Nip 678 280 52 34</span>
-            <span class="col-12 pl-2">REGON 120 171 088</span>
-            <span class="col-12 pl-2">Kod BIC (Swift): BPKOPLPW</span>
-            <span class="col-12 pl-2">21 1020 2906 0000 1702 0373 8333</span>
-        </div>
-        <div class="col-12 col-md-6 row m-0 p-0 d-flex align-items-start text-right">
-            <h3 class="col-12 pr-1 mb-2text-right">Godziny pracy</h3>
-            <p class="col-12 row mx-auto text-right">
-            <span class="col-12 pr-2">pon - pt: 8-18</span>
-            <span class="col-12 pr-2">sob: 8-13</span>
-            <span class="col-12 pr-2">nd: zamknięte</span>
-            <small class="col-12 pr-2">(* przed wizytą proszę o kontakt telefoniczny)</small>
-        </p>
-        </div>
-    </div>
-    <div class="row mt-5">
-    <div class="col-md-3">
-    <div class="dbox w-100 text-center">
-    <div class="icon d-flex align-items-center justify-content-center">
-    <span class="fa fa-map-marker"></span>
-    </div>
-    <div class="text">
-    <p><span>Adres:</span><br>ul. Wspólna 2,</p>
-    <p>Rybna 32-061 </p>
-    </div>
-    </div>
-    </div>
-    <div class="col-md-3">
-    <div class="dbox w-100 text-center">
-    <div class="icon d-flex align-items-center justify-content-center">
-    <span class="fa fa-phone"></span>
-    </div>
-    <div class="text">
-    <p><span>Telefon:</span> <a href="tel://506029980">506 029 980</a></p>
-    </div>
-    </div>
-    </div>
-    <div class="col-md-3">
-    <div class="dbox w-100 text-center">
-    <div class="icon d-flex align-items-center justify-content-center">
-    <span class="fa fa-paper-plane"></span>
-    </div>
-    <div class="text">
-    <p><span>Email:</span> <a href="javascript:antiSpamMail.linkDecrypt('nbjmup;qjfmblAnjlufmhtn/qm');">Email</a></p>
-    </div>
-    </div>
-    </div>
-    <div class="col-md-3">
-    <div class="dbox w-100 text-center">
-    <div class="icon d-flex align-items-center justify-content-center">
-    <span class="fa fa-globe"></span>
-    </div>
-    <div class="text">
-    <p><span>Website</span> <a href="#">serwiswrybnej.pl</a></p>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </section>
-    
-{% endblock %}
 
-{% block script %}
+            <div class="col-md-5 pt-md-5 mx-auto row">
+              <iframe
+                class="mx-auto col-12"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2562.369305716131!2d19.63860911605902!3d50.041912779421054!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4716f51c6542db81%3A0x691c15363f6a26b4!2sSerwis%20w%20Rybnej!5e0!3m2!1spl!2spl!4v1647162307567!5m2!1spl!2spl"
+                width="600"
+                height="450"
+                style="border: 0"
+                allowfullscreen=""
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+          <div class="col-12 row mx-auto mb-4 row d-flex align-items-start">
+            <div class="col-12 col-md-6 row m-0 p-0 d-flex align-items-start">
+              <h3 class="col-12 pl-1 mb-2">Dane firmowe:</h3>
+              <span class="col-12 pl-2">Michał Pielak Miktel</span>
+              <span class="col-12 pl-2">ul. Wspólna 2, Rybna 32-061</span>
+              <span class="col-12 pl-2">Nip 678 280 52 34</span>
+              <span class="col-12 pl-2">REGON 120 171 088</span>
+              <span class="col-12 pl-2">Kod BIC (Swift): BPKOPLPW</span>
+              <span class="col-12 pl-2">21 1020 2906 0000 1702 0373 8333</span>
+            </div>
+            <div
+              class="col-12 col-md-6 row m-0 p-0 d-flex align-items-start text-right"
+            >
+              <h3 class="col-12 pr-1 mb-2text-right">Godziny pracy</h3>
+              <p class="col-12 row mx-auto text-right">
+                <span class="col-12 pr-2">pon - pt: 8-18</span>
+                <span class="col-12 pr-2">sob: 8-13</span>
+                <span class="col-12 pr-2">nd: zamknięte</span>
+                <small class="col-12 pr-2"
+                  >(* przed wizytą proszę o kontakt telefoniczny)</small
+                >
+              </p>
+            </div>
+          </div>
+          <div class="row mt-5">
+            <div class="col-md-3">
+              <div class="dbox w-100 text-center">
+                <div
+                  class="icon d-flex align-items-center justify-content-center"
+                >
+                  <span class="fa fa-map-marker"></span>
+                </div>
+                <div class="text">
+                  <p><span>Adres:</span><br />ul. Wspólna 2,</p>
+                  <p>Rybna 32-061</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="dbox w-100 text-center">
+                <div
+                  class="icon d-flex align-items-center justify-content-center"
+                >
+                  <span class="fa fa-phone"></span>
+                </div>
+                <div class="text">
+                  <p>
+                    <span>Telefon:</span>
+                    <a href="tel://506029980">506 029 980</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="dbox w-100 text-center">
+                <div
+                  class="icon d-flex align-items-center justify-content-center"
+                >
+                  <span class="fa fa-paper-plane"></span>
+                </div>
+                <div class="text">
+                  <p>
+                    <span>Email:</span>
+                    <a
+                      href="javascript:antiSpamMail.linkDecrypt('nbjmup;njdibm/qjfmbl92Ahnbjm/dpn');"
+                      >Email</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="dbox w-100 text-center">
+                <div
+                  class="icon d-flex align-items-center justify-content-center"
+                >
+                  <span class="fa fa-globe"></span>
+                </div>
+                <div class="text">
+                  <p><span>Website</span> <a href="#">serwiswrybnej.pl</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<script>; (function (root, factory, name) {
-    'use strict';
+{% endblock %} {% block script %}
+
+<script>
+  (function (root, factory, name) {
+    "use strict";
     root[name] = factory();
-    if (typeof define === 'function' && define.amd) {
-      define(function () { return root[name]; });
-    } else if (typeof exports === 'object') {
+    if (typeof define === "function" && define.amd) {
+      define(function () {
+        return root[name];
+      });
+    } else if (typeof exports === "object") {
       module.exports = root[name];
     }
-  })((typeof window === 'object' && window) || this, function () {
-    'use strict';
-    var AntiSpamMail, antiSpamMail;
-    AntiSpamMail = function () { };
-    AntiSpamMail.fn = AntiSpamMail.prototype = {
-      _version: '0.1.5',
-      encryptFn: 'antiSpamMail.linkDecrypt',
-      /**
-       * Encrypt or decrypt a string
-       *
-       * @method encryptDecrypt
-       * @param {String} originalString      string to encrypt or decrypt
-       * @param {Number} [nFromCharCode=-1]  encrypt if +1, decrypt if -1
-       * @returns {String} encrypted or decrypted string
-       */
-      encryptDecrypt: function (originalString, nFromCharCode) {
-        var i, n, newString;
-        if (nFromCharCode == null) {
-          nFromCharCode = -1;
-        }
-        i = 0;
-        n = 0;
-        newString = '';
-        while (i < originalString.length) {
-          n = originalString.charCodeAt(i);
-          if (n >= 8364) {
-            n = 128;
+  })(
+    (typeof window === "object" && window) || this,
+    function () {
+      "use strict";
+      var AntiSpamMail, antiSpamMail;
+      AntiSpamMail = function () {};
+      AntiSpamMail.fn = AntiSpamMail.prototype = {
+        _version: "0.1.5",
+        encryptFn: "antiSpamMail.linkDecrypt",
+        /**
+         * Encrypt or decrypt a string
+         *
+         * @method encryptDecrypt
+         * @param {String} originalString      string to encrypt or decrypt
+         * @param {Number} [nFromCharCode=-1]  encrypt if +1, decrypt if -1
+         * @returns {String} encrypted or decrypted string
+         */
+        encryptDecrypt: function (originalString, nFromCharCode) {
+          var i, n, newString;
+          if (nFromCharCode == null) {
+            nFromCharCode = -1;
           }
-          newString += String.fromCharCode(n + nFromCharCode);
-          i++;
+          i = 0;
+          n = 0;
+          newString = "";
+          while (i < originalString.length) {
+            n = originalString.charCodeAt(i);
+            if (n >= 8364) {
+              n = 128;
+            }
+            newString += String.fromCharCode(n + nFromCharCode);
+            i++;
+          }
+          return newString;
+        },
+      };
+      antiSpamMail = new AntiSpamMail();
+      /**
+       * Crypt given mail
+       *
+       * @method encrypt
+       * @param {String} emailToEncrypt  email address to encrypt
+       * @returns {String} encrypted email address
+       */
+      antiSpamMail.encrypt = function (emailToEncrypt) {
+        return this.encryptDecrypt("mailto:" + emailToEncrypt, 1);
+      };
+      /**
+       * Initiate the form to encrypt
+       *
+       * @method encryptForm
+       * @param {String} formName    the name of the form
+       * @param {String} fieldName   name of email field
+       * @returns void
+       */
+      antiSpamMail.encryptForm = function (formName, fieldName) {
+        var cryptform,
+          email,
+          emailHtml,
+          encryptedMail,
+          fieldShowEncryptedHtml,
+          fieldShowEncryptedMail,
+          i,
+          radioObj,
+          radioValue;
+        formName = formName || "antiSpamMail";
+        fieldName = fieldName || "cryptmail_email";
+        fieldShowEncryptedMail = "cryptmail_cryptedmail";
+        fieldShowEncryptedHtml = "cryptmail_html";
+        cryptform = document.forms[formName];
+        email = cryptform[fieldName].value;
+        if (cryptform.cryptmail_email.value.length < 4) {
+          return false;
         }
-        return newString;
-      }
-    };
-    antiSpamMail = new AntiSpamMail();
-    /**
-     * Crypt given mail
-     *
-     * @method encrypt
-     * @param {String} emailToEncrypt  email address to encrypt
-     * @returns {String} encrypted email address
-     */
-    antiSpamMail.encrypt = function (emailToEncrypt) {
-      return this.encryptDecrypt('mailto:' + emailToEncrypt, 1);
-    };
-    /**
-     * Initiate the form to encrypt
-     *
-     * @method encryptForm
-     * @param {String} formName    the name of the form
-     * @param {String} fieldName   name of email field
-     * @returns void
-     */
-    antiSpamMail.encryptForm = function (formName, fieldName) {
-      var cryptform, email, emailHtml, encryptedMail, fieldShowEncryptedHtml, fieldShowEncryptedMail, i, radioObj, radioValue;
-      formName = formName || 'antiSpamMail';
-      fieldName = fieldName || 'cryptmail_email';
-      fieldShowEncryptedMail = 'cryptmail_cryptedmail';
-      fieldShowEncryptedHtml = 'cryptmail_html';
-      cryptform = document.forms[formName];
-      email = cryptform[fieldName].value;
-      if (cryptform.cryptmail_email.value.length < 4) {
-        return false;
-      }
-      radioObj = cryptform.cryptmail_radio;
-      if (radioObj.length > 0) {
-        i = 0;
-        while (i < radioObj.length) {
-          radioValue = parseInt(radioObj[i].checked ? radioObj[i].value : void 0, 10);
-          i++;
+        radioObj = cryptform.cryptmail_radio;
+        if (radioObj.length > 0) {
+          i = 0;
+          while (i < radioObj.length) {
+            radioValue = parseInt(
+              radioObj[i].checked ? radioObj[i].value : void 0,
+              10
+            );
+            i++;
+          }
+        } else {
+          radioValue = 0;
         }
-      } else {
-        radioValue = 0;
-      }
-      if (radioValue === 1) {
-        emailHtml = email.replace(/\./g, '<span class="crypt" aria-hidden="true">.</span>.<span class="crypt" aria-hidden="true">.</span>');
-        emailHtml = emailHtml.replace(/@/, '<span class="crypt" aria-hidden="true">.</span>@<span class="crypt" aria-hidden="true">.</span>');
-      } else {
-        emailHtml = email.replace(/\./g, ' [dot] ');
-        emailHtml = emailHtml.replace(/@/, ' [at] ');
-      }
-      encryptedMail = this.encrypt(email);
-      cryptform[fieldShowEncryptedMail].value = encryptedMail;
-      cryptform[fieldShowEncryptedHtml].value = '<a href="javascript:' + this.encryptFn + '(\'' + encryptedMail + '\');">' + emailHtml + '</a>';
-    };
-    /**
-     * Uncrypt the email address and returns the valid href
-     *
-     * @method decrypt
-     * @param {String} encryptedMail   the crypted string
-     * @returns {String} valid href
-     */
-    antiSpamMail.decrypt = function (encryptedMail) {
-      return this.encryptDecrypt(encryptedMail);
-    };
-    /**
-     * Public function for A tags
-     *
-     * @method linkDecrypt
-     * @param {String} encryptedMail   the crypted string
-     * @returns void
-     */
-    antiSpamMail.linkDecrypt = function (encryptedMail) {
-      location.href = this.decrypt(encryptedMail);
-    };
-    return antiSpamMail;
-  }, 'antiSpamMail');</script>
+        if (radioValue === 1) {
+          emailHtml = email.replace(
+            /\./g,
+            '<span class="crypt" aria-hidden="true">.</span>.<span class="crypt" aria-hidden="true">.</span>'
+          );
+          emailHtml = emailHtml.replace(
+            /@/,
+            '<span class="crypt" aria-hidden="true">.</span>@<span class="crypt" aria-hidden="true">.</span>'
+          );
+        } else {
+          emailHtml = email.replace(/\./g, " [dot] ");
+          emailHtml = emailHtml.replace(/@/, " [at] ");
+        }
+        encryptedMail = this.encrypt(email);
+        cryptform[fieldShowEncryptedMail].value = encryptedMail;
+        cryptform[fieldShowEncryptedHtml].value =
+          '<a href="javascript:' +
+          this.encryptFn +
+          "('" +
+          encryptedMail +
+          "');\">" +
+          emailHtml +
+          "</a>";
+      };
+      /**
+       * Uncrypt the email address and returns the valid href
+       *
+       * @method decrypt
+       * @param {String} encryptedMail   the crypted string
+       * @returns {String} valid href
+       */
+      antiSpamMail.decrypt = function (encryptedMail) {
+        return this.encryptDecrypt(encryptedMail);
+      };
+      /**
+       * Public function for A tags
+       *
+       * @method linkDecrypt
+       * @param {String} encryptedMail   the crypted string
+       * @returns void
+       */
+      antiSpamMail.linkDecrypt = function (encryptedMail) {
+        location.href = this.decrypt(encryptedMail);
+      };
+      return antiSpamMail;
+    },
+    "antiSpamMail"
+  );
+</script>
 {% endblock %}
