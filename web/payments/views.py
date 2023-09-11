@@ -91,7 +91,7 @@ class StripeWebhookView(APIView):
         # else:
         #     print("Unhandled event type {}".format(event.type))
 
-        # return HttpResponse(status=200)
+        return HttpResponse(status=200)
 
 
 @method_decorator(login_required, name="dispatch")
