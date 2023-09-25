@@ -47,6 +47,7 @@ else:
     ALLOWED_HOSTS = [
         "serwiswrybnej.pl",
         "51.75.64.242",
+        "miktel.krakow.pl",
     ]
     INPOST_URL = "https://api-shipx-pl.easypack24.net/v1/points"
 
@@ -72,6 +73,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://ajax.googleapis.com",
     "https://www.gstatic.com",
     "https://web.facebook.com",
+    "https://miktel.krakow.pl",
 ]
 CORS_ALLOW_HEADERS = [
     'accept',
@@ -106,6 +108,9 @@ CSP_DEFAULT_SRC = [
     "https://www.gstatic.com",
     "https://web.facebook.com",
 ]
+
+X_FRAME_OPTIONS = 'miktel.krakow.pl'
+
 # CSP_IMG_SRC = ["'self'", 'https://www.w3.org/2000/svg']
 # # Application definition
 
