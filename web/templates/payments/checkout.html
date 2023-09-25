@@ -38,7 +38,7 @@
           <label for="accountholder-name">
             Imie i Nazwisko
           </label>
-          <input id="accountholder-name" name="accountholder-name" value="{{ user.first_name }} {{ user.last_name }}">
+          <input type="text" required id="accountholder-name" name="accountholder-name" value="{% if user.first_name %}{{ user.first_name }} {% if user.last_name %} {{ user.last_name }}{% endif %}{% endif %}">
         </div>
         <div class="form-row col-12 mx-auto">
           <label for="accountholder-email">
