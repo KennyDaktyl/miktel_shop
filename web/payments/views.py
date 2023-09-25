@@ -99,7 +99,7 @@ class PayMentSuccessView(View):
     def get(self, request, order):
         cart = Cart(request)
         order = Orders.objects.get(id=order)
-        order.main_status = 3
+        order.pay_status = 3
         order.status = 2
         if order.pdf_created:
             invoice_number = new_invoice_number()
