@@ -101,6 +101,7 @@ class PayMentSuccessView(View):
         order = Orders.objects.get(id=order)
         order.pay_status = 3
         order.status = 2
+        order.payment_success = True
         if order.pdf_created:
             invoice_number = new_invoice_number()
             invoice, created = Invoices.objects.get_or_create(pdf=invoice_number)

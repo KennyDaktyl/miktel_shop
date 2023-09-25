@@ -72,7 +72,7 @@ class OrderDetails(View):
             order.store = store
             order.client = request.user
             order.pay_status = 2
-            order.phone_number = request.user.profile.phone_number
+            order.phone_number = phone_number
             order.delivery_method = delivery_method
             order.pay_method = pay_method
             if delivery_method.inpost_box:
