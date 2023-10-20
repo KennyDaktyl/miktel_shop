@@ -128,7 +128,7 @@ class CompanyRegistrationView(View):
                 # )
                 send_activate_email_by_django(
                     "Aktywacja konta", host, new_user, token.activation_token)
-                send_activate_info_email_by_django(new_user)
+                # send_activate_info_email_by_django(new_user)
                 messages.error(
                     request, "Potwierdź email aby zalogować. (*Sprawdź Spam lub ofery)"
                 )

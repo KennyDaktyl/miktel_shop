@@ -7,7 +7,6 @@ from .views import (
     redirect_from_email,
 )
 
-# CartDetails,
 urlpatterns = [
     path("podsumowanie/", order_details, name="order_details"),
     path(

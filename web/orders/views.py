@@ -83,6 +83,7 @@ class OrderDetails(View):
             order.total_price = float(delivery_method.price) + float(
                 cart.get_total_price()
             )
+            order.products_item = cart.get_products()
             order.save()
             ctx = {"order": order}
             if delivery_method.inpost_box:
@@ -119,8 +120,8 @@ class OrderCompleted(View):
         cart = Cart(request)
         order = Orders.objects.get(pk=order)
         order.status = 2
-
         if order.pay_method.pay_method == 4:
+            time.sleep(3)
             payment_intent_status = stripe.PaymentIntent.retrieve(order.payment_intent)
             order.payment_success = (
                 True if payment_intent_status["status"] == "succeeded" else False
