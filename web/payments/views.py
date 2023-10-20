@@ -1,4 +1,5 @@
 import stripe
+import json
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
@@ -64,19 +65,15 @@ class StripeWebhookView(APIView):
         payload = request.body
         try:
             sig_header = request.META.get("HTTP_STRIPE_SIGNATURE", None)
-            event = stripe.Webhook.construct_event(
-                payload=payload,
-                sig_header=sig_header,
-                secret=settings.STRIPE_ENDPOINT_SECRET,
+            event = stripe.Event.construct_from(
+                json.loads(payload), stripe.api_key
             )
             if event.type == "payment_intent.succeeded":
-                payment_intent_id = event["data"]["object"]["id"]
+                payment_intent_id = event.data.object.id
                 order = Orders.objects.get(payment_intent=payment_intent_id)
-                # order.pay_status = 3
-                # order.payment_success = True
+                order.pay_status = 3
+                order.payment_success = True
                 order.save()
-
-                print(event)
         except ValueError as e:
             print(e)
             return HttpResponse(status=400)
