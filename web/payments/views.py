@@ -70,7 +70,7 @@ class StripeWebhookView(APIView):
                 secret=settings.STRIPE_ENDPOINT_SECRET,
             )
             if event.type == "payment_intent.succeeded":
-                payment_intent_id = event.data.object.id
+                payment_intent_id = event.data.object["id"]
                 order = Orders.objects.get(payment_intent=payment_intent_id)
                 # order.pay_status = 3
                 # order.payment_success = True
