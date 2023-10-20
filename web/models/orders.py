@@ -239,13 +239,11 @@ class Orders(BaseModel):
     @property
     def get_invoice_total_price_netto(self):
         total_price = round(float(self.total_price / Decimal(1.23)), 2)
-        delivery_method = DeliveryMethod.objects.get(name=self.delivery_method)
-        return round(float(total_price) + float(delivery_method.price_netto), 2)
+        return round(float(total_price), 2)
 
     @property
     def get_invoice_total_price(self):
-        delivery_method = DeliveryMethod.objects.get(name=self.delivery_method)
-        return round(float(self.total_price) + float(delivery_method.price_netto), 2)
+        return round(float(self.total_price), 2)
 
     @property
     def get_invoice_total_vat(self):

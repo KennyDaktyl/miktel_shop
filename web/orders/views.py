@@ -175,3 +175,5 @@ order_details = OrderDetails.as_view()
 inpost_box = InpostBoxSearchView.as_view()
 order_completed = OrderCompleted.as_view()
 redirect_from_email = RedirectFromOrderEmail.as_view()
+
+
