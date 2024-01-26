@@ -61,6 +61,15 @@ class SelectDetailsProductForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SelectDetailsProductForm, self).__init__(*args, **kwargs)
 
+    def clean_qty(self):
+        qty = self.cleaned_data.get('qty')
+        max_qty = self.instance.qty  
+
+        if qty and qty > max_qty:
+            raise forms.ValidationError("Ilość nie może być większa niż dostępna ilość.")
+
+        return qty
+
     class Meta:
         model = Products
         fields = (

@@ -75,17 +75,20 @@ background-color: #f6f6f6;
                   </td>
                 </tr>
                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-                    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                        {% for key, value in products.items %}
-                            {{ forloop.counter }}:
-                            <div style="margin-top: 10px; margin-bottom: 10px; display: flex; flex-wrap: nowrap; width: 100%; justify-content: left; align-items: center;">
-                                {% for key, value in value.items %}
-                                    <p>{{ key }}: <b>{{ value }}</b>{% if not forloop.last %}&nbsp;,{% endif %}</p>
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
+                  <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+                      {% for key, value in products.items %}
+                          <h3>{{ forloop.counter }}:</h3>
+                          <ul style="list-style-type: none; padding: 0; margin: 0;">
+                              {% for k, v in value.items %}
+                                  <li style="margin-bottom: 10px; display: flex; flex-wrap: nowrap; justify-content: left; align-items: center;">
+                                      <p style="margin: 0;">{{ k }}:</p>
+                                      <b style="margin: 0 0 0 5px;">{{ v }}</b>
+                                  </li>
+                              {% endfor %}
+                          </ul>
+                      {% endfor %}
                   </td>
-                </tr>
+              </tr>
                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                         <p>Wartość zamówienia: <b>{{ order.total_price }}zł</b></p>

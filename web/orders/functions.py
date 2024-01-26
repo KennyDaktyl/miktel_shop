@@ -192,12 +192,6 @@ def send_email_order_owner_completed_by_django(order, host, file_name=False):
     )
     token = ActivateToken.objects.get(user=order.client).activation_token
     html_content = render_to_string(
-        "orders/order_completed_email.html",
-        {
-            "order": order,
-        },
-    )
-    html_content = render_to_string(
         "orders/order_completed_email_for_owner.html",
         {
             "order": order,

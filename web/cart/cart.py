@@ -20,6 +20,8 @@ class Cart(object):
         Dodanie produktu do koszyka lub edycja parametrów
         """
         if int(quantity) > 0:
+            if int(quantity) > product.qty:
+                quantity = product.qty
             if str(product.id) in self.cart:
                 product_org = Products.objects.get(pk=product.id)
                 if update_quantity:

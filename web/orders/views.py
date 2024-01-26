@@ -133,6 +133,10 @@ class OrderCompleted(View):
         if not order.products_item:
             order.products_item = cart.get_products()
         delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
+        if delivery_method.inpost_box and not order.products_item.get(
+            delivery_method.id
+        ):
+            order.products_item.update(delivery_method.delivery_dict)
         order_inpost_box(request, order, delivery_method)
         if order.invoice_true and not order.invoice:
             file_name = create_pdf_invoice(order)

@@ -14,6 +14,8 @@ from web.cart.cart import Cart
 from web.models.orders import DeliveryMethod, Invoices, Orders
 from web.orders.functions import create_pdf_invoice, new_invoice_number
 
+from web.orders.functions import send_email_order_owner_completed_by_django
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -74,26 +76,22 @@ class StripeWebhookView(APIView):
                 order.pay_status = 3
                 order.payment_success = True
                 order.save()
+
+                delivery_method = DeliveryMethod.objects.get(name=order.delivery_method)
+                if delivery_method.inpost_box and not order.products_item.get(delivery_method.id):
+                    order.products_item.update(delivery_method.delivery_dict)
+                order.save()
+                try:
+                    host = request.scheme + "://" + request.get_host()
+                    send_email_order_owner_completed_by_django(order, host)
+                except:
+                    pass
         except ValueError as e:
             print(e)
             return HttpResponse(status=400)
         except stripe.error.SignatureVerificationError as e:
             print(e)
             return HttpResponse(status=400)
-
-        # if event.type == "payment_intent.succeeded":
-        #     payment_intent = (
-        #         event.data.object
-        #     )  # contains a stripe.PaymentIntent
-        #     print("PaymentIntent was successful!")
-        # elif event.type == "payment_method.attached":
-        #     payment_method = (
-        #         event.data.object
-        #     )  # contains a stripe.PaymentMethod
-        #     print("PaymentMethod was attached to a Customer!")
-        # # ... handle other event types
-        # else:
-        #     print("Unhandled event type {}".format(event.type))
 
         return HttpResponse(status=200)
 
