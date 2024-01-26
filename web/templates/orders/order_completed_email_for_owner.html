@@ -75,19 +75,27 @@ background-color: #f6f6f6;
                   </td>
                 </tr>
                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-                  <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                      {% for key, value in products.items %}
-                          <h3>{{ forloop.counter }}:</h3>
-                          <ul style="list-style-type: none; padding: 0; margin: 0;">
-                              {% for k, v in value.items %}
-                                  <li style="margin-bottom: 10px; display: flex; flex-wrap: nowrap; justify-content: left; align-items: center;">
-                                      <p style="margin: 0;">{{ k }}:</p>
-                                      <b style="margin: 0 0 0 5px;">{{ v }}</b>
-                                  </li>
-                              {% endfor %}
-                          </ul>
-                      {% endfor %}
-                  </td>
+                  <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                    <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
+                        {% for key, value in products.items %}
+                            <h3>{{ forloop.counter }}:</h3>
+                            <table style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+                                {% for k, v in value.items %}
+                                    <tr>
+                                        <td style="padding: 5px; text-align: right; font-weight: bold;">{{ k }}:</td>
+                                        <td style="padding: 5px;">
+                                            {% if k == 'product' %}
+                                                {{ v.name }}
+                                            {% else %}
+                                                {{ v }}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% endfor %}
+                    </td>
+                </tr>
               </tr>
                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                     <td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
